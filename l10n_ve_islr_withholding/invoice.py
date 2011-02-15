@@ -410,7 +410,9 @@ class account_invoice(osv.osv):
         islr_wh_doc_id = wh_doc_obj.create(cr,uid,{'name': wh_doc_obj.retencion_seq_get(cr, uid),
                                                    'partner_id': inv_brw.partner_id.id,
                                                    'invoice_id': inv_brw.id,
-                                                   'period_id': inv_brw.period_id.id})
+                                                   'period_id': inv_brw.period_id.id,
+                                                   'account_id': inv_brw.account_id.id,
+                                                   })
         return islr_wh_doc_id
 
 

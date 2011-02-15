@@ -88,7 +88,7 @@ class islr_wh_doc(osv.osv):
         'date_ret': fields.date('Fecha Comprobante', readonly=True, help="Mantener en blanco para usar la fecha actual"),
         'date': fields.date('Fecha', readonly=True, states={'draft':[('readonly',False)]}, help="Fecha de emision"),
         'period_id': fields.many2one('account.period', 'Periodo', domain=[('state','<>','done')], readonly=True, help="Periodo fiscal correspondiente a la Factura que genera el comprobante"),
-        #~ 'account_id': fields.many2one('account.account', 'Cuenta', required=True, readonly=True, states={'draft':[('readonly',False)]}, help="Cuenta donde se cargaran los montos retenidos del I.S.L.R."),
+        'account_id': fields.many2one('account.account', 'Cuenta', required=True, readonly=True, states={'draft':[('readonly',False)]}, help="Cuenta donde se cargaran los montos retenidos del I.S.L.R."),
         'partner_id': fields.many2one('res.partner', 'Partner', readonly=True, required=True, states={'draft':[('readonly',False)]}, help="Proveedor o Cliente al cual se retiene o te retiene"),
         'currency_id': fields.many2one('res.currency', 'Moneda', required=True, readonly=True, states={'draft':[('readonly',False)]}, help="Moneda enla cual se realiza la operacion"),
         'journal_id': fields.many2one('account.journal', 'Diario', required=True,readonly=True, states={'draft':[('readonly',False)]}, help="Diario donde se registran los asientos"),
@@ -108,7 +108,6 @@ class islr_wh_doc(osv.osv):
         'company_id': lambda self, cr, uid, context: \
                 self.pool.get('res.users').browse(cr, uid, uid,
                     context=context).company_id.id,
-        'name': lambda obj, cr, uid, context: obj.pool.get('islr.wh.doc').retencion_seq_get(cr, uid, context),
     }
 
 
@@ -122,7 +121,6 @@ class islr_wh_doc(osv.osv):
             else:
                 return pool_seq._process(res['prefix']) + pool_seq._process(res['suffix'])
         return False
-    
 
     def action_confirm1(self, cr, uid, ids, context={}):
         return self.write(cr, uid, ids, {'state':'confirmed'})
@@ -137,7 +135,7 @@ class islr_wh_doc(osv.osv):
 
             for (id, number) in cr.fetchall():
                 if not number:
-                    number = self.pool.get('ir.sequence').get(cr, uid, 'account.wh_islr.%s' % obj_ret.type)
+                    number = self.pool.get('ir.sequence').get(cr, uid, 'islr.wh.doc.%s' % obj_ret.type)
                 cr.execute('UPDATE islr_wh_doc SET number=%s ' \
                         'WHERE id=%s', (number, id))
         return True

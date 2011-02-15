@@ -6,7 +6,7 @@
             menu="True"
             model="islr.wh.doc" 
             name="voucher.wh.islr11" 
-            rml="addons/islr_withholding/report/wh_islr_report.rml" 
+            rml="addons/l10n_ve_islr_withholding/report/wh_islr_report.rml" 
             string="Comprob Retencion ISLR"
             auto = "False"
             header="False"/>

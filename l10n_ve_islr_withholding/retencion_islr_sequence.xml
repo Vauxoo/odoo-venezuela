@@ -16,5 +16,17 @@
             <field name="number_increment">1</field>
         </record>
 
+        <record id="seq_type_retention_islr_compras" model="ir.sequence.type">
+            <field name="name">Retenciones islr Compras</field>
+            <field name="code">islr.wh.doc.in_invoice</field>
+        </record>
+
+        <record id="seq_retention_islr_compras" model="ir.sequence">
+            <field name="name">Retenciones islr Compras</field>
+            <field name="code">islr.wh.doc.in_invoice</field>
+            <field name="prefix">%(year)s-%(month)s-</field>
+            <field name="padding">8</field>
+            <field name="number_increment">1</field>
+        </record>
     </data>
 </openerp>
