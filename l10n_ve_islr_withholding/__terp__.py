@@ -57,6 +57,7 @@
                 ],
     "init_xml" : [],
     "update_xml" : [
+            "security/ir.model.access.csv",
             "retencion_islr_sequence.xml",
             "product_view.xml",
             "invoice_view.xml",
