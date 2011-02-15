@@ -27,29 +27,26 @@
 ##############################################################################
 
 {
-    "name" : "islr withholding concept"                 ,
-    "version" : "0.2"                                   ,
-    "author" : "OpenERP Venezuela"                      ,
-    "category" : "General"                              ,
-    "website": "http://wiki.openerp.org.ve/"            ,
+    "name" : "islr withholding concept",
+    "version" : "0.3",
+    "author" : "OpenERP Venezuela",
+    "category" : "General",
+    "website": "http://wiki.openerp.org.ve/",
     "description": '''
-                    Concepts to withholding to ISLR
-                    
-                    Cambiar para PRODUCCION:
-                     1.- city_id en el parser
+                    ISLR withholding automatically
                     
                     Pasos para la primera vez:
                     1.- Crear Conceptos de Retencion con sus tasas.
                     2.- Asignar a los servicios el concepto de retencion asociado.
                     3.- Asignar a la compania que retiene, si es Agente de Retencion o no. En la pestana ISLR dentro de partners.
-                    4.- Crear el concepto de retencion para cuando no apica retencion.
+                    4.- Crear el concepto de retencion para cuando no aplica retencion.
                     
                     Para el correcto funcionamiento:
                      1.- Los periodos deben estar definidos con el formato: 09/2011 (MM/YYYY)
                      2.- Crear las cuentas contables de islr y asignarselas al partner proveedor
                      3.- Crear el journal de tipo islr
-                   '''                                  ,
-    "depends" : [   "base"                              ,
+                   ''',
+    "depends" : [   "base",
                     "account",
                     "product",
                     "purchase",
@@ -57,8 +54,8 @@
                     "retencion_iva",
                     "base_vat_ve",
                     "debit_credit_note",
-                ]                                       ,
-    "init_xml" : []                                     ,
+                ],
+    "init_xml" : [],
     "update_xml" : [
             "retencion_islr_sequence.xml",
             "product_view.xml",
@@ -70,7 +67,7 @@
             "islr_wh_concept_view.xml",
             "islr_wh_report.xml",
             "islr_xml_wh.xml",
-    ]                                                   ,
-    "active": False                                     ,
+    ],
+    "active": False,
     "installable": True
 }
