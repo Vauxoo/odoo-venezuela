@@ -9,7 +9,7 @@
 "access_account_islr_wh_concept","islr.wh.concept","model_islr_wh_concept","account.group_account_manager",1,1,1,1
 "access_account_islr_rates","islr.rates","model_islr_rates","account.group_account_manager",1,1,1,1
 "access_account_islr_wh_doc","islr.wh.doc","model_islr_wh_doc","account.group_account_manager",1,1,1,1
-"access_account_isl_wh_doc_line","islr.wh.doc.line","model_isl_wh_doc_line","account.group_account_manager",1,1,1,1
+"access_account_isl_wh_doc_line","islr.wh.doc.line","model_islr_wh_doc_line","account.group_account_manager",1,1,1,1
 "access_account_islr_wh_doc_invoices","islr.wh.doc.invoices","model_islr_wh_doc_invoices","account.group_account_manager",1,1,1,1
 "access_account_islr_xml_wh_line","islr.xml.wh.line","model_islr_xml_wh_line","account.group_account_manager",1,1,1,1
 "access_account_islr_xml_wh_doc","islr.xml.wh.doc","model_islr_xml_wh_doc","account.group_account_manager",1,1,1,1
