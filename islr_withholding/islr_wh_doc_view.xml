@@ -34,7 +34,9 @@
             <field name="arch" type="xml">
                 <tree string="Lineas de Retencion ISLR" editable="bottom" >
                     <field name="name"/>
-                    <field name="invoice_id" invisible="1" on_change="onchange_invoice_id(invoice_id)" domain="[('state', '=', 'open'), ('partner_id','=',parent.partner_id), ('ret_islr', '=', False)]" />
+<!--
+                    <field name="invoice_id"/>
+-->
                     <field name="concept_id"/>
                     <field name="retencion_islr"/>
                     <field name="amount"/>

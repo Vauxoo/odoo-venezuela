@@ -2,25 +2,19 @@
 <openerp>
     <data noupdate="1">
 
-        <!-- Sequences type for account.retencion.islr --> 
-
-
-        <record id="seq_type_account_retencion_islr_compras" model="ir.sequence.type">
-            <field name="name">Retencion ISLR Compras</field>
-            <field name="code">account.wh_islr.in_invoice</field>
+        <!-- Sequences type for account.retention --> 
+        <record id="seq_type_islr_retention" model="ir.sequence.type">
+            <field name="name">Retenciones ISLR</field>
+            <field name="code">islr.wh.doc</field>
         </record>
 
-        <!-- Sequences for account.retencion.islr --> 
-
-
-        <record id="seq_account_retencion_islr_compras" model="ir.sequence">
-            <field name="name">Retencion ISLR Compras</field>
-            <field name="code">account.wh_islr.in_invoice</field>
-            <field name="prefix">%(year)s-%(month)s-</field>
+        <record id="seq_account_retention_islr" model="ir.sequence">
+            <field name="name">Retenciones ISLR</field>
+            <field name="code">islr.wh.doc</field>
+            <field name="prefix">RE:</field>
             <field name="padding">8</field>
             <field name="number_increment">1</field>
         </record>
-
 
     </data>
 </openerp>

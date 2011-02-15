@@ -32,19 +32,15 @@ from tools import config
 import time
 import datetime
 
-class product_product(osv.osv):
-    
-    _inherit = "product.product"
+class product_template(osv.osv):
+
+    _inherit = "product.template"
 
     _columns = {
-        'concept_id': fields.many2one('islr.wh.concept','Concepto de Retencion',help="Concepto de Retencion asociado a esta Tasa", required=False),
+        'concept_id': fields.many2one('islr.wh.concept','Concepto de Retencion',help="Concepto de Retencion a aplicar para el servicio", required=False),
     }
-    
-product_product()
 
-
-
-
+product_template()
 
 
 

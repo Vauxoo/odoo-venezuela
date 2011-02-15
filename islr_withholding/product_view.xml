@@ -4,17 +4,33 @@
     
         <record model="ir.ui.view" id="view_product_product_islr">
             <field name="name">product.product.form.islr</field>
+            <field name="model">product.template</field>
+            <field name="type">form</field>
+            <field name="inherit_id" ref="product.product_template_form_view"/>
+            <field name="arch" type="xml">
+                <notebook position="inside">
+                    <page string="Conceptos de Retencion">
+                        <separator string="Concepto de Retencion" colspan="6"/>
+                        <newline/>
+                        <field name="concept_id" widget='selection' attrs="{'readonly':[('type','!=','service')],'required':[('type','=','service')]}"/>
+                    </page>
+                </notebook>
+            </field>
+        </record>
+        <record model="ir.ui.view" id="view_product_product_islr1">
+            <field name="name">product.product.form.islr1</field>
             <field name="model">product.product</field>
             <field name="type">form</field>
             <field name="inherit_id" ref="product.product_normal_form_view"/>
             <field name="arch" type="xml">
                 <notebook position="inside">
                     <page string="Conceptos de Retencion">
-                        <field name="concept_id" widget='selection'/>
+                        <separator string="Concepto de Retencion" colspan="6"/>
+                        <newline/>
+                        <field name="concept_id" widget='selection' attrs="{'readonly':[('type','!=','service')],'required':[('type','=','service')]}"/>
                     </page>
                 </notebook>
             </field>
         </record>
-        
     </data>
 </openerp>

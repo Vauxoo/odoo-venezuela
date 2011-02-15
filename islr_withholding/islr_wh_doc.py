@@ -34,7 +34,6 @@ import datetime
 
 
 class islr_wh_doc(osv.osv):
-    _name = "islr.wh.doc"
 
     def _get_type(self, cr, uid, context=None):
         if context is None:
@@ -69,15 +68,7 @@ class islr_wh_doc(osv.osv):
                 res[rete.id] += line.amount
         return res
 
-    #~ def _get_period():
-        #~ res = {}
-        #~ inv_obj = self.pool.get('account.invoice')
-        #~ 
-        #~ for rete in self.browse(cr,uid,ids,context):
-            #~ if rete.invoice_id:
-                #~ res[rete.id] = inv_obj.browse(cr,uid,rete.invoice_id).period_id.id
-        #~ return res
-
+    _name = "islr.wh.doc"
     _columns= {
         'name': fields.char('Descripcion', size=64, select=True,readonly=True, states={'draft':[('readonly',False)]}, required=True, help="Descripcion del Comprobante"),
         'code': fields.char('Codigo', size=32, readonly=True, states={'draft':[('readonly',False)]}, help="Referencia del Comprobante"),
@@ -96,20 +87,20 @@ class islr_wh_doc(osv.osv):
             ],'Estado', select=True, readonly=True, help="Estado del Comprobante"),
         'date_ret': fields.date('Fecha Comprobante', readonly=True, help="Mantener en blanco para usar la fecha actual"),
         'date': fields.date('Fecha', readonly=True, states={'draft':[('readonly',False)]}, help="Fecha de emision"),
-        'period_id': fields.many2one('account.period', 'Periodo', domain=[('state','<>','done')], help="Periodo fiscal correspondiente a la Factura que genera el comprobante"),
+        'period_id': fields.many2one('account.period', 'Periodo', domain=[('state','<>','done')], readonly=True, help="Periodo fiscal correspondiente a la Factura que genera el comprobante"),
         #~ 'account_id': fields.many2one('account.account', 'Cuenta', required=True, readonly=True, states={'draft':[('readonly',False)]}, help="Cuenta donde se cargaran los montos retenidos del I.S.L.R."),
         'partner_id': fields.many2one('res.partner', 'Partner', readonly=True, required=True, states={'draft':[('readonly',False)]}, help="Proveedor o Cliente al cual se retiene o te retiene"),
         'currency_id': fields.many2one('res.currency', 'Moneda', required=True, readonly=True, states={'draft':[('readonly',False)]}, help="Moneda enla cual se realiza la operacion"),
         'journal_id': fields.many2one('account.journal', 'Diario', required=True,readonly=True, states={'draft':[('readonly',False)]}, help="Diario donde se registran los asientos"),
         'company_id': fields.many2one('res.company', 'Compania', required=True, help="Compania"),
         'amount_total_ret':fields.function(_get_amount_total,method=True, digits=(16, int(config['price_accuracy'])), string='Amount Total', help="Monto Total Retenido"),
-        'concept_ids': fields.one2many('islr.wh.doc.line','islr_wh_doc_id','Lineas del Documento de Retencion de ISLR'),
+        'concept_ids': fields.one2many('islr.wh.doc.line','islr_wh_doc_id','Lineas del Documento de Retencion de ISLR', readonly=True, states={'draft':[('readonly',False)]}),
         'invoice_ids':fields.one2many('islr.wh.doc.invoices','islr_wh_doc_id','Facturas Retenidas'),
         'invoice_id':fields.many2one('account.invoice','Factura',readonly=True,help="Factura afectada, para realizar el asiento contable"),
     }
 
     _defaults = {
-        'code': lambda obj, cr, uid, context: obj.pool.get('account.retention').retencion_seq_get(cr, uid, context),
+        'code': lambda obj, cr, uid, context: obj.pool.get('islr.wh.doc').retencion_seq_get(cr, uid, context),
         'type': _get_type,
         'state': lambda *a: 'draft',
         'journal_id': _get_journal,
@@ -117,11 +108,13 @@ class islr_wh_doc(osv.osv):
         'company_id': lambda self, cr, uid, context: \
                 self.pool.get('res.users').browse(cr, uid, uid,
                     context=context).company_id.id,
+        'name': lambda obj, cr, uid, context: obj.pool.get('islr.wh.doc').retencion_seq_get(cr, uid, context),
     }
-    
+
+
     def retencion_seq_get(self, cr, uid, context=None):
         pool_seq=self.pool.get('ir.sequence')
-        cr.execute("select id,number_next,number_increment,prefix,suffix,padding from ir_sequence where code='account.retention' and active=True")
+        cr.execute("select id,number_next,number_increment,prefix,suffix,padding from ir_sequence where code='islr.wh.doc' and active=True")
         res = cr.dictfetchone()
         if res:
             if res['number_next']:
@@ -130,20 +123,6 @@ class islr_wh_doc(osv.osv):
                 return pool_seq._process(res['prefix']) + pool_seq._process(res['suffix'])
         return False
     
-    #~ def onchange_partner_id(self, cr, uid, ids, type, partner_id):
-        #~ acc_id = False
-        #~ if partner_id:
-            #~ p = self.pool.get('res.partner').browse(cr, uid, partner_id)
-            #~ if type in ('out_invoice', 'out_refund'):
-                #~ acc_id = p.property_retention_receivable.id
-            #~ else:
-                #~ acc_id = p.property_retention_payable.id
-#~ 
-        #~ self._update_check(cr, uid, ids, partner_id)
-        #~ result = {'value': {
-            #~ 'account_id': acc_id}
-        #~ }
-        #~ return result
 
     def action_confirm1(self, cr, uid, ids, context={}):
         return self.write(cr, uid, ids, {'state':'confirmed'})
@@ -328,15 +307,10 @@ class islr_wh_doc_line(osv.osv):
         for ret_line in self.browse(cr, uid, ids, context=context):
             if ret_line.invoice_id:
                 pass
-                #~ res[ret_line.id] = ret_line.invoice_id.p_ret
             else:
                 res[ret_line.id] = 0.0
         return res
-        
-    #~ def _get_amount(self,cr,uid.ids,name,args,context=None):
-        #~ res = {}
-        #~ for ret_line in self.browse(cr,uid,ids,context=context):
-            
+
     _columns= {
         'name': fields.char('Descripcion', size=64, help="Descripcion de la linea del comprobante"),
         'move_id': fields.many2one('account.move', 'Movimiento Contable', help="Asiento Contable"),
