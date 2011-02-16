@@ -93,7 +93,7 @@ class account_invoice(osv.osv):
             if invoice_line.concept_id and invoice_line.concept_id.withholdable:
                 service_list.append(invoice_line.concept_id.id)
             else:
-                return False
+                pass
         return list(set(service_list))
         
 
@@ -534,7 +534,6 @@ class account_invoice(osv.osv):
                         dict_rate = self._get_rate_dict(cr, uid, concept_list, residence, nature) # Retorna las tasas por cada concepto
                         self._pop_dict(cr,uid,concept_list,dict_rate,wh_dict) # Borra los conceptos y las lineas de factura que no tengan tasa asociada.
                         dict_completo = self._get_wh_apply(cr,uid,dict_rate,wh_dict) # Retorna el dict con todos los datos de la retencion por linea de factura.
-                        print 'FINALLL:: ', dict_completo
                         self._logic_create(cr,uid,dict_completo)# Se escribe y crea en todos los modelos asociados al islr.
                     else:
                         raise osv.except_osv(_('Invalid action !'),_("Imposible realizar Comprobante de Retencion ISLR, debido a que el comprador '%s' no es agente de Retencion!") % (buyer.name))
