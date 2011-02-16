@@ -66,8 +66,8 @@
                     <group colspan="4" col="4">
                         <field name="name"/>
                         <field name="withholdable"/>
-                        <field name="property_retencion_islr_payable" attrs="{'readonly':[('withholdable','=',False)]}"/>
-                        <field name="property_retencion_islr_receivable" attrs="{'readonly':[('withholdable','=',False)]}"/>
+                        <field name="property_retencion_islr_payable" attrs="{'readonly':[('withholdable','=',False)],'required':[('withholdable','=',True)]}"/>
+                        <field name="property_retencion_islr_receivable" attrs="{'readonly':[('withholdable','=',False)],'required':[('withholdable','=',True)]}"/>
                     </group>
                     <notebook colspan="4">
                         <page string="Tasas" attrs="{'readonly':[('withholdable','=',False)]}">

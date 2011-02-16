@@ -49,7 +49,7 @@ class islr_wh_concept(osv.osv):
             string="Cuenta Retencion Compra ISLR",
             method=True,
             view_load=True,
-            required = True,
+            required = False,
             domain="[('type', '=', 'other')]",
             help="Esta cuenta sera usada como la cuenta donde se cargaran los montos retenidos por enterar(Compra) de I.S.L.R para este concepto"),
         'property_retencion_islr_receivable': fields.property(
@@ -59,7 +59,7 @@ class islr_wh_concept(osv.osv):
             string="Cuenta Retencion Venta ISLR",
             method=True,
             view_load=True,
-            required = True,
+            required = False,
             domain="[('type', '=', 'other')]",
             help="Esta cuenta sera usada como la cuenta donde se cargaran los montos de retencion(Venta) de I.S.L.R."),
         'rate_ids': fields.one2many('islr.rates','concept_id','Tasa',help="Tasa del Concepto de Retencion",required=False),
