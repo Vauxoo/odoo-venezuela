@@ -189,11 +189,11 @@
             </section>
         </section>
     </section>
-        <blockTable colWidths="80.0mm,103.0mm,20.0mm" style="Tablatotalgeneral">
+        <blockTable colWidths="70.0mm,98.0mm,35.0mm" style="Tablatotalgeneral">
         <tr>
             <td><para style="TOTALRIGHT"></para></td>
             <td><para style="TOTALRIGHT">TOTAL IMPUESTO RETENIDO</para></td>
-            <td><para style="TOTALRIGHT">[[ o.amount_total_ret and o.amount_total_ret or '']]</para></td>
+            <td><para style="TOTALRIGHT">[[ o.amount_total_ret and formatLang(o.amount_total_ret) or '']]</para></td>
         </tr>
     </blockTable>
 
