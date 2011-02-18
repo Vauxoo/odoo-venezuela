@@ -50,6 +50,6 @@
     <field name="view_type">form</field>
     <field name="view_mode">tree,form</field>
     </record>
-    <menuitem id="menu_fiscal_reports_sale_tree" name="Sales Book" parent="l10n_ve_fiscal_reports.menu_fr_main" action="action_fiscal_reports_sale_tree"/>
+    <menuitem id="menu_fiscal_reports_sale_tree" name="Sales Book" parent="l10n_ve_fiscal_reports.menu_fr_main" action="action_fiscal_reports_sale_tree" groups="account.group_account_manager"/>
     </data>
 </openerp>

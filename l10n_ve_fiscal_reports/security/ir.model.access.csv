@@ -1,0 +1,10 @@
+"id","name","model_id:id","group_id:id","perm_read","perm_write","perm_create","perm_unlink"
+"access_fiscal_reports_purchase","fiscal.reports.purchase","model_fiscal_reports_purchase","account.group_account_user",1,0,0,0
+"access_fiscal_reports_sale","fiscal.reports.sale","model_fiscal_reports_sale","account.group_account_user",1,0,0,0
+"access_fiscal_reports_purchase_manager","fiscal.reports.purchase","model_fiscal_reports_purchase","account.group_account_manager",1,1,1,1
+"access_fiscal_reports_sale_manager","fiscal.reports.sale","model_fiscal_reports_sale","account.group_account_manager",1,1,1,1
+"access_fiscal_reports_whs","fiscal.reports.whs","model_fiscal_reports_whs","account.group_account_user",1,0,0,0
+"access_fiscal_reports_whp","fiscal.reports.whp","model_fiscal_reports_whp","account.group_account_user",1,0,0,0
+"access_fiscal_reports_whs_manager","fiscal.reports.whs","model_fiscal_reports_whs","account.group_account_manager",1,1,1,1
+"access_fiscal_reports_whp_manager","fiscal.reports.whp","model_fiscal_reports_whp","account.group_account_manager",1,1,1,1
+

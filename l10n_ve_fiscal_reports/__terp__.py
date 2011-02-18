@@ -49,6 +49,7 @@
     "demo_xml" : [
     ],
     "update_xml" : [
+        "security/ir.model.access.csv",    
         "fiscal_report_purchase_view.xml",
         "fiscal_report_sale_view.xml",
         "fiscal_report_whp.xml",

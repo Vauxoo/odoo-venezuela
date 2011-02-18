@@ -50,7 +50,7 @@
     <field name="view_type">form</field>
     <field name="view_mode">tree,form</field>
     </record>
-    <menuitem id="menu_fr_main" name="Fiscal Reporting For SENIAT" parent="account.menu_finance_reporting"/>
-    <menuitem id="menu_fiscal_reports_purchase_tree" name="Purchase Book" parent="l10n_ve_fiscal_reports.menu_fr_main" action="action_fiscal_reports_purchase_tree"/>
+    <menuitem id="menu_fr_main" name="Fiscal Reporting For SENIAT" parent="account.menu_finance_reporting" groups="account.group_account_manager"/>
+    <menuitem id="menu_fiscal_reports_purchase_tree" name="Purchase Book" parent="l10n_ve_fiscal_reports.menu_fr_main" action="action_fiscal_reports_purchase_tree" groups="account.group_account_manager"/>
     </data>
 </openerp>
