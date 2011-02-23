@@ -100,6 +100,7 @@ class product_product(osv.osv):
 
 
     def _get_last_invoice_price_func(states, what):
+        
         def _last_invoice_price(self, cr, uid, ids, name, arg, context):
             return self._product_get_price(cr, uid, ids, False, False, False, context, states, what)
         return _last_invoice_price
@@ -129,21 +130,26 @@ class product_product(osv.osv):
         res = {}
         states_str = ','.join(map(lambda s: "'%s'" % s, states))
         date = date_ref or time.strftime('%Y-%m-%d')
-        for product in self.browse(cr, uid, ids):
-            sql = "select inv.id, max(inv.date_invoice) as date from account_invoice as inv, account_invoice_line as line where inv.id=line.invoice_id and product_id=%s and state in (%s) and type='%s' and date_invoice<='%s' group by inv.id order by date desc" % (product.id,states_str,what,date)
-            if supplier_id:
-                sql = "select inv.id, max(inv.date_invoice) as date from account_invoice as inv, account_invoice_line as line where inv.id=line.invoice_id and product_id=%s and partner_id=%s and state in (%s) and type='%s' and date_invoice<='%s' group by inv.id order by date desc" % (product.id,supplier_id,states_str,what,date)
+        if ids[0]:
+            print 'ids: ',ids
+            print 'self.browse(cr, uid, ids): ',self.browse(cr, uid, ids)
+            for product in self.browse(cr, uid, ids):
+                sql = "select inv.id, max(inv.date_invoice) as date from account_invoice as inv, account_invoice_line as line where inv.id=line.invoice_id and product_id=%s and state in (%s) and type='%s' and date_invoice<='%s' group by inv.id order by date desc" % (product.id,states_str,what,date)
+                if supplier_id:
+                    sql = "select inv.id, max(inv.date_invoice) as date from account_invoice as inv, account_invoice_line as line where inv.id=line.invoice_id and product_id=%s and partner_id=%s and state in (%s) and type='%s' and date_invoice<='%s' group by inv.id order by date desc" % (product.id,supplier_id,states_str,what,date)
 
-            cr.execute(sql)
-            allrecord = cr.fetchall()
-            record = allrecord and allrecord.pop(0) or False                
-            if invoice_id and record and record[0]==invoice_id:
-                record = allrecord and allrecord.pop(0) or False
-            if record:
-                res[product.id] = record[0]
-            else:
-                res[product.id] = False
-        return res
+                cr.execute(sql)
+                allrecord = cr.fetchall()
+                record = allrecord and allrecord.pop(0) or False                
+                if invoice_id and record and record[0]==invoice_id:
+                    record = allrecord and allrecord.pop(0) or False
+                if record:
+                    res[product.id] = record[0]
+                else:
+                    res[product.id] = False
+            return res
+        else:
+            return {}
 
 
     _pur_inv = _get_last_invoice_func(('open', 'paid'), 'in_invoice')
