@@ -198,6 +198,9 @@ def _data_save(self, cr, uid, data, context):
     res = cr.fetchall()
     updated_rep_line = map(lambda x:x[0],res)
 
+    if None in updated_rep_line:
+        raise wizard.except_wizard(_('User Error'), _('You have to check salesman or product !'))
+
     mod_obj = pool.get('ir.model.data')
     act_obj = pool.get('ir.actions.act_window')
 

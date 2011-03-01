@@ -1001,3 +1001,9 @@ msgstr ""
 msgid "Total"
 msgstr ""
 
+#. module: report_profit
+#: code:addons/report_profit/wizard/wizard_last_cost_price_sum.py:0
+#, python-format
+msgid "You have to check salesman or product !"
+msgstr "Revise que todos clientes tengan un vendedor asignado o solamente se facturó productos "
+
