@@ -178,7 +178,6 @@ class account_invoice(osv.osv):
             ret_iva = {
                 'name':ret_iva_obj.retencion_seq_get(cr, uid),
                 'type': inv.type,
-                'period_id': inv.period_id.id,
                 'account_id': acc_id,
                 'partner_id': inv.partner_id.id,
                 'retention_line':ret_line
