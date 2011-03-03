@@ -35,6 +35,7 @@ class report_profit(osv.osv):
     _name = "report.profit"
     _description = "Profit by Products"
     _auto = False
+    _order= "name desc"    
     _columns = {
         'name': fields.date('Month', readonly=True, select=True),
         'product_id':fields.many2one('product.product', 'Product', readonly=True, select=True),
@@ -132,7 +133,7 @@ class report_profit(osv.osv):
                     inner join product_uom_consol_line c on (u.id=c.p_uom_id)
             )
             group by l.id,to_char(i.date_invoice, 'YYYY-MM-DD'),l.product_id,p.id,u.id,l.quantity,l.price_unit,l.last_price,l.price_subtotal,l.uos_id,p.name,i.type,c.p_uom_c_id,c.factor_consol,t.categ_id
-            order by p.name
+
             )
         """)
 report_profit()

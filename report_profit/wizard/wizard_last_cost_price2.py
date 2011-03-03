@@ -122,7 +122,7 @@ def _data_save(self, cr, uid, data, context):
                 where c.p_uom_c_id=%s
             )
             group by l.id,to_char(i.date_invoice, 'YYYY-MM-DD'),l.product_id,p.id,u.id,l.quantity,l.price_unit,l.last_price,l.price_subtotal,l.uos_id,p.name,i.type,c.p_uom_c_id,c.factor_consol,t.categ_id
-            order by p.name
+
         )
     """, (data['form']['uom_c_id'],))
     sql = """
