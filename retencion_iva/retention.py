@@ -414,8 +414,8 @@ class account_retention_line(osv.osv):
         'retention_id': fields.many2one('account.retention', 'Comprobante', ondelete='cascade', select=True, help="Comprobante"),
         'invoice_id': fields.many2one('account.invoice', 'Factura', required=True, ondelete='set null', select=True, help="Factura a retener"),
         'tax_line': fields.function(_compute_tax_lines, method=True, relation='account.invoice.tax', type="one2many", string='Impuestos', help="Impuestos de la factura"),
-        'amount_tax_ret': fields.function(_amount_all, method=True, digits=(16,2), string='Monto Retenido', multi='all', help="Total impuesto retenido de la factura"),
-        'base_ret': fields.function(_amount_all, method=True, digits=(16,2), string='Base Retenida', multi='all', help="Base retenida de la factura"),
+        'amount_tax_ret': fields.function(_amount_all, method=True, digits=(16,4), string='Monto Retenido', multi='all', help="Total impuesto retenido de la factura"),
+        'base_ret': fields.function(_amount_all, method=True, digits=(16,4), string='Base Retenida', multi='all', help="Base retenida de la factura"),
         'retention_rate': fields.function(_retention_rate, method=True, string='Retencion Por 100', type='float', help="Porcentaje de Retencion ha aplicar a la factura"),
         'move_id': fields.many2one('account.move', 'Movimiento Contable', readonly=True, help="Asiento Contable"),
 

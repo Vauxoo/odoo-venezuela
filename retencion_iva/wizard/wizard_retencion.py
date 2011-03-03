@@ -65,6 +65,7 @@ def _data_save(self, cr, uid, data, context):
 
     inv_obj.write(cr, uid, inv_lst, {'p_ret':pxt}, context=context)
     inv_obj.button_compute(cr, uid, inv_lst)
+    inv_obj.button_reset_taxes_ret(cr, uid, inv_lst)    
 
     return {}
 

@@ -184,6 +184,21 @@ class account_invoice(osv.osv):
             }
             ret_id = ret_iva_obj.create(cr, uid, ret_iva)
 
+
+    def button_reset_taxes_ret(self, cr, uid, ids, context=None):
+        if not context:
+            context = {}
+
+        ait_obj = self.pool.get('account.invoice.tax')
+        for id in ids:
+            amount_tax_ret = {}
+            amount_tax_ret = ait_obj.compute_amount_ret(cr, uid, id, context)
+            print 'monto retenidoooo: ',amount_tax_ret
+            for ait_id in amount_tax_ret.keys():
+                ait_obj.write(cr, uid, ait_id, {'amount_ret':amount_tax_ret[ait_id]})
+
+        return True
+
 account_invoice()
 
 
@@ -310,4 +325,22 @@ class account_invoice_tax(osv.osv):
         return tax_grouped
 
 
+    def compute_amount_ret(self, cr, uid, invoice_id, context={}):
+        res = {}
+        tax_obj = self.pool.get('account.tax')
+        inv = self.pool.get('account.invoice').browse(cr, uid, invoice_id, context)
+        
+        for ait in inv.tax_line:
+            amount_ret = 0.0
+            if ait.tax_code_id:
+                tax_ids = tax_obj.search(cr, uid, [('tax_code_id','=',ait.tax_code_id.id)])
+                if tax_ids:
+                    tax_brw = tax_obj.browse(cr, uid, tax_ids[0], context)
+                    if tax_brw.ret:
+                        amount_ret = inv.p_ret and ait.amount*inv.p_ret/100.0 or 0.00
+                        #buscar una mejor forma, revisar el redondeo de decimales
+                        amount_ret = round(amount_ret, 3)
+            res[ait.id] = amount_ret
+        return res
+        
 account_invoice_tax()
