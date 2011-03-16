@@ -118,14 +118,14 @@ class account_retention(osv.osv):
     def _check_partner(self, cr, uid, ids, context={}):
         agt = False
         obj = self.browse(cr, uid, ids[0])
-        if obj.type=='out_invoice' and obj.partner_id.special:
+        if obj.type in ('out_invoice', 'out_refund') and obj.partner_id.special:
             agt = True
-        if obj.type=='in_invoice' and obj.company_id.partner_id.special:
+        if obj.type in ('in_invoice', 'in_refund') and obj.company_id.partner_id.special:
             agt = True
         return agt
 
     _constraints = [
-        (_check_partner, 'Error ! El cliente no es agente de retencion .', ['partner_id']),
+        (_check_partner, 'Error ! El cliente o la compania no es agente de retencion .', ['partner_id']),
     ]
 
     _sql_constraints = [
