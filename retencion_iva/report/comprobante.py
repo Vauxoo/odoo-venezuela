@@ -102,8 +102,10 @@ class rep_comprobante(report_sxw.rml_parse):
 
         for rl in comp.retention_line:
             k=1
+            no_fac_afe = rl.invoice_id.origin or ''
             if rl.invoice_id.type in ['in_refund', 'out_refund']:
                 k=-1
+                no_fac_afe = rl.invoice_id.parent_id and rl.invoice_id.parent_id.reference or ''
             for txl in rl.invoice_id.tax_line:
                 sdcf = False
                 tot_base_imp[types[rl.invoice_id.type]] = tot_base_imp.get(types[rl.invoice_id.type],0.0) + txl.base_ret
@@ -121,7 +123,7 @@ class rep_comprobante(report_sxw.rml_parse):
                     'nro_ncre': rl.invoice_id.reference,
                     'nro_ndeb': rl.invoice_id.reference,
                     'tip_tran': self._get_tipo_doc(rl.invoice_id.type),
-                    'nro_fafe': rl.invoice_id.origin or '',
+                    'nro_fafe': no_fac_afe,
                     'tot_civa': not sdcf and k*(txl.base_ret+txl.amount) or 0.0,
                     'cmp_sdcr': sdcf and k*(txl.base_ret+txl.amount) or 0.0,
                     'bas_impo': k*txl.base_ret,
