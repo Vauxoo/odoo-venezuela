@@ -85,6 +85,8 @@ class account_invoice(osv.osv):
                 res['concept_id'] = res.get('concept_id', False) and res['concept_id'][0]
             if 'apply_wh' in res:
                 res['apply_wh'] = False
+            if 'wh_xml_id' in res:
+                res['wh_xml_id'] = 0
             list.append((x,y,res))
         return list
 
@@ -269,9 +271,6 @@ class account_invoice(osv.osv):
                 number = self._get_number(cr,uid,inv_brw.number.strip(),10)
 
         if not inv_brw.nro_ctrl:
-            print 'FACTURA', inv_brw.id
-            print 'CONTROL NUM', inv_brw.nro_ctrl
-            
             raise osv.except_osv(_('Invalid action !'),_("Imposible realizar Comprobante de Retencion ISLR, debido a que la factura numero: '%s' no tiene Numero de Control Asociado!") % (inv_brw.number))
         else:
             control = self._get_number(cr,uid,inv_brw.nro_ctrl.strip(),8)
@@ -322,11 +321,8 @@ class account_invoice(osv.osv):
         Retorna un diccionario, con todos los valores de la retencion de una linea de factura.
         '''
         res= {}
-        print 'WH DICT', wh_dict
-        print 'DICT RATE', dict_rate
         if apply: # Si se va a aplicar retencion.
             for line in wh_dict[concept]['lines']:
-                print 'LINEE', line
                 wh_calc, subtotal = self._get_wh_calc(cr,uid,line,dict_rate[concept]) # Obtengo el monto de retencion y el monto base sobre el cual se retiene
                 if subtract >= wh_calc:
                     wh = 0.0
@@ -349,7 +345,6 @@ class account_invoice(osv.osv):
             return res
         else: # Si no aplica retencion
             for line in wh_dict[concept]['lines']:
-                print 'LINEE', line
                 subtotal = self._get_wh_calc(cr,uid,line,dict_rate[concept])[1]
                 res[line]={ 'vat': self._get_inv_data(cr, uid, line)[0],
                             'number': self._get_inv_data(cr, uid, line)[1],
@@ -443,21 +438,13 @@ class account_invoice(osv.osv):
         journal_id = None
         journal_obj = self.pool.get('account.journal')
         if inv_brw.type == 'out_invoice' or inv_brw.type =='out_refund':
-            print 'ENTRE 111'
             journal_id = journal_obj.search(cr, uid, [('type', '=', 'retislrSale')], limit=1)
             tipo1 = 'Venta'
             tipo2 = 'retislrSale'
-            print 'JOURNAL 111', journal_id[0]
         else:
-            print 'ENTRE 222'
             journal_id = journal_obj.search(cr, uid, [('type', '=', 'retislrPurchase')], limit=1)
             tipo = 'Compra'
             tipo2 = 'retislrPurchase'
-            print 'JOURNAL 222', journal_id[0]
-            
-        print 'TYPEEE', inv_brw.type
-        print 'JOURBAL IDD', journal_id
-        
         if not journal_id:
             raise osv.except_osv(_('Invalid action !'),_("Imposible realizar Comprobante de Retencion ISLR, debido a que el diario de ISLR para la '%s' no ha sido creado con el tipo 's%'") % (tipo,tipo2))
         
@@ -584,7 +571,6 @@ class account_invoice(osv.osv):
         invoices_brw = self.browse(cr, uid, ids, context=None)
         wh_doc_list = []
         for invoice in invoices_brw:
-            print 'INVOICE', invoice.id
             wh_doc_list = self.pool.get('islr.wh.doc.invoices').search(cr,uid,[('invoice_id','=',invoice.id)])  
             if wh_doc_list: #Chequear que la factura no haya sido retenida.
                 raise osv.except_osv(_('Invalid action !'),_("La Retencion a la factura '%s' ya fue realizada!") % (invoice.number))
@@ -593,8 +579,6 @@ class account_invoice(osv.osv):
                 dict_rate={}
                 dict_completo={}
                 vendor, buyer, apply_wh = self._get_partners(cr,uid,invoice) # Se obtiene el (vendedor, el comprador, si el comprador es agente de retencion)
-                print 'VENDOR', vendor
-                print 'BUYER', buyer
                 concept_list = self._get_concepts(cr,uid,invoice)# Se obtiene la lista de conceptos de las lineas de la factura actual.
                 if concept_list:  # 2.- Si existe algun concepto de retencion en las lineas de la factura.
                     if apply_wh:  # 3.- Si el comprador es agente de retencion

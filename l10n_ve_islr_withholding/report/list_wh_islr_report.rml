@@ -50,7 +50,7 @@
     </blockTableStyle>
         <blockTableStyle id="TOTAL">
             <blockValign value="TOP"/>
-            <lineStyle kind="GRID" colorName="black" start="4,0" stop="-1,-1" thickness="0.5" />
+            <lineStyle kind="GRID" colorName="black" start="1,0" stop="-1,-1" thickness="0.5" />
         </blockTableStyle>  
     <blockTableStyle id="TITLEGRISCLAROARRIBA">
         <blockBackground colorName="#e5e2e5" start="1,0" stop="-1,-1"/>
@@ -123,19 +123,13 @@
           <td><para style="P13">[[ formatLang(line.wh) ]]</para></td>
         </tr>
     </blockTable>
-    <blockTable colWidths="40.0,65.0,290.0,58.0,175.0,125.0" style="TOTAL">
+    <blockTable colWidths="433.0,185.0,135.0" style="TOTAL">
         <tr>
-            <td><para style="P22"><font color="white"></font></para></td>
-            <td><para style="P22"><font color="white"></font></para></td>
-            <td><para style="P22"><font color="white"></font></para></td>
             <td><para style="P22"><font color="white"></font></para></td>
             <td><para style="P16">TOTAL BASE IMPONIBLE</para></td>
             <td><para style="P16">[[ formatLang(o.amount_total_base) ]]</para></td>
         </tr>
         <tr>
-            <td><para style="P22"><font color="white"></font></para></td>
-            <td><para style="P22"><font color="white"></font></para></td>
-            <td><para style="P22"><font color="white"></font></para></td>
             <td><para style="P22"><font color="white"></font></para></td>
             <td><para style="P16">TOTAL MONTO DE RETENCION</para></td>
             <td><para style="P16">[[ formatLang(o.amount_total_ret) ]]</para></td>
