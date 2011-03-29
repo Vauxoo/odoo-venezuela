@@ -2,11 +2,11 @@
 <openerp>
     <data>
 
-	<!-- 
-	=====================================================
-	Linea de Retencion
-	=====================================================
-	-->  
+    <!-- 
+    =====================================================
+    Linea de Retencion
+    =====================================================
+    -->  
 
         <record id="view_retention_line_tree" model="ir.ui.view">
             <field name="name">account.retention.line.tree</field>
@@ -17,7 +17,7 @@
                     <field name="name"/>
                     <field name="invoice_id" on_change="invoice_id_change(invoice_id)" domain="[('state', '=', 'open'), ('retention', '=', False), ('partner_id','=',parent.partner_id)]"/>
                     <field name="retention_rate" />
-                    <field name="amount_tax_ret"/>                                
+                    <field name="amount_tax_ret"/>
                     <field name="base_ret"/>
                     <field name="move_id"/>
                 </tree>
@@ -50,7 +50,7 @@
                             </group>
                             <field name="move_id"/>
                             <group col="2" colspan="2">
-                                <field name="amount_tax_ret"/>                                
+                                <field name="amount_tax_ret"/>
                                 <field name="base_ret"/>
                             </group>
                         </page>
@@ -60,11 +60,11 @@
         </record>
 
 
-	<!-- 
-	=====================================================
-	Retention
-	=====================================================
-	-->  
+    <!-- 
+    =====================================================
+    Retention
+    =====================================================
+    -->  
 
 
         <record id="view_retention_tree" model="ir.ui.view">
@@ -78,7 +78,7 @@
                     <field name="code"/>
                     <field name="number"/>
                     <field name="partner_id"/>
-                    <field name="amount_base_ret"/>                                
+                    <field name="amount_base_ret"/>
                     <field name="total_tax_ret"/>
                     <field name="date_ret"/>
                     <field name="currency_id"/>
@@ -141,7 +141,7 @@
                         <field name="journal_id" select="2" domain="[('type','=','retiva')]"/>
                         <field name="type" select="2"/>
                         <field name="code" select="1"/>
-                        <field name="partner_id" on_change="onchange_partner_id(type,partner_id)" select="1" domain="[('special','=',True), ('customer','=',True)]"/>
+                        <field name="partner_id" on_change="onchange_partner_id(type,partner_id)" select="1" domain="[('islr_withholding_agent','=',True), ('customer','=',True)]"/>
                         <field name="currency_id" />
                         <field name="date_ret" />
                         <field domain="[('type','&lt;&gt;','view'), ('company_id', '=', company_id)]" name="account_id"/>
@@ -171,91 +171,91 @@
         </record>
         
 
-    	<record model="ir.actions.act_window" id="action_account_retention">
-	    	<field name="name">Retenciones</field>
-	    	<field name="res_model">account.retention</field>
-	    	<field name="type">ir.actions.act_window</field>
-	    	<field name="view_type">form</field>
-	    	<field name="view_mode">tree,form</field>
-    	</record>
-    	<record model="ir.actions.act_window.view" id="act_wv_account_retention_tree">
-	    	<field name="sequence" eval="10"/>
-	    	<field name="view_mode">tree</field>
-	    	<field name="view_id" ref="view_retention_tree"/> 
-	    	<field name="act_window_id" ref="action_account_retention"/>
-	    </record>
-	    <record model="ir.actions.act_window.view" id="act_wv_account_retention_form">
-	    	<field name="sequence" eval="20"/>
-	    	<field name="view_mode">form</field>
-	    	<field name="view_id" ref="view_retention_form"/>
-	    	<field name="act_window_id" ref="action_account_retention"/>
-	    </record>
+        <record model="ir.actions.act_window" id="action_account_retention">
+            <field name="name">Retenciones</field>
+            <field name="res_model">account.retention</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">tree,form</field>
+        </record>
+        <record model="ir.actions.act_window.view" id="act_wv_account_retention_tree">
+            <field name="sequence" eval="10"/>
+            <field name="view_mode">tree</field>
+            <field name="view_id" ref="view_retention_tree"/> 
+            <field name="act_window_id" ref="action_account_retention"/>
+        </record>
+        <record model="ir.actions.act_window.view" id="act_wv_account_retention_form">
+            <field name="sequence" eval="20"/>
+            <field name="view_mode">form</field>
+            <field name="view_id" ref="view_retention_form"/>
+            <field name="act_window_id" ref="action_account_retention"/>
+        </record>
 
-	    <menuitem
-	    	id="menu_action_account_retention"
-	    	name="Retencion" 		
-	    	parent="account.menu_finance"
-	    	action="action_account_retention"/>
+        <menuitem
+            id="menu_action_account_retention"
+            name="Retencion"        
+            parent="account.menu_finance"
+            action="action_account_retention"/>
 
 
 
-    	<record model="ir.actions.act_window" id="action_account_retention_customer">
-	    	<field name="name">Retenciones Clientes</field>
-	    	<field name="res_model">account.retention</field>
-	    	<field name="type">ir.actions.act_window</field>
-	    	<field name="view_type">form</field>
-	    	<field name="view_mode">tree,form</field>
+        <record model="ir.actions.act_window" id="action_account_retention_customer">
+            <field name="name">Retenciones Clientes</field>
+            <field name="res_model">account.retention</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">tree,form</field>
             <field name="domain">[('type','=','out_invoice')]</field>
             <field name="context">{'type':'out_invoice'}</field>
-    	</record>
-    	<record model="ir.actions.act_window.view" id="act_wv_account_retention_customer_tree">
-	    	<field name="sequence" eval="10"/>
-	    	<field name="view_mode">tree</field>
-	    	<field name="view_id" ref="view_retention_tree"/> 
-	    	<field name="act_window_id" ref="action_account_retention_customer"/>
-	    </record>
-	    <record model="ir.actions.act_window.view" id="act_wv_account_retention_customer_form">
-	    	<field name="sequence" eval="20"/>
-	    	<field name="view_mode">form</field>
-	    	<field name="view_id" ref="view_retention_form_customer"/>
-	    	<field name="act_window_id" ref="action_account_retention_customer"/>
-	    </record>
+        </record>
+        <record model="ir.actions.act_window.view" id="act_wv_account_retention_customer_tree">
+            <field name="sequence" eval="10"/>
+            <field name="view_mode">tree</field>
+            <field name="view_id" ref="view_retention_tree"/> 
+            <field name="act_window_id" ref="action_account_retention_customer"/>
+        </record>
+        <record model="ir.actions.act_window.view" id="act_wv_account_retention_customer_form">
+            <field name="sequence" eval="20"/>
+            <field name="view_mode">form</field>
+            <field name="view_id" ref="view_retention_form_customer"/>
+            <field name="act_window_id" ref="action_account_retention_customer"/>
+        </record>
 
-	    <menuitem
-	    	id="menu_action_account_retention_customer"
-	    	name="Retencion Clientes" 		
-	    	parent="menu_action_account_retention"
-	    	action="action_account_retention_customer"/>
+        <menuitem
+            id="menu_action_account_retention_customer"
+            name="Retencion Clientes"       
+            parent="menu_action_account_retention"
+            action="action_account_retention_customer"/>
 
 
 
-    	<record model="ir.actions.act_window" id="action_account_retention_supplier">
-	    	<field name="name">Retenciones Proveedores</field>
-	    	<field name="res_model">account.retention</field>
-	    	<field name="type">ir.actions.act_window</field>
-	    	<field name="view_type">form</field>
-	    	<field name="view_mode">tree,form</field>
+        <record model="ir.actions.act_window" id="action_account_retention_supplier">
+            <field name="name">Retenciones Proveedores</field>
+            <field name="res_model">account.retention</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">tree,form</field>
             <field name="domain">[('type','=','in_invoice')]</field>
             <field name="context">{'type':'in_invoice'}</field>
-    	</record>
-    	<record model="ir.actions.act_window.view" id="act_wv_account_retention_supplier_tree">
-	    	<field name="sequence" eval="10"/>
-	    	<field name="view_mode">tree</field>
-	    	<field name="view_id" ref="view_retention_tree"/> 
-	    	<field name="act_window_id" ref="action_account_retention_supplier"/>
-	    </record>
-	    <record model="ir.actions.act_window.view" id="act_wv_account_retention_supplier_form">
-	    	<field name="sequence" eval="20"/>
-	    	<field name="view_mode">form</field>
-	    	<field name="view_id" ref="view_retention_form"/>
-	    	<field name="act_window_id" ref="action_account_retention_supplier"/>
-	    </record>
+        </record>
+        <record model="ir.actions.act_window.view" id="act_wv_account_retention_supplier_tree">
+            <field name="sequence" eval="10"/>
+            <field name="view_mode">tree</field>
+            <field name="view_id" ref="view_retention_tree"/> 
+            <field name="act_window_id" ref="action_account_retention_supplier"/>
+        </record>
+        <record model="ir.actions.act_window.view" id="act_wv_account_retention_supplier_form">
+            <field name="sequence" eval="20"/>
+            <field name="view_mode">form</field>
+            <field name="view_id" ref="view_retention_form"/>
+            <field name="act_window_id" ref="action_account_retention_supplier"/>
+        </record>
 
-	    <menuitem
-	    	id="menu_action_account_retention_supplier"
-	    	name="Retencion Proveedores" 		
-	    	parent="menu_action_account_retention"
-	    	action="action_account_retention_supplier"/>
+        <menuitem
+            id="menu_action_account_retention_supplier"
+            name="Retencion Proveedores"        
+            parent="menu_action_account_retention"
+            action="action_account_retention_supplier"/>
 
     </data>
 </openerp>

@@ -28,7 +28,6 @@
                             <button name="action_ret_iva_create" states="open" string="Retener IVA" type="object" colspan='1'/>
                             <field name="ret_iva_id"/>
                         </group>
-                        <separator string="Retenciones I.S.L.R." colspan="4"/>
                     </page>
                 </notebook>
             </field>
@@ -54,7 +53,6 @@
                             <button name="action_ret_iva_create" states="open" string="Retener IVA" type="object" colspan='1'/>
                             <field name="ret_iva_id"/>
                         </group>
-                        <separator string="Retenciones I.S.L.R." colspan="4"/>
                     </page>
                 </notebook>
             </field>

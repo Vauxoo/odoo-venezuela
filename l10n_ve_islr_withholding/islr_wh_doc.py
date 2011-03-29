@@ -40,14 +40,14 @@ class islr_wh_doc(osv.osv):
             context = {}
         type = context.get('type', 'in_invoice')
         return type
-    
+
     def _get_journal(self, cr, uid, context):
         if context is None:
             context = {}
-        type_inv = context.get('type', 'in_invoice')
-        type2journal = {'out_invoice': 'retislr', 'in_invoice': 'retislr', 'out_refund': 'retislr', 'in_refund': 'retislr'}
+        type_inv = context.get('type')
+        type2journal = {'out_invoice': 'retislrSale', 'in_invoice': 'retislrPurchase', 'out_refund': 'retislrSale', 'in_refund': 'retislrPurchase'}
         journal_obj = self.pool.get('account.journal')
-        res = journal_obj.search(cr, uid, [('type', '=', type2journal.get(type_inv, 'retislr'))], limit=1)
+        res = journal_obj.search(cr, uid, [('type', '=', type2journal.get(type_inv, 'retislrPurchase'))], limit=1)
         if res:
             return res[0]
         else:
@@ -68,6 +68,18 @@ class islr_wh_doc(osv.osv):
                 res[rete.id] += line.amount
         return res
 
+    def _get_period(self,cr,uid,ids,name,args,context={}):
+        res = {}
+        wh_doc_brw = self.browse(cr,uid,ids, context=None)
+        for doc in wh_doc_brw:
+            if doc.date_ret:
+                period_ids = self.pool.get('account.period').search(cr,uid,[('date_start','<=',doc.date_ret or time.strftime('%Y-%m-%d')),('date_stop','>=',doc.date_ret or time.strftime('%Y-%m-%d'))])
+                if len(period_ids):
+                    period_id = period_ids[0]
+                res[doc.id] = period_id
+        return res
+
+
     _name = "islr.wh.doc"
     _columns= {
         'name': fields.char('Descripcion', size=64, select=True,readonly=True, states={'draft':[('readonly',False)]}, required=True, help="Descripcion del Comprobante"),
@@ -85,9 +97,9 @@ class islr_wh_doc(osv.osv):
             ('done','Done'),
             ('cancel','Cancelled')
             ],'Estado', select=True, readonly=True, help="Estado del Comprobante"),
-        'date_ret': fields.date('Fecha Comprobante', readonly=True, help="Mantener en blanco para usar la fecha actual"),
-        'date': fields.date('Fecha', readonly=True, states={'draft':[('readonly',False)]}, help="Fecha de emision"),
-        'period_id': fields.many2one('account.period', 'Periodo', domain=[('state','<>','done')], readonly=True, help="Periodo fiscal correspondiente a la Factura que genera el comprobante"),
+        'date_ret': fields.date('Fecha Contable', help="Fecha tomada para seleccionar el periodo fiscal, dejar en blanco en caso de utilizar la actual"),
+        'date_uid': fields.date('Fecha del Comprobante', readonly=True, help="Fecha de realizacion del comprobante de retencion"),
+        'period_id': fields.function(_get_period, method=True, required=False, type='many2one',relation='account.period', string='Periodo', help="Periodo donde se realizaran los asientos contables."),
         'account_id': fields.many2one('account.account', 'Cuenta', required=True, readonly=True, states={'draft':[('readonly',False)]}, help="Cuenta donde se cargaran los montos retenidos del I.S.L.R."),
         'partner_id': fields.many2one('res.partner', 'Partner', readonly=True, required=True, states={'draft':[('readonly',False)]}, help="Proveedor o Cliente al cual se retiene o te retiene"),
         'currency_id': fields.many2one('res.currency', 'Moneda', required=True, readonly=True, states={'draft':[('readonly',False)]}, help="Moneda enla cual se realiza la operacion"),
@@ -122,24 +134,43 @@ class islr_wh_doc(osv.osv):
                 return pool_seq._process(res['prefix']) + pool_seq._process(res['suffix'])
         return False
 
+    def onchange_partner_id(self, cr, uid, ids, type, partner_id):
+        acc_id = False
+        if partner_id:
+            p = self.pool.get('res.partner').browse(cr, uid, partner_id)
+            if type in ('out_invoice', 'out_refund'):
+                acc_id = p.property_account_receivable.id
+            else:
+                acc_id = p.property_account_payable.id
+        result = {'value': {
+            'account_id': acc_id}
+        }
+
+        return result
+
+    def create(self, cr, uid, vals, context=None, check=True):
+        if not context:
+            context={}
+        code = self.pool.get('ir.sequence').get(cr, uid, 'islr.wh.doc')
+        vals['code'] = code
+        return super(islr_wh_doc, self).create(cr, uid, vals, context)
+
     def action_confirm1(self, cr, uid, ids, context={}):
         return self.write(cr, uid, ids, {'state':'confirmed'})
 
 
     def action_number(self, cr, uid, ids, *args):
         obj_ret = self.browse(cr, uid, ids)[0]
-        if obj_ret.type == 'in_invoice':
-            cr.execute('SELECT id, number ' \
-                    'FROM islr_wh_doc ' \
-                    'WHERE id IN ('+','.join(map(str,ids))+')')
+        cr.execute('SELECT id, number ' \
+                'FROM islr_wh_doc ' \
+                'WHERE id IN ('+','.join(map(str,ids))+')')
 
-            for (id, number) in cr.fetchall():
-                if not number:
-                    number = self.pool.get('ir.sequence').get(cr, uid, 'islr.wh.doc.%s' % obj_ret.type)
-                cr.execute('UPDATE islr_wh_doc SET number=%s ' \
-                        'WHERE id=%s', (number, id))
+        for (id, number) in cr.fetchall():
+            if not number:
+                number = self.pool.get('ir.sequence').get(cr, uid, 'islr.wh.doc.%s' % obj_ret.type)
+            cr.execute('UPDATE islr_wh_doc SET number=%s ' \
+                    'WHERE id=%s', (number, id))
         return True
-
 
     def action_done1(self, cr, uid, ids, context={}):
         self.action_number(cr, uid, ids)
@@ -147,12 +178,40 @@ class islr_wh_doc(osv.osv):
         self.write(cr, uid, ids, {'state':'done'})
         return True
 
+    def action_cancel1(self,cr,uid,ids,context={}):
+        self.cancel_move(cr,uid,ids)
+        return True
+
+    def cancel_move (self,cr,uid,ids, *args):
+        ret_brw = self.browse(cr, uid, ids)
+        account_move_obj = self.pool.get('account.move')
+        for ret in ret_brw:
+            if ret.state == 'done':
+                for ret_line in ret.concept_ids:
+                    account_move_obj.button_cancel(cr, uid, [ret_line.move_id.id])
+                    delete = account_move_obj.unlink(cr, uid,[ret_line.move_id.id])
+                if delete:
+                    self.write(cr, uid, ids, {'state':'cancel'})
+            else:
+                self.write(cr, uid, ids, {'state':'cancel'})
+        return True
+        
+    def action_cancel_draft(self,cr,uid,ids, *args):
+        self.write(cr, uid, ids, {'state':'draft'})
+
     def action_move_create(self, cr, uid, ids, *args):
+
         wh_doc_obj = self.pool.get('islr.wh.doc.line')
         context = {}
 
         for ret in self.browse(cr, uid, ids):
-            period_id = ret.period_id.id
+            if not ret.date_uid:
+                self.write(cr, uid, [ret.id], {'date_uid':time.strftime('%Y-%m-%d')})
+
+            if not ret.date_ret:
+                self.write(cr, uid, [ret.id], {'date_ret':time.strftime('%Y-%m-%d')})
+            
+            period_id = ret.period_id and ret.period_id.id or False
             journal_id = ret.journal_id.id
             
             if not period_id:
@@ -161,9 +220,6 @@ class islr_wh_doc(osv.osv):
                     period_id = period_ids[0]
                 else:
                     raise osv.except_osv(_('Warning !'), _("No se encontro un periodo fiscal para esta fecha: '%s' por favor verificar.!") % (ret.date_ret or time.strftime('%Y-%m-%d')))
-
-            if not ret.date_ret:
-                self.write(cr, uid, [ret.id], {'date_ret':time.strftime('%Y-%m-%d')})
 
             if ret.concept_ids:
                 for line in ret.concept_ids:
@@ -181,6 +237,7 @@ class islr_wh_doc(osv.osv):
                     writeoff_account_id = False
                     writeoff_journal_id = False
                     amount = line.amount
+
                     ret_move = self.wh_and_reconcile(cr, uid, [ret.id], ret.invoice_id.id,
                             amount, acc_id, period_id, journal_id, writeoff_account_id,
                             period_id, writeoff_journal_id, context)
@@ -196,7 +253,7 @@ class islr_wh_doc(osv.osv):
         return True
 
 
-    def wh_and_reconcile(self, cr, uid, ids, invoice_id, pay_amount, pay_account_id, period_id, pay_journal_id, writeoff_acc_id, writeoff_period_id, writeoff_journal_id, context=None, name=''):
+    def wh_and_reconcile(self, cr, uid, ids, invoice_id, pay_amount, pay_account_id, period_id, pay_journal_id, writeoff_acc_id, writeoff_period_id, writeoff_journal_id,context=None, name=''):
         inv_obj = self.pool.get('account.invoice')
         ret = self.browse(cr, uid, ids)[0]
         if context is None:
@@ -208,11 +265,9 @@ class islr_wh_doc(osv.osv):
         # Take the seq as name for move
         types = {'out_invoice': -1, 'in_invoice': 1, 'out_refund': 1, 'in_refund': -1}
         direction = types[invoice.type]
-        #take the choosen date
-        if 'date_p' in context and context['date_p']:
-            date=context['date_p']
-        else:
-            date=time.strftime('%Y-%m-%d')
+       
+        date=ret.date_ret
+            
         l1 = {
             'debit': direction * pay_amount>0 and direction * pay_amount,
             'credit': direction * pay_amount<0 and - direction * pay_amount,
@@ -290,8 +345,8 @@ account_invoice()
 class islr_wh_doc_invoices(osv.osv):
     _name = "islr.wh.doc.invoices"
     _columns= {
-        'invoice_id':fields.many2one('account.invoice','Id de la Invoice'),
         'islr_wh_doc_id': fields.many2one('islr.wh.doc','Id del Documento', ondelete='cascade'),
+        'invoice_id':fields.many2one('account.invoice','Invoice'),
     }
     _rec_rame = 'invoice_id'
 islr_wh_doc_invoices()
@@ -311,7 +366,6 @@ class islr_wh_doc_line(osv.osv):
 
     _columns= {
         'name': fields.char('Descripcion', size=64, help="Descripcion de la linea del comprobante"),
-        'move_id': fields.many2one('account.move', 'Movimiento Contable', help="Asiento Contable"),
         'invoice_id': fields.many2one('account.invoice', 'Factura', ondelete='set null', select=True, help="Factura a retener"),
         'amount':fields.float('Amount'),
         'islr_wh_doc_id': fields.many2one('islr.wh.doc','Comprobante', ondelete='cascade'),

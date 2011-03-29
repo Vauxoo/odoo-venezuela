@@ -101,7 +101,6 @@ class account_retention(osv.osv):
         'amount_base_ret': fields.function(_amount_ret_all, method=True, digits=(16,4), string='Total Base Ret.', multi='all', help="Total de la base retenida"),
         'total_tax_ret': fields.function(_amount_ret_all, method=True, digits=(16,4), string='Total Imp. Ret.', multi='all', help="Total del impuesto Retenido"),
 
-
     } 
     _defaults = {
         'code': lambda obj, cr, uid, context: obj.pool.get('account.retention').retencion_seq_get(cr, uid, context),
@@ -239,7 +238,7 @@ class account_retention(osv.osv):
         if 'date_p' in context and context['date_p']:
             date=context['date_p']
         else:
-            date=ret.date_ret or time.strftime('%Y-%m-%d')
+            date=time.strftime('%Y-%m-%d')
         l1 = {
             'debit': direction * pay_amount>0 and direction * pay_amount,
             'credit': direction * pay_amount<0 and - direction * pay_amount,
@@ -343,8 +342,6 @@ class account_retention(osv.osv):
                 raise osv.except_osv('Factura(s) No Perteneciente(s) !',"La(s) siguientes factura(s) no pertenecen al partner del comprobante: %s " % (inv_str,))
 
         return True
-
-
 
     def write(self, cr, uid, ids, vals, context=None, check=True, update_check=True):
         if not context:

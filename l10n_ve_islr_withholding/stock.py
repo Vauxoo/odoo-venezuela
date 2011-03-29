@@ -50,8 +50,9 @@ class stock_picking(osv.osv):
                     if line_invoice.product_id==line_orden.product_id: #si es la misma linea
                         self.pool.get('account.invoice.line').write(cursor, user, line_invoice.id, {'concept_id':line_orden.concept_id.id})       
             return data 
-
-        if type in ('out_invoice', 'out_refund'): #ORDENES DE VENTA
+        #~ ORDENES DE VENTA
+        if type =='out_invoice' or type == 'out_refund':
+            print 'HOLA GABY 1'
             for line_invoice in invoice_brw.invoice_line: #lineas de la factura
                 for line_orden in picking_brw.sale_id.order_line: #lineas de la orden de venta
                     if line_invoice.product_id==line_orden.product_id: #si es la misma linea

@@ -36,7 +36,6 @@ class account_invoice_line(osv.osv):
     Se agrega un campo donde se determina, si una linea ha sido retenida o no.
     '''
     _inherit = "account.invoice.line"
-
     _columns = {
         'apply_wh': fields.boolean('Retenido',help="Indica si una linea ha sido retenida o no, para ir acumulando el monto a retener el proximo mes, de acuerdo a las lineas que no han sido retenidas."),
         'concept_id': fields.many2one('islr.wh.concept','Concepto de Retencion',help="Concepto de Retencion asociado a esta Tasa",required=False),
@@ -44,17 +43,16 @@ class account_invoice_line(osv.osv):
     _defaults = {
         'apply_wh': lambda *a: False,
     }
-    
-    def product_id_change(self, cr, uid, ids, product, uom, qty=0, name='', type='out_invoice', partner_id=False, fposition_id=False, price_unit=False, address_invoice_id=False, context=None):
-        '''
-        onchange para que aparezca el concepto de retencion asociado al producto de una vez en la linea de la factura
-        '''
-        data = super(account_invoice_line, self).product_id_change(cr, uid, ids, product, uom, qty, name, type, partner_id, fposition_id, price_unit, address_invoice_id, context)
-        pro = self.pool.get('product.product').browse(cr, uid, product, context=context)
-        concepto=pro.concept_id.id
-        data[data.keys()[1]]['concept_id'] = concepto
-        return data
-        
+
+    #~ def product_id_change(self, cr, uid, ids, product, uom, qty=0, name='', type='out_invoice', partner_id=False, fposition_id=False, price_unit=False, address_invoice_id=False, context=None):
+        #~ '''
+        #~ onchange para que aparezca el concepto de retencion asociado al producto de una vez en la linea de la factura
+        #~ '''
+        #~ data = super(account_invoice_line, self).product_id_change(cr, uid, ids, product, uom, qty, name, type, partner_id, fposition_id, price_unit, address_invoice_id, context)
+        #~ pro = self.pool.get('product.product').browse(cr, uid, product, context=context)
+        #~ concepto=pro.concept_id.id
+        #~ data[data.keys()[1]]['concept_id'] = concepto
+        #~ return data
 
 ####NO SIRVE EL COPY
     def copy(self, cr, uid, id, default=None, context=None):
@@ -71,7 +69,25 @@ account_invoice_line()
 class account_invoice(osv.osv):
 
     _inherit = 'account.invoice'
-    
+
+    def copy(self, cr, uid, id, default=None, context=None):
+        if default is None:
+            default = {}
+        default = default.copy()
+        default.update({'islr_wh_doc':0})
+        return super(account_invoice, self).copy(cr, uid, id, default, context)
+
+    def _refund_cleanup_lines(self, cr, uid, lines):
+        data = super(account_invoice, self)._refund_cleanup_lines(cr, uid, lines)
+        list = []
+        for x,y,res in data:
+            if 'concept_id' in res:
+                res['concept_id'] = res.get('concept_id', False) and res['concept_id'][0]
+            if 'apply_wh' in res:
+                res['apply_wh'] = False
+            list.append((x,y,res))
+        return list
+
     def _get_partners(self, cr, uid, invoice):
         '''
         Se obtiene: el id del vendedor, el id del comprador de la factura y el campo booleano que determina si el comprador es agente de retencion.
@@ -172,28 +188,30 @@ class account_invoice(osv.osv):
             else:
                 return False
 
-    def _get_rate(self, cr, uid, concept_id, residence, nature):
+    def _get_rate(self, cr, uid, concept_id, residence, nature,context):
         '''
         Se obtiene la tasa del concepto de retencion, siempre y cuando exista uno asociado a las especificaciones:
            La naturaleza del vendedor coincida con una tasa.
            La residencia del vendedor coindica con una tasa.
         '''
+        ut_obj = self.pool.get('l10n.ut')
         rate_brw_lst = self.pool.get('islr.wh.concept').browse(cr, uid, concept_id).rate_ids
         for rate_brw in rate_brw_lst:
             if rate_brw.nature == nature and rate_brw.residence == residence:
                 #~ (base,min,porc,sust,codigo,id_rate,name_rate)
-                ####AQUI HAGO LA CUESTION, CUANDO HAY DOS PERC Y COMPARO
-                return (rate_brw.base, rate_brw.minimum, rate_brw.wh_perc, rate_brw.subtract,rate_brw.code,rate_brw.id,rate_brw.name)
+                rate_brw_minimum = ut_obj.compute_ut_to_money(cr, uid, rate_brw.minimum, False, context)#metodo que transforma los UVT en pesos
+                rate_brw_subtract = ut_obj.compute_ut_to_money(cr, uid, rate_brw.subtract, False, context)#metodo que transforma los UVT en pesos
+                return (rate_brw.base, rate_brw_minimum, rate_brw.wh_perc, rate_brw_subtract,rate_brw.code,rate_brw.id,rate_brw.name)
         return ()
     
-    def _get_rate_dict(self, cr, uid, concept_list, residence, nature):
+    def _get_rate_dict(self, cr, uid, concept_list, residence, nature,context):
         '''
         Devuelve un diccionario con la tasa de cada concepto de retencion.
         '''
         dict = {}
         cont = 0
         for concept_id in concept_list:
-            dict[concept_id] = self._get_rate(cr, uid, concept_id, residence, nature)
+            dict[concept_id] = self._get_rate(cr, uid, concept_id, residence, nature,context)
             if dict[concept_id]:
                 cont += 1
         if not cont:
@@ -251,7 +269,10 @@ class account_invoice(osv.osv):
                 number = self._get_number(cr,uid,inv_brw.number.strip(),10)
 
         if not inv_brw.nro_ctrl:
-            raise osv.except_osv(_('Invalid action !'),_("Imposible realizar Comprobante de Retencion ISLR, debido a que la factura no tiene Numero de Control Asociado!"))
+            print 'FACTURA', inv_brw.id
+            print 'CONTROL NUM', inv_brw.nro_ctrl
+            
+            raise osv.except_osv(_('Invalid action !'),_("Imposible realizar Comprobante de Retencion ISLR, debido a que la factura numero: '%s' no tiene Numero de Control Asociado!") % (inv_brw.number))
         else:
             control = self._get_number(cr,uid,inv_brw.nro_ctrl.strip(),8)
         return (vat, number, control)
@@ -301,8 +322,11 @@ class account_invoice(osv.osv):
         Retorna un diccionario, con todos los valores de la retencion de una linea de factura.
         '''
         res= {}
+        print 'WH DICT', wh_dict
+        print 'DICT RATE', dict_rate
         if apply: # Si se va a aplicar retencion.
             for line in wh_dict[concept]['lines']:
+                print 'LINEE', line
                 wh_calc, subtotal = self._get_wh_calc(cr,uid,line,dict_rate[concept]) # Obtengo el monto de retencion y el monto base sobre el cual se retiene
                 if subtract >= wh_calc:
                     wh = 0.0
@@ -325,6 +349,7 @@ class account_invoice(osv.osv):
             return res
         else: # Si no aplica retencion
             for line in wh_dict[concept]['lines']:
+                print 'LINEE', line
                 subtotal = self._get_wh_calc(cr,uid,line,dict_rate[concept])[1]
                 res[line]={ 'vat': self._get_inv_data(cr, uid, line)[0],
                             'number': self._get_inv_data(cr, uid, line)[1],
@@ -398,6 +423,46 @@ class account_invoice(osv.osv):
         return dict_concepts
 
 
+    def _get_journal(self, cr, uid, context):
+        if context is None:
+            context = {}
+        type_inv = context.get('type', 'in_invoice')
+        type2journal = {'out_invoice': 'retislr', 'in_invoice': 'retislr', 'out_refund': 'retislr', 'in_refund': 'retislr'}
+        journal_obj = self.pool.get('account.journal')
+        res = journal_obj.search(cr, uid, [('type', '=', type2journal.get(type_inv, 'retislr'))], limit=1)
+        if res:
+            return res[0]
+        else:
+            return False
+
+    def get_journal(self,cr,uid,inv_brw):
+        '''
+        Funcion para asignar el diario correspondiente de acuerdo a cada tipo de retencion(compra, venta)
+        los tipos de diario son creados en retencion_iva
+        '''
+        journal_id = None
+        journal_obj = self.pool.get('account.journal')
+        if inv_brw.type == 'out_invoice' or inv_brw.type =='out_refund':
+            print 'ENTRE 111'
+            journal_id = journal_obj.search(cr, uid, [('type', '=', 'retislrSale')], limit=1)
+            tipo1 = 'Venta'
+            tipo2 = 'retislrSale'
+            print 'JOURNAL 111', journal_id[0]
+        else:
+            print 'ENTRE 222'
+            journal_id = journal_obj.search(cr, uid, [('type', '=', 'retislrPurchase')], limit=1)
+            tipo = 'Compra'
+            tipo2 = 'retislrPurchase'
+            print 'JOURNAL 222', journal_id[0]
+            
+        print 'TYPEEE', inv_brw.type
+        print 'JOURBAL IDD', journal_id
+        
+        if not journal_id:
+            raise osv.except_osv(_('Invalid action !'),_("Imposible realizar Comprobante de Retencion ISLR, debido a que el diario de ISLR para la '%s' no ha sido creado con el tipo 's%'") % (tipo,tipo2))
+        
+        return journal_id[0] or None
+        
     def _create_islr_wh_doc(self,cr,uid,inv_brw,dict):
         '''
         Funcion para crear en el modelo islr_wh_doc
@@ -406,12 +471,14 @@ class account_invoice(osv.osv):
         wh_doc_obj = self.pool.get('islr.wh.doc')
         inv_obj =self.pool.get('account.invoice.line')
         inv_brw = inv_brw.invoice_id
-        
+    
         islr_wh_doc_id = wh_doc_obj.create(cr,uid,{'name': wh_doc_obj.retencion_seq_get(cr, uid),
                                                    'partner_id': inv_brw.partner_id.id,
                                                    'invoice_id': inv_brw.id,
                                                    'period_id': inv_brw.period_id.id,
                                                    'account_id': inv_brw.account_id.id,
+                                                   'type': inv_brw.type,
+                                                   'journal_id': self.get_journal(cr,uid,inv_brw)
                                                    })
         return islr_wh_doc_id
 
@@ -517,6 +584,7 @@ class account_invoice(osv.osv):
         invoices_brw = self.browse(cr, uid, ids, context=None)
         wh_doc_list = []
         for invoice in invoices_brw:
+            print 'INVOICE', invoice.id
             wh_doc_list = self.pool.get('islr.wh.doc.invoices').search(cr,uid,[('invoice_id','=',invoice.id)])  
             if wh_doc_list: #Chequear que la factura no haya sido retenida.
                 raise osv.except_osv(_('Invalid action !'),_("La Retencion a la factura '%s' ya fue realizada!") % (invoice.number))
@@ -525,13 +593,15 @@ class account_invoice(osv.osv):
                 dict_rate={}
                 dict_completo={}
                 vendor, buyer, apply_wh = self._get_partners(cr,uid,invoice) # Se obtiene el (vendedor, el comprador, si el comprador es agente de retencion)
+                print 'VENDOR', vendor
+                print 'BUYER', buyer
                 concept_list = self._get_concepts(cr,uid,invoice)# Se obtiene la lista de conceptos de las lineas de la factura actual.
                 if concept_list:  # 2.- Si existe algun concepto de retencion en las lineas de la factura.
                     if apply_wh:  # 3.- Si el comprador es agente de retencion
                         wh_dict = self._get_service_wh(cr, uid, invoice, concept_list) # Se obtiene un dic con la lista de lineas de factura, si se aplico retencion alguna vez, el monto base total de las lineas.
                         residence = self._get_residence(cr, uid, vendor, buyer) # Retorna el tipo de residencia del vendedor
                         nature = self._get_nature(cr, uid, vendor) # Retorna la naturaleza del vendedor.
-                        dict_rate = self._get_rate_dict(cr, uid, concept_list, residence, nature) # Retorna las tasas por cada concepto
+                        dict_rate = self._get_rate_dict(cr, uid, concept_list, residence, nature,context) # Retorna las tasas por cada concepto
                         self._pop_dict(cr,uid,concept_list,dict_rate,wh_dict) # Borra los conceptos y las lineas de factura que no tengan tasa asociada.
                         dict_completo = self._get_wh_apply(cr,uid,dict_rate,wh_dict) # Retorna el dict con todos los datos de la retencion por linea de factura.
                         self._logic_create(cr,uid,dict_completo)# Se escribe y crea en todos los modelos asociados al islr.

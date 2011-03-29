@@ -28,7 +28,7 @@
 
 {
     "name" : "islr withholding concept",
-    "version" : "0.3",
+    "version" : "0.4",
     "author" : "OpenERP Venezuela",
     "category" : "General",
     "website": "http://wiki.openerp.org.ve/",
@@ -53,7 +53,6 @@
                     "sale",
                     "retencion_iva",
                     "base_vat_ve",
-                    "debit_credit_note",
                 ],
     "init_xml" : [],
     "update_xml" : [
@@ -66,6 +65,7 @@
             "partner_view.xml",
             "islr_wh_doc_view.xml",
             "islr_wh_concept_view.xml",
+            "islr_xml_wh_report.xml",
             "islr_wh_report.xml",
             "islr_xml_wh.xml",
     ],

@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+    <data>
+        <report
+            id="list_report_withholding_islr" 
+            menu="True"
+            model="islr.xml.wh.doc" 
+            name="list.wh.islr" 
+            rml="addons/l10n_ve_islr_withholding/report/list_wh_islr_report.rml" 
+            string="Retenciones ISLR"
+            auto = "False"
+            header="False"/>
+    </data>
+</openerp>

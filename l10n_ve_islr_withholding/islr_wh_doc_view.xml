@@ -2,17 +2,28 @@
 <openerp>
     <data>
 
+        <record id="view_islr_wh_doc_invoices_form_" model="ir.ui.view">
+            <field name="name">islr.wh.doc.invoices_form</field>
+            <field name="model">islr.wh.doc.invoices</field>
+            <field name="type">form</field>
+            <field name="arch" type="xml">
+                <form string="Facturas">
+                    <field name="invoice_id" domain="[('partner_id','=',parent.partner_id)]"/>
+                </form>
+            </field>
+        </record>
+
     <!-- 
     =====================================================
-    Retention ISLR DOC, DOC LINE
+    Retention ISLR DOC, DOC LINE  CUSTOMERS
     =====================================================
     -->
-        <record id="view_retention_islr_tree_1" model="ir.ui.view">
-            <field name="name">islr.wh.doc_tree</field>
+        <record id="view_retention_islr_tree_customers" model="ir.ui.view">
+            <field name="name">islr.wh.doc_tree_customers</field>
             <field name="model">islr.wh.doc</field>
             <field name="type">tree</field>
             <field name="arch" type="xml">
-                <tree colors="blue:state=='draft'" string="Retencion ISLR">
+                <tree colors="blue:state=='draft'" string="Retencion ISLR Customer">
                     <field name="name"/>
                     <field name="type"/>
                     <field name="code"/>
@@ -66,24 +77,24 @@
             </field>
         </record>
 
-        <record id="view_retention_islr_form_1" model="ir.ui.view">
-            <field name="name">islr.wh.doc_form</field>
+        <record id="view_retention_islr_form_customers" model="ir.ui.view">
+            <field name="name">islr.wh.doc_form_customers</field>
             <field name="model">islr.wh.doc</field>
             <field name="type">form</field>
             <field name="arch" type="xml">
                 <form string="Retencion ISLR">
                     <group colspan="4" col="6">
-                        <field name="journal_id" select="2" domain="[('type','=','retislr')]"/>
+                        <field name="journal_id" select="2" domain="[('type','=','retisrlPurchase')]"/>
                         <field name="type" select="2"/>
                         <field name="code" select="1"/>
-                        <field name="partner_id" select="1"/>
+                        <field name="partner_id" on_change="onchange_partner_id(type,partner_id)" select="1" domain="[('islr_withholding_agent','=',True), ('customer','=',True)]"/>
                         <field name="currency_id" />
                         <field name="date_ret" />
-                        <field name="account_id"/>
+                        <field domain="[('type','&lt;&gt;','view'), ('company_id', '=', company_id)]" name="account_id"/>
                         <field name="name" select="2"/>
                         <field name="period_id"/>
-                        <field name="number" select="1" attrs="{'readonly':[('type','=','in_invoice')],'required':[('type','in',['out_invoice','out_refund'])]}"/>
-                        <field name="date" />
+                        <field name="number"/>
+                        <field name="date_uid" />
                         <field name="invoice_id" />
                     </group>
                             <notebook colspan="6">
@@ -94,14 +105,129 @@
                                             <field name="amount_total_ret"/>
                                         </group>
                                         <group col="4" colspan="2">
-                                            <button name="action_confirm1" string="Confirmar" states="draft" type="object" icon="gtk-open"/>
-                                            <button name="action_done1" string="Realizar" states="confirmed" type="object"  icon="gtk-go-forward"/>
+                                            <button name="action_confirm1" string="Confirmar" states="draft" type="object" icon="gtk-go-forward"/>
+                                            <button name="action_done1" string="Realizar" states="confirmed" type="object"  icon="gtk-execute"/>
+                                            <button name="action_cancel1" string="Cancelar" states="done,confirmed" type="object"  icon="gtk-cancel"/>
+                                            <button name="action_cancel_draft" string="Convertir a Borrador" states="cancel" type="object"  icon="gtk-convert"/>
                                          </group>
                                 </page>
-
                                 <page string="Facturas">
                                     <field name="invoice_ids" nolabel="1">
-                                        <tree string="Facturas que fueron Retenidas">
+                                        <tree string="Facturas a Retener">
+                                            <field name="invoice_id"/>
+                                        </tree>
+                                    </field>
+                                </page>
+                               <page string="Otra Informacion">
+                                    <field name="company_id"/>
+                                </page>
+                            </notebook>
+                </form>
+            </field>
+        </record>
+
+    <!-- 
+    =====================================================
+    Retention ISLR DOC, DOC LINE, SUPPLIERS
+    =====================================================
+    -->
+        <record id="view_retention_islr_tree_suppliers" model="ir.ui.view">
+            <field name="name">islr.wh.doc_tree_suppliers</field>
+            <field name="model">islr.wh.doc</field>
+            <field name="type">tree</field>
+            <field name="arch" type="xml">
+                <tree colors="blue:state=='draft'" string="Retencion ISLR Supplier">
+                    <field name="name"/>
+                    <field name="type"/>
+                    <field name="code"/>
+                    <field name="number"/>
+                    <field name="partner_id"/>
+                    <field name="date_ret"/>
+                    <field name="currency_id"/>
+                    <field name="period_id"/>
+                    <field name="state"/>
+                    <field name="amount_total_ret"/>
+                </tree>
+            </field>
+        </record>
+
+        <record id="view_retention_islr_line_tree2" model="ir.ui.view">
+            <field name="name">islr.wh.doc_line_tree2</field>
+            <field name="model">islr.wh.doc.line</field>
+            <field name="type">tree</field>
+            <field name="arch" type="xml">
+                <tree string="Lineas de Retencion ISLR" editable="bottom" >
+                    <field name="name"/>
+<!--
+                    <field name="invoice_id"/>
+-->
+                    <field name="concept_id"/>
+                    <field name="retencion_islr"/>
+                    <field name="amount"/>
+                    <field name="move_id"/>
+                </tree>
+            </field>
+        </record>
+
+        <record id="view_retention_islr_line_form2" model="ir.ui.view">
+            <field name="name">islr.wh.doc.line_form2</field>
+            <field name="model">islr.wh.doc.line</field>
+            <field name="type">form</field>
+            <field name="arch" type="xml">
+                <form string="Lineas de Retencion ISLR" editable="bottom">
+                    <field name="concept_id"  colspan='6'/>
+                    <field name="move_id"  colspan='6'/>
+                    <newline/>
+                    <field name="xml_ids" nolabel="1"  colspan='4'>
+                        <tree string="Detalle del Concepto de Retencion">
+                            <field name="rate_id"/>
+                            <field name="wh"/>
+                            <field name="porcent_rete"/>
+                            <field name="base"/>
+                        </tree>
+                    </field>
+                </form>
+            </field>
+        </record>
+
+
+        <record id="view_retention_islr_form_suppliers" model="ir.ui.view">
+            <field name="name">islr.wh.doc_form_suppliers</field>
+            <field name="model">islr.wh.doc</field>
+            <field name="type">form</field>
+            <field name="arch" type="xml">
+                <form string="Retencion ISLR">
+                    <group colspan="4" col="6">
+                        <field name="journal_id" select="2" domain="[('type','=','retislrSale')]"/>
+                        <field name="type" select="2"/>
+                        <field name="code" select="1"/>
+                        <field name="partner_id" on_change="onchange_partner_id(type,partner_id)" select="1" domain="[('islr_withholding_agent','=',True), ('supplier','=',True)]"/>
+                        <field name="currency_id" />
+                        <field name="date_ret" />
+                        <field domain="[('type','&lt;&gt;','view'), ('company_id', '=', company_id)]" name="account_id"/>
+                        <field name="name" select="2"/>
+                        <field name="period_id"/>
+                        <field name="number"/>
+                        <field name="date_uid" />
+                        <field name="invoice_id" />
+                    </group>
+                            <notebook colspan="6">
+                                <page string="Concepto de Retencion">
+                                    <field colspan="6" name="concept_ids" nolabel="1" widget="one2many_list"/>
+                                        <group col="4" colspan="2">
+                                            <field name="state" select="2"/>
+                                            <field name="amount_total_ret"/>
+                                        </group>
+                                        <group col="4" colspan="2">
+                                            <button name="action_confirm1" string="Confirmar" states="draft" type="object" icon="gtk-go-forward"/>
+                                            <button name="action_done1" string="Realizar" states="confirmed" type="object"  icon="gtk-execute"/>
+                                            <button name="action_cancel1" string="Cancelar" states="done,confirmed" type="object"  icon="gtk-cancel"/>
+                                            <button name="action_cancel_draft" string="Convertir a Borrador" states="cancel" type="object"  icon="gtk-convert"/>
+                                         </group>
+                                </page>
+                                <page string="Facturas">
+                                    <field name="invoice_ids" nolabel="1">
+                                        <tree string="Facturas Retenidas">
                                             <field name="invoice_id"/>
                                         </tree>
                                     </field>
@@ -125,13 +251,13 @@
         <record model="ir.actions.act_window.view" id="act_wh_account_retencion_islr_tree_1">
             <field name="sequence" eval="10"/>
             <field name="view_mode">tree</field>
-            <field name="view_id" ref="view_retention_islr_tree_1"/> 
+            <field name="view_id" ref="view_retention_islr_tree_customers"/> 
             <field name="act_window_id" ref="action_account_retencion_islr_1"/>
         </record>
         <record model="ir.actions.act_window.view" id="act_wh_account_retencion_islr_form_1">
             <field name="sequence" eval="20"/>
             <field name="view_mode">form</field>
-            <field name="view_id" ref="view_retention_islr_form_1"/>
+            <field name="view_id" ref="view_retention_islr_form_customers"/>
             <field name="act_window_id" ref="action_account_retencion_islr_1"/>
         </record>
 
@@ -153,13 +279,13 @@
         <record model="ir.actions.act_window.view" id="act_wh_account_retencion_islr_customer_tree_1">
             <field name="sequence" eval="10"/>
             <field name="view_mode">tree</field>
-            <field name="view_id" ref="view_retention_islr_tree_1"/> 
+            <field name="view_id" ref="view_retention_islr_tree_customers"/> 
             <field name="act_window_id" ref="action_account_retencion_islr_customer_1"/>
         </record>
         <record model="ir.actions.act_window.view" id="act_wh_account_retencion_islr_customer_form_1">
             <field name="sequence" eval="20"/>
             <field name="view_mode">form</field>
-            <field name="view_id" ref="view_retention_islr_form_1"/>
+            <field name="view_id" ref="view_retention_islr_form_customers"/>
             <field name="act_window_id" ref="action_account_retencion_islr_customer_1"/>
         </record>
 
@@ -181,13 +307,13 @@
         <record model="ir.actions.act_window.view" id="action_retention_islr_tree_1">
             <field name="sequence" eval="10"/>
             <field name="view_mode">tree</field>
-            <field name="view_id" ref="view_retention_islr_tree_1"/> 
+            <field name="view_id" ref="view_retention_islr_tree_suppliers"/> 
             <field name="act_window_id" ref="action_account_retention_islr_supplier_2"/>
         </record>
         <record model="ir.actions.act_window.view" id="act_retention_islr_form_2">
             <field name="sequence" eval="20"/>
             <field name="view_mode">form</field>
-            <field name="view_id" ref="view_retention_islr_form_1"/>
+            <field name="view_id" ref="view_retention_islr_form_suppliers"/>
             <field name="act_window_id" ref="action_account_retention_islr_supplier_2"/>
         </record>
 

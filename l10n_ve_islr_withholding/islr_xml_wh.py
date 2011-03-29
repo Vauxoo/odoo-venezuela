@@ -171,7 +171,7 @@ class islr_xml_wh_line(osv.osv):
     
     _defaults = {
         'invoice_number': lambda *a: '0',
-        'control_number': lambda *a: 'N/A',
+        'control_number': lambda *a: '0',
     }
 
     def onchange_partner_vat(self, cr, uid, ids, partner_id, context={}):

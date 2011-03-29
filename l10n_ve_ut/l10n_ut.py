@@ -40,7 +40,7 @@ class l10n_ut(osv.osv):
     
     _name = 'l10n.ut'
     _description = __doc__
-    
+    _order = 'date desc'
     _columns = {
         'name':fields.char('Law Number Reference', size=64, required=True, readonly=False),
         'date': fields.date('Date', required=True),
@@ -67,6 +67,13 @@ class l10n_ut(osv.osv):
 
         return result
 
-
+    def compute_ut_to_money(self, cr, uid, amount_ut, date=False, context={}):
+        money = 0.0
+        ut = self.get_amount_ut(cr, uid, date)
+        if ut:
+            money = amount_ut * ut
+        return money
 
 l10n_ut()
+
+

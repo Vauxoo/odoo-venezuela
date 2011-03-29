@@ -1,0 +1,148 @@
+<?xml version="1.0"?>
+<document filename="test.pdf">
+  <template pageSize="(280.0mm,210.0mm)" title="Test" author="Martin Simon" allowSplitting="20" showBoundary="0">
+    <pageTemplate id="first">
+        <pageGraphics>
+            <image x="7.0mm" y="175.0mm" height="25mm" width="96mm">[[company.logo and company.logo or removeParentNode('image')]]</image>
+            <drawString x="7.0mm" y="175.0mm">[[company.logo and removeParentNode('para') or company.name]]</drawString> 
+            <place x="7.0mm"  y="100.0mm" width="280.0mm"  height="100.0mm">
+                <!--TABLA DE TITULOS-->
+                <blockTable colWidths="96mm,170mm" style="TITLE">
+                    <tr>
+                        <td><para style="TITLE"></para>
+                        </td>
+                        <td>
+                            <para style="TITLE"><b>RETENCIONES DE ISLR - PERSONA NATURAL Y PERSONA JURIDICA</b></para>
+                        </td>
+                    </tr>
+                </blockTable>
+                <blockTable colWidths="96mm,170.0mm" style="TITLEGRISCLAROARRIBA">
+                    <tr>
+                        <td><para style="ITEMSCENTER"> </para>
+                        </td>
+                        <td>
+                            <para style="ITEMSCENTER"><b>PERIODO FISCAL</b></para>
+                        </td>
+                    </tr>
+                </blockTable>
+                <blockTable colWidths="96mm,170.0mm" style="TITLEGRISWHITE">
+                    <tr>
+                        <td><para style="ITEMSCENTER"> </para>
+                        </td>
+                        <td>
+                            <para style="ITEMSCENTER"><b>[[ o.period_id.name]]</b></para>
+                        </td>
+                    </tr>
+                </blockTable>
+            </place>
+                <setFont name="Helvetica-BoldOblique" size="8.0"/>
+            <drawRightString x="270mm" y="5mm">RETENCIONES DE ISLR / PAGINA: <pageNumber/> DE <pageCount/> </drawRightString> 
+            
+        </pageGraphics>
+        <frame id="first" x1="20.0" y1="-22.0" width="753" height="528"/>
+    </pageTemplate>
+  </template>
+  
+  <stylesheet>
+    <blockTableStyle id="TITLE">
+        <lineStyle kind="GRID" colorName="black" start="1,0" stop="-1,-1" thickness="0.5"/>
+        <blockValign value="TOP"/>
+    </blockTableStyle>
+        <blockTableStyle id="TOTAL">
+            <blockValign value="TOP"/>
+            <lineStyle kind="GRID" colorName="black" start="4,0" stop="-1,-1" thickness="0.5" />
+        </blockTableStyle>  
+    <blockTableStyle id="TITLEGRISCLAROARRIBA">
+        <blockBackground colorName="#e5e2e5" start="1,0" stop="-1,-1"/>
+        <lineStyle kind="GRID" colorName="black" start="1,0" stop="-1,-1" thickness="0.5"/>
+        <blockValign value="MIDDLE"/>
+    </blockTableStyle>
+    <blockTableStyle id="TITLEGRISWHITE">
+        <lineStyle kind="GRID" colorName="black" start="1,0" stop="-1,-1" thickness="0.5"/>
+        <blockValign value="MIDDLE"/>
+    </blockTableStyle> 
+    <blockTableStyle id="Tabla3">
+    <blockBackground colorName="#e5e2e5" start="0,0" stop="-1,0"/>
+      <blockAlignment value="LEFT"/>
+      <blockValign value="TOP"/>
+      <lineStyle kind="GRID" colorName="black" start="0,0" stop="-1,-1" thickness="0.5"/>
+      <blockValign value="MIDDLE"/>
+    </blockTableStyle>
+    <blockTableStyle id="Tablatotalgeneral">
+      <blockAlignment value="LEFT"/>
+      <blockValign value="TOP"/>
+      <lineStyle kind="GRID" colorName="black" start="9,0" stop="-1,-1" thickness="0.5"/>
+      <blockValign value="MIDDLE"/>
+    </blockTableStyle>  
+    <initialize>
+      <paraStyle name="all" alignment="justify"/>
+    </initialize>
+    <paraStyle name="TITLE" alignment="CENTER" fontName="Helvetica" fontSize="12.0" leading="20" spaceBefore="-3.0" textColor="black"/>
+    <paraStyle name="ITEMSCENTER" alignment="CENTER" fontName="Helvetica-Bold" fontSize="10.0" leading="9" spaceBefore="3.0" textColor="black"/>  
+    <paraStyle name="ITEMSRIF" alignment="CENTER" fontName="Helvetica-Bold" fontSize="12.0" leading="11" spaceBefore="3.0" textColor="black"/>
+    <paraStyle name="P15" fontName="Helvetica-Bold" fontSize="10.0" leading="10" spaceBefore="3.0" alignment="CENTER"/>
+    <paraStyle name="P12" fontName="Helvetica" fontSize="10.0" leading="11" alignment="CENTER"/>
+    <paraStyle name="P13" fontName="Helvetica" fontSize="10.0" leading="11" alignment="RIGHT"/>
+    <paraStyle name="P16" fontName="Helvetica-Bold" fontSize="10.0" leading="11" alignment="RIGHT"/>
+    <paraStyle name="P14" fontName="Helvetica" fontSize="10.0" leading="11" alignment="LEFT"/>
+    <paraStyle name="P22" fontName="Helvetica" fontSize="9.0" leading="11" spaceBefore="0.0" spaceAfter="6.0" alignment="RIGHT"/>
+  </stylesheet>
+  <images/>
+ 
+  <story>
+    <para>[[repeatIn(objects,'o')]]</para>
+    <para>[[ setLang(company.partner_id.lang) ]]</para> 
+      <para>
+      <font color="white"> </font>
+    </para>
+    <blockTable colWidths="65.0,310.0,58.0,50.0,75.0,60.0,60.0,75.0" style="Tabla3">
+      <tr>
+<!--
+        <td><para style="P15">Item</para></td>
+-->
+        <td><para style="P15">RIF Retenido</para></td>
+        <td><para style="P15">Nombre del Contribuyente</para></td>
+        <td><para style="P15">No. Factura</para></td>
+        <td><para style="P15">Cod. Concepto</para></td>
+        <td><para style="P15">Base Imponible</para></td>
+        <td><para style="P15">% Retencion</para></td>
+        <td><para style="P15">Sustraendo</para></td>
+        <td><para style="P15">Monto de Retencion</para></td>
+      </tr>
+        <tr>[[repeatIn(o.xml_ids,'line')]]
+<!--
+          <td><para style="P12">[[ get_item() or '' ]]</para></td>
+-->
+          <td><para style="P12">[[ line.partner_vat ]]</para></td>
+          <td><para style="P14">[[ line.partner_id.name ]]</para></td>
+          <td><para style="P12">[[ line.invoice_number ]]</para></td>
+          <td><para style="P12">[[ line.concept_code ]]</para></td>
+          <td><para style="P13">[[ formatLang(line.base) ]]</para></td>
+          <td><para style="P13">[[ line.porcent_rete ]]</para></td>
+          <td><para style="P13">[[ line.rate_id.subtract ]]</para></td>
+          <td><para style="P13">[[ formatLang(line.wh) ]]</para></td>
+        </tr>
+    </blockTable>
+    <blockTable colWidths="40.0,65.0,290.0,58.0,175.0,125.0" style="TOTAL">
+        <tr>
+            <td><para style="P22"><font color="white"></font></para></td>
+            <td><para style="P22"><font color="white"></font></para></td>
+            <td><para style="P22"><font color="white"></font></para></td>
+            <td><para style="P22"><font color="white"></font></para></td>
+            <td><para style="P16">TOTAL BASE IMPONIBLE</para></td>
+            <td><para style="P16">[[ formatLang(o.amount_total_base) ]]</para></td>
+        </tr>
+        <tr>
+            <td><para style="P22"><font color="white"></font></para></td>
+            <td><para style="P22"><font color="white"></font></para></td>
+            <td><para style="P22"><font color="white"></font></para></td>
+            <td><para style="P22"><font color="white"></font></para></td>
+            <td><para style="P16">TOTAL MONTO DE RETENCION</para></td>
+            <td><para style="P16">[[ formatLang(o.amount_total_ret) ]]</para></td>
+        </tr>
+    </blockTable>
+
+  </story>
+
+</document>
+

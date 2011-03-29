@@ -36,7 +36,12 @@ class rep_comprobante_islr(report_sxw.rml_parse):
         super(rep_comprobante_islr, self).__init__(cr, uid, name, context=context)    
         self.localcontext.update({
             'get_company_addr': self._get_company_addr,
+            'get_item': self._get_item,
         })
+
+    def _get_item(self):
+        cont = 5
+        return cont
 
     def _get_company_addr(self):
         company_obj = self.pool.get('res.company')
@@ -84,7 +89,14 @@ class rep_comprobante_islr(report_sxw.rml_parse):
 report_sxw.report_sxw(
     'report.voucher.wh.islr11',
     'islr.wh.doc',
-    'addons/islr_withholding/report/wh_islr_report.rml',
+    'addons/l10n_ve_islr_withholding/report/wh_islr_report.rml',
+    parser=rep_comprobante_islr,
+    header=False
+)
+report_sxw.report_sxw(
+    'report.list.wh.islr',
+    'islr.xml.wh.doc',
+    'addons/l10n_ve_islr_withholding/report/list_wh_islr_report.rml',
     parser=rep_comprobante_islr,
     header=False
 )

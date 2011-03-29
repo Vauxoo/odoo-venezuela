@@ -141,19 +141,14 @@ class account_tax(osv.osv):
 
 account_tax()
 
-
-
 class account_journal(osv.osv):
     _inherit = 'account.journal'
     _description = "Journal"
     _columns = {
-        'type': fields.selection([('sale', 'Sale'), ('purchase', 'Purchase'), ('cash', 'Cash'), ('general', 'General'), ('situation', 'Situation'), ('retiva', 'Ret IVA'), ('retislr', 'Ret ISLR'), ('retmun', 'Ret Municipal')], 'Type', size=32, required=True),
+        'type': fields.selection([('sale', 'Sale'), ('purchase', 'Purchase'), ('cash', 'Cash'), ('general', 'General'), ('situation', 'Situation'), ('retiva', 'Ret IVA'), ('retislrPurchase', 'Ret ISLR Purchase'), ('retislrSale', 'Ret ISLR Sale'), ('retmun', 'Ret Municipal')], 'Type', size=32, required=True),
     }
 
 account_journal()
-
-
-
 
 def _models_retencion_get(self, cr, uid, context={}):
     obj = self.pool.get('ir.model.fields')
