@@ -44,24 +44,24 @@ class account_invoice_line(osv.osv):
         'apply_wh': lambda *a: False,
     }
 
-    #~ def product_id_change(self, cr, uid, ids, product, uom, qty=0, name='', type='out_invoice', partner_id=False, fposition_id=False, price_unit=False, address_invoice_id=False, context=None):
-        #~ '''
-        #~ onchange para que aparezca el concepto de retencion asociado al producto de una vez en la linea de la factura
-        #~ '''
-        #~ data = super(account_invoice_line, self).product_id_change(cr, uid, ids, product, uom, qty, name, type, partner_id, fposition_id, price_unit, address_invoice_id, context)
-        #~ pro = self.pool.get('product.product').browse(cr, uid, product, context=context)
-        #~ concepto=pro.concept_id.id
-        #~ data[data.keys()[1]]['concept_id'] = concepto
-        #~ return data
+    def product_id_change(self, cr, uid, ids, product, uom=False, qty=0, name='', type='out_invoice', partner_id=False, fposition_id=False, price_unit=False, address_invoice_id=False, context=None):
+        '''
+        onchange para que aparezca el concepto de retencion asociado al producto de una vez en la linea de la factura
+        '''
+        data = super(account_invoice_line, self).product_id_change(cr, uid, ids, product, uom, qty, name, type, partner_id, fposition_id, price_unit, address_invoice_id, context)
+        pro = self.pool.get('product.product').browse(cr, uid, product, context=context)
+        concepto=pro.concept_id.id
+        data[data.keys()[1]]['concept_id'] = concepto
+        return data
 
 ####NO SIRVE EL COPY
-    def copy(self, cr, uid, id, default=None, context=None):
-        if default is None:
-            default = {}
-        default = default.copy()
-        default.update({'apply_wh':False})
-        
-        return super(account_invoice_line, self).copy(cr, uid, id, default, context)
+    #~ def copy(self, cr, uid, id, default=None, context=None):
+        #~ if default is None:
+            #~ default = {}
+        #~ default = default.copy()
+        #~ default.update({'apply_wh':False})
+        #~ 
+        #~ return super(account_invoice_line, self).copy(cr, uid, id, default, context)
 
 account_invoice_line()
 
@@ -258,9 +258,9 @@ class account_invoice(osv.osv):
         inv_brw = self.pool.get('account.invoice.line').browse(cr, uid, line).invoice_id
         vat = inv_brw.partner_id.vat[2:]
         if inv_brw.type == 'in_invoice' or inv_brw.type == 'in_refund':
-            number = inv_brw.reference.strip()
-
+            #~ number = inv_brw.reference.strip() 
             if not inv_brw.reference:
+                raise osv.except_osv(_('Invalid action !'),_("Imposible realizar Comprobante de Retencion ISLR, debido a que la factura numero: '%s' no tiene Numero de Referencia Libre!") % (inv_brw.number))
                 number = 0
             else:
                 number = self._get_number(cr,uid,inv_brw.reference.strip(),10)
@@ -314,6 +314,7 @@ class account_invoice(osv.osv):
         'rate_id': dict['rate_id'],
         'account_invoice_line_id': line,
         'partner_id': inv_id.partner_id.id,
+        'sustract': dict['sustract'],
         })
 
     def _get_wh(self,cr, uid, subtract,concept, wh_dict, dict_rate, apply):
@@ -340,7 +341,8 @@ class account_invoice(osv.osv):
                             'wh':wh,
                             'apply':apply,
                             'rate_id':dict_rate[concept][5],
-                            'name_rate': dict_rate[concept][6]}
+                            'name_rate': dict_rate[concept][6],
+                            'sustract': subtract}
                 self._write_wh_apply(cr,uid,line,res[line],apply)
             return res
         else: # Si no aplica retencion
@@ -356,7 +358,8 @@ class account_invoice(osv.osv):
                             'wh':0.0,
                             'apply':apply,
                             'rate_id':dict_rate[concept][5],
-                            'name_rate': dict_rate[concept][6]}
+                            'name_rate': dict_rate[concept][6],
+                            'sustract': subtract}
                 self._write_wh_apply(cr,uid,line,res[line],apply)
             return res
 

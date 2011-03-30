@@ -166,6 +166,7 @@ class islr_xml_wh_line(osv.osv):
         'account_invoice_line_id':fields.many2one('account.invoice.line','Id de Linea de Factura'),
         'islr_xml_wh_doc': fields.many2one('islr.xml.wh.doc','Documento ISLR XML'),
         'partner_id': fields.many2one('res.partner','Empresa',required=True),
+        'sustract': fields.float('Sustraendo'),
     }
     _rec_name = 'partner_id'
     
