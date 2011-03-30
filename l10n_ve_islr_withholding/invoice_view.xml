@@ -55,17 +55,17 @@
             </field>
         </record>
 
-        <record model="ir.ui.view" id="view_account_invoice_form_islr_1">
-            <field name="name">account_invoice_concept_islr</field>
-            <field name="model">account.invoice</field>
-            <field name="type">form</field>
-            <field name="inherit_id" ref="account.invoice_supplier_form"/>
-            <field name="arch" type="xml">
-            <xpath expr="/form/notebook/page/field[@name='invoice_line']/tree/field[@name='quantity']" position="before">
-                <field name="concept_id" required="1"/>
-            </xpath>
-            </field>
-        </record>
+            <record model="ir.ui.view" id="view_account_invoice_form_concept_islr_2">
+                <field name="name">account_invoice_concept_islr2</field>
+                <field name="model">account.invoice</field>
+                <field name="type">form</field>
+                <field name="inherit_id" ref="account.invoice_supplier_form"/>
+                <field name="arch" type="xml">
+                <xpath expr="/form/notebook/page/field[@name='invoice_line']/tree/field[@name='quantity']" position="before">
+                    <field name="concept_id" required="1"/>
+                </xpath>
+                </field>
+            </record>
 
         <record model="ir.ui.view" id="view_invoice_line_form_islr_2">
             <field name="name">invoice_line_form_concept_islr2</field>

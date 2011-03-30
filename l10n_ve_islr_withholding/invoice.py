@@ -44,24 +44,25 @@ class account_invoice_line(osv.osv):
         'apply_wh': lambda *a: False,
     }
 
-    def product_id_change(self, cr, uid, ids, product, uom=False, qty=0, name='', type='out_invoice', partner_id=False, fposition_id=False, price_unit=False, address_invoice_id=False, context=None):
+    def product_id_change(self, cr, uid, ids, product, uom=0, qty=0, name='', type='out_invoice', partner_id=False, fposition_id=False, price_unit=False, address_invoice_id=False, context=None):
         '''
         onchange para que aparezca el concepto de retencion asociado al producto de una vez en la linea de la factura
         '''
         data = super(account_invoice_line, self).product_id_change(cr, uid, ids, product, uom, qty, name, type, partner_id, fposition_id, price_unit, address_invoice_id, context)
+        
+        print 'DATA', data
+        print 'PRODUCT', product
+        print 'PRODUCT NAME', name
+        print 'type', type
+        
+        
         pro = self.pool.get('product.product').browse(cr, uid, product, context=context)
+        print 'PRO', pro
+        
         concepto=pro.concept_id.id
+        print 'CONCEPTO', concepto
         data[data.keys()[1]]['concept_id'] = concepto
         return data
-
-####NO SIRVE EL COPY
-    #~ def copy(self, cr, uid, id, default=None, context=None):
-        #~ if default is None:
-            #~ default = {}
-        #~ default = default.copy()
-        #~ default.update({'apply_wh':False})
-        #~ 
-        #~ return super(account_invoice_line, self).copy(cr, uid, id, default, context)
 
 account_invoice_line()
 
