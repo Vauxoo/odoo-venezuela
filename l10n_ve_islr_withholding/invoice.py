@@ -49,18 +49,8 @@ class account_invoice_line(osv.osv):
         onchange para que aparezca el concepto de retencion asociado al producto de una vez en la linea de la factura
         '''
         data = super(account_invoice_line, self).product_id_change(cr, uid, ids, product, uom, qty, name, type, partner_id, fposition_id, price_unit, address_invoice_id, context)
-        
-        print 'DATA', data
-        print 'PRODUCT', product
-        print 'PRODUCT NAME', name
-        print 'type', type
-        
-        
         pro = self.pool.get('product.product').browse(cr, uid, product, context=context)
-        print 'PRO', pro
-        
         concepto=pro.concept_id.id
-        print 'CONCEPTO', concepto
         data[data.keys()[1]]['concept_id'] = concepto
         return data
 
@@ -71,11 +61,24 @@ class account_invoice(osv.osv):
 
     _inherit = 'account.invoice'
 
+    _columns = {
+        'status': fields.selection([
+            ('pro','Retencion Procesada, Linea xml generada'),
+            ('no_pro','Retencion no Procesada'),
+            ('tasa','No supera la tasa, Linea xml generada'),
+            ],'Estatus',readonly=True )
+    }
+    _defaults = {
+        'status': lambda *a: "no_pro",
+    }
+
     def copy(self, cr, uid, id, default=None, context=None):
         if default is None:
             default = {}
         default = default.copy()
-        default.update({'islr_wh_doc':0})
+        default.update({'islr_wh_doc':0,
+                        'status': 'no_pro',
+        })
         return super(account_invoice, self).copy(cr, uid, id, default, context)
 
     def _refund_cleanup_lines(self, cr, uid, lines):
@@ -288,20 +291,18 @@ class account_invoice(osv.osv):
             Se escribe en la linea de la factura, True o False y se asigna el xml_id que resulta del create.
         '''
         il_ids = self.pool.get('account.invoice.line').browse(cr, uid,line)
-        
+
         if il_ids.wh_xml_id:
             self.pool.get('account.invoice.line').write(cr, uid, line, {'apply_wh': apply})
             self.pool.get('islr.xml.wh.line').write(cr,uid,il_ids.wh_xml_id.id,{'wh':dict['wh']})
         else:
             self.pool.get('account.invoice.line').write(cr, uid, line, {'apply_wh': apply,'wh_xml_id':self._create_islr_xml_wh_line(cr, uid,line,dict)})
-    
+
     def _create_islr_xml_wh_line(self,cr, uid, line, dict):
         '''
         Se crea una linea de xml
         '''
-        
         inv_id = self.pool.get('account.invoice.line').browse(cr, uid,line).invoice_id
-        
         return self.pool.get('islr.xml.wh.line').create(cr, uid, {'name': dict['name_rate'],
         'concept_id': dict['concept'], 
         'period_id':  inv_id.period_id.id,
@@ -323,8 +324,10 @@ class account_invoice(osv.osv):
         Retorna un diccionario, con todos los valores de la retencion de una linea de factura.
         '''
         res= {}
+        print 'SUSTRAENDO 000::::', subtract
         if apply: # Si se va a aplicar retencion.
             for line in wh_dict[concept]['lines']:
+                print 'LINEEE', line
                 wh_calc, subtotal = self._get_wh_calc(cr,uid,line,dict_rate[concept]) # Obtengo el monto de retencion y el monto base sobre el cual se retiene
                 if subtract >= wh_calc:
                     wh = 0.0
@@ -332,6 +335,7 @@ class account_invoice(osv.osv):
                 else:
                     wh = wh_calc - subtract
                     subtract=0.0
+                print 'SUSTRAENDO 111:::::', subtract
                 res[line]={ 'vat': self._get_inv_data(cr, uid, line)[0],
                             'number': self._get_inv_data(cr, uid, line)[1],
                             'control': self._get_inv_data(cr, uid, line)[2],
@@ -345,9 +349,14 @@ class account_invoice(osv.osv):
                             'name_rate': dict_rate[concept][6],
                             'sustract': subtract}
                 self._write_wh_apply(cr,uid,line,res[line],apply)
+                inv_id = self.pool.get('account.invoice.line').browse(cr, uid,line).invoice_id.id
+                print 'INVOICE ID1', inv_id
+                self.pool.get('account.invoice').write(cr, uid, inv_id, {'status': 'pro'})
             return res
         else: # Si no aplica retencion
+            print 'SUSTRAENDO 222:::::', subtract
             for line in wh_dict[concept]['lines']:
+                print 'LINE222', line
                 subtotal = self._get_wh_calc(cr,uid,line,dict_rate[concept])[1]
                 res[line]={ 'vat': self._get_inv_data(cr, uid, line)[0],
                             'number': self._get_inv_data(cr, uid, line)[1],
@@ -362,6 +371,9 @@ class account_invoice(osv.osv):
                             'name_rate': dict_rate[concept][6],
                             'sustract': subtract}
                 self._write_wh_apply(cr,uid,line,res[line],apply)
+                inv_id = self.pool.get('account.invoice.line').browse(cr, uid,line).invoice_id.id
+                print 'INVOICE ID2', inv_id
+                self.pool.get('account.invoice').write(cr, uid, inv_id, {'status': 'tasa'})
             return res
 
 
@@ -372,15 +384,32 @@ class account_invoice(osv.osv):
         res = {}
         for concept in wh_dict:
             if not wh_dict[concept]['wh']:  #Si nunca se ha aplicado retencion con este concepto.
+            
                 if wh_dict[concept]['base'] >= dict_rate[concept][1]: # Si el monto base que suman todas las lineas de la factura es mayor o igual al monto minimo de la tasa.
                     subtract = dict_rate[concept][3]  # Obtengo el sustraendo a aplicar. Existe sustraendo porque es la primera vez.
                     res.update(self._get_wh(cr, uid, subtract,concept, wh_dict, dict_rate, True))# El True sirve para asignar al campo booleano de la linea de la factura True, para asi marcar de una vez que ya fue retenida, para una posterior busqueda.
+                    
+                    inv_id= wh_dict[concept]['lines'][0]
+                    print 'DICTT111', wh_dict
+                    print 'DICTTT', wh_dict[concept]['lines'][0]
+                    print 'INV_ID',inv_id
+                    #~ self.pool.get('account.invoice').write(cr, uid, inv_id, {'status': pro})
+                    
                 else: # Si el monto base no supera el monto minimo de la tasa(de igual forma se deb declarar asi no supere.)
                     subtract = 0.0
                     res.update(self._get_wh(cr, uid, subtract,concept, wh_dict, dict_rate, False))
+                    inv_id= wh_dict[concept]['lines'][0]
+                    print 'DICTT2', wh_dict
+                    print 'DICTTT2', wh_dict[concept]['lines'][0]
+                    print 'INV_ID 222',inv_id
             else: #Si ya se aplico alguna vez la retencion, se aplica rete de una vez, sobre la base sin chequear monto minimo.(Dentro de este periodo)
                 subtract = 0.0
                 res.update(self._get_wh(cr, uid, subtract,concept, wh_dict, dict_rate, True))# El True sirve para indicar que la linea si se va a retener.
+                inv_id= wh_dict[concept]['lines'][0]
+                print 'DICTT3', wh_dict
+                print 'DICTTT3', wh_dict[concept]['lines'][0]
+                print 'INV_ID 3',inv_id
+                print 'INV_ID 333',inv_id
         return res
 
 

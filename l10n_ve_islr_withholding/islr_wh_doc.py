@@ -325,7 +325,7 @@ islr_wh_doc()
 class account_invoice(osv.osv):
     _inherit = 'account.invoice'
     _columns = {
-        'islr_wh_doc_id': fields.many2one('islr.wh.doc','Doc. Rete ISLR Generado',readonly=True,help="Documento de Retencion de ISLR, generado a partir de esta factura"),
+        'islr_wh_doc_id': fields.many2one('islr.wh.doc','Doc. de Retencion ISLR',readonly=True,help="Documento de Retencion de ISLR, generado a partir de esta factura"),
     }
     _defaults = {
         'islr_wh_doc_id': lambda *a: 0,
