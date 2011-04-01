@@ -49,9 +49,10 @@ class account_invoice_line(osv.osv):
         onchange para que aparezca el concepto de retencion asociado al producto de una vez en la linea de la factura
         '''
         data = super(account_invoice_line, self).product_id_change(cr, uid, ids, product, uom, qty, name, type, partner_id, fposition_id, price_unit, address_invoice_id, context)
-        pro = self.pool.get('product.product').browse(cr, uid, product, context=context)
-        concepto=pro.concept_id.id
-        data[data.keys()[1]]['concept_id'] = concepto
+        
+        if product:
+            pro = self.pool.get('product.product').browse(cr, uid, product, context=context)
+            data[data.keys()[1]]['concept_id'] = pro.concept_id.id
         return data
 
 account_invoice_line()
