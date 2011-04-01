@@ -95,11 +95,8 @@
       <para>
       <font color="white"> </font>
     </para>
-    <blockTable colWidths="70.0,340.0,68.0,50.0,80.0,60.0,85.0" style="Tabla3">
+    <blockTable colWidths="75.0,335.0,68.0,50.0,80.0,60.0,85.0" style="Tabla3">
       <tr>
-<!--
-        <td><para style="P15">Item</para></td>
--->
         <td><para style="P15">RIF Retenido</para></td>
         <td><para style="P15">Nombre del Contribuyente</para></td>
         <td><para style="P15">No. Factura</para></td>
@@ -109,10 +106,7 @@
         <td><para style="P15">Monto de Retencion</para></td>
       </tr>
         <tr>[[repeatIn(o.xml_ids,'line')]]
-<!--
-          <td><para style="P12">[[ get_item() or '' ]]</para></td>
--->
-          <td><para style="P12">[[ line.partner_vat ]]</para></td>
+          <td><para style="P12">[[ (line.partner_vat  and ('%s-%s-%s'%(line.partner_vat[0:1],line.partner_vat[1:9],line.partner_vat[9:10])) or removeParentNode('para')) ]]</para></td>
           <td><para style="P14">[[ line.partner_id.name ]]</para></td>
           <td><para style="P12">[[ line.invoice_number ]]</para></td>
           <td><para style="P12">[[ line.concept_code ]]</para></td>
