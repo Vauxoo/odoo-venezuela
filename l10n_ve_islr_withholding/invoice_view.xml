@@ -19,7 +19,9 @@
                         <group col="8" colspan="6">
                             <separator string="Retenciones I.S.L.R." colspan="8"/>
                             <field name="status" colspan='4'/>
+                            <newline/>
                             <button name="action_ret_islr" states="open" string="Retener ISLR" type="object" colspan='1'/>
+                            <newline/>
                             <hpaned/>
                             <hpaned/>
                             <hpaned/>
@@ -27,6 +29,7 @@
                             <hpaned/>
                             <hpaned/>
                             <hpaned/>
+                            <newline/>
                             <field name="islr_wh_doc_id" colspan='8'/>
                         </group>
                 </field>
@@ -43,7 +46,9 @@
                         <group col="8" colspan="6">
                             <separator string="Retenciones I.S.L.R." colspan="8"/>
                             <field name="status" colspan='4'/>
+                            <newline/>
                             <button name="action_ret_islr" states="open" string="Retener ISLR" type="object" colspan='1'/>
+                            <newline/>
                             <hpaned/>
                             <hpaned/>
                             <hpaned/>
@@ -51,6 +56,7 @@
                             <hpaned/>
                             <hpaned/>
                             <hpaned/>
+                            <newline/>
                             <field name="islr_wh_doc_id" colspan='8'/>
                     </group>
                 </field>
