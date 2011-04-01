@@ -317,7 +317,6 @@ class account_invoice(osv.osv):
         'rate_id': dict['rate_id'],
         'account_invoice_line_id': line,
         'partner_id': inv_id.partner_id.id,
-        'sustract': dict['sustract'],
         })
 
     def _get_wh(self,cr, uid, subtract,concept, wh_dict, dict_rate, apply):
@@ -325,18 +324,16 @@ class account_invoice(osv.osv):
         Retorna un diccionario, con todos los valores de la retencion de una linea de factura.
         '''
         res= {}
-        print 'SUSTRAENDO 000::::', subtract
         if apply: # Si se va a aplicar retencion.
             for line in wh_dict[concept]['lines']:
-                print 'LINEEE', line
                 wh_calc, subtotal = self._get_wh_calc(cr,uid,line,dict_rate[concept]) # Obtengo el monto de retencion y el monto base sobre el cual se retiene
                 if subtract >= wh_calc:
                     wh = 0.0
                     subtract -= wh_calc
                 else:
                     wh = wh_calc - subtract
+                    subtract_write= subtract
                     subtract=0.0
-                print 'SUSTRAENDO 111:::::', subtract
                 res[line]={ 'vat': self._get_inv_data(cr, uid, line)[0],
                             'number': self._get_inv_data(cr, uid, line)[1],
                             'control': self._get_inv_data(cr, uid, line)[2],
@@ -347,17 +344,13 @@ class account_invoice(osv.osv):
                             'wh':wh,
                             'apply':apply,
                             'rate_id':dict_rate[concept][5],
-                            'name_rate': dict_rate[concept][6],
-                            'sustract': subtract}
+                            'name_rate': dict_rate[concept][6]}
                 self._write_wh_apply(cr,uid,line,res[line],apply)
                 inv_id = self.pool.get('account.invoice.line').browse(cr, uid,line).invoice_id.id
-                print 'INVOICE ID1', inv_id
                 self.pool.get('account.invoice').write(cr, uid, inv_id, {'status': 'pro'})
             return res
         else: # Si no aplica retencion
-            print 'SUSTRAENDO 222:::::', subtract
             for line in wh_dict[concept]['lines']:
-                print 'LINE222', line
                 subtotal = self._get_wh_calc(cr,uid,line,dict_rate[concept])[1]
                 res[line]={ 'vat': self._get_inv_data(cr, uid, line)[0],
                             'number': self._get_inv_data(cr, uid, line)[1],
@@ -369,11 +362,9 @@ class account_invoice(osv.osv):
                             'wh':0.0,
                             'apply':apply,
                             'rate_id':dict_rate[concept][5],
-                            'name_rate': dict_rate[concept][6],
-                            'sustract': subtract}
+                            'name_rate': dict_rate[concept][6]}
                 self._write_wh_apply(cr,uid,line,res[line],apply)
                 inv_id = self.pool.get('account.invoice.line').browse(cr, uid,line).invoice_id.id
-                print 'INVOICE ID2', inv_id
                 self.pool.get('account.invoice').write(cr, uid, inv_id, {'status': 'tasa'})
             return res
 
@@ -385,32 +376,15 @@ class account_invoice(osv.osv):
         res = {}
         for concept in wh_dict:
             if not wh_dict[concept]['wh']:  #Si nunca se ha aplicado retencion con este concepto.
-            
                 if wh_dict[concept]['base'] >= dict_rate[concept][1]: # Si el monto base que suman todas las lineas de la factura es mayor o igual al monto minimo de la tasa.
                     subtract = dict_rate[concept][3]  # Obtengo el sustraendo a aplicar. Existe sustraendo porque es la primera vez.
                     res.update(self._get_wh(cr, uid, subtract,concept, wh_dict, dict_rate, True))# El True sirve para asignar al campo booleano de la linea de la factura True, para asi marcar de una vez que ya fue retenida, para una posterior busqueda.
-                    
-                    inv_id= wh_dict[concept]['lines'][0]
-                    print 'DICTT111', wh_dict
-                    print 'DICTTT', wh_dict[concept]['lines'][0]
-                    print 'INV_ID',inv_id
-                    #~ self.pool.get('account.invoice').write(cr, uid, inv_id, {'status': pro})
-                    
                 else: # Si el monto base no supera el monto minimo de la tasa(de igual forma se deb declarar asi no supere.)
                     subtract = 0.0
                     res.update(self._get_wh(cr, uid, subtract,concept, wh_dict, dict_rate, False))
-                    inv_id= wh_dict[concept]['lines'][0]
-                    print 'DICTT2', wh_dict
-                    print 'DICTTT2', wh_dict[concept]['lines'][0]
-                    print 'INV_ID 222',inv_id
             else: #Si ya se aplico alguna vez la retencion, se aplica rete de una vez, sobre la base sin chequear monto minimo.(Dentro de este periodo)
                 subtract = 0.0
                 res.update(self._get_wh(cr, uid, subtract,concept, wh_dict, dict_rate, True))# El True sirve para indicar que la linea si se va a retener.
-                inv_id= wh_dict[concept]['lines'][0]
-                print 'DICTT3', wh_dict
-                print 'DICTTT3', wh_dict[concept]['lines'][0]
-                print 'INV_ID 3',inv_id
-                print 'INV_ID 333',inv_id
         return res
 
 
@@ -451,18 +425,6 @@ class account_invoice(osv.osv):
                     dict_concepts[x].append({key:y})
         return dict_concepts
 
-
-    def _get_journal(self, cr, uid, context):
-        if context is None:
-            context = {}
-        type_inv = context.get('type', 'in_invoice')
-        type2journal = {'out_invoice': 'retislr', 'in_invoice': 'retislr', 'out_refund': 'retislr', 'in_refund': 'retislr'}
-        journal_obj = self.pool.get('account.journal')
-        res = journal_obj.search(cr, uid, [('type', '=', type2journal.get(type_inv, 'retislr'))], limit=1)
-        if res:
-            return res[0]
-        else:
-            return False
 
     def get_journal(self,cr,uid,inv_brw):
         '''
