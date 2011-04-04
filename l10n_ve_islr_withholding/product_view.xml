@@ -12,7 +12,7 @@
                     <page string="Conceptos de Retencion">
                         <separator string="Concepto de Retencion" colspan="6"/>
                         <newline/>
-                        <field name="concept_id" widget='selection' attrs="{'readonly':[('type','!=','service')],'required':[('type','=','service')]}"/>
+                        <field name="concept_id" widget='selection' required='1'/>
                     </page>
                 </notebook>
             </field>
@@ -27,7 +27,7 @@
                     <page string="Conceptos de Retencion">
                         <separator string="Concepto de Retencion" colspan="6"/>
                         <newline/>
-                        <field name="concept_id" widget='selection' attrs="{'readonly':[('type','!=','service')],'required':[('type','=','service')]}"/>
+                        <field name="concept_id" widget='selection' required='1'/>
                     </page>
                 </notebook>
             </field>
