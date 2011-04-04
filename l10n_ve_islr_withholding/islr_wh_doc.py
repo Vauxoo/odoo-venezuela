@@ -249,6 +249,10 @@ class islr_wh_doc(osv.osv):
                     #lines = [(op,id,values)] escribir en un one2many
                     lines = [(1, line.id, rl)]
                     self.write(cr, uid, [ret.id], {'concept_ids':lines})
+                  
+                    for line in ret.concept_ids:
+                        for xml in line.xml_ids:
+                            self.pool.get('islr.xml.wh.line').write(cr,uid,xml.id,{'period_id':period_id})
 #                    inv_obj.write(cr, uid, line.invoice_id.id, {'retention':True}, context=context)
         return True
 
