@@ -252,7 +252,12 @@ class islr_wh_doc(osv.osv):
                   
                     for line in ret.concept_ids:
                         for xml in line.xml_ids:
-                            self.pool.get('islr.xml.wh.line').write(cr,uid,xml.id,{'period_id':period_id})
+                            if xml.islr_xml_wh_doc.state!='done':
+                                if xml.period_id.id != period_id:
+                                    self.pool.get('islr.xml.wh.line').write(cr,uid,xml.id,{'period_id':period_id, 'islr_xml_wh_doc':None})
+                            else:
+                                raise osv.except_osv(_('Invalid action !'),_(" Imposible cambiar el periodo contable a una retencion que ya ha sido declarada"))
+                            
 #                    inv_obj.write(cr, uid, line.invoice_id.id, {'retention':True}, context=context)
         return True
 

@@ -64,8 +64,8 @@ class islr_xml_wh_doc(osv.osv):
             ],'Estado', select=True, readonly=True, help="Estado del Comprobante"),
         'fiscalyear_id': fields.many2one('account.fiscalyear', 'Año Fiscal', required=True),
         'period_id':fields.many2one('account.period','Periodo',required=True, domain="[('fiscalyear_id','=',fiscalyear_id)]"),
-        'amount_total_ret':fields.function(_get_amount_total,method=True, digits=(16, int(config['price_accuracy'])), readonly=True, string=' Total Monto de Retencion', help="Monto Total Retenido"),
-        'amount_total_base':fields.function(_get_amount_total_base,method=True, digits=(16, int(config['price_accuracy'])), readonly=True, string='Total Base Imponible', help="Total de la Base Imponible"),
+        'amount_total_ret':fields.function(_get_amount_total,method=True, digits=(16, 2), readonly=True, string=' Total Monto de Retencion', help="Monto Total Retenido"),
+        'amount_total_base':fields.function(_get_amount_total_base,method=True, digits=(16, 2), readonly=True, string='Total Base Imponible', help="Total de la Base Imponible"),
         'xml_ids':fields.one2many('islr.xml.wh.line','islr_xml_wh_doc','Lineas del Documento XML', readonly=True ,domain="[('period_id','=',period_id), ('islr_xml_wh_doc','=',False)]",states={'draft':[('readonly',False)]}),
     }
     _rec_rame = 'company_id'
