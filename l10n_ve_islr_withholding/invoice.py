@@ -44,24 +44,16 @@ class account_invoice_line(osv.osv):
         'apply_wh': lambda *a: False,
     }
 
-    #~ def product_id_change(self, cr, uid, ids, product, uom, qty=0, name='', type='out_invoice', partner_id=False, fposition_id=False, price_unit=False, address_invoice_id=False, context=None):
-        #~ '''
-        #~ onchange para que aparezca el concepto de retencion asociado al producto de una vez en la linea de la factura
-        #~ '''
-        #~ data = super(account_invoice_line, self).product_id_change(cr, uid, ids, product, uom, qty, name, type, partner_id, fposition_id, price_unit, address_invoice_id, context)
-        #~ pro = self.pool.get('product.product').browse(cr, uid, product, context=context)
-        #~ concepto=pro.concept_id.id
-        #~ data[data.keys()[1]]['concept_id'] = concepto
-        #~ return data
-
-####NO SIRVE EL COPY
-    def copy(self, cr, uid, id, default=None, context=None):
-        if default is None:
-            default = {}
-        default = default.copy()
-        default.update({'apply_wh':False})
+    def product_id_change(self, cr, uid, ids, product, uom=0, qty=0, name='', type='out_invoice', partner_id=False, fposition_id=False, price_unit=False, address_invoice_id=False, context=None):
+        '''
+        onchange para que aparezca el concepto de retencion asociado al producto de una vez en la linea de la factura
+        '''
+        data = super(account_invoice_line, self).product_id_change(cr, uid, ids, product, uom, qty, name, type, partner_id, fposition_id, price_unit, address_invoice_id, context)
         
-        return super(account_invoice_line, self).copy(cr, uid, id, default, context)
+        if product:
+            pro = self.pool.get('product.product').browse(cr, uid, product, context=context)
+            data[data.keys()[1]]['concept_id'] = pro.concept_id.id
+        return data
 
 account_invoice_line()
 
@@ -70,11 +62,24 @@ class account_invoice(osv.osv):
 
     _inherit = 'account.invoice'
 
+    _columns = {
+        'status': fields.selection([
+            ('pro','Retencion Procesada, Linea xml generada'),
+            ('no_pro','Retencion no Procesada'),
+            ('tasa','No supera la tasa, Linea xml generada'),
+            ],'Estatus',readonly=True )
+    }
+    _defaults = {
+        'status': lambda *a: "no_pro",
+    }
+
     def copy(self, cr, uid, id, default=None, context=None):
         if default is None:
             default = {}
         default = default.copy()
-        default.update({'islr_wh_doc':0})
+        default.update({'islr_wh_doc':0,
+                        'status': 'no_pro',
+        })
         return super(account_invoice, self).copy(cr, uid, id, default, context)
 
     def _refund_cleanup_lines(self, cr, uid, lines):
@@ -258,9 +263,9 @@ class account_invoice(osv.osv):
         inv_brw = self.pool.get('account.invoice.line').browse(cr, uid, line).invoice_id
         vat = inv_brw.partner_id.vat[2:]
         if inv_brw.type == 'in_invoice' or inv_brw.type == 'in_refund':
-            number = inv_brw.reference.strip()
-
+            #~ number = inv_brw.reference.strip() 
             if not inv_brw.reference:
+                raise osv.except_osv(_('Invalid action !'),_("Imposible realizar Comprobante de Retencion ISLR, debido a que la factura numero: '%s' no tiene Numero de Referencia Libre!") % (inv_brw.number))
                 number = 0
             else:
                 number = self._get_number(cr,uid,inv_brw.reference.strip(),10)
@@ -287,20 +292,18 @@ class account_invoice(osv.osv):
             Se escribe en la linea de la factura, True o False y se asigna el xml_id que resulta del create.
         '''
         il_ids = self.pool.get('account.invoice.line').browse(cr, uid,line)
-        
+
         if il_ids.wh_xml_id:
             self.pool.get('account.invoice.line').write(cr, uid, line, {'apply_wh': apply})
             self.pool.get('islr.xml.wh.line').write(cr,uid,il_ids.wh_xml_id.id,{'wh':dict['wh']})
         else:
             self.pool.get('account.invoice.line').write(cr, uid, line, {'apply_wh': apply,'wh_xml_id':self._create_islr_xml_wh_line(cr, uid,line,dict)})
-    
+
     def _create_islr_xml_wh_line(self,cr, uid, line, dict):
         '''
         Se crea una linea de xml
         '''
-        
         inv_id = self.pool.get('account.invoice.line').browse(cr, uid,line).invoice_id
-        
         return self.pool.get('islr.xml.wh.line').create(cr, uid, {'name': dict['name_rate'],
         'concept_id': dict['concept'], 
         'period_id':  inv_id.period_id.id,
@@ -329,6 +332,7 @@ class account_invoice(osv.osv):
                     subtract -= wh_calc
                 else:
                     wh = wh_calc - subtract
+                    subtract_write= subtract
                     subtract=0.0
                 res[line]={ 'vat': self._get_inv_data(cr, uid, line)[0],
                             'number': self._get_inv_data(cr, uid, line)[1],
@@ -342,6 +346,8 @@ class account_invoice(osv.osv):
                             'rate_id':dict_rate[concept][5],
                             'name_rate': dict_rate[concept][6]}
                 self._write_wh_apply(cr,uid,line,res[line],apply)
+                inv_id = self.pool.get('account.invoice.line').browse(cr, uid,line).invoice_id.id
+                self.pool.get('account.invoice').write(cr, uid, inv_id, {'status': 'pro'})
             return res
         else: # Si no aplica retencion
             for line in wh_dict[concept]['lines']:
@@ -358,6 +364,8 @@ class account_invoice(osv.osv):
                             'rate_id':dict_rate[concept][5],
                             'name_rate': dict_rate[concept][6]}
                 self._write_wh_apply(cr,uid,line,res[line],apply)
+                inv_id = self.pool.get('account.invoice.line').browse(cr, uid,line).invoice_id.id
+                self.pool.get('account.invoice').write(cr, uid, inv_id, {'status': 'tasa'})
             return res
 
 
@@ -417,18 +425,6 @@ class account_invoice(osv.osv):
                     dict_concepts[x].append({key:y})
         return dict_concepts
 
-
-    def _get_journal(self, cr, uid, context):
-        if context is None:
-            context = {}
-        type_inv = context.get('type', 'in_invoice')
-        type2journal = {'out_invoice': 'retislr', 'in_invoice': 'retislr', 'out_refund': 'retislr', 'in_refund': 'retislr'}
-        journal_obj = self.pool.get('account.journal')
-        res = journal_obj.search(cr, uid, [('type', '=', type2journal.get(type_inv, 'retislr'))], limit=1)
-        if res:
-            return res[0]
-        else:
-            return False
 
     def get_journal(self,cr,uid,inv_brw):
         '''

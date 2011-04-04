@@ -18,7 +18,10 @@
                 <field name="ret_iva_id" position= "after">
                         <group col="8" colspan="6">
                             <separator string="Retenciones I.S.L.R." colspan="8"/>
+                            <field name="status" colspan='4'/>
+                            <newline/>
                             <button name="action_ret_islr" states="open" string="Retener ISLR" type="object" colspan='1'/>
+                            <newline/>
                             <hpaned/>
                             <hpaned/>
                             <hpaned/>
@@ -26,6 +29,7 @@
                             <hpaned/>
                             <hpaned/>
                             <hpaned/>
+                            <newline/>
                             <field name="islr_wh_doc_id" colspan='8'/>
                         </group>
                 </field>
@@ -39,33 +43,37 @@
             <field name="inherit_id" ref="retencion_iva.account_invoice_ext_view_supp_form_loc_ve"/>
             <field name="arch" type="xml">
                 <field name="ret_iva_id" position= "after">
-                    <group col="8" colspan="6">
-                        <separator string="Retenciones I.S.L.R." colspan="8"/>
-                        <button name="action_ret_islr" states="open" string="Retener ISLR" type="object" colspan='1'/>
-                        <hpaned/>
-                        <hpaned/>
-                        <hpaned/>
-                        <hpaned/>
-                        <hpaned/>
-                        <hpaned/>
-                        <hpaned/>
-                        <field name="islr_wh_doc_id" colspan='8'/>
+                        <group col="8" colspan="6">
+                            <separator string="Retenciones I.S.L.R." colspan="8"/>
+                            <field name="status" colspan='4'/>
+                            <newline/>
+                            <button name="action_ret_islr" states="open" string="Retener ISLR" type="object" colspan='1'/>
+                            <newline/>
+                            <hpaned/>
+                            <hpaned/>
+                            <hpaned/>
+                            <hpaned/>
+                            <hpaned/>
+                            <hpaned/>
+                            <hpaned/>
+                            <newline/>
+                            <field name="islr_wh_doc_id" colspan='8'/>
                     </group>
                 </field>
             </field>
         </record>
 
-        <record model="ir.ui.view" id="view_account_invoice_form_islr_1">
-            <field name="name">account_invoice_concept_islr</field>
-            <field name="model">account.invoice</field>
-            <field name="type">form</field>
-            <field name="inherit_id" ref="account.invoice_supplier_form"/>
-            <field name="arch" type="xml">
-            <xpath expr="/form/notebook/page/field[@name='invoice_line']/tree/field[@name='quantity']" position="before">
-                <field name="concept_id" required="1"/>
-            </xpath>
-            </field>
-        </record>
+            <record model="ir.ui.view" id="view_account_invoice_form_concept_islr_2">
+                <field name="name">account_invoice_concept_islr2</field>
+                <field name="model">account.invoice</field>
+                <field name="type">form</field>
+                <field name="inherit_id" ref="account.invoice_supplier_form"/>
+                <field name="arch" type="xml">
+                <xpath expr="/form/notebook/page/field[@name='invoice_line']/tree/field[@name='quantity']" position="before">
+                    <field name="concept_id" required="1"/>
+                </xpath>
+                </field>
+            </record>
 
         <record model="ir.ui.view" id="view_invoice_line_form_islr_2">
             <field name="name">invoice_line_form_concept_islr2</field>
@@ -74,7 +82,7 @@
             <field name="inherit_id" ref="account.view_invoice_line_form"/>
             <field name="arch" type="xml">
                 <field name="product_id" position="after">
-                    <field name="concept_id"  required="0"/>
+                    <field name="concept_id"  required="1"/>
                 </field>
             </field>
         </record>
