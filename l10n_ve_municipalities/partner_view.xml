@@ -15,45 +15,17 @@
             </field>
         </field>
     </record>
-    
-    <record model="ir.ui.view" id="partners_form_municipalities_partner">
-        <field name="name">partners_form_del_city_partner</field>
+
+    <record model="ir.ui.view" id="res_partner_address_muni_form">
+        <field name="name">res.partner.address.muni.form</field>
         <field name="model">res.partner</field>
-        <field name="inherit_id" ref="l10n_ve_cities.partners_form_city_partner"/>
+        <field name="inherit_id" ref="l10n_ve_cities.res_partner_address_city_form"/>
         <field name="arch" type="xml">
-            <field name="address" position="replace">
-                <field colspan="4" mode="form,tree" name="address" nolabel="1" select="1">
-                    <form string="Partner Contacts">
-                        <field name="name" select="2"/>
-                        <field domain="[('domain', '=', 'contact')]" name="title" string="Type"/>
-                        <field name="function"/>
-                        <field name="type" select="2"/>
-                        <field name="street" select="2"/>
-                        <field name="street2"/>
-                        <newline/>
-                        <field name="zip" select="2"/>
-                        <field completion="1" name="country_id" select="2"/>
-                        <field name="state_id" select="2"/>
-                        <field name="city_id" select="2"/>
-                        <field name="municipalities_id" select="2"/>
-                        <field name="phone"/>
-                        <field name="fax"/>
-                        <field name="mobile"/>
-                        <field name="email" select="2" widget="email"/>
-                    </form>
-                    <tree string="Partner Contacts">
-                        <field name="name"/>
-                        <field name="zip"/>
-                        <field name="country_id"/>
-                        <field name="city_id"/>
-                        <field name="phone"/>
-                        <field name="email"/>
-                    </tree>
-                </field>                            
-            </field>
+            <xpath expr="/form/notebook/page/field[@name='address']/form/field[@name='city_id']" position="after">
+                <field name="municipalities_id" select="2"/>
+            </xpath>
         </field>
     </record>
-
 
     
 </data>
