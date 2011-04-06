@@ -141,7 +141,7 @@
                         <field name="journal_id" select="2" domain="[('type','=','retiva')]"/>
                         <field name="type" select="2"/>
                         <field name="code" select="1"/>
-                        <field name="partner_id" on_change="onchange_partner_id(type,partner_id)" select="1" domain="[('islr_withholding_agent','=',True), ('customer','=',True)]"/>
+                        <field name="partner_id" on_change="onchange_partner_id(type,partner_id)" select="1" domain="[('special','=',True), ('customer','=',True)]"/>
                         <field name="currency_id" />
                         <field name="date_ret" />
                         <field domain="[('type','&lt;&gt;','view'), ('company_id', '=', company_id)]" name="account_id"/>

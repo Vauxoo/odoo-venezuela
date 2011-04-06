@@ -238,7 +238,7 @@ class account_retention(osv.osv):
         if 'date_p' in context and context['date_p']:
             date=context['date_p']
         else:
-            date=time.strftime('%Y-%m-%d')
+            date=ret.date_ret or time.strftime('%Y-%m-%d')
         l1 = {
             'debit': direction * pay_amount>0 and direction * pay_amount,
             'credit': direction * pay_amount<0 and - direction * pay_amount,
