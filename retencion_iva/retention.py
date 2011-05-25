@@ -162,7 +162,7 @@ class account_retention(osv.osv):
 
     def action_number(self, cr, uid, ids, *args):
         obj_ret = self.browse(cr, uid, ids)[0]
-        if obj_ret.type == 'in_invoice':
+        if obj_ret.type in  ['in_invoice','in_refund']:
             cr.execute('SELECT id, number ' \
                     'FROM account_retention ' \
                     'WHERE id IN ('+','.join(map(str,ids))+')')
