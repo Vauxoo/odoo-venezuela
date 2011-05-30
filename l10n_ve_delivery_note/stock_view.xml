@@ -1,0 +1,31 @@
+<?xml version="1.0"?>
+<openerp>
+    <data>
+    <!--
+    =======================
+    STOCK
+    =======================
+    -->
+        <record id="view_picking_form_delivery_note" model="ir.ui.view">
+            <field name="name">stock.picking.form.delivery.note</field>
+            <field name="model">stock.picking</field>
+            <field name="type">form</field>
+            <field name="inherit_id" ref="stock.view_picking_out_form"/>
+            <field name="arch" type="xml">
+                <xpath expr="/form/notebook/page/field['move_lines']" position="after">
+                    <group col="8" colspan="4">
+                        <label colspan="7"/>
+                        <button states="done" name="%(wiz_picking_delivery_note)d" string="Delivery Note" type="action" attrs="{'readonly':[('invoice_state','in',['invoiced','none'])]}"
+                        />
+                    </group>
+                </xpath>
+            </field>
+        </record>
+    </data>
+</openerp>
+
+
+
+
+
+

@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+    <data noupdate="1">
+
+        <!-- Sequences type for account.retention --> 
+        <record id="seq_type_delivery_note" model="ir.sequence.type">
+            <field name="name">Delivery Note</field>
+            <field name="code">delivery.note</field>
+        </record>
+
+        <record id="seq_delivery_note" model="ir.sequence">
+            <field name="name">Delivery Note</field>
+            <field name="code">delivery.note</field>
+            <field name="padding">8</field>
+            <field name="number_increment">1</field>
+        </record>
+
+    </data>
+</openerp>

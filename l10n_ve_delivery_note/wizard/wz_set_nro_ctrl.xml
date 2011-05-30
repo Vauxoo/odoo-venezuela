@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+    <data>
+        <record id="view_control_wizard" model="ir.ui.view">
+            <field name="name">view.control.wizard</field>
+            <field name="model">wz.set.nro.ctrl</field>
+            <field name="type">form</field>
+            <field name="arch" type="xml">
+                <form string="Modificacion del nro. de control">
+                    <field name="nro_ctrl"/>
+                    <separator string="Esta seguro de cambiar el Nro Control ?" colspan="4"/>
+                    <field name="sure"/>
+                     <group colspan="8" col="8">
+                            <button icon="gtk-cancel" special="cancel" string="Cancel"/>
+                            <button icon="gtk-ok" name="_set_nroctrl" string="Change Number Ctrl" type="object"/>
+                     </group>
+                </form>
+            </field>
+        </record>
+
+        <record id="wiz_set_nro_ctrl" model="ir.actions.act_window">
+            <field name="name">Change Control Number</field>
+            <field name="res_model">wz.set.nro.ctrl</field>
+            <field name="src_model">wz.set.nro.ctrl</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">tree,form</field>
+            <field name="view_id" ref="view_control_wizard"/>
+            <field name="target">new</field>
+        </record>
+    </data>
+</openerp>
+
+
+
+

@@ -1,0 +1,20 @@
+<?xml version="1.0"?>
+<openerp>
+    <data>
+        <record id="invoice_delivery_note" model="ir.ui.view">
+            <field name="name">account.invoice.delivery.note.form</field>
+            <field name="model">account.invoice</field>
+            <field name="type">form</field>
+            <field name="inherit_id" ref="invoice_so.invoice_so"/>
+            <field name="arch" type="xml">
+                <xpath expr="notebook/page/field[@name='sale_ids']" position="after">
+                <newline/>
+                <group>
+                    <separator colspan="4" string="Delivery Notes"/>
+                    <field name='note_line' widget='many2many' nolabel='1'/>
+                </group>
+                </xpath>
+            </field>
+        </record>
+    </data>
+</openerp>

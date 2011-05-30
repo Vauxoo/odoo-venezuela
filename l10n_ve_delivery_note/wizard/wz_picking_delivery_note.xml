@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+    <data>
+        <record id="view_delivery_note_wizard" model="ir.ui.view">
+            <field name="name">view.delivery.note.wizard</field>
+            <field name="model">wz.picking.delivery.note</field>
+            <field name="type">form</field>
+            <field name="arch" type="xml">
+                <form string="Create Delivery Note">
+                      <group colspan="8" col="8">
+                            <label align="0.5" colspan="8" string="Create Delivery Invoice?"/>
+                            <label align="0.0" colspan="8"/>
+                      </group>
+                            <newline/>
+                            <newline/>
+                     <group colspan="8" col="8">
+                            <button icon="gtk-cancel" special="cancel" string="Cancel"/>
+                            <button icon="gtk-ok" name="action_create_delivery_note" string="Create" type="object"/>
+                     </group>
+                </form>
+            </field>
+        </record>
+
+        <record id="wiz_picking_delivery_note" model="ir.actions.act_window">
+            <field name="name">Wizard Delivery Note</field>
+            <field name="res_model">wz.picking.delivery.note</field>
+            <field name="src_model">wz.picking.delivery.note</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">tree,form</field>
+            <field name="view_id" ref="view_delivery_note_wizard"/>
+            <field name="target">new</field>
+        </record>
+
+    </data>
+</openerp>

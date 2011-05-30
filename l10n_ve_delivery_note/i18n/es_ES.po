@@ -1,0 +1,701 @@
+# Translation of OpenERP Server.
+# This file contains the translation of the following modules:
+#	* delivery_note
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: OpenERP Server 5.0.16\n"
+"Report-Msgid-Bugs-To: support@openerp.com\n"
+"POT-Creation-Date: 2011-05-20 15:45:59+0000\n"
+"PO-Revision-Date: 2011-05-20 15:45:59+0000\n"
+"Last-Translator: <>\n"
+"Language-Team: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: \n"
+"Plural-Forms: \n"
+
+#. module: delivery_note
+#: rml:delivery.note.report:0
+msgid "AMOUNT"
+msgstr "CANTIDAD"
+
+#. module: delivery_note
+#: field:delivery.note.tax,tax_code_id:0
+msgid "Tax Code"
+msgstr "Codigo de Impuesto"
+
+#. module: delivery_note
+#: code:addons/delivery_note/wizard/wz_invoice_delivery_note.py:0
+#, python-format
+msgid "Invoice is already created."
+msgstr "La factura ya ha sido creada."
+
+#. module: delivery_note
+#: selection:delivery.note,invoice_state:0
+msgid "Not from Packing"
+msgstr "Not from Packing"
+
+#. module: delivery_note
+#: selection:delivery.note,state:0
+msgid "Cancelled"
+msgstr "Cancelado"
+
+#. module: delivery_note
+#: constraint:ir.actions.act_window:0
+msgid "Invalid model name in the action definition."
+msgstr "Nombre de modelo no válido en la definición de acción."
+
+#. module: delivery_note
+#: rml:delivery.note.report:0
+msgid "SIN DERECHO A CREDITO FISCAL"
+msgstr "SIN DERECHO A CREDITO FISCAL"
+
+#. module: delivery_note
+#: field:delivery.note.tax,account_id:0
+msgid "Tax Account"
+msgstr "Cuenta del Impuesto"
+
+#. module: delivery_note
+#: field:delivery.note.line,uos_id:0
+msgid "Unit of Measure"
+msgstr "Unidad de Medida"
+
+#. module: delivery_note
+#: field:delivery.note.tax,tax_amount:0
+msgid "Tax Code Amount"
+msgstr "Cantidad del Codigo de Impuesto"
+
+#. module: delivery_note
+#: field:delivery.note.tax,base_code_id:0
+msgid "Base Code"
+msgstr "Codigo Base"
+
+#. module: delivery_note
+#: view:wz.picking.delivery.note:0
+msgid "Create Delivery Invoice?"
+msgstr "Crear Nota de Entrega?"
+
+#. module: delivery_note
+#: field:delivery.note,company_id:0
+msgid "Company"
+msgstr "Compañia"
+
+#. module: delivery_note
+#: view:delivery.note:0
+msgid "Set to Draft"
+msgstr "Cambiar a Borrador"
+
+#. module: delivery_note
+#: help:delivery.note,origin:0
+msgid "Reference of the document that produced this invoice."
+msgstr "Referencia del documento que produce esta factura."
+
+#. module: delivery_note
+#: field:delivery.note.tax,base:0
+msgid "Base"
+msgstr "Base"
+
+#. module: delivery_note
+#: code:addons/delivery_note/wizard/wz_invoice_delivery_note.py:0
+#, python-format
+msgid "Can not create the invoice status draft."
+msgstr "La factura debe ser creada cuando el estado de la nota de entrega esta en borrador."
+
+#. module: delivery_note
+#: rml:delivery.note.report:0
+msgid "TOTAL"
+msgstr "TOTAL"
+
+#. module: delivery_note
+#: field:delivery.note.line,price_subtotal:0
+msgid "Subtotal"
+msgstr "Subtotal"
+
+#. module: delivery_note
+#: selection:delivery.note,invoice_state:0
+msgid "To Be Invoiced"
+msgstr "Para Facturar"
+
+#. module: delivery_note
+#: view:delivery.note:0
+msgid "Additionnal Information"
+msgstr "Informacion Adicional"
+
+#. module: delivery_note
+#: field:delivery.note,nro_ctrl:0
+msgid "Control Number"
+msgstr "Nro. de Control"
+
+#. module: delivery_note
+#: view:delivery.note:0
+#: field:delivery.note,note:0
+#: view:delivery.note.line:0
+#: field:delivery.note.line,note:0
+msgid "Notes"
+msgstr "Notas"
+
+#. module: delivery_note
+#: field:delivery.note,sale_id:0
+msgid "Sale Order"
+msgstr "Orden de Venta"
+
+#. module: delivery_note
+#: field:delivery.note.tax,base_amount:0
+msgid "Base Code Amount"
+msgstr "Cantidad del Codigo Base"
+
+#. module: delivery_note
+#: view:delivery.note:0
+#: field:delivery.note.line,note_line_tax_id:0
+msgid "Taxes"
+msgstr "Impuestos"
+
+#. module: delivery_note
+#: field:delivery.note.tax,amount:0
+msgid "Amount"
+msgstr "Cuenta"
+
+#. module: delivery_note
+#: model:ir.model,name:delivery_note.model_delivery_note_line
+msgid "Delivery Note line"
+msgstr "Lineas de la Nota de Entrega"
+
+#. module: delivery_note
+#: help:delivery.note,payment_term:0
+msgid "If you use payment terms, the due date will be computed automatically at the generation of accounting entries. If you keep the payment term and the due date empty, it means direct payment. The payment term may compute several due dates, for example 50% now, 50% in one month."
+msgstr "Si usted usa plazo de pago, la fecha de vencimiento sera calculada automaticamente con la generacion de los asientos contables. Si usted mantiene el plazo de pago y la fecha de vencimiento en blanco, significara que usted realizara el pago directo. El plazo de pago podrá calcular varias fechas de vencimeinto, por ejemplo 50% ahora, 50% en 1 mes."
+
+#. module: delivery_note
+#: rml:delivery.note.report:0
+msgid "Recibe Conforme(Nombre,C.I. y Sello)"
+msgstr "Recibe Conforme(Nombre,C.I. y Sello)"
+
+#. module: delivery_note
+#: field:delivery.note,origin:0
+msgid "Origin"
+msgstr "Origen"
+
+#. module: delivery_note
+#: field:delivery.note,address_invoice_id:0
+msgid "Invoice Address"
+msgstr "Direccion de Factura"
+
+#. module: delivery_note
+#: rml:delivery.note.report:0
+msgid "RAZON SOCIAL:"
+msgstr "RAZON SOCIAL:"
+
+#. module: delivery_note
+#: model:ir.model,name:delivery_note.model_wz_invoice_delivery_note
+msgid "wz.invoice.delivery.note"
+msgstr "wz.invoice.delivery.note"
+
+#. module: delivery_note
+#: field:wz.invoice.delivery.note,group:0
+msgid "Group by partner"
+msgstr "Agrupar por cliente"
+
+#. module: delivery_note
+#: field:delivery.note,partner_id:0
+msgid "Partner"
+msgstr "Partner"
+
+#. module: delivery_note
+#: field:delivery.note,amount_tax:0
+msgid "Tax"
+msgstr "Impuesto"
+
+#. module: delivery_note
+#: view:wz.picking.delivery.note:0
+msgid "Create"
+msgstr "Crear"
+
+#. module: delivery_note
+#: model:ir.model,name:delivery_note.model_wz_set_nro_ctrl
+msgid "wz.set.nro.ctrl"
+msgstr "wz.set.nro.ctrl"
+
+#. module: delivery_note
+#: selection:wz.invoice.delivery.note,type:0
+msgid "Supplier Invoice"
+msgstr "Factura de Proveedor"
+
+#. module: delivery_note
+#: field:delivery.note,state:0
+msgid "State"
+msgstr "Estado"
+
+#. module: delivery_note
+#: field:delivery.note,invoice_state:0
+msgid "Invoice Status"
+msgstr "Estado de la Factura"
+
+#. module: delivery_note
+#: field:wz.invoice.delivery.note,type:0
+msgid "Type"
+msgstr "Tipo"
+
+#. module: delivery_note
+#: rml:delivery.note.report:0
+msgid "TOTAL A PAGAR"
+msgstr "TOTAL A PAGAR"
+
+#. module: delivery_note
+#: code:addons/delivery_note/delivery_note.py:0
+#, python-format
+msgid "Error !"
+msgstr "Error !"
+
+#. module: delivery_note
+#: rml:delivery.note.report:0
+msgid "PRODUCTO"
+msgstr "PRODUCTO"
+
+#. module: delivery_note
+#: rml:delivery.note.report:0
+msgid "CONTACTO:"
+msgstr "CONTACTO:"
+
+#. module: delivery_note
+#: code:addons/delivery_note/delivery_note.py:0
+#, python-format
+msgid "Impossible to delete delivery note."
+msgstr "Imposible borrar la nota de entrega."
+
+#. module: delivery_note
+#: code:addons/delivery_note/wizard/wz_invoice_delivery_note.py:0
+#, python-format
+msgid "Invoice cannot be created from Delivery Note."
+msgstr "La factura no puede ser creada a partir de la Nota de Entrega."
+
+#. module: delivery_note
+#: rml:delivery.note.report:0
+msgid "Condiciones de Ventas:                             UNA VEZ RECIBIDA LA MERCANCIA, NO SE ACEPTAN DEVOLUCIONES                             La falta de pago a este documento causará el cargo irrevocable de intereses y gastos administrativos. Para efectos derivados de esta factura se elige como domicilio especial la ciudad de Caracas. Este documento va sin enmiendas ni tachaduras."
+msgstr "Condiciones de Ventas:                             UNA VEZ RECIBIDA LA MERCANCIA, NO SE ACEPTAN DEVOLUCIONES                             La falta de pago a este documento causará el cargo irrevocable de intereses y gastos administrativos. Para efectos derivados de esta factura se elige como domicilio especial la ciudad de Caracas. Este documento va sin enmiendas ni tachaduras."
+
+#. module: delivery_note
+#: model:ir.actions.act_window,name:delivery_note.wiz_set_nro_ctrl
+msgid "Change Control Number"
+msgstr "Cambiar Numero de Control"
+
+#. module: delivery_note
+#: view:delivery.note.line:0
+msgid "Line"
+msgstr "Linea"
+
+#. module: delivery_note
+#: constraint:ir.ui.view:0
+msgid "Invalid XML for View Architecture!"
+msgstr "¡XML inválido para la definición de la vista!"
+
+#. module: delivery_note
+#: help:delivery.note,nro_ctrl:0
+msgid "Control number delivery note"
+msgstr "Numero de Control para la Nota de Entrega"
+
+#. module: delivery_note
+#: field:delivery.note.tax,manual:0
+msgid "Manual"
+msgstr "Manual"
+
+#. module: delivery_note
+#: view:delivery.note:0
+msgid "Compute Taxes"
+msgstr "Calcular Impuestos"
+
+#. module: delivery_note
+#: help:delivery.note,number:0
+msgid "Unique number of the invoice, computed automatically when the invoice is created."
+msgstr "Numero unico dela factura, calculado automaticamente cuando la factura es creada"
+
+#. module: delivery_note
+#: field:delivery.note.line,discount:0
+msgid "Discount (%)"
+msgstr "Discount (%)"
+
+#. module: delivery_note
+#: model:ir.actions.act_window,name:delivery_note.action_view_delivery_note_draft
+#: model:ir.ui.menu,name:delivery_note.menu_action_view_delivery_note_draft
+msgid "Draft Delivery Note"
+msgstr "Nota de Entrega en Borrador"
+
+#. module: delivery_note
+#: rml:delivery.note.report:0
+msgid "PRECIO"
+msgstr "PRECIO"
+
+#. module: delivery_note
+#: field:wz.set.nro.ctrl,nro_ctrl:0
+msgid "Nro. Control"
+msgstr "Nro. Control"
+
+#. module: delivery_note
+#: field:delivery.note,currency_id:0
+msgid "Currency"
+msgstr "Moneda"
+
+#. module: delivery_note
+#: view:delivery.note.line:0
+msgid "Delivery Note Line"
+msgstr "Lineas de la Nota de Entrega"
+
+#. module: delivery_note
+#: help:sale.order,note_ids:0
+msgid "This is the list of invoices that have been generated for this sale order. The same sale order may have been invoiced in several times (by line for example)."
+msgstr "This is the list of invoices that have been generated for this sale order. The same sale order may have been invoiced in several times (by line for example)."
+
+#. module: delivery_note
+#: selection:delivery.note,invoice_state:0
+msgid "Invoiced"
+msgstr "Facturado"
+
+#. module: delivery_note
+#: selection:wz.invoice.delivery.note,type:0
+msgid "Customer Refund"
+msgstr "Customer Refund"
+
+#. module: delivery_note
+#: code:addons/delivery_note/wizard/wz_set_nro_ctrl.py:0
+#, python-format
+msgid "Actualizar Nro. Control, !Por Favor confirme seleccionando la opcion!"
+msgstr "Actualizar Nro. Control, !Por Favor confirme seleccionando la opcion!"
+
+#. module: delivery_note
+#: field:account.invoice,note_line:0
+msgid "Delivery Note Linessss"
+msgstr "Delivery Note Linessss"
+
+#. module: delivery_note
+#: view:account.invoice:0
+#: view:sale.order:0
+#: field:sale.order,note_ids:0
+msgid "Delivery Notes"
+msgstr "Notas de Entrega"
+
+#. module: delivery_note
+#: view:wz.invoice.delivery.note:0
+msgid "Create invoices"
+msgstr "Crear Facturas"
+
+#. module: delivery_note
+#: help:delivery.note.tax,tax_code_id:0
+msgid "The tax basis of the tax declaration."
+msgstr "The tax basis of the tax declaration."
+
+#. module: delivery_note
+#: selection:delivery.note,state:0
+msgid "Draft"
+msgstr "Borrador"
+
+#. module: delivery_note
+#: rml:delivery.note.report:0
+msgid "SUBTOTAL"
+msgstr "SUBTOTAL"
+
+#. module: delivery_note
+#: model:ir.actions.act_window,name:delivery_note.wiz_picking_delivery_note
+msgid "Wizard Delivery Note"
+msgstr "Wizard Delivery Note"
+
+#. module: delivery_note
+#: view:delivery.note:0
+msgid "Change Ctrl No."
+msgstr "Cambiar Ctrl No."
+
+#. module: delivery_note
+#: field:delivery.note,address_shipping_id:0
+msgid "Shipping Address"
+msgstr "Direccion de Envio"
+
+#. module: delivery_note
+#: help:delivery.note,date_note:0
+msgid "Keep empty to use the current date"
+msgstr "Keep empty to use the current date"
+
+#. module: delivery_note
+#: field:delivery.note,tax_line:0
+msgid "Tax Lines"
+msgstr "Tax Lines"
+
+#. module: delivery_note
+#: view:delivery.note:0
+#: view:wz.picking.delivery.note:0
+msgid "Create Delivery Note"
+msgstr "Crear Nota de Entrega"
+
+#. module: delivery_note
+#: field:delivery.note,date_note:0
+msgid "Date"
+msgstr "Fecha"
+
+#. module: delivery_note
+#: model:ir.model,name:delivery_note.model_wz_picking_delivery_note
+msgid "wz.picking.delivery.note"
+msgstr "wz.picking.delivery.note"
+
+#. module: delivery_note
+#: code:addons/delivery_note/delivery_note.py:0
+#, python-format
+msgid "Error, no partner !"
+msgstr "Error, no partner !"
+
+#. module: delivery_note
+#: field:delivery.note.tax,name:0
+msgid "Tax Description"
+msgstr "Descripcion del Impuesto"
+
+#. module: delivery_note
+#: code:addons/delivery_note/delivery_note.py:0
+#, python-format
+msgid "Impossible to duplicate delivery note."
+msgstr "Imposible duplicar una nota de entrega."
+
+#. module: delivery_note
+#: field:delivery.note,amount_untaxed:0
+msgid "Untaxed"
+msgstr "Base Imponible"
+
+#. module: delivery_note
+#: code:addons/delivery_note/wizard/wz_invoice_delivery_note.py:0
+#: code:addons/delivery_note/wizard/wz_set_nro_ctrl.py:0
+#, python-format
+msgid "Error"
+msgstr "Error"
+
+#. module: delivery_note
+#: field:delivery.note,note_line:0
+msgid "Delivery Note Lines"
+msgstr "Lineas de la Nota de Entrega"
+
+#. module: delivery_note
+#: field:delivery.note.line,quantity:0
+msgid "Quantity"
+msgstr "Cantidad"
+
+#. module: delivery_note
+#: view:wz.set.nro.ctrl:0
+msgid "Modificacion del nro. de control"
+msgstr "Modificacion del nro. de control"
+
+#. module: delivery_note
+#: model:ir.model,name:delivery_note.model_delivery_note_tax
+msgid "Delivery Note Tax"
+msgstr "Impuesto de la Nota de Entrega"
+
+#. module: delivery_note
+#: rml:delivery.note.report:0
+msgid "FECHA DE EMISION:"
+msgstr "FECHA DE EMISION:"
+
+#. module: delivery_note
+#: field:delivery.note,number:0
+msgid "Number"
+msgstr "Numero"
+
+#. module: delivery_note
+#: view:delivery.note:0
+#: model:ir.actions.act_window,name:delivery_note.action_view_delivery_note
+#: model:ir.actions.act_window,name:delivery_note.action_wizard_delivery_note_form
+#: model:ir.actions.report.xml,name:delivery_note.delivery_note_report
+#: model:ir.model,name:delivery_note.model_delivery_note
+#: model:ir.module.module,shortdesc:delivery_note.module_meta_information
+#: model:ir.ui.menu,name:delivery_note.menu_action_view_delivery_note_form
+#: view:stock.picking:0
+msgid "Delivery Note"
+msgstr "Nota de Entrega"
+
+#. module: delivery_note
+#: field:delivery.note.line,price_unit:0
+msgid "Unit Price"
+msgstr "Precio Unitario"
+
+#. module: delivery_note
+#: selection:delivery.note,state:0
+msgid "Done"
+msgstr "Listo"
+
+#. module: delivery_note
+#: field:delivery.note,invoice_id:0
+msgid "Invoice"
+msgstr "Factura"
+
+#. module: delivery_note
+#: view:delivery.note:0
+#: view:wz.invoice.delivery.note:0
+#: view:wz.picking.delivery.note:0
+#: view:wz.set.nro.ctrl:0
+msgid "Cancel"
+msgstr "Cancelado"
+
+#. module: delivery_note
+#: selection:delivery.note,state:0
+msgid "Open"
+msgstr "Abierto"
+
+#. module: delivery_note
+#: constraint:ir.model:0
+msgid "The Object name must start with x_ and not contain any special character !"
+msgstr "¡El nombre del objeto debe empezar con x_ y no contener ningún carácter especial!"
+
+#. module: delivery_note
+#: view:delivery.note:0
+msgid "Other Info"
+msgstr "Otra Información"
+
+#. module: delivery_note
+#: selection:wz.invoice.delivery.note,type:0
+msgid "Customer Invoice"
+msgstr "Factura de Cliente"
+
+#. module: delivery_note
+#: model:ir.actions.act_window,name:delivery_note.menu_create_invoice
+#: view:wz.invoice.delivery.note:0
+msgid "Create Invoice"
+msgstr "Crear Factura"
+
+#. module: delivery_note
+#: view:wz.set.nro.ctrl:0
+msgid "Change Number Ctrl"
+msgstr "Cambiar Numero de Control"
+
+#. module: delivery_note
+#: field:wz.invoice.delivery.note,journal_id:0
+msgid "Destination Journal"
+msgstr "Diario Destino"
+
+#. module: delivery_note
+#: model:ir.actions.act_window,name:delivery_note.action_view_delivery_note_invoiced
+#: model:ir.ui.menu,name:delivery_note.menu_action_view_delivery_note_invoiced
+msgid "Invoiced Delivery Note"
+msgstr "Nota de Entrega Facturada"
+
+#. module: delivery_note
+#: field:delivery.note.line,product_id:0
+msgid "Product"
+msgstr "Producto"
+
+#. module: delivery_note
+#: view:wz.set.nro.ctrl:0
+msgid "Esta seguro de cambiar el Nro Control ?"
+msgstr "Esta seguro de cambiar el Nro Control ?"
+
+#. module: delivery_note
+#: code:addons/delivery_note/wizard/wz_invoice_delivery_note.py:0
+#, python-format
+msgid "Can not create the invoice status cancel."
+msgstr "La factura no puede ser creada mientras el estado de la nota de entrega se encuentre en cancelado."
+
+#. module: delivery_note
+#: field:delivery.note,picking_id:0
+msgid "Picking"
+msgstr "Movimiento de Inventario"
+
+#. module: delivery_note
+#: view:delivery.note:0
+msgid "Untaxed amount"
+msgstr "Base Imponible"
+
+#. module: delivery_note
+#: field:delivery.note.line,name:0
+msgid "Name"
+msgstr "Nombre"
+
+#. module: delivery_note
+#: view:delivery.note:0
+msgid "Total amount"
+msgstr "Cantidad Total"
+
+#. module: delivery_note
+#: code:addons/delivery_note/delivery_note.py:0
+#, python-format
+msgid "Please put a partner on the delivery list if you want to generate invoice."
+msgstr "Please put a partner on the delivery list if you want to generate invoice."
+
+#. module: delivery_note
+#: code:addons/delivery_note/delivery_note.py:0
+#, python-format
+msgid "User Error!"
+msgstr "Error de Usuario!"
+
+#. module: delivery_note
+#: code:addons/delivery_note/wizard/wz_invoice_delivery_note.py:0
+#, python-format
+msgid "UserError"
+msgstr "UserError"
+
+#. module: delivery_note
+#: help:delivery.note.tax,base_code_id:0
+msgid "The account basis of the tax declaration."
+msgstr "The account basis of the tax declaration."
+
+#. module: delivery_note
+#: code:addons/delivery_note/wizard/wz_invoice_delivery_note.py:0
+#, python-format
+msgid "Invoice is not created"
+msgstr "Invoice is not created"
+
+#. module: delivery_note
+#: field:delivery.note,amount_total:0
+#: field:delivery.note,check_total:0
+msgid "Total"
+msgstr "Total"
+
+#. module: delivery_note
+#: field:delivery.note.tax,sequence:0
+msgid "Sequence"
+msgstr "Sequence"
+
+#. module: delivery_note
+#: code:addons/delivery_note/delivery_note.py:0
+#, python-format
+msgid "The Delivery Note must be created from Outgoing Product!"
+msgstr "The Delivery Note must be created from Outgoing Product!"
+
+#. module: delivery_note
+#: field:delivery.note,payment_term:0
+msgid "Payment Term"
+msgstr "Terminos de Pago"
+
+#. module: delivery_note
+#: model:ir.module.module,description:delivery_note.module_meta_information
+msgid "\n"
+"                    Generate Delivery Note at wizard from Outgoing Products\n"
+"                    The Delivery Note is a document used to management delivery of goods or services to a client.\n"
+"                    Also serves as the basis for quality inspections for delivery\n"
+"                    \n"
+"                    Generar Notas de Entrega a través de un wizard desde el Albaran de Salida.\n"
+"                    La Nota de Entrega es un documento usado para gestionar la entrega demercancias o servicios a un cliente.\n"
+"                    También sirve como base para efectuar inspecciones de calidad para entregas\n"
+"                    "
+msgstr "\n"
+"                    Generate Delivery Note at wizard from Outgoing Products\n"
+"                    The Delivery Note is a document used to management delivery of goods or services to a client.\n"
+"                    Also serves as the basis for quality inspections for delivery\n"
+"                    \n"
+"                    Generar Notas de Entrega a través de un wizard desde el Albaran de Salida.\n"
+"                    La Nota de Entrega es un documento usado para gestionar la entrega demercancias o servicios a un cliente.\n"
+"                    También sirve como base para efectuar inspecciones de calidad para entregas\n"
+"                    "
+
+#. module: delivery_note
+#: selection:wz.invoice.delivery.note,type:0
+msgid "Supplier Refund"
+msgstr "Supplier Refund"
+
+#. module: delivery_note
+#: field:delivery.note.line,note_id:0
+#: field:delivery.note.tax,note_id:0
+msgid "Delivery Note Ref"
+msgstr "Delivery Note Ref"
+
+#. module: delivery_note
+#: field:delivery.note,comment:0
+msgid "Additional Information"
+msgstr "Additional Information"
+
+#. module: delivery_note
+#: field:wz.set.nro.ctrl,sure:0
+msgid "Esta Seguro?"
+msgstr "Esta Seguro?"
+

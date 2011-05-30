@@ -1,0 +1,24 @@
+<?xml version="1.0"?>
+<openerp>
+    <data>
+    <!--
+    =======================
+    SALE ORDER HISTORY
+    =======================
+    -->
+        <record id="view_order_form_delivery_note" model="ir.ui.view">
+            <field name="name">sale.order.form.delivery.note</field>
+            <field name="model">sale.order</field>
+            <field name="type">form</field>
+            <field name="inherit_id" ref="sale.view_order_form"/>
+            <field name="arch" type="xml">
+                <xpath expr="/form/notebook/page/field[@name='picking_ids']" position="after">
+                    <group>
+                        <separator colspan="4" string="Delivery Notes"/>
+                        <field colspan="4" name="note_ids" nolabel="1" context="{'form_view_ref':'delivery_note.delivery_note_form'}"/>
+                    </group>
+                </xpath>
+            </field>
+        </record>
+    </data>
+</openerp>
