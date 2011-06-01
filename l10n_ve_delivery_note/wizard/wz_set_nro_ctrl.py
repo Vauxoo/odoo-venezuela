@@ -52,16 +52,16 @@ class wz_set_nro_ctrl(osv.osv_memory):
         obj_model = self.pool.get('ir.model.data')
         model_data_ids = obj_model.search(cr,uid,[('model','=','ir.ui.view'),('name','=','delivery_note_form')])
         resource_id = obj_model.read(cr, uid, model_data_ids, fields=['res_id'])[0]['res_id']
-        print 'IDDD', delivery_note_id
-        return {
+        return{
+            'domain': "[]",
+            'name': 'Nota de Entrega',
             'view_type': 'form',
-            'view_mode': 'form',
-            'id': delivery_note_id,
+            'view_mode': 'form,tree',
+            'res_id': context['active_id'],
             'res_model': 'delivery.note',
-            'views': [(resource_id,'form')],
-            'type': 'ir.actions.act_window',
-            'context': context,
-        } 
+            'view': [(resource_id,'form')],
+            'type': 'ir.actions.act_window'
+        }
 
 wz_set_nro_ctrl()
 
