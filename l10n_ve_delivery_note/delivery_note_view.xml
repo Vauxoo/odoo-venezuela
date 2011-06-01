@@ -32,9 +32,6 @@
                 <form string="Delivery Note Line">
                     <notebook>
                         <page string="Line">
-<!--
-                            <field name="product_id" on_change="product_id_change(product_id, uos_id, quantity, name, parent.type, parent.partner_id, parent.fiscal_position, price_unit)" select="1"/>
--->
                             <field name="product_id" select="1"/>
                             <field name="uos_id"/>
                             <field name="quantity" select="1"/>
@@ -66,6 +63,8 @@
                     <field name="date_note" select="1"/>
                     <field name="invoice_state" select="1"/>
                     <field name="state" select="1"/>
+                    <field name="picking_id"/>
+                    <field name="sale_id"/>
                 </tree>
             </field>
         </record>

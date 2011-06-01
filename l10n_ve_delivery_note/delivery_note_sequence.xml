@@ -11,6 +11,7 @@
         <record id="seq_delivery_note" model="ir.sequence">
             <field name="name">Delivery Note</field>
             <field name="code">delivery.note</field>
+            <field name="prefix">NE:</field>
             <field name="padding">8</field>
             <field name="number_increment">1</field>
         </record>

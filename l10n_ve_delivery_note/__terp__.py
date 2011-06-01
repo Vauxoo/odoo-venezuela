@@ -26,7 +26,7 @@
 
 {
     "name" : "Delivery Note",
-    "version" : "0.3",
+    "version" : "0.4",
     "author" : "Openerp Venezuela",
     "category" : "Generic Modules/Others",
     "website": "http://wiki.openerp.org.ve/",
@@ -43,7 +43,6 @@
                  "stock",
                  "sale",
                  "invoice_so",
-                 #~ "l10n_ve_islr_withholding",
                  ],
     "init_xml" : [],
     "update_xml" : [
