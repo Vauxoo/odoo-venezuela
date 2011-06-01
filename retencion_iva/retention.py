@@ -169,7 +169,7 @@ class account_retention(osv.osv):
 
             for (id, number) in cr.fetchall():
                 if not number:
-                    number = self.pool.get('ir.sequence').get(cr, uid, 'account.retention.%s' % obj_ret.type)
+                    number = self.pool.get('ir.sequence').get(cr, uid, 'account.retention.%s' %"in_invoice" )
                 cr.execute('UPDATE account_retention SET number=%s ' \
                         'WHERE id=%s', (number, id))
 

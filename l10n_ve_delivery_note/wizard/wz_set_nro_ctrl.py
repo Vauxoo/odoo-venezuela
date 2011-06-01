@@ -49,7 +49,19 @@ class wz_set_nro_ctrl(osv.osv_memory):
             if wizard.nro_ctrl:
                 delivery_obj.write(cr, uid, delivery_note_id, {'nro_ctrl':wizard.nro_ctrl}, context=context)
                 
-        return {}
+        obj_model = self.pool.get('ir.model.data')
+        model_data_ids = obj_model.search(cr,uid,[('model','=','ir.ui.view'),('name','=','delivery_note_form')])
+        resource_id = obj_model.read(cr, uid, model_data_ids, fields=['res_id'])[0]['res_id']
+        print 'IDDD', delivery_note_id
+        return {
+            'view_type': 'form',
+            'view_mode': 'form',
+            'id': delivery_note_id,
+            'res_model': 'delivery.note',
+            'views': [(resource_id,'form')],
+            'type': 'ir.actions.act_window',
+            'context': context,
+        } 
 
 wz_set_nro_ctrl()
 

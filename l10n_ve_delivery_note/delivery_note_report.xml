@@ -6,7 +6,7 @@
             menu="True"
             model="delivery.note"
             name="delivery.note.report"
-            rml="addons/delivery_note/report/delivery_note_report.rml" 
+            rml="addons/l10n_ve_delivery_note/report/delivery_note_report.rml" 
             string="Delivery Note"
             auto="False"
             header="False"

@@ -131,7 +131,7 @@ class wz_picking_delivery_note(osv.osv_memory):
                 'invoice_state': 'invoiced',
                 }, context=context)
             
-        return self.new_open_window(cr,uid,ids,[create_id],'action_wizard_delivery_note_form','delivery_note')
+        return self.new_open_window(cr,uid,ids,[create_id],'action_wizard_delivery_note_form','l10n_ve_delivery_note')
         
 wz_picking_delivery_note()
 
