@@ -123,13 +123,23 @@ class account_retention(osv.osv):
             agt = True
         return agt
 
+
+    def _check_number(self, cr, uid, ids, context={}):
+        agt = True
+        obj = self.browse(cr, uid, ids[0])
+        if obj.type in ('in_invoice', 'in_refund') and obj.company_id.partner_id.special:
+            if obj.number:
+                id_new = []
+                ids = self.search(cr, uid, [('number','=',obj.number),('type','in',('in_invoice', 'in_refund'))])
+                id_new = [x for x in ids if obj.id!=x]
+                if id_new:
+                    agt = False
+        return agt
+
     _constraints = [
         (_check_partner, 'Error ! El cliente o la compania no es agente de retencion .', ['partner_id']),
+        (_check_number, 'Error ! El numero debe ser unico !', [])
     ]
-
-    _sql_constraints = [
-      ('ret_num_uniq', 'unique (number)', 'El numero debe ser unico !')
-    ] 
 
 
     def retencion_seq_get(self, cr, uid, context=None):
