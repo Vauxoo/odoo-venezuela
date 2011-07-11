@@ -31,6 +31,7 @@
 from osv import osv, fields
 import time
 from tools import config
+import netsvc
 
 
 class account_retention(osv.osv):
@@ -365,7 +366,6 @@ class account_retention(osv.osv):
 
         return super(account_retention, self).write(cr, uid, ids, vals, context=context)
 
-
     def create(self, cr, uid, vals, context=None, check=True):
         if not context:
             context={}
@@ -375,6 +375,32 @@ class account_retention(osv.osv):
         code = self.pool.get('ir.sequence').get(cr, uid, 'account.retention')
         vals['code'] = code
         return super(account_retention, self).create(cr, uid, vals, context)
+    
+    def action_cancel(self,cr,uid,ids,context={}):
+        self.cancel_move(cr,uid,ids)
+        return True
+
+    def cancel_move (self,cr,uid,ids, *args):
+        ret_brw = self.browse(cr, uid, ids)
+        account_move_obj = self.pool.get('account.move')
+        for ret in ret_brw:
+            if ret.state == 'done':
+                for ret_line in ret.retention_line:
+                    account_move_obj.button_cancel(cr, uid, [ret_line.move_id.id])
+                    delete = account_move_obj.unlink(cr, uid,[ret_line.move_id.id])
+                if delete:
+                    self.write(cr, uid, ids, {'state':'cancel'})
+            else:
+                self.write(cr, uid, ids, {'state':'cancel'})
+        return True    
+
+    def action_cancel_draft(self,cr,uid,ids, *args):
+        self.write(cr, uid, ids, {'state':'draft'})
+        wf_service = netsvc.LocalService("workflow")
+        for ret_id in ids:
+            wf_service.trg_create(uid, 'account.retention', ret_id, cr)
+        return True
+
 
 account_retention()
 

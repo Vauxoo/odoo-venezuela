@@ -115,6 +115,9 @@
                             <group col="4" colspan="2">
                                 <field name="state" select="2"/>
                                 <button name="retention_done" states="draft" string="Realizar" icon="gtk-execute"/>
+                                <button name="retention_cancel" states="draft,done" string="Cancelar" icon="gtk-cancel"/>
+                                <button name="action_cancel_draft" states="cancel" string="Convertir a Borrador" type="object" icon="gtk-convert"/>
+                                
                             </group>
                             <group col="2" colspan="2">
                                 <field name="amount_base_ret"/>                                
