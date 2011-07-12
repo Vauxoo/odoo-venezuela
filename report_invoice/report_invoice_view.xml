@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+    <data>
+
+        <!--  Invoice by products  -->
+
+        <record id="view_invoice_product_tree" model="ir.ui.view">
+            <field name="name">report.invoice.tree</field>
+            <field name="model">report.invoice</field>
+            <field name="type">tree</field>
+            <field name="arch" type="xml">
+                <tree string="Invoice by Product" colors="red:(type=='in_refund') or (type=='out_refund')">
+                    <field name="name"/>
+                    <field name="invoice_id"/>                    
+                    <field name="product_id"/>
+                    <field name="partner_id"/>
+                    <field name="user_id"/>
+                    <field name="quantity"/>
+                    <field name="uom_id"/>
+                    <field name="price_unit"/>
+                    <field name="price_subtotal" sum="Price amount"/>
+                    <field name="type"/>
+                </tree>
+            </field>
+        </record>
+
+        
+
+        <record id="view_invoice_product_form" model="ir.ui.view">
+            <field name="name">report.invoice.form</field>
+            <field name="model">report.invoice</field>
+            <field name="type">form</field>
+            <field name="arch" type="xml">
+                <form string="Invoice by Product">
+                    <field name="name"/>
+                    <field name="invoice_id"/>                    
+                    <field name="product_id"/>
+                    <field name="partner_id"/>
+                    <field name="user_id"/>
+                    <field name="quantity"/>
+                    <field name="uom_id"/>
+                    <field name="price_unit"/>
+                    <field name="price_subtotal"/>
+                    <field name="type"/>
+                </form>
+            </field>
+        </record>
+        
+
+
+        <record id="action_profit_product_tree" model="ir.actions.act_window">
+            <field name="name">Invoice by Product</field>
+            <field name="res_model">report.invoice</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">tree,form</field>
+        </record>
+        <menuitem id="invoice_product_config" name="Invoice Product" parent="account.menu_finance_reporting" sequence="8"/>
+        <menuitem id="invoice_product" action="action_profit_product_tree" parent="invoice_product_config"/>
+
+    </data>
+</openerp>
