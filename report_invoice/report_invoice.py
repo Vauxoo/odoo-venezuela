@@ -1,8 +1,8 @@
 # -*- encoding: utf-8 -*-
 ##############################################################################
 #
-# Copyright (c) 2010 Netquatro C.A. (http://openerp.netquatro.com/) All Rights Reserved.
-#                    Javier Duran <javier.duran@netquatro.com>
+# 
+# 
 # 
 #
 # WARNING: This program as such is intended to be used by professional
@@ -65,7 +65,12 @@ class report_invoice(osv.osv):
                 l.product_id as product_id,
                 p.id as partner_id,
                 u.id as user_id,
-                l.quantity as quantity,
+                case when i.type in ('in_refund', 'out_refund')
+                    then
+                        l.quantity*(-1)
+                    else
+                        l.quantity
+                end as quantity,                
                 case when i.type in ('in_refund', 'out_refund')
                     then
                         l.price_unit*(-1)
@@ -92,6 +97,73 @@ class report_invoice(osv.osv):
         """)
 report_invoice()
 
+
+
+class report_invoice_partner(osv.osv):
+    _name = "report.invoice.partner"
+    _description = "Invoice Products by Partner"
+    _auto = False
+    _columns = {
+        'partner_id':fields.many2one('res.partner', 'Partner', readonly=True, select=True),
+        'quantity': fields.float('Quantity', readonly=True),
+        'price_subtotal': fields.float('Subtotal', readonly=True),
+    }
+
+
+#            where l.quantity != 0 and i.type in ('out_invoice', 'out_refund') and i.state in ('open', 'paid')
+
+    def init(self, cr):
+        drop_view_if_exists(cr, 'report_invoice_partner')
+        cr.execute("""
+            create or replace view report_invoice_partner as (
+            select
+                r.partner_id as id,
+                r.partner_id as partner_id,
+                Sum(r.quantity) as quantity,
+                Sum(r.price_subtotal) as price_subtotal
+            from report_invoice r
+                inner join product_template t on (t.id=r.product_id)
+            group by r.partner_id
+            order by r.partner_id
+            )
+        """)
+
+report_invoice_partner()
+
+
+class report_invoice_product(osv.osv):
+    _name = "report.invoice.product"
+    _description = "Invoice Products by Product"
+    _auto = False
+    _columns = {
+        'product_id':fields.many2one('product.product', 'Product', readonly=True, select=True),
+        'quantity': fields.float('Quantity', readonly=True),
+        'price_subtotal': fields.float('Subtotal', readonly=True),
+    }
+
+
+#            where l.quantity != 0 and i.type in ('out_invoice', 'out_refund') and i.state in ('open', 'paid')
+
+    def init(self, cr):
+        drop_view_if_exists(cr, 'report_invoice_product')
+        cr.execute("""
+            create or replace view report_invoice_product as (
+            select
+                r.product_id as id,
+                r.product_id as product_id,
+                Sum(r.quantity) as quantity,
+                Sum(r.price_subtotal) as price_subtotal
+            from report_invoice r
+                inner join product_template t on (t.id=r.product_id)
+            group by r.product_id
+            order by r.product_id
+
+            )
+        """)
+
+report_invoice_product()
+            
+            
 
 # vim:expandtab:smartindent:tabstop=4:softtabstop=4:shiftwidth=4:
 

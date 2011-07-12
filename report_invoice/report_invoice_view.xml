@@ -18,12 +18,11 @@
                     <field name="quantity"/>
                     <field name="uom_id"/>
                     <field name="price_unit"/>
-                    <field name="price_subtotal" sum="Price amount"/>
+                    <field name="price_subtotal" sum="Total amount"/>
                     <field name="type"/>
                 </tree>
             </field>
         </record>
-
         
 
         <record id="view_invoice_product_form" model="ir.ui.view">
@@ -47,15 +46,102 @@
         </record>
         
 
-
-        <record id="action_profit_product_tree" model="ir.actions.act_window">
+        <record id="action_invoice_product_tree" model="ir.actions.act_window">
             <field name="name">Invoice by Product</field>
             <field name="res_model">report.invoice</field>
             <field name="view_type">form</field>
             <field name="view_mode">tree,form</field>
         </record>
         <menuitem id="invoice_product_config" name="Invoice Product" parent="account.menu_finance_reporting" sequence="8"/>
-        <menuitem id="invoice_product" action="action_profit_product_tree" parent="invoice_product_config"/>
+        <menuitem id="invoice_product" action="action_invoice_product_tree" parent="invoice_product_config"/>
 
+
+
+
+        <!--  Invoice Products by Partner -->
+
+        <record id="view_invoice_partner_tree" model="ir.ui.view">
+            <field name="name">report.invoice.partner.tree</field>
+            <field name="model">report.invoice.partner</field>
+            <field name="type">tree</field>
+            <field name="arch" type="xml">
+                <tree string="Invoice Product by Partner">
+                    <field name="partner_id"/>
+                    <field name="quantity" sum="Total quatity"/>
+                    <field name="price_subtotal" sum="Total amount"/>
+                </tree>
+            </field>
+        </record>
+
+        
+        <record id="view_invoice_partner_form" model="ir.ui.view">
+            <field name="name">report.invoice.partner.form</field>
+            <field name="model">report.invoice.partner</field>
+            <field name="type">form</field>
+            <field name="arch" type="xml">
+                <form string="Invoice Product by Partner">
+                    <field name="partner_id"/>
+                    <field name="quantity" sum="Total quatity"/>
+                    <field name="price_subtotal" sum="Total amount"/>
+                </form>
+            </field>
+        </record>
+        
+
+        <record id="action_invoice_partner_tree" model="ir.actions.act_window">
+            <field name="name">Invoice Product by Partner</field>
+            <field name="res_model">report.invoice.partner</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">tree,form</field>
+        </record>
+
+        <menuitem id="invoice_partner" action="action_invoice_partner_tree" parent="invoice_product_config"/>
+
+
+
+        <!--  Invoice Products by Product -->
+
+        <record id="view_invoice_prod_prod_tree" model="ir.ui.view">
+            <field name="name">report.invoice.product.tree</field>
+            <field name="model">report.invoice.product</field>
+            <field name="type">tree</field>
+            <field name="arch" type="xml">
+                <tree string="Invoice Product by Product">
+                    <field name="product_id"/>
+                    <field name="quantity" sum="Total quatity"/>
+                    <field name="price_subtotal" sum="Total amount"/>
+                </tree>
+            </field>
+        </record>
+
+        
+        <record id="view_invoice_prod_prod_form" model="ir.ui.view">
+            <field name="name">report.invoice.product.form</field>
+            <field name="model">report.invoice.product</field>
+            <field name="type">form</field>
+            <field name="arch" type="xml">
+                <form string="Invoice Product by Product">
+                    <field name="product_id"/>
+                    <field name="quantity" sum="Total quatity"/>
+                    <field name="price_subtotal" sum="Total amount"/>
+                </form>
+            </field>
+        </record>
+        
+
+        <record id="action_invoice_prod_prod_tree" model="ir.actions.act_window">
+            <field name="name">Invoice Product by Product</field>
+            <field name="res_model">report.invoice.product</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">tree,form</field>
+        </record>
+
+        <menuitem id="invoice_prod_prod" action="action_invoice_prod_prod_tree" parent="invoice_product_config"/>
+
+        <act_window context="{'partner_id': active_id}" domain="[('partner_id', '=', active_id),('type','in',('out_invoice', 'out_refund'))]" id="act_partner_invoice_sale" name="Sales Invoice" res_model="report.invoice" src_model="res.partner"/>
+        <act_window context="{'partner_id': active_id}" domain="[('partner_id', '=', active_id),('type','in',('in_invoice', 'in_refund'))]" id="act_partner_invoice_purchase" name="Purchases Invoice" res_model="report.invoice" src_model="res.partner"/>
+
+        <act_window context="{'product_id': active_id}" domain="[('product_id', '=', active_id),('type','in',('out_invoice', 'out_refund'))]" id="act_product_invoice_sale" name="Product Invoice Sales" res_model="report.invoice" src_model="product.product"/>
+        <act_window context="{'product_id': active_id}" domain="[('product_id', '=', active_id),('type','in',('in_invoice', 'in_refund'))]" id="act_product_invoice_purchase" name="Product Invoice Purchases" res_model="report.invoice" src_model="product.product"/>
     </data>
 </openerp>

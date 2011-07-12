@@ -29,7 +29,7 @@
 ##############################################################################
 
 {
-	"name" : "Report Profit",
+	"name" : "Report Invoice",
 	"version" : "0.1",
 	"author" : "Vauxoo",
 	"category" : "Localisation/Venezuela",
