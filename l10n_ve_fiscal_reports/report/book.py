@@ -73,6 +73,9 @@ class pur_sal_book(report_sxw.rml_parse):
         fr_ids = fr_obj.search(self.cr,self.uid,[('ai_date_invoice', '<=', d2), ('ai_date_invoice', '>=', d1)])
         #Data to review first and add more records to be printed before ordering and send to rml.
         data = fr_obj.browse(self.cr,self.uid, fr_ids)
+        gran_list_dict = fr_obj.read(self.cr,self.uid,fr_ids)
+        for g in gran_list_dict:
+            print g
         return data
 
     def _get_partner_addr(self, idp=None):

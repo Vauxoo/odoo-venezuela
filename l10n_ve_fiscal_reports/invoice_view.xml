@@ -1,14 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
 <openerp>
     <data>
-        <record model="ir.ui.view" id="inherited_account_invoice_form">
-            <field name="name">account.invoice.inherit</field>
+        <record model="ir.ui.view" id="inherited_account_invoice_form_fiscal">
+            <field name="name">account.invoice.inherit.fiscal</field>
             <field name="model">account.invoice</field>
             <field name="inherit_id" ref="account.invoice_form"/>
             <field name="arch" type="xml">
                 <data>
-                    <field name="parent_id" position="after">
-                        <field name="date_document" attrs="{required: [('type','=','purchase')]}" />
+                    <field name="date_invoice" position="after">
+                        <field name="date_document"/>
                     </field>
                 </data>
             </field>

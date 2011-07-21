@@ -30,8 +30,12 @@ from osv import fields
 
 class inherited_invoice(osv.osv):
     _inherit = "account.invoice"
-    _description = "Adds an aditional field to store the administrative date"
     _columns = {
-            'date_document': fields.date("Document Date", help="Administrative date"),
+            'date_document': fields.date("Document Date", 
+                                help="Administrative date", 
+                                states={'paid':[('readonly',True)], 
+                                        'open':[('readonly',True)], 
+                                        'close':[('readonly',True)]}, 
+                                        select=True),
         }
 inherited_invoice()

@@ -1,8 +1,8 @@
 <?xml version="1.0"?>
 <document filename="test.pdf">
-  <template pageSize="(792.0,612.0)" title="Test" author="Martin Simon" allowSplitting="20">
+  <template pageSize="(825.0,612.0)" title="Test" author="Martin Simon" allowSplitting="20">
     <pageTemplate id="first">
-      <frame id="first" x1="15.0" y1="15.0" width="760" height="580"/>
+      <frame id="first" x1="15.0" y1="15.0" width="793" height="580"/>
             <pageGraphics>
             <setFont name="Helvetica" size="9"/>
             <drawString x="1.3cm" y="0.5cm"> [[ formatLang(time.strftime("%Y-%m-%d %H:%M:%S", time.localtime()),date_time = True) ]]</drawString>
@@ -21,7 +21,7 @@
     <blockTableStyle id="HEADERTABLE">
       <blockAlignment value="LEFT"/>
       <blockValign value="TOP"/>
-      <lineStyle kind="LINEBELOW" colorName="#000000" thickness="1" start="0,0" stop="14,0" count="2"/>
+      <lineStyle kind="LINEBELOW" colorName="#000000" thickness="1" start="0,0" stop="14,0"/>
     </blockTableStyle>
     <blockTableStyle id="INTERNALTABLE">
       <blockAlignment value="LEFT"/>
@@ -31,18 +31,19 @@
       <blockAlignment value="LEFT"/>
       <blockValign value="MIDDLE"/>
 <!--Definiendo los colores de las Columnas.-->
-        <blockBackground colorName="#ececec" start="0,1" stop="9,-1"/>
-        <blockBackground colorName="#e6e6e6" start="9,0" stop="10,-1"/>
-        <blockBackground colorName="#dfe3cc" start="10,0" stop="10,-1"/>
-        <blockBackground colorName="#cdd1bc" start="11,1" stop="11,-1"/>
-        <blockBackground colorName="#cdd1bc" start="12,1" stop="12,-1"/>
+<!--        <blockBackground colorName="#ececec" start="0,1" stop="9,-1"/>-->
+<!--        <blockBackground colorName="#e6e6e6" start="9,0" stop="10,-1"/>-->
+<!--        <blockBackground colorName="#dfe3cc" start="10,0" stop="10,-1"/>-->
+<!--        <blockBackground colorName="#cdd1bc" start="11,1" stop="11,-1"/>-->
+<!--        <blockBackground colorName="#cdd1bc" start="12,1" stop="12,-1"/>-->
 <!--Fin definicion de Colores.-->
 <!--Definiendo las líneas de los Bordes "NUMERO DE COLUMNA, NUMERO DE FILA"-->
-        <lineStyle kind="LINEABOVE" colorName="white" thickness="1" start="9,0" stop="10,0" count="2"/>
-        <lineStyle kind="LINEBELOW" colorName="white" thickness="1" start="0,0" stop="14,1" count="2"/>
-        <lineStyle kind="LINEABOVE" colorName="white" thickness="1" start="0,1" stop="14,1" count="2"/>
-        <lineStyle kind="LINEBELOW" colorName="white" start="0,2" stop="-1,-2" thickness="0.5"/>
-        <lineStyle kind="LINEBELOW" colorName="white" thickness="2" start="-10,-2" stop="-1,-1" count="2"/>
+        <lineStyle kind="GRID" colorName="black" thickness="1" start="0,1" stop="-1,-1"/>
+        <lineStyle kind="GRID" colorName="black" thickness="1" start="-4,0" stop="-3,0"/>
+<!--        <lineStyle kind="LINEBELOW" colorName="white" thickness="1" start="0,0" stop="14,1" count="2"/>-->
+<!--        <lineStyle kind="LINEABOVE" colorName="white" thickness="1" start="0,1" stop="14,1" count="2"/>-->
+<!--        <lineStyle kind="LINEBELOW" colorName="white" start="0,2" stop="-1,-2" thickness="0.5"/>-->
+<!--        <lineStyle kind="LINEBELOW" colorName="white" thickness="2" start="-10,-2" stop="-1,-1" count="2"/>-->
 <!--Fin definición bordes-->
     </blockTableStyle>
     <initialize>
@@ -93,9 +94,11 @@
     <para style="HIDINGVALUESSPACE">
       <font color="white"> </font>
     </para>
-    <blockTable colWidths="33.0,33.0,181.0,38.0,38.0,38.0,10.0,38.0,34.0,114.0,114.0,44.0,55.0" style="CONTENIDOTABLE" repeatRows="2">
+    <blockTable colWidths="33.0,33.0,35.0,181.0,38.0,38.0,38.0,10.0,38.0,34.0,114.0,114.0,44.0,55.0" style="CONTENIDOTABLE" repeatRows="2">
       <tr>
         <td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td>
+        <td>
+        </td>
         <td>
                 <blockTable colWidths="110.0" style="INTERNALTABLE">
                     <tr>
@@ -117,13 +120,13 @@
         <td>
           <para style="HEADER"></para>
         </td>
-        <td>
-          <para style="HEADER"></para>
-        </td>
       </tr>
       <tr>
         <td>
-          <para style="HEADER">Fecha Fact.</para>
+          <para style="HEADER">Fecha Rec.</para>
+        </td>
+        <td>
+          <para style="HEADER">Fecha Doc.</para>
         </td>
         <td>
           <para style="HEADER">RIF</para>
@@ -197,6 +200,10 @@
         <td>
             <para style="HIDINGVALUES">HIDING</para>
           <para style="CONTENIDO">[[ time.strftime('%d/%m/%Y', time.strptime(l.ai_date_invoice, '%Y-%m-%d')) ]]</para>
+        </td>
+        <td>
+            <para style="HIDINGVALUES">HIDING</para>
+          <para style="CONTENIDO">[[ time.strftime('%d/%m/%Y', time.strptime(l.ai_date_document, '%Y-%m-%d')) ]]</para>
         </td>
         <td>
             <para style="HIDINGVALUES">HIDING</para>
@@ -275,6 +282,7 @@
       </tr>
       <!-- Relleno para colocar totales -->
         <tr>
+        <td></td>
         <td></td><td></td><td></td><td></td><td></td>
       <!-- Fin Relleno -->
       <!-- Total Con IVA -->

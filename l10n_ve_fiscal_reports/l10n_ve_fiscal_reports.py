@@ -46,6 +46,7 @@ class fiscal_reports_purchase(osv.osv):
     _auto = False
     _rec_name = 'ai_nro_ctrl'
     _columns = {
+        'ai_date_document': fields.date('Date'),
         'ai_date_invoice': fields.date('Date'),
         'rp_vat':fields.char('VAT Number', size=24, required=False, readonly=True),
         'rp_id':fields.many2one('res.partner', 'Partner Name', required=True),
@@ -68,6 +69,7 @@ class fiscal_reports_purchase(osv.osv):
         cr.execute("""
             create or replace view fiscal_reports_purchase as (
                 SELECT
+                     ai."date_document" AS ai_date_document,
                      ai."date_invoice" AS ai_date_invoice,
                      rp."vat" AS rp_vat,
                      rp."id" AS rp_id,
@@ -123,6 +125,7 @@ class fiscal_reports_sale(osv.osv):
     _auto = False
     _rec_name = 'ai_nro_ctrl'
     _columns = {
+    'ai_date_document': fields.date('Date'),
     'ai_date_invoice': fields.date('Date'),
     'rp_vat':fields.char('VAT Number', size=64, required=False, readonly=False),
     'rp_id':fields.many2one('res.partner', 'Partner Name', required=True),
@@ -145,6 +148,7 @@ class fiscal_reports_sale(osv.osv):
         cr.execute("""
             create or replace view fiscal_reports_sale as (
                 SELECT
+                ai."date_document" AS ai_date_document,
                 ai."date_invoice" AS ai_date_invoice,
                 rp."vat" AS rp_vat,
                 rp."id" AS rp_id,
