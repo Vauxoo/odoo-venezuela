@@ -37,5 +37,10 @@ class inherited_invoice(osv.osv):
                                         'open':[('readonly',True)], 
                                         'close':[('readonly',True)]}, 
                                         select=True),
+        'date_invoice': fields.date('Date Invoiced', 
+                                    states={'open':[('readonly',True)],
+                                    'close':[('readonly',True)],
+                                    'paid':[('readonly',True)]}, 
+        help="Keep empty to use the current date\n It represent the date when we did account charge, known as Accounting Date too!"),
         }
 inherited_invoice()

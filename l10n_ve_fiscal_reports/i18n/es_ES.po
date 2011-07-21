@@ -4,15 +4,15 @@
 #
 msgid ""
 msgstr ""
-"Project-Id-Version: OpenERP Server 5.0.7\n"
+"Project-Id-Version: OpenERP Server 5.0.15\n"
 "Report-Msgid-Bugs-To: support@openerp.com\n"
-"POT-Creation-Date: 2010-05-19 14:53:40+0000\n"
-"PO-Revision-Date: 2010-05-19 14:53:40+0000\n"
-"Last-Translator: <>\n"
+"POT-Creation-Date: 2011-07-21 13:03:49+0000\n"
+"PO-Revision-Date: 2011-07-21 08:41-0400\n"
+"Last-Translator: Nhomar Hernandez <nhomar@vauxoo.com>\n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
-"Content-Transfer-Encoding: \n"
+"Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: \n"
 
 #. module: l10n_ve_fiscal_reports
@@ -21,14 +21,10 @@ msgid "Witholding Book"
 msgstr "Libro de Retención"
 
 #. module: l10n_ve_fiscal_reports
-#: rml:fiscal.reports.purchase.purchase_seniat:0
-msgid "TOTALRETNAC"
-msgstr "TOTALRETNAC"
-
-#. module: l10n_ve_fiscal_reports
-#: rml:fiscal.reports.whp.whp_seniat:0
-msgid "Total Sales"
-msgstr "Total Ventas"
+#: rml:fiscal.reports.purchase.purchase_seniat_HG:0
+#: rml:fiscal.reports.whp.whp_seniat_HG:0
+msgid "Impuesto"
+msgstr "Impuesto"
 
 #. module: l10n_ve_fiscal_reports
 #: constraint:ir.actions.act_window:0
@@ -41,10 +37,14 @@ msgid "Account Invoice"
 msgstr "Cuenta Factura"
 
 #. module: l10n_ve_fiscal_reports
-#: rml:fiscal.reports.purchase.purchase_seniat:0
-#: rml:fiscal.reports.whp.whp_seniat:0
+#: rml:fiscal.reports.whp.whp_seniat_HG:0
+msgid "Factura Afectada"
+msgstr "Factura Afectada"
+
+#. module: l10n_ve_fiscal_reports
+#: rml:fiscal.reports.whp.whp_seniat_HG:0
 msgid "HIDING"
-msgstr "HIDING"
+msgstr "Ocultar"
 
 #. module: l10n_ve_fiscal_reports
 #: view:fiscal.reports.purchase:0
@@ -55,45 +55,36 @@ msgid "List of Purchases."
 msgstr "Lista de Compras"
 
 #. module: l10n_ve_fiscal_reports
-#: rml:fiscal.reports.purchase.purchase_seniat:0
-msgid "Defining the colors of the columns."
-msgstr "Definiendo los colores de las Columnas."
-
-#. module: l10n_ve_fiscal_reports
-#: rml:fiscal.reports.purchase.purchase_seniat:0
-msgid "Total no right to tax credits"
-msgstr "Total Sin derecho a Credito Fiscal"
-
-#. module: l10n_ve_fiscal_reports
-#: rml:fiscal.reports.purchase.purchase_seniat:0
-msgid "Invoice Date"
-msgstr "Fecha Factura"
-
-#. module: l10n_ve_fiscal_reports
-#: selection:fiscal.reports.purchase.book_seniat,init,model:0
+#: selection:fiscal.reports.purchase.book_seniat_HG,init,model:0
 msgid "Book Sales"
-msgstr "Libro de Ventas"
+msgstr "Libro Ventas"
 
 #. module: l10n_ve_fiscal_reports
-#: rml:fiscal.reports.purchase.purchase_seniat:0
-msgid "Control Number"
-msgstr "Número de Control"
+#: rml:fiscal.reports.purchase.purchase_seniat_HG:0
+msgid "Fecha Fact."
+msgstr "Fecha Fact."
 
 #. module: l10n_ve_fiscal_reports
-#: rml:fiscal.reports.purchase.purchase_seniat:0
-msgid "Fin definición bordes"
-msgstr "Fin definición bordes"
+#: rml:fiscal.reports.purchase.purchase_seniat_HG:0
+msgid "0,00"
+msgstr "0,00"
 
 #. module: l10n_ve_fiscal_reports
-#: rml:fiscal.reports.purchase.purchase_seniat:0
-#: rml:fiscal.reports.whp.whp_seniat:0
-msgid "Company Name"
-msgstr "Razón Social"
+#: rml:fiscal.reports.purchase.purchase_seniat_HG:0
+msgid "TOTAL"
+msgstr "TOTAL"
 
 #. module: l10n_ve_fiscal_reports
-#: rml:fiscal.reports.purchase.purchase_seniat:0
-msgid "Total with VAT"
-msgstr "Total sin IVA"
+#: code:addons/l10n_ve_fiscal_reports/wizard/sales_book_wizard.py:0
+#: selection:sales.book.wizard,type:0
+#, python-format
+msgid "Purchase"
+msgstr "Compra"
+
+#. module: l10n_ve_fiscal_reports
+#: rml:fiscal.reports.purchase.purchase_seniat_HG:0
+msgid "Base Imponible"
+msgstr "Base Imponible"
 
 #. module: l10n_ve_fiscal_reports
 #: field:fiscal.reports.purchase,rp_retention:0
@@ -101,9 +92,16 @@ msgid "Whitholding Rate"
 msgstr "Tasa de Retención"
 
 #. module: l10n_ve_fiscal_reports
-#: rml:fiscal.reports.purchase.purchase_seniat:0
-msgid "International Operations"
+#: rml:fiscal.reports.purchase.purchase_seniat_HG:0
+msgid "Operaciones Internacionales"
 msgstr "Operaciones Internacionales"
+
+#. module: l10n_ve_fiscal_reports
+#: code:addons/l10n_ve_fiscal_reports/wizard/sales_book_wizard.py:0
+#: selection:sales.book.wizard,type:0
+#, python-format
+msgid "Sale"
+msgstr "Venta"
 
 #. module: l10n_ve_fiscal_reports
 #: field:fiscal.reports.purchase,ai_nro_ctrl:0
@@ -112,14 +110,20 @@ msgid "Control No."
 msgstr "Nro. Control"
 
 #. module: l10n_ve_fiscal_reports
-#: rml:fiscal.reports.purchase.purchase_seniat:0
-msgid "Amount"
-msgstr "Monto"
+#: rml:fiscal.reports.purchase.purchase_seniat_HG:0
+msgid "T"
+msgstr "T"
 
 #. module: l10n_ve_fiscal_reports
-#: rml:fiscal.reports.purchase.purchase_seniat:0
-msgid "VAT"
-msgstr "IVA"
+#: rml:fiscal.reports.purchase.purchase_seniat_HG:0
+msgid "Total con IVA"
+msgstr "Total con IVA"
+
+#. module: l10n_ve_fiscal_reports
+#: rml:fiscal.reports.purchase.purchase_seniat_HG:0
+#: rml:fiscal.reports.whp.whp_seniat_HG:0
+msgid "Razon Social"
+msgstr "Razon Social"
 
 #. module: l10n_ve_fiscal_reports
 #: field:fiscal.reports.whs,ai_amount_tax:0
@@ -127,28 +131,36 @@ msgid "Amoun Tax"
 msgstr "Monto Impuesto"
 
 #. module: l10n_ve_fiscal_reports
-#: rml:fiscal.reports.whp.whp_seniat:0
-msgid "Fiscal Period"
-msgstr "Periodo Fiscal"
+#: rml:fiscal.reports.purchase.purchase_seniat_HG:0
+msgid "PAGINA:"
+msgstr "PAGINA:"
 
 #. module: l10n_ve_fiscal_reports
-#: rml:fiscal.reports.purchase.purchase_seniat:0
-#: rml:fiscal.reports.whp.whp_seniat:0
-msgid "Tax"
-msgstr "Impuesto"
+#: field:sales.book.wizard,control_end:0
+msgid "Control End"
+msgstr "Control End"
 
 #. module: l10n_ve_fiscal_reports
-#: rml:fiscal.reports.purchase.purchase_seniat:0
-#: rml:fiscal.reports.whp.whp_seniat:0
-msgid "Book:"
+#: rml:fiscal.reports.purchase.purchase_seniat_HG:0
+msgid "EXENTO"
+msgstr "EXENTO"
+
+#. module: l10n_ve_fiscal_reports
+#: rml:fiscal.reports.purchase.purchase_seniat_HG:0
+#: rml:fiscal.reports.whp.whp_seniat_HG:0
+msgid "Libro:"
 msgstr "Libro:"
 
 #. module: l10n_ve_fiscal_reports
 #: model:ir.actions.act_window,name:l10n_ve_fiscal_reports.action_fiscal_reports_purchase_tree
-#: model:ir.actions.act_window,name:l10n_ve_fiscal_reports.action_fiscal_reports_sale_tree
 #: model:ir.actions.act_window,name:l10n_ve_fiscal_reports.action_fiscal_reports_whp_tree
 msgid "Profit by Product"
 msgstr "Rentabilidad por Producto"
+
+#. module: l10n_ve_fiscal_reports
+#: rml:fiscal.reports.purchase.purchase_seniat_HG:0
+msgid "TOTALES"
+msgstr "TOTALES"
 
 #. module: l10n_ve_fiscal_reports
 #: field:fiscal.reports.whp,rp_id:0
@@ -168,53 +180,65 @@ msgid "Amount Total"
 msgstr "Monto Total"
 
 #. module: l10n_ve_fiscal_reports
-#: rml:fiscal.reports.purchase.purchase_seniat:0
-msgid "National Operations"
+#: rml:fiscal.reports.purchase.purchase_seniat_HG:0
+msgid "Operaciones Nacionales"
 msgstr "Operaciones Nacionales"
 
 #. module: l10n_ve_fiscal_reports
-#: rml:fiscal.reports.purchase.purchase_seniat:0
-#: rml:fiscal.reports.whp.whp_seniat:0
-msgid "To:"
+#: rml:fiscal.reports.purchase.purchase_seniat_HG:0
+#: rml:fiscal.reports.whp.whp_seniat_HG:0
+msgid "Hasta:"
 msgstr "Hasta:"
 
 #. module: l10n_ve_fiscal_reports
-#: rml:fiscal.reports.purchase.purchase_seniat:0
-msgid "Fin Relleno"
-msgstr "Fin Relleno"
+#: wizard_field:fiscal.reports.purchase.book_seniat_HG,init,date_end:0
+#: wizard_field:fiscal.reports.whp.wh_book_HG,init,date_end:0
+#: field:sales.book.wizard,date_end:0
+msgid "End Date"
+msgstr "Fecha FIn"
 
 #. module: l10n_ve_fiscal_reports
-#: rml:fiscal.reports.whp.whp_seniat:0
+#: rml:fiscal.reports.whp.whp_seniat_HG:0
+msgid "Periodo Fiscal"
+msgstr "Periodo Fiscal"
+
+#. module: l10n_ve_fiscal_reports
+#: rml:fiscal.reports.whp.whp_seniat_HG:0
 msgid "WITHOLDING BOOK"
-msgstr "LIBRO DE RETENCIÓN"
+msgstr "WITHOLDING BOOK"
 
 #. module: l10n_ve_fiscal_reports
-#: rml:fiscal.reports.whp.whp_seniat:0
-msgid "Retention Amount"
-msgstr "Monto Retención"
+#: rml:fiscal.reports.purchase.purchase_seniat_HG:0
+#: rml:fiscal.reports.whp.whp_seniat_HG:0
+msgid "Comprobante"
+msgstr "Comprobante"
 
 #. module: l10n_ve_fiscal_reports
-#: view:fiscal.reports.purchase:0
-#: view:fiscal.reports.sale:0
-#: view:fiscal.reports.whp:0
-#: view:fiscal.reports.whs:0
-msgid "Detail of entry"
-msgstr "Detalle de entrada "
+#: field:account.invoice,date_document:0
+msgid "Document Date"
+msgstr "Fecha del Documento"
 
 #. module: l10n_ve_fiscal_reports
 #: field:fiscal.reports.sale,ai_type:0
+#: field:sales.book.wizard,type:0
 msgid "Type"
 msgstr "Tipo"
 
 #. module: l10n_ve_fiscal_reports
-#: rml:fiscal.reports.whp.whp_seniat:0
-msgid "COMENTARIO"
-msgstr "COMENTARIO"
+#: selection:fiscal.reports.purchase.book_seniat_HG,init,model:0
+msgid "Book Purchase"
+msgstr "Libro Compras"
 
 #. module: l10n_ve_fiscal_reports
 #: field:fiscal.reports.sale,ai_amount_untaxed:0
 msgid "Untaxed amount"
 msgstr "Monto exento de impuesto"
+
+#. module: l10n_ve_fiscal_reports
+#: code:addons/l10n_ve_fiscal_reports/wizard/sales_book_wizard.py:0
+#, python-format
+msgid "Error !"
+msgstr "Error !"
 
 #. module: l10n_ve_fiscal_reports
 #: model:ir.model,name:l10n_ve_fiscal_reports.model_fiscal_reports_sale
@@ -229,9 +253,9 @@ msgid "WH Number"
 msgstr "Número de Retención"
 
 #. module: l10n_ve_fiscal_reports
-#: rml:fiscal.reports.purchase.purchase_seniat:0
-msgid "Definiendo las líneas de los Bordes \"NUMERO DE COLUMNA, NUMERO DE FILA\""
-msgstr "Definiendo las líneas de los Bordes \"NUMERO DE COLUMNA, NUMERO DE FILA\""
+#: rml:fiscal.reports.whp.whp_seniat_HG:0
+msgid "Base Ret. % Iva."
+msgstr "Base Ret. % Iva."
 
 #. module: l10n_ve_fiscal_reports
 #: field:fiscal.reports.whp,ar_date_ret:0
@@ -239,20 +263,19 @@ msgid "Date ret."
 msgstr "Fecha Ret."
 
 #. module: l10n_ve_fiscal_reports
-#: rml:fiscal.reports.purchase.purchase_seniat:0
-msgid "No right to tax credits"
-msgstr "Sin derecho a crédito fiscal"
+#: rml:fiscal.reports.purchase.purchase_seniat_HG:0
+msgid "Sin der."
+msgstr "Sin der."
+
+#. module: l10n_ve_fiscal_reports
+#: model:ir.actions.act_window,name:l10n_ve_fiscal_reports.action_fiscal_reports_sale_tree
+msgid "Fiscal Report Sales"
+msgstr "Fiscal Report Sales"
 
 #. module: l10n_ve_fiscal_reports
 #: model:ir.model,name:l10n_ve_fiscal_reports.model_fiscal_reports_purchase
 msgid "Purchase by period"
 msgstr "Compra por periodo"
-
-#. module: l10n_ve_fiscal_reports
-#: rml:fiscal.reports.purchase.purchase_seniat:0
-#: rml:fiscal.reports.whp.whp_seniat:0
-msgid "Voucher"
-msgstr "Comprobante"
 
 #. module: l10n_ve_fiscal_reports
 #: constraint:ir.ui.view:0
@@ -266,31 +289,29 @@ msgid "Tax Amount"
 msgstr "Monto Impuesto"
 
 #. module: l10n_ve_fiscal_reports
-#: rml:fiscal.reports.purchase.purchase_seniat:0
-msgid "get_p_country(t.invoice_id.partner_id.id)"
-msgstr "get_p_country(t.invoice_id.partner_id.id)"
-
-#. module: l10n_ve_fiscal_reports
-#: rml:fiscal.reports.purchase.purchase_seniat:0
-#: rml:fiscal.reports.whp.whp_seniat:0
+#: rml:fiscal.reports.whp.whp_seniat_HG:0
 msgid "Pagina"
 msgstr "Pagina"
 
 #. module: l10n_ve_fiscal_reports
-#: rml:fiscal.reports.whp.whp_seniat:0
-msgid "Exempt Sales"
-msgstr "Ventas Exentas "
+#: rml:fiscal.reports.whp.whp_seniat_HG:0
+msgid "Total Ventas"
+msgstr "Total Ventas"
 
 #. module: l10n_ve_fiscal_reports
-#: rml:fiscal.reports.purchase.purchase_seniat:0
-msgid "#e6e6e6"
-msgstr "#e6e6e6"
+#: rml:fiscal.reports.purchase.purchase_seniat_HG:0
+msgid "Retencion Iva"
+msgstr "Retencion Iva"
 
 #. module: l10n_ve_fiscal_reports
-#: rml:fiscal.reports.purchase.purchase_seniat:0
-#: rml:fiscal.reports.whp.whp_seniat:0
-msgid "R.I.F."
-msgstr "R.I.F."
+#: rml:fiscal.reports.purchase.purchase_seniat_HG:0
+msgid "IVA"
+msgstr "IVA"
+
+#. module: l10n_ve_fiscal_reports
+#: rml:fiscal.reports.purchase.purchase_seniat_HG:0
+msgid "Monto"
+msgstr "Monto"
 
 #. module: l10n_ve_fiscal_reports
 #: field:fiscal.reports.whp,ar_number:0
@@ -298,21 +319,16 @@ msgid "Retention Number"
 msgstr "Número de Retención"
 
 #. module: l10n_ve_fiscal_reports
-#: wizard_field:fiscal.recalc.taxes,init,date_start:0
-#: wizard_field:fiscal.reports.purchase.book_seniat,init,date_start:0
-#: wizard_field:fiscal.reports.whp.wh_book,init,date_start:0
+#: wizard_field:fiscal.reports.purchase.book_seniat_HG,init,date_start:0
+#: wizard_field:fiscal.reports.whp.wh_book_HG,init,date_start:0
+#: field:sales.book.wizard,date_start:0
 msgid "Start Date"
-msgstr "Fecha Inicial"
+msgstr "Fecha Inicio"
 
 #. module: l10n_ve_fiscal_reports
-#: rml:fiscal.reports.purchase.purchase_seniat:0
-msgid "Total iva Nacionales"
-msgstr "Total iva Nacionales"
-
-#. module: l10n_ve_fiscal_reports
-#: rml:fiscal.reports.whp.whp_seniat:0
-msgid "<frame id=\"second\" x1=\"15.0\" y1=\"9.0\" width=\"760\" height=\"10\"/>"
-msgstr "<frame id=\"second\" x1=\"15.0\" y1=\"9.0\" width=\"760\" height=\"10\"/>"
+#: rml:fiscal.reports.whp.whp_seniat_HG:0
+msgid "del Mes:"
+msgstr "del Mes:"
 
 #. module: l10n_ve_fiscal_reports
 #: field:fiscal.reports.purchase,ai_amount_untaxed:0
@@ -327,9 +343,14 @@ msgid "Partner Name"
 msgstr "Nombre Partner"
 
 #. module: l10n_ve_fiscal_reports
-#: wizard_view:fiscal.recalc.taxes,init:0
-msgid "Please Select date range of invoices to be recalculated, this method allow group same taxes on invoices."
-msgstr "Por favor Seleccione el rango de fecha de facturas para ser calculadas de nuevo, este método permiten agrupar mismos impuestos por facturas."
+#: rml:fiscal.reports.whp.whp_seniat_HG:0
+msgid "Fecha"
+msgstr "Fecha"
+
+#. module: l10n_ve_fiscal_reports
+#: rml:fiscal.reports.purchase.purchase_seniat_HG:0
+msgid "Documento Afectado"
+msgstr "Documento Afectado"
 
 #. module: l10n_ve_fiscal_reports
 #: field:fiscal.reports.purchase,ar_id:0
@@ -345,22 +366,7 @@ msgstr "Cuenta Retención"
 #. module: l10n_ve_fiscal_reports
 #: model:ir.ui.menu,name:l10n_ve_fiscal_reports.menu_fiscal_reports_sale_tree
 msgid "Sales Book"
-msgstr "Libre de Ventas"
-
-#. module: l10n_ve_fiscal_reports
-#: rml:fiscal.reports.whp.whp_seniat:0
-msgid "Base Ret.   % VAT."
-msgstr "Base Ret.   % IVA."
-
-#. module: l10n_ve_fiscal_reports
-#: wizard_button:fiscal.recalc.taxes,init,compute_taxes:0
-msgid "Execute Update"
-msgstr "Ejecute Actualización "
-
-#. module: l10n_ve_fiscal_reports
-#: rml:fiscal.reports.purchase.purchase_seniat:0
-msgid "Total BI Nacionales"
-msgstr "Total BI Nacionales"
+msgstr "Libro de Ventas"
 
 #. module: l10n_ve_fiscal_reports
 #: field:fiscal.reports.sale,rp_retention:0
@@ -368,13 +374,19 @@ msgid "Withholding"
 msgstr "Retención"
 
 #. module: l10n_ve_fiscal_reports
-#: selection:fiscal.reports.whp.wh_book,init,model:0
+#: rml:fiscal.reports.purchase.purchase_seniat_HG:0
+msgid "Correspodiente al Mes de"
+msgstr "Correspodiente al Mes de"
+
+#. module: l10n_ve_fiscal_reports
+#: selection:fiscal.reports.whp.wh_book_HG,init,model:0
 msgid "Witholding Purchase"
 msgstr "Retención Compra"
 
 #. module: l10n_ve_fiscal_reports
 #: model:ir.module.module,description:l10n_ve_fiscal_reports.module_meta_information
-msgid "\n"
+msgid ""
+"\n"
 "    What this module does:\n"
 "    Build all Fiscal Reports for Law in Venezuela.\n"
 "    -- Purchase Report.\n"
@@ -382,7 +394,8 @@ msgid "\n"
 "    -- Withholding Report.\n"
 "        Sales, Purchase, ISLR and Munic.\n"
 "    "
-msgstr "\n"
+msgstr ""
+"\n"
 "    Qué hace este módulo:\n"
 "    Construye todos los Informes Fiscales para la Ley en Venezuela .\n"
 "    -- Reporte de Compra.\n"
@@ -392,16 +405,26 @@ msgstr "\n"
 "    "
 
 #. module: l10n_ve_fiscal_reports
+#: field:fiscal.reports.purchase,ai_date_document:0
 #: field:fiscal.reports.purchase,ai_date_invoice:0
+#: field:fiscal.reports.sale,ai_date_document:0
 #: field:fiscal.reports.sale,ai_date_invoice:0
-#: rml:fiscal.reports.whp.whp_seniat:0
 #: field:fiscal.reports.whs,ar_date_ret:0
 msgid "Date"
-msgstr "Fecha"
+msgstr "Date"
 
 #. module: l10n_ve_fiscal_reports
-#: rml:fiscal.reports.purchase.purchase_seniat:0
-#: rml:fiscal.reports.whp.whp_seniat:0
+#: code:addons/l10n_ve_fiscal_reports/wizard/sales_book_wizard.py:0
+#, python-format
+msgid ""
+"No period defined for this date !\n"
+"Please create a fiscal year."
+msgstr ""
+"No hay periodo definido para esta fecha !\n"
+"Por favor crea un año fiscal."
+
+#. module: l10n_ve_fiscal_reports
+#: rml:fiscal.reports.whp.whp_seniat_HG:0
 msgid "1.3cm 24.9cm 38.3cm 24.9cm"
 msgstr "1.3cm 24.9cm 38.3cm 24.9cm"
 
@@ -426,9 +449,10 @@ msgid "Invoice Total"
 msgstr "Total Factura"
 
 #. module: l10n_ve_fiscal_reports
-#: rml:fiscal.reports.purchase.purchase_seniat:0
-msgid "Taxable Base"
-msgstr "Basre Imponible"
+#: rml:fiscal.reports.purchase.purchase_seniat_HG:0
+#: rml:fiscal.reports.whp.whp_seniat_HG:0
+msgid "RIF"
+msgstr "RIF"
 
 #. module: l10n_ve_fiscal_reports
 #: model:ir.ui.menu,name:l10n_ve_fiscal_reports.menu_wizard_recompute_report
@@ -442,10 +466,9 @@ msgid "Amount Untaxed"
 msgstr "Monto Exento de Impuesto"
 
 #. module: l10n_ve_fiscal_reports
-#: wizard_field:fiscal.reports.purchase.book_seniat,init,model:0
-#: wizard_field:fiscal.reports.whp.wh_book,init,model:0
-msgid "Type of Report"
-msgstr "Tipo de Reporte"
+#: rml:fiscal.reports.purchase.purchase_seniat_HG:0
+msgid "BASE IMPONIBLE"
+msgstr "BASE IMPONIBLE"
 
 #. module: l10n_ve_fiscal_reports
 #: field:fiscal.reports.purchase,rp_vat:0
@@ -459,14 +482,22 @@ msgid "Fiscal Report For Venezuela"
 msgstr "Reporte Fiscal para Venezuela"
 
 #. module: l10n_ve_fiscal_reports
-#: rml:fiscal.reports.purchase.purchase_seniat:0
-msgid "Fin definicion de Colores."
-msgstr "Fin definicion de Colores."
+#: view:fiscal.reports.purchase:0
+#: view:fiscal.reports.sale:0
+#: view:fiscal.reports.whp:0
+#: view:fiscal.reports.whs:0
+msgid "Detail of entry"
+msgstr "Detalle de entrada "
 
 #. module: l10n_ve_fiscal_reports
-#: rml:fiscal.reports.purchase.purchase_seniat:0
-msgid "TOTALSDCF"
-msgstr "TOTALSDCF"
+#: rml:fiscal.reports.whp.whp_seniat_HG:0
+msgid "Monto Retencion"
+msgstr "Monto Retencion"
+
+#. module: l10n_ve_fiscal_reports
+#: view:sales.book.wizard:0
+msgid "General"
+msgstr "General"
 
 #. module: l10n_ve_fiscal_reports
 #: field:fiscal.reports.whs,ai_id:0
@@ -474,26 +505,11 @@ msgid "Invoice"
 msgstr "Factura"
 
 #. module: l10n_ve_fiscal_reports
-#: wizard_button:fiscal.recalc.taxes,init,end:0
-#: wizard_button:fiscal.reports.purchase.book_seniat,init,end:0
-#: wizard_button:fiscal.reports.whp.wh_book,init,end:0
+#: wizard_button:fiscal.reports.purchase.book_seniat_HG,init,end:0
+#: wizard_button:fiscal.reports.whp.wh_book_HG,init,end:0
+#: view:sales.book.wizard:0
 msgid "Cancel"
-msgstr "Cancelar"
-
-#. module: l10n_ve_fiscal_reports
-#: rml:fiscal.reports.purchase.purchase_seniat:0
-msgid "Total Con IVA"
-msgstr "Total Con IVA"
-
-#. module: l10n_ve_fiscal_reports
-#: rml:fiscal.reports.purchase.purchase_seniat:0
-msgid "TOTALIVANAC"
-msgstr "TOTALIVANAC"
-
-#. module: l10n_ve_fiscal_reports
-#: model:ir.ui.menu,name:l10n_ve_fiscal_reports.menu_wz_book_report
-msgid "Print Report Book seniat."
-msgstr "Imprimir Reporte de Libro SENIAT"
+msgstr "Cancel"
 
 #. module: l10n_ve_fiscal_reports
 #: constraint:ir.model:0
@@ -501,26 +517,42 @@ msgid "The Object name must start with x_ and not contain any special character 
 msgstr "¡El nombre del objeto debe empezar con x_ y no contener ningún carácter especial!"
 
 #. module: l10n_ve_fiscal_reports
-#: rml:fiscal.reports.purchase.purchase_seniat:0
-msgid "Relleno para colocar totales"
-msgstr "Relleno para colocar totales"
-
-#. module: l10n_ve_fiscal_reports
 #: model:ir.actions.report.xml,name:l10n_ve_fiscal_reports.report_whp_seniat
 msgid "Witholding Purchase SENIAT"
 msgstr "Retención Compra SENIAT"
 
 #. module: l10n_ve_fiscal_reports
-#: wizard_view:fiscal.reports.purchase.book_seniat,init:0
-#: wizard_view:fiscal.reports.whp.wh_book,init:0
+#: rml:fiscal.reports.whp.whp_seniat_HG:0
+msgid "Ventas Exentas"
+msgstr "Ventas Exentas"
+
+#. module: l10n_ve_fiscal_reports
+#: help:account.invoice,date_document:0
+msgid "Administrative date"
+msgstr "Fecha administrativa"
+
+#. module: l10n_ve_fiscal_reports
+#: wizard_view:fiscal.reports.purchase.book_seniat_HG,init:0
+#: wizard_view:fiscal.reports.whp.wh_book_HG,init:0
 msgid "Seniat Book"
 msgstr "Libro SENIAT"
 
 #. module: l10n_ve_fiscal_reports
-#: wizard_button:fiscal.reports.purchase.book_seniat,init,print_report:0
-#: wizard_button:fiscal.reports.whp.wh_book,init,print_report:0
+#: wizard_button:fiscal.reports.purchase.book_seniat_HG,init,print_report:0
+#: wizard_button:fiscal.reports.whp.wh_book_HG,init,print_report:0
+#: view:sales.book.wizard:0
 msgid "Print Report"
 msgstr "Imprimir Reporte"
+
+#. module: l10n_ve_fiscal_reports
+#: rml:fiscal.reports.purchase.purchase_seniat_HG:0
+msgid "del año"
+msgstr "del año"
+
+#. module: l10n_ve_fiscal_reports
+#: field:sales.book.wizard,control_start:0
+msgid "Control Start"
+msgstr "Control Start"
 
 #. module: l10n_ve_fiscal_reports
 #: field:fiscal.reports.whp,rp_vat:0
@@ -529,12 +561,13 @@ msgid "Vat Number"
 msgstr "Número I.V.A."
 
 #. module: l10n_ve_fiscal_reports
-#: rml:fiscal.reports.purchase.purchase_seniat:0
-msgid "TOTALSBINAC"
-msgstr "TOTALSBINAC"
+#: wizard_field:fiscal.reports.purchase.book_seniat_HG,init,model:0
+#: wizard_field:fiscal.reports.whp.wh_book_HG,init,model:0
+msgid "Type of Report"
+msgstr "Tipo de Reporte"
 
 #. module: l10n_ve_fiscal_reports
-#: rml:fiscal.reports.purchase.purchase_seniat:0
+#: rml:fiscal.reports.purchase.purchase_seniat_HG:0
 msgid "%"
 msgstr "%"
 
@@ -549,18 +582,22 @@ msgid "Fiscal Reporting For SENIAT"
 msgstr "Reporte Fiscal para SENIAT"
 
 #. module: l10n_ve_fiscal_reports
+#: rml:fiscal.reports.purchase.purchase_seniat_HG:0
+msgid "IVA RETENIDO"
+msgstr "IVA Retenido"
+
+#. module: l10n_ve_fiscal_reports
 #: model:ir.actions.report.xml,name:l10n_ve_fiscal_reports.report_purchase_seniat
 msgid "Book Sales and Purchase SENIAT"
 msgstr "Libro de Ventas y Compras SENIAT"
 
 #. module: l10n_ve_fiscal_reports
-#: selection:fiscal.reports.purchase.book_seniat,init,model:0
-msgid "Book Purchase"
-msgstr "Libro de Compras"
+#: rml:fiscal.reports.purchase.purchase_seniat_HG:0
+msgid "Según Articulo 76 del Reglamento de la Ley del IVA 5.363 del 12 de Julio de 1999"
+msgstr "Según Articulo 76 del Reglamento de la Ley del IVA 5.363 del 12 de Julio de 1999"
 
 #. module: l10n_ve_fiscal_reports
 #: field:fiscal.reports.purchase,ai_reference:0
-#: rml:fiscal.reports.purchase.purchase_seniat:0
 #: field:fiscal.reports.sale,ai_reference:0
 #: field:fiscal.reports.whp,ai_reference:0
 #: field:fiscal.reports.whs,ai_number:0
@@ -574,27 +611,25 @@ msgid "Recompute Taxes"
 msgstr "Recalcular Impuestos"
 
 #. module: l10n_ve_fiscal_reports
-#: rml:fiscal.reports.whp.whp_seniat:0
+#: rml:fiscal.reports.whp.whp_seniat_HG:0
 msgid "% Ret"
 msgstr "% Ret"
 
 #. module: l10n_ve_fiscal_reports
-#: wizard_field:fiscal.recalc.taxes,init,date_end:0
-#: wizard_field:fiscal.reports.purchase.book_seniat,init,date_end:0
-#: wizard_field:fiscal.reports.whp.wh_book,init,date_end:0
-msgid "End Date"
-msgstr "Fecha Final"
+#: rml:fiscal.reports.purchase.purchase_seniat_HG:0
+msgid "Numero Control"
+msgstr "Numero Control"
 
 #. module: l10n_ve_fiscal_reports
-#: rml:fiscal.reports.purchase.purchase_seniat:0
-#: rml:fiscal.reports.whp.whp_seniat:0
-msgid "From :"
-msgstr "Desde: "
+#: rml:fiscal.reports.purchase.purchase_seniat_HG:0
+#: rml:fiscal.reports.whp.whp_seniat_HG:0
+msgid "Desde :"
+msgstr "Desde :"
 
 #. module: l10n_ve_fiscal_reports
-#: rml:fiscal.reports.purchase.purchase_seniat:0
-msgid "Retention VAT"
-msgstr "Retención IVA"
+#: rml:fiscal.reports.purchase.purchase_seniat_HG:0
+msgid "Doc"
+msgstr "Doc"
 
 #. module: l10n_ve_fiscal_reports
 #: field:fiscal.reports.purchase,ai_id:0
@@ -608,30 +643,24 @@ msgid "whitholding Sales."
 msgstr "Retención Ventas."
 
 #. module: l10n_ve_fiscal_reports
-#: rml:fiscal.reports.whp.whp_seniat:0
-msgid "</section>"
-msgstr "</section>"
+#: rml:fiscal.reports.purchase.purchase_seniat_HG:0
+msgid "Numero Fact. / DOC"
+msgstr "Numero Fact. / DOC"
 
 #. module: l10n_ve_fiscal_reports
-#: rml:fiscal.reports.purchase.purchase_seniat:0
-msgid "TOTALCI"
-msgstr "TOTALCI"
+#: model:ir.ui.menu,name:l10n_ve_fiscal_reports.sales_book_wizard_menu
+msgid "Print Sales Fiscal Report"
+msgstr "Imprimir Libro Vetas/Compras"
 
 #. module: l10n_ve_fiscal_reports
-#: selection:fiscal.reports.whp.wh_book,init,model:0
+#: model:ir.model,name:l10n_ve_fiscal_reports.model_sales_book_wizard
+msgid "sales.book.wizard"
+msgstr "sales.book.wizard"
+
+#. module: l10n_ve_fiscal_reports
+#: selection:fiscal.reports.whp.wh_book_HG,init,model:0
 msgid "Witholding Sales"
 msgstr "Retención Ventas"
-
-#. module: l10n_ve_fiscal_reports
-#: rml:fiscal.reports.purchase.purchase_seniat:0
-#: rml:fiscal.reports.whp.whp_seniat:0
-msgid "of the Month:"
-msgstr "del Mes: "
-
-#. module: l10n_ve_fiscal_reports
-#: rml:fiscal.reports.whp.whp_seniat:0
-msgid "Affected Invoice"
-msgstr "Factura Afectada"
 
 #. module: l10n_ve_fiscal_reports
 #: model:ir.actions.wizard,name:l10n_ve_fiscal_reports.wizard_sale_purchase_book
@@ -639,19 +668,25 @@ msgid "Book Seniat"
 msgstr "Libro SENIAT"
 
 #. module: l10n_ve_fiscal_reports
-#: rml:fiscal.reports.whp.whp_seniat:0
-msgid "<section>"
-msgstr "<section>"
+#: rml:fiscal.reports.purchase.purchase_seniat_HG:0
+msgid "FECHA Y HORA DE IMPRESION:"
+msgstr "FECHA Y HORA DE IMPRESION:"
 
 #. module: l10n_ve_fiscal_reports
-#: wizard_view:fiscal.recalc.taxes,init:0
-msgid "Recompute taxes on Invoices"
-msgstr "Recalcule impuestos por Facturas "
+#: model:ir.actions.act_window,name:l10n_ve_fiscal_reports.sales_book_wizard_act
+#: view:sales.book.wizard:0
+msgid "Sales Book Report"
+msgstr "Libro de Ventas"
 
 #. module: l10n_ve_fiscal_reports
 #: field:fiscal.reports.purchase,ai_type:0
 msgid "Document Type"
 msgstr "Tipo de Documento"
+
+#. module: l10n_ve_fiscal_reports
+#: rml:fiscal.reports.purchase.purchase_seniat_HG:0
+msgid "TOTAL CON IVA"
+msgstr "TOTAL CON IVA"
 
 #. module: l10n_ve_fiscal_reports
 #: field:fiscal.reports.whs,ar_id:0
