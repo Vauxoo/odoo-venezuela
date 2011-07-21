@@ -274,10 +274,10 @@
         </section>
         </td>
         <td>
-          <para style="CONTENIDO">[[ formatLang(((l.ai_id.type in ['in_refund', 'out_refund']) and (l.ar_id.total_tax_ret*(-1)) or l.ar_id.total_tax_ret)) ]]</para>
+          <para style="CONTENIDO">[[ get_ret(data['form'], l.ar_id and l.ar_id.id) and (formatLang(((l.ai_id.type in ['in_refund', 'out_refund']) and (l.ar_id.total_tax_ret*(-1)) or l.ar_id.total_tax_ret))) ]]</para>
         </td>
         <td>
-          <para style="CONTENIDO">[[ l.ar_id.number ]]</para>
+          <para style="CONTENIDO">[[ get_ret(data['form'],l.ar_id and l.ar_id.id) and l.ar_id.number ]]</para>
         </td>
       </tr>
       <!-- Relleno para colocar totales -->

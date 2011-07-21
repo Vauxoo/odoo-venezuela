@@ -58,6 +58,7 @@ class pur_sal_book(report_sxw.rml_parse):
             'get_dates':self._get_dates,
             'get_totals':self._get_totals,
             'get_doc':self._get_doc,
+            'get_ret':self._get_ret,
         })
 
 
@@ -77,6 +78,27 @@ class pur_sal_book(report_sxw.rml_parse):
         for g in gran_list_dict:
             print g
         return data
+
+    def _get_ret(self,form,ret_id=None):
+        '''
+            Ensure that Withholding date is inside period specified on form.
+        '''
+        d1=form['date_start']
+        d2=form['date_end']
+        if ret_id:
+            ret_obj = self.pool.get('account.retention')
+            rets = ret_obj.browse(self.cr,self.uid,[ret_id])
+            if rets:
+                if time.strptime(rets[0].date, '%Y-%m-%d') >= time.strptime(d1, '%Y-%m-%d') \
+                and time.strptime(rets[0].date, '%Y-%m-%d') <=  time.strptime(d2, '%Y-%m-%d'):
+                    return rets[0].number
+                else:
+                    return False
+            else:
+                return False
+        else:
+            return False
+
 
     def _get_partner_addr(self, idp=None):
         '''
