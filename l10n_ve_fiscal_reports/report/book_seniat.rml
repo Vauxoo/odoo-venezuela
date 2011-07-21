@@ -80,7 +80,7 @@
           <para style="HEADERDOC">[[ get_partner_addr( company.partner_id.id ) ]]</para>
         </td>
         <td>
-          <para style="HEADERDOC">Libro: [[ (data['form']['model'] == 'b_p') and "Compras"or "Ventas" ]] </para>
+          <para style="HEADERDOC">Libro: [[ (data['form']['type'] == 'purchase') and "Compras"or "Ventas" ]] </para>
           <para style="HEADERDOC">Correspodiente al Mes de [[ get_month( data['form'] )[0] ]] del año [[ get_month( data['form'] )[1] ]] </para>
           <para style="HEADERDOC">Desde : [[ time.strftime('%d/%m/%Y', time.strptime(get_dates( data['form'] )[0], '%Y-%m-%d')) ]]</para>
           <para style="HEADERDOC">Hasta: [[ time.strftime('%d/%m/%Y', time.strptime(get_dates( data['form'] )[1], '%Y-%m-%d')) ]]</para>
@@ -224,7 +224,7 @@
         </td>
         <td>
           <para style="HIDINGVALUES">HIDING</para>
-          <para style="HEADER">[[ (data['form']['model'] == 'b_p') and l.ai_id.parent_id.reference or l.ai_id.parent_id.number ]]</para>
+          <para style="HEADER">[[ (data['form']['type'] == 'purchase') and l.ai_id.parent_id.reference or l.ai_id.parent_id.number ]]</para>
         </td>
         <td>
             <para style="HIDINGVALUES">HIDING</para>

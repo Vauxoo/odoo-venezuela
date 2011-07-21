@@ -1,10 +1,8 @@
 # -*- encoding: utf-8 -*-
 ##############################################################################
-#
-# Copyright (c) 2010 Netquatro C.A. (http://openerp.netquatro.com/) All Rights Reserved.
-#                    Javier Duran <javier.duran@netquatro.com>
-#                    Nhomar Hernandéz <nhomar.hernandez@netquatro.com>
-# 
+# Copyright (c) 2011 OpenERP Venezuela (http://openerp.com.ve)
+# All Rights Reserved.
+# Programmed by: Israel Fermín Montilla  <israel@openerp.com.ve>
 #
 # WARNING: This program as such is intended to be used by professional
 # programmers who take the whole responsability of assessing all potential
@@ -26,10 +24,14 @@
 # You should have received a copy of the GNU General Public License
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
-#
-##############################################################################
+###############################################################################
+from osv import osv
+from osv import fields
 
-import l10n_ve_fiscal_reports
-import report
-import wizard
-import invoice
+class inherited_invoice(osv.osv):
+    _inherit = "account.invoice"
+    _description = "Adds an aditional field to store the administrative date"
+    _columns = {
+            'date_document': fields.date("Document Date", help="Administrative date"),
+        }
+inherited_invoice()

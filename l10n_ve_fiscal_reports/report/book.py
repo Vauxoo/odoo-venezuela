@@ -49,16 +49,30 @@ class pur_sal_book(report_sxw.rml_parse):
         super(pur_sal_book, self).__init__(cr, uid, name, context)    
         self.localcontext.update({
             'time': time,
+            'get_data':self._get_data,
             'get_partner_addr': self._get_partner_addr,
             'get_p_country': self._get_p_country,
             'get_alicuota': self._get_alicuota,
             'get_rif': self._get_rif,
-            'get_data':self._get_data,
             'get_month':self._get_month,
             'get_dates':self._get_dates,
             'get_totals':self._get_totals,
             'get_doc':self._get_doc,
         })
+
+
+    def _get_data(self,form):
+        d1=form['date_start']
+        d2=form['date_end']
+        if form['type']=='purchase':
+            book_type='fiscal.reports.purchase'           
+        else:
+            book_type='fiscal.reports.sale'
+        data=[]
+        fr_obj = self.pool.get(book_type)
+        fr_ids = fr_obj.search(self.cr,self.uid,[('ai_date_invoice', '<=', d2), ('ai_date_invoice', '>=', d1)])
+        data = fr_obj.browse(self.cr,self.uid, fr_ids)
+        return data
 
     def _get_partner_addr(self, idp=None):
         '''
@@ -129,18 +143,6 @@ class pur_sal_book(report_sxw.rml_parse):
             return []
         return vat[2:].replace(' ', '')
 
-    def _get_data(self,form):
-        d1=form['date_start']
-        d2=form['date_end']
-        if form['model']=='b_p':
-            book_type='fiscal.reports.purchase'           
-        else:
-            book_type='fiscal.reports.sale'
-        data=[]
-        fr_obj = self.pool.get(book_type)
-        fr_ids = fr_obj.search(self.cr,self.uid,[('ai_date_invoice', '<=', d2), ('ai_date_invoice', '>=', d1)])
-        data = fr_obj.browse(self.cr,self.uid, fr_ids)
-        return data
 
     def _get_month(self, form):
         '''
@@ -169,7 +171,7 @@ class pur_sal_book(report_sxw.rml_parse):
         '''    
         d1=form['date_start']
         d2=form['date_end']
-        if form['model']=='b_p':
+        if form['type']=='purchase':
             book_type='fiscal.reports.purchase'           
         else:
             book_type='fiscal.reports.sale'
