@@ -30,4 +30,6 @@
 
 
 import report_invoice
+import report
+import wizard
 

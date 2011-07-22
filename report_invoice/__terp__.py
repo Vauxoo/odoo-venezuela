@@ -41,6 +41,8 @@
 	"demo_xml" : [], 
 	"update_xml" : [
             "report_invoice_view.xml",
+            "report_invoice_report.xml",            
+            "wizard/invoice_partner_view.xml",            
 
     ],
 	"active": False,
