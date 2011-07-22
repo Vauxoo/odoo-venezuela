@@ -369,7 +369,7 @@ class account_invoice(osv.osv):
             return res
 
 
-    def _get_wh_apply(self,cr,uid,dict_rate,wh_dict):
+    def _get_wh_apply(self,cr,uid,dict_rate,wh_dict,nature):
         '''
         Retorna el diccionario completo con todos los datos para realizar la retencion, cada elemento es una linea de la factura.
         '''
@@ -383,8 +383,12 @@ class account_invoice(osv.osv):
                     subtract = 0.0
                     res.update(self._get_wh(cr, uid, subtract,concept, wh_dict, dict_rate, False))
             else: #Si ya se aplico alguna vez la retencion, se aplica rete de una vez, sobre la base sin chequear monto minimo.(Dentro de este periodo)
-                subtract = 0.0
-                res.update(self._get_wh(cr, uid, subtract,concept, wh_dict, dict_rate, True))# El True sirve para indicar que la linea si se va a retener.
+                if nature:
+                    subtract = dict_rate[concept][3]
+                    res.update(self._get_wh(cr, uid, subtract,concept, wh_dict, dict_rate, True))
+                else:
+                    subtract = 0.0
+                    res.update(self._get_wh(cr, uid, subtract,concept, wh_dict, dict_rate, True))# El True sirve para indicar que la linea si se va a retener.
         return res
 
 
@@ -583,7 +587,7 @@ class account_invoice(osv.osv):
                         nature = self._get_nature(cr, uid, vendor) # Retorna la naturaleza del vendedor.
                         dict_rate = self._get_rate_dict(cr, uid, concept_list, residence, nature,context) # Retorna las tasas por cada concepto
                         self._pop_dict(cr,uid,concept_list,dict_rate,wh_dict) # Borra los conceptos y las lineas de factura que no tengan tasa asociada.
-                        dict_completo = self._get_wh_apply(cr,uid,dict_rate,wh_dict) # Retorna el dict con todos los datos de la retencion por linea de factura.
+                        dict_completo = self._get_wh_apply(cr,uid,dict_rate,wh_dict,nature) # Retorna el dict con todos los datos de la retencion por linea de factura.
                         self._logic_create(cr,uid,dict_completo)# Se escribe y crea en todos los modelos asociados al islr.
                     else:
                         raise osv.except_osv(_('Invalid action !'),_("Imposible realizar Comprobante de Retencion ISLR, debido a que el comprador '%s' no es agente de Retencion!") % (buyer.name))
