@@ -35,4 +35,5 @@ import partner
 import stock
 import report
 import wizard
+import generate_txt
 

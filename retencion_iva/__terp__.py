@@ -54,6 +54,7 @@ Administración de las retenciones aplicadas al Impuesto del Valor Agregado:
             "retention_report.xml",
             "retention_wizard.xml",
             "retention_sequence.xml",
+            "generate_txt_view.xml",
     ],
 	"active": False,
 	"installable": True
