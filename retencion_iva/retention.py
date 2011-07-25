@@ -101,7 +101,6 @@ class account_retention(osv.osv):
         'retention_line': fields.one2many('account.retention.line', 'retention_id', 'Lineas de Retencion', readonly=True, states={'draft':[('readonly',False)]}, help="Facturas a la cual se realizarán las retenciones"),
         'amount_base_ret': fields.function(_amount_ret_all, method=True, digits=(16,4), string='Total Base Ret.', multi='all', help="Total de la base retenida"),
         'total_tax_ret': fields.function(_amount_ret_all, method=True, digits=(16,4), string='Total Imp. Ret.', multi='all', help="Total del impuesto Retenido"),
-
     } 
     _defaults = {
         'code': lambda obj, cr, uid, context: obj.pool.get('account.retention').retencion_seq_get(cr, uid, context),

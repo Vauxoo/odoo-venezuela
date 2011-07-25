@@ -35,24 +35,26 @@ from xml.etree.ElementTree import Element, SubElement, ElementTree, tostring
 import sys
 import base64
 
-class generate_txt_iva(osv.osv):
-    _name = "generate.txt.iva"
+class txt_iva(osv.osv):
+    _name = "txt.iva"
 
-    def _get_amount_total(self,cr,uid,ids,name,args,context=None):
-        res = {}
-        for voucher in self.browse(cr,uid,ids,context):
-            res[voucher.id]= 0.0
-            for line in voucher.voucher_ids:
-                res[voucher.id] += line.amount_base_ret
-        return res
-
-    def _get_amount_total_base(self,cr,uid,ids,name,args,context=None):
-        res = {}
-        for voucher in self.browse(cr,uid,ids,context):
-            res[voucher.id]= 0.0
-            for line in voucher.voucher_ids:
-                res[voucher.id] += line.total_tax_ret
-        return res
+    #~ def _get_amount_total(self,cr,uid,ids,name,args,context=None):
+        #~ res = {}
+        #~ for txt in self.browse(cr,uid,ids,context):
+            #~ res[txt.id]= 0.0
+            #~ for doc in txt.voucher_ids:
+                #~ for line in doc.retention_line:
+                    #~ res[txt.id] += line.amount_base_ret
+        #~ return res
+#~ 
+    #~ def _get_amount_total_base(self,cr,uid,ids,name,args,context=None):
+        #~ res = {}
+        #~ for voucher in self.browse(cr,uid,ids,context):
+            #~ res[voucher.id]= 0.0
+            #~ for doc in txt.voucher_ids:
+                #~ for line in doc.retention_line:
+                    #~ res[voucher.id] += line.total_tax_ret
+        #~ return res
 
     _columns = {
         'company_id': fields.many2one('res.company', 'Compañía', required=True),
@@ -64,9 +66,9 @@ class generate_txt_iva(osv.osv):
             ],'Estado', select=True, readonly=True, help="Estado del Comprobante"),
         'fiscalyear_id': fields.many2one('account.fiscalyear', 'Año Fiscal', required=True),
         'period_id':fields.many2one('account.period','Periodo',required=True, domain="[('fiscalyear_id','=',fiscalyear_id)]"),
-        'amount_total_ret':fields.function(_get_amount_total,method=True, digits=(16, 2), readonly=True, string=' Total Monto de Retencion', help="Monto Total Retenido"),
-        'amount_total_base':fields.function(_get_amount_total_base,method=True, digits=(16, 2), readonly=True, string='Total Base Imponible', help="Total de la Base Imponible"),
-        'voucher_ids':fields.many2one('account.retention','Comprobantes de Retención de IVA', readonly=True ,domain="[('period_id','=',period_id)]",states={'draft':[('readonly',False)]}),
+        'txt_ids':fields.one2many('txt.iva.line','txt_id',help='Lineas del archivo txt exigido por el SENIAT, para retención del IVA')
+        #~ 'amount_total_ret':fields.function(_get_amount_total,method=True, digits=(16, 2), readonly=True, string=' Total Monto de Retencion', help="Monto Total Retenido"),
+        #~ 'amount_total_base':fields.function(_get_amount_total_base,method=True, digits=(16, 2), readonly=True, string='Total Base Imponible', help="Total de la Base Imponible"),
     }
     _rec_rame = 'company_id'
 
@@ -82,6 +84,35 @@ class generate_txt_iva(osv.osv):
 
     def action_confirm(self, cr, uid, ids, context={}):
         return self.write(cr, uid, ids, {'state':'confirmed'})
+
+    def action_generate_lines_txt(self,cr,uid,ids,context={}):
+        voucher_obj = self.pool.get('account.retention')
+        txt_iva_obj = self.pool.get('txt.iva.line')
+        
+        txt_brw= self.browse(cr,uid,ids[0])
+        
+        print 'PERIODO ID',txt_brw.period_id.id
+        
+        voucher_ids = voucher_obj.search(cr,uid,[('period_id','=',txt_brw.period_id.id)])
+        
+        for voucher in voucher_obj.browse(cr,uid,voucher_ids):
+            
+            for voucher_lines in voucher.retention_line:
+            
+                txt_iva_obj.create(cr,uid,
+                {'partner_id':voucher.partner_id.id,
+                'voucher_id':voucher.id,
+                'invoice_id':voucher_lines.invoice_id.id,
+                'txt_id': txt_brw.id,
+                })
+            
+            
+            print 'NUMERO DE VOUCHER', voucher.number
+        
+        
+        
+        return True
+
 
     #~ def action_done(self, cr, uid, ids, context={}):
         #~ root = self._xml(cr,uid,ids)
@@ -145,58 +176,22 @@ class generate_txt_iva(osv.osv):
         #~ self.indent(root)
         #~ return tostring(root,encoding="ISO-8859-1")
 #~ .
-generate_txt_iva()
+txt_iva()
 
-#~ 
-#~ class islr_xml_wh_line(osv.osv):
-    #~ _name = "islr.xml.wh.line"
-    #~ 
-    #~ _columns = {
-        #~ 'concept_id': fields.many2one('islr.wh.concept','Concepto de Retencion',help="Concepto de Retencion asociado a esta Tasa",required=True, ondelete='cascade'),
-        #~ 'period_id':fields.many2one('account.period','Periodo',required=True),
-        #~ 'partner_vat': fields.char('RIF', size=10, required=True),
-        #~ 'invoice_number': fields.char('Num. Factura',size=10,required=True),
-        #~ 'control_number': fields.char('Num. Control',size=8,required=True),
-        #~ 'concept_code': fields.char('Codigo de Concepto', size=10, required=True),
-        #~ 'base': fields.float('Base Imponible', required=True),
-        #~ 'porcent_rete': fields.float('% Retencion', required=True),
-        #~ 'wh':fields.float('Monto de Retencion',required=True),
-        #~ 'rate_id':fields.many2one('islr.rates', 'Tipo de Persona',domain="[('concept_id','=',concept_id)]",required=True),
-        #~ 'islr_wh_doc_line_id':fields.many2one('islr.wh.doc.line','Documento de ISLR'),
-        #~ 'account_invoice_line_id':fields.many2one('account.invoice.line','Id de Linea de Factura'),
-        #~ 'islr_xml_wh_doc': fields.many2one('islr.xml.wh.doc','Documento ISLR XML'),
-        #~ 'partner_id': fields.many2one('res.partner','Empresa',required=True),
-        #~ 'sustract': fields.float('Sustraendo'),
-    #~ }
-    #~ _rec_name = 'partner_id'
-    #~ 
-    #~ _defaults = {
-        #~ 'invoice_number': lambda *a: '0',
-        #~ 'control_number': lambda *a: '0',
-    #~ }
-#~ 
-    #~ def onchange_partner_vat(self, cr, uid, ids, partner_id, context={}):
-        #~ partner_brw = self.pool.get('res.partner').browse(cr,uid,partner_id)
-        #~ return {'value' : {'partner_vat':partner_brw.vat[2:]}} 
-        #~ 
-        #~ 
-    #~ def onchange_code_perc(self, cr, uid, ids, rate_id, context={}):
-        #~ rate_brw = self.pool.get('islr.rates').browse(cr,uid,rate_id)
-        #~ return {'value' : {'porcent_rete':rate_brw.wh_perc,'concept_code':rate_brw.code}} 
-#~ 
-#~ islr_xml_wh_line()
-#~ 
 
-#~ class account_invoice_line(osv.osv):
-    #~ _inherit = "account.invoice.line"
-#~ 
-    #~ _columns = {
-        #~ 'wh_xml_id':fields.many2one('islr.xml.wh.line','Id XML'),
-    #~ }
-    #~ _defaults = {
-        #~ 'wh_xml_id': lambda *a: 0,
-    #~ }
-#~ account_invoice_line()
+class txt_iva_line(osv.osv):
+    _name = "txt.iva.line"
+    
+    _columns = {
+        'partner_id':fields.many2one('res.partner','Comprador/Vendedor',help="Persona jurídica ó natural que genera la Factura, Nota de Crédito, Nota de Débito o Certificación (vendedor)"),
+        'invoice_id':fields.many2one('account.invoice','Factura/ND/NC',help="Fecha de la factura, Nota de Crédito, Nota de Débito o Certificación, Declaración de Importación"),
+        'voucher_id':fields.many2one('account.retention','Comprobante de Retencion IVA',help="Comprobante de Retencion de Impuesto al Valor Agregado (IVA)"),
+        'txt_id':fields.many2one('txt.iva','Documento-Generar txt IVA'),
+    }
+    _rec_name = 'partner_id'
+ 
+txt_iva_line()
+
 
 
 
