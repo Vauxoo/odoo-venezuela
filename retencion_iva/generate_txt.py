@@ -38,23 +38,23 @@ import base64
 class txt_iva(osv.osv):
     _name = "txt.iva"
 
-    #~ def _get_amount_total(self,cr,uid,ids,name,args,context=None):
-        #~ res = {}
-        #~ for txt in self.browse(cr,uid,ids,context):
-            #~ res[txt.id]= 0.0
-            #~ for doc in txt.voucher_ids:
-                #~ for line in doc.retention_line:
-                    #~ res[txt.id] += line.amount_base_ret
-        #~ return res
-#~ 
-    #~ def _get_amount_total_base(self,cr,uid,ids,name,args,context=None):
-        #~ res = {}
-        #~ for voucher in self.browse(cr,uid,ids,context):
-            #~ res[voucher.id]= 0.0
-            #~ for doc in txt.voucher_ids:
-                #~ for line in doc.retention_line:
-                    #~ res[voucher.id] += line.total_tax_ret
-        #~ return res
+    def _get_amount_total(self,cr,uid,ids,name,args,context=None):
+        res = {}
+        for txt in self.browse(cr,uid,ids,context):
+            res[txt.id]= 0.0
+            for txt_line in txt.txt_ids:
+                res[txt.id] += txt_line.amount_withheld
+                
+        return res
+
+    def _get_amount_total_base(self,cr,uid,ids,name,args,context=None):
+        res = {}
+        for txt in self.browse(cr,uid,ids,context):
+            res[txt.id]= 0.0
+            for txt_line in txt.txt_ids:
+                res[txt.id] += txt_line.untaxed
+                
+        return res
 
     _columns = {
         'company_id': fields.many2one('res.company', 'Compañía', required=True),
@@ -66,9 +66,9 @@ class txt_iva(osv.osv):
             ],'Estado', select=True, readonly=True, help="Estado del Comprobante"),
         'fiscalyear_id': fields.many2one('account.fiscalyear', 'Año Fiscal', required=True),
         'period_id':fields.many2one('account.period','Periodo',required=True, domain="[('fiscalyear_id','=',fiscalyear_id)]"),
-        'txt_ids':fields.one2many('txt.iva.line','txt_id',help='Lineas del archivo txt exigido por el SENIAT, para retención del IVA')
-        #~ 'amount_total_ret':fields.function(_get_amount_total,method=True, digits=(16, 2), readonly=True, string=' Total Monto de Retencion', help="Monto Total Retenido"),
-        #~ 'amount_total_base':fields.function(_get_amount_total_base,method=True, digits=(16, 2), readonly=True, string='Total Base Imponible', help="Total de la Base Imponible"),
+        'txt_ids':fields.one2many('txt.iva.line','txt_id',domain="[('txt_id','=',False)]",help='Lineas del archivo txt exigido por el SENIAT, para retención del IVA'),
+        'amount_total_ret':fields.function(_get_amount_total,method=True, digits=(16, 2), readonly=True, string=' Total Monto de Retencion', help="Monto Total Retenido"),
+        'amount_total_base':fields.function(_get_amount_total_base,method=True, digits=(16, 2), readonly=True, string='Total Base Imponible', help="Total de la Base Imponible"),
     }
     _rec_rame = 'company_id'
 
@@ -90,92 +90,63 @@ class txt_iva(osv.osv):
         txt_iva_obj = self.pool.get('txt.iva.line')
         
         txt_brw= self.browse(cr,uid,ids[0])
+        txt_ids = txt_iva_obj.search(cr,uid,[('txt_id','=',txt_brw.id)])
+        if txt_ids:
+            txt_iva_obj.unlink(cr,uid,txt_ids)
         
-        print 'PERIODO ID',txt_brw.period_id.id
-        
-        voucher_ids = voucher_obj.search(cr,uid,[('period_id','=',txt_brw.period_id.id)])
-        
+        voucher_ids = voucher_obj.search(cr,uid,[('period_id','=',txt_brw.period_id.id),('state','=','done')])
         for voucher in voucher_obj.browse(cr,uid,voucher_ids):
-            
             for voucher_lines in voucher.retention_line:
-            
                 txt_iva_obj.create(cr,uid,
                 {'partner_id':voucher.partner_id.id,
                 'voucher_id':voucher.id,
                 'invoice_id':voucher_lines.invoice_id.id,
                 'txt_id': txt_brw.id,
+                'untaxed': voucher_lines.base_ret,
+                'amount_withheld': voucher_lines.amount_tax_ret,
                 })
-            
-            
-            print 'NUMERO DE VOUCHER', voucher.number
-        
-        
-        
         return True
 
+    def action_done(self, cr, uid, ids, context={}):
+        root = self.generate_txt(cr,uid,ids)
+        self._write_attachment(cr,uid,ids,root,context)
+        self.write(cr, uid, ids, {'state':'done'})
+        return True
 
-    #~ def action_done(self, cr, uid, ids, context={}):
-        #~ root = self._xml(cr,uid,ids)
-        #~ self._write_attachment(cr,uid,ids,root,context)
-        #~ self.write(cr, uid, ids, {'state':'done'})
-        #~ return True
-#~ 
-    #~ def _write_attachment(self, cr,uid,ids,root,context):
-        #~ '''
-        #~ Codificar el xml, para guardarlo en la bd y poder verlo en el cliente como attachment
-        #~ '''
-        #~ fecha = time.strftime('%Y_%m_%d')
-        #~ name = 'ISLR_' + fecha +'.'+ 'xml'
-        #~ self.pool.get('ir.attachment').create(cr, uid, {
-            #~ 'name': name,
-            #~ 'datas': base64.encodestring(root),
-            #~ 'datas_fname': name,
-            #~ 'res_model': 'islr.xml.wh.doc',
-            #~ 'res_id': ids[0],
-            #~ }, context=context
-        #~ )
-        #~ cr.commit()
-
-#~ 
-    #~ def indent(self,elem, level=0):
-        #~ i = "\n" + level*"  "
-        #~ if len(elem):
-            #~ if not elem.text or not elem.text.strip():
-                #~ elem.text = i + "  "
-            #~ if not elem.tail or not elem.tail.strip():
-                #~ elem.tail = i
-            #~ for elem in elem:
-                #~ self.indent(elem, level+1)
-            #~ if not elem.tail or not elem.tail.strip():
-                #~ elem.tail = i
-        #~ else:
-            #~ if level and (not elem.tail or not elem.tail.strip()):
-                #~ elem.tail = i
-#~ 
-
-    #~ def _xml(self, cr,uid,ids):
-        #~ root = ''
-        #~ for id in ids:
-            #~ wh_brw = self.browse(cr,uid,id)
-            #~ 
-            #~ period = wh_brw.period_id.name.split('/')
-            #~ period2 = period[1]+period[0]
-#~ 
-            #~ root = Element("RelacionRetencionesISLR")
-            #~ root.attrib['RifAgente'] = wh_brw.company_id.partner_id.vat[2:]
-            #~ root.attrib['Periodo'] = period2.strip()
-            #~ for line in wh_brw.xml_ids:
-                #~ detalle = SubElement(root,"DetalleRetencion")
-                #~ SubElement(detalle, "RifRetenido").text = line.partner_vat
-                #~ SubElement(detalle, "NumeroFactura").text = line.invoice_number
-                #~ SubElement(detalle, "NumeroControl").text = line.control_number
-                #~ SubElement(detalle, "CodigoConcepto").text = line.concept_code
-                #~ SubElement(detalle, "MontoOperacion").text = str(line.base)
-                #~ SubElement(detalle, "PorcentajeRetencion").text = str(line.porcent_rete)
-        #~ ElementTree(root).write("/home/gabriela/openerp/Gabriela/5.0/Helados Gilda/islr_withholding/xml.xml")
-        #~ self.indent(root)
-        #~ return tostring(root,encoding="ISO-8859-1")
-#~ .
+    def generate_txt(self, cr,uid,ids,context=None):
+        f = open("/home/operador/iva.txt","w")
+        
+        for txt in self.browse(cr,uid,ids,context):
+            for txt_line in txt.txt_ids:
+                vat = txt.company_id.partner_id.vat[2:]
+                period2 = period[1]+period[0]
+                
+                txt= vat, ' ',period2.strip(),' ', 
+                
+                
+                f.write(txt)
+        
+        
+        f.close()
+        return f,vat
+        
+    def _write_attachment(self, cr,uid,ids,root,context):
+        '''
+        Codificar el txt, para guardarlo en la bd y poder verlo en el cliente como attachment
+        '''
+        fecha = time.strftime('%Y_%m_%d')
+        name = 'IVA_' + fecha +'.'+ 'txt'
+        self.pool.get('ir.attachment').create(cr, uid, {
+            'name': name,
+            'datas': base64.encodestring(root[1]),
+            'datas_fname': name,
+            'res_model': 'txt.iva',
+            'res_id': ids[0],
+            }, context=context
+        )
+        cr.commit()
+        
+        
 txt_iva()
 
 
@@ -186,6 +157,8 @@ class txt_iva_line(osv.osv):
         'partner_id':fields.many2one('res.partner','Comprador/Vendedor',help="Persona jurídica ó natural que genera la Factura, Nota de Crédito, Nota de Débito o Certificación (vendedor)"),
         'invoice_id':fields.many2one('account.invoice','Factura/ND/NC',help="Fecha de la factura, Nota de Crédito, Nota de Débito o Certificación, Declaración de Importación"),
         'voucher_id':fields.many2one('account.retention','Comprobante de Retencion IVA',help="Comprobante de Retencion de Impuesto al Valor Agregado (IVA)"),
+        'amount_withheld':fields.float('Amount Withheld'),
+        'untaxed':fields.float('Untaxed'),
         'txt_id':fields.many2one('txt.iva','Documento-Generar txt IVA'),
     }
     _rec_name = 'partner_id'

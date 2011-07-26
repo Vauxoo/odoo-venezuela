@@ -40,6 +40,8 @@
                                     <field name="partner_id"/>
                                     <field name="invoice_id"/>
                                     <field name="voucher_id"/>
+                                    <field name="untaxed"/>
+                                    <field name="amount_withheld"/>
                                 </tree>
                             </field>
                             <group col="4" colspan="2">
@@ -49,12 +51,10 @@
                                 <button name="action_done" string="Realizar TXT" states="confirmed" type="object"  icon="gtk-ok"/>
                                 <button name="action_anular" string="Anular" states="confirmed,done" type="object"  icon="gtk-cancel"/>
                             </group>
-<!--
                             <group col="2" colspan="2">
                                 <field name="amount_total_ret"/>
                                 <field name="amount_total_base"/>
                              </group>
--->
                         </page>
                     </notebook>
                 </form>
