@@ -57,16 +57,16 @@ class txt_iva(osv.osv):
         return res
 
     _columns = {
-        'company_id': fields.many2one('res.company', 'Compañía', required=True),
+        'company_id': fields.many2one('res.company', 'Compañía', required=True, readonly=True,states={'draft':[('readonly',False)]}),
         'state': fields.selection([
             ('draft','Draft'),
             ('confirmed', 'Confirmed'),
             ('done','Done'),
             ('cancel','Cancelled')
             ],'Estado', select=True, readonly=True, help="Estado del Comprobante"),
-        'fiscalyear_id': fields.many2one('account.fiscalyear', 'Año Fiscal', required=True),
-        'period_id':fields.many2one('account.period','Periodo',required=True, domain="[('fiscalyear_id','=',fiscalyear_id)]"),
-        'txt_ids':fields.one2many('txt.iva.line','txt_id',domain="[('txt_id','=',False)]",help='Lineas del archivo txt exigido por el SENIAT, para retención del IVA'),
+        'fiscalyear_id': fields.many2one('account.fiscalyear', 'Año Fiscal', required=True,readonly=True,states={'draft':[('readonly',False)]}),
+        'period_id':fields.many2one('account.period','Periodo',required=True,readonly=True,states={'draft':[('readonly',False)]}, domain="[('fiscalyear_id','=',fiscalyear_id)]"),
+        'txt_ids':fields.one2many('txt.iva.line','txt_id',domain="[('txt_id','=',False)]", readonly=True,states={'draft':[('readonly',False)]}, help='Lineas del archivo txt exigido por el SENIAT, para retención del IVA'),
         'amount_total_ret':fields.function(_get_amount_total,method=True, digits=(16, 2), readonly=True, string=' Total Monto de Retencion', help="Monto Total Retenido"),
         'amount_total_base':fields.function(_get_amount_total_base,method=True, digits=(16, 2), readonly=True, string='Total Base Imponible', help="Total de la Base Imponible"),
     }
@@ -113,22 +113,96 @@ class txt_iva(osv.osv):
         self.write(cr, uid, ids, {'state':'done'})
         return True
 
+    def get_type_document(self,cr,uid,ids,txt_line,context):
+        type= '03'
+        if txt_line.invoice_id.type in ['out_invoice','in_invoice']:
+            type= '01'
+        elif txt_line.invoice_id.type in ['out_invoice','in_invoice'] and txt_line.invoice_id.parent_id:
+            type= '02'
+        return type
+
+    def get_document_affected(self,cr,uid,txt_line,context):
+        number=''
+        if txt_line.invoice_id.type in ['in_invoice','in_refund'] and txt_line.invoice_id.parent_id:
+            print 'entre aqui'
+            number = txt_line.invoice_id.parent_id.reference
+        elif txt_line.invoice_id.parent_id: 
+            print 'entre aqui22'
+            number = txt_line.invoice_id.parent_id.number
+        print 'NUMBER', number
+        return number
+
+    def get_number(self,cr,uid,number,inv_type,long):
+        if not number:
+            return '0'
+        else:
+            result= ''
+            if inv_type=='inv_ctrl':
+                number= number[::-1]
+            for i in number:
+                if inv_type=='vou_number':
+                    if i.isdigit():
+                        if len(result)<long:
+                            result = i + result
+                        else:
+                            break
+                else:
+                    if i.isalnum():
+                        if len(result)<long:
+                            result = i + result
+                        else:
+                            break
+        return result[::-1].strip()
+
+    def get_document_number(self,cr,uid,ids,txt_line,inv_type,context):
+        number=0
+        if txt_line.invoice_id.type in ['in_invoice','in_refund']:
+            if not txt_line.invoice_id.reference:
+                raise osv.except_osv(_('Invalid action !'),_("Imposible realizar archivo txt, debido a que la factura no tiene numero de referencia libre!"))
+            else:
+                number = self.get_number(cr,uid,txt_line.invoice_id.reference.strip(),inv_type,20)
+        elif txt_line.invoice_id.number:
+            number = self.get_number(cr,uid,txt_line.invoice_id.number.strip(),inv_type,20)
+        return number
+
     def generate_txt(self, cr,uid,ids,context=None):
-        f = open("/home/operador/iva.txt","w")
-        
+        txt_string = ''
         for txt in self.browse(cr,uid,ids,context):
+            vat = txt.company_id.partner_id.vat[2:]
             for txt_line in txt.txt_ids:
-                vat = txt.company_id.partner_id.vat[2:]
+                period = txt.period_id.name.split('/')
                 period2 = period[1]+period[0]
+                operation_type= 'C' if txt_line.invoice_id.type in ['out_invoice','out_refund'] else 'V'
+                document_type = self.get_type_document(cr,uid,ids,txt_line,context)
+                document_number=self.get_document_number(cr,uid,ids,txt_line,'inv_number',context)
+                control_number= self.get_number(cr,uid,txt_line.invoice_id.nro_ctrl,'inv_ctrl',20)
+                document_affected= self.get_document_affected(cr,uid,txt_line,context)
+                voucher_number= self.get_number(cr,uid,txt_line.voucher_id.number,'vou_number',14)
+                print 'control_number',control_number
+                print 'AT VIRGEN', txt_line.invoice_id.amount_total
                 
-                txt= vat, ' ',period2.strip(),' ', 
+                at= str(txt_line.invoice_id.amount_total)
+                print 'at', at
+                print 'amount total',str(txt_line.invoice_id.amount_total)
                 
+                #~ txt_string= vat+' '+period2.strip()+' '\
+                #~ +txt_line.invoice_id.date_invoice+' '+operation_type+' '+document_type+' '\
+                #~ +document_number+' '+control_number+' '+str(txt_line.invoice_id.amount_total)+' '
+                #~ +str(txt_line.invoice_id.amount_untaxed)+' '
+                #~ +str(txt_line.amount_withheld)
+                #~ +'\n'+txt_string
                 
-                f.write(txt)
+                txt_string= vat +' '+period2.strip()+' '\
+                +txt_line.invoice_id.date_invoice+' '+operation_type+' '+document_type+' '\
+                +document_number+' '+control_number+' '+str(txt_line.invoice_id.amount_total)+' '\
+                +str(txt_line.invoice_id.amount_untaxed)+' '\
+                +str(txt_line.amount_withheld)+' '+document_affected+' '\
+                +'\n'+txt_string
+                
+                print 'TXT', txt_string
+        return txt_string
+        #~ return u'%s'%(txt_string.decode('utf-8'))
         
-        
-        f.close()
-        return f,vat
         
     def _write_attachment(self, cr,uid,ids,root,context):
         '''
@@ -138,7 +212,7 @@ class txt_iva(osv.osv):
         name = 'IVA_' + fecha +'.'+ 'txt'
         self.pool.get('ir.attachment').create(cr, uid, {
             'name': name,
-            'datas': base64.encodestring(root[1]),
+            'datas': base64.encodestring(root),
             'datas_fname': name,
             'res_model': 'txt.iva',
             'res_id': ids[0],
