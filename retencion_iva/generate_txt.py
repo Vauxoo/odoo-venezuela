@@ -113,7 +113,7 @@ class txt_iva(osv.osv):
         self.write(cr, uid, ids, {'state':'done'})
         return True
 
-    def get_type_document(self,cr,uid,ids,txt_line,context):
+    def get_type_document(self,cr,uid,txt_line):
         type= '03'
         if txt_line.invoice_id.type in ['out_invoice','in_invoice']:
             type= '01'
@@ -129,31 +129,17 @@ class txt_iva(osv.osv):
             number = txt_line.invoice_id.parent_id.number
         return number
 
-    #~ def get_result(self,cr,uid,result,long,i):
-        #~ if len(result)<long:
-            #~ return result = i + result
-        #~ else:
-            #~ return 
-        #~ return result
-
     def get_number(self,cr,uid,number,inv_type,long):
         if not number:
             return '0'
-        else:
-            result= ''
-            if inv_type=='inv_ctrl':
-                number= number[::-1]
-            for i in number:
-                if inv_type=='vou_number' and i.isdigit():
-                    if len(result)<long:
-                        result = i + result
-                    else:
-                        break
-                elif i.isalnum():
-                    if len(result)<long:
-                        result = i + result
-                    else:
-                        break
+        result= ''
+        for i in number:
+            if inv_type=='vou_number' and i.isdigit():
+                if len(result)<long:
+                    result = i + result
+            elif i.isalnum():
+                if len(result)<long:
+                    result = i + result
         return result[::-1].strip()
 
     def get_document_number(self,cr,uid,ids,txt_line,inv_type,context):
@@ -166,7 +152,6 @@ class txt_iva(osv.osv):
         elif txt_line.invoice_id.number:
             number = self.get_number(cr,uid,txt_line.invoice_id.number.strip(),inv_type,20)
         return number
-
 
     def get_buyer_vendor(self,cr,uid,txt,txt_line):
         if txt_line.invoice_id.type in ['out_invoice','out_refund']:
@@ -186,19 +171,19 @@ class txt_iva(osv.osv):
                 period = txt.period_id.name.split('/')
                 period2 = period[1]+period[0]
                 operation_type = 'V' if txt_line.invoice_id.type in ['out_invoice','out_refund'] else 'C'
-                document_type  = self.get_type_document(cr,uid,ids,txt_line,context)
+                document_type  = self.get_type_document(cr,uid,txt_line)
                 document_number=self.get_document_number(cr,uid,ids,txt_line,'inv_number',context)
                 control_number = self.get_number(cr,uid,txt_line.invoice_id.nro_ctrl,'inv_ctrl',20)
                 document_affected= self.get_document_affected(cr,uid,txt_line,context)
                 voucher_number = self.get_number(cr,uid,txt_line.voucher_id.number,'vou_number',14)
 
-                txt_string= buyer +' '+period2.strip()+' '\
+                txt_string= txt_string + buyer +' '+period2.strip()+' '\
                 +txt_line.invoice_id.date_invoice+' '+operation_type+' '+document_type+' '+vendor+' '\
                 +document_number+' '+control_number+' '+str(txt_line.invoice_id.amount_total)+' '\
                 +str(txt_line.invoice_id.amount_untaxed)+' '\
                 +str(txt_line.amount_withheld)+' '+document_affected+' '+voucher_number+' '\
                 +'0'+' '+'12'+' '+'0'\
-                +'\n'+txt_string
+                +'\n'
                 
                 print 'TXT', txt_string
         return txt_string
