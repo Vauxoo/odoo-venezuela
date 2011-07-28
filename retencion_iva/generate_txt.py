@@ -6,8 +6,8 @@
 #    All Rights Reserved
 ###############Credits######################################################
 #    Coded by: Humberto Arocha           <humberto@openerp.com.ve>
-#              Maria Gabriela Quilarque  <gabrielaquilarque97@gmail.com>
-#              Javier Duran              <javier.duran@netquatro.com>             
+#              Maria Gabriela Quilarque  <gabriela@openerp.com.ve>
+#              Javier Duran              <javier@nvauxoo.com>
 #    Planified by: Nhomar Hernandez
 #    Finance by: Helados Gilda, C.A. http://heladosgilda.com.ve
 #    Audited by: Humberto Arocha humberto@openerp.com.ve
@@ -122,15 +122,19 @@ class txt_iva(osv.osv):
         return type
 
     def get_document_affected(self,cr,uid,txt_line,context):
-        number=''
+        number='0'
         if txt_line.invoice_id.type in ['in_invoice','in_refund'] and txt_line.invoice_id.parent_id:
-            print 'entre aqui'
             number = txt_line.invoice_id.parent_id.reference
         elif txt_line.invoice_id.parent_id: 
-            print 'entre aqui22'
             number = txt_line.invoice_id.parent_id.number
-        print 'NUMBER', number
         return number
+
+    #~ def get_result(self,cr,uid,result,long,i):
+        #~ if len(result)<long:
+            #~ return result = i + result
+        #~ else:
+            #~ return 
+        #~ return result
 
     def get_number(self,cr,uid,number,inv_type,long):
         if not number:
@@ -140,18 +144,16 @@ class txt_iva(osv.osv):
             if inv_type=='inv_ctrl':
                 number= number[::-1]
             for i in number:
-                if inv_type=='vou_number':
-                    if i.isdigit():
-                        if len(result)<long:
-                            result = i + result
-                        else:
-                            break
-                else:
-                    if i.isalnum():
-                        if len(result)<long:
-                            result = i + result
-                        else:
-                            break
+                if inv_type=='vou_number' and i.isdigit():
+                    if len(result)<long:
+                        result = i + result
+                    else:
+                        break
+                elif i.isalnum():
+                    if len(result)<long:
+                        result = i + result
+                    else:
+                        break
         return result[::-1].strip()
 
     def get_document_number(self,cr,uid,ids,txt_line,inv_type,context):
@@ -165,44 +167,41 @@ class txt_iva(osv.osv):
             number = self.get_number(cr,uid,txt_line.invoice_id.number.strip(),inv_type,20)
         return number
 
-    def generate_txt(self, cr,uid,ids,context=None):
+
+    def get_buyer_vendor(self,cr,uid,txt,txt_line):
+        if txt_line.invoice_id.type in ['out_invoice','out_refund']:
+            vendor = txt.company_id.partner_id.vat[2:]
+            buyer  = txt_line.partner_id.vat[2:]
+        else:
+            buyer  = txt.company_id.partner_id.vat[2:]
+            vendor = txt_line.partner_id.vat[2:]
+        return (vendor,buyer)
+
+    def generate_txt(self,cr,uid,ids,context=None):
         txt_string = ''
         for txt in self.browse(cr,uid,ids,context):
             vat = txt.company_id.partner_id.vat[2:]
             for txt_line in txt.txt_ids:
+                vendor,buyer=self.get_buyer_vendor(cr,uid,txt,txt_line)
                 period = txt.period_id.name.split('/')
                 period2 = period[1]+period[0]
-                operation_type= 'C' if txt_line.invoice_id.type in ['out_invoice','out_refund'] else 'V'
-                document_type = self.get_type_document(cr,uid,ids,txt_line,context)
+                operation_type = 'V' if txt_line.invoice_id.type in ['out_invoice','out_refund'] else 'C'
+                document_type  = self.get_type_document(cr,uid,ids,txt_line,context)
                 document_number=self.get_document_number(cr,uid,ids,txt_line,'inv_number',context)
-                control_number= self.get_number(cr,uid,txt_line.invoice_id.nro_ctrl,'inv_ctrl',20)
+                control_number = self.get_number(cr,uid,txt_line.invoice_id.nro_ctrl,'inv_ctrl',20)
                 document_affected= self.get_document_affected(cr,uid,txt_line,context)
-                voucher_number= self.get_number(cr,uid,txt_line.voucher_id.number,'vou_number',14)
-                print 'control_number',control_number
-                print 'AT VIRGEN', txt_line.invoice_id.amount_total
-                
-                at= str(txt_line.invoice_id.amount_total)
-                print 'at', at
-                print 'amount total',str(txt_line.invoice_id.amount_total)
-                
-                #~ txt_string= vat+' '+period2.strip()+' '\
-                #~ +txt_line.invoice_id.date_invoice+' '+operation_type+' '+document_type+' '\
-                #~ +document_number+' '+control_number+' '+str(txt_line.invoice_id.amount_total)+' '
-                #~ +str(txt_line.invoice_id.amount_untaxed)+' '
-                #~ +str(txt_line.amount_withheld)
-                #~ +'\n'+txt_string
-                
-                txt_string= vat +' '+period2.strip()+' '\
-                +txt_line.invoice_id.date_invoice+' '+operation_type+' '+document_type+' '\
+                voucher_number = self.get_number(cr,uid,txt_line.voucher_id.number,'vou_number',14)
+
+                txt_string= buyer +' '+period2.strip()+' '\
+                +txt_line.invoice_id.date_invoice+' '+operation_type+' '+document_type+' '+vendor+' '\
                 +document_number+' '+control_number+' '+str(txt_line.invoice_id.amount_total)+' '\
                 +str(txt_line.invoice_id.amount_untaxed)+' '\
-                +str(txt_line.amount_withheld)+' '+document_affected+' '\
+                +str(txt_line.amount_withheld)+' '+document_affected+' '+voucher_number+' '\
+                +'0'+' '+'12'+' '+'0'\
                 +'\n'+txt_string
                 
                 print 'TXT', txt_string
         return txt_string
-        #~ return u'%s'%(txt_string.decode('utf-8'))
-        
         
     def _write_attachment(self, cr,uid,ids,root,context):
         '''
