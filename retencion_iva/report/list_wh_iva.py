@@ -5,7 +5,8 @@
 #    Copyright (C) OpenERP Venezuela (<http://openerp.com.ve>).
 #    All Rights Reserved
 ###############Credits######################################################
-#    Coded by: Maria Gabriela Quilarque  <gabriela@openerp.com.ve>
+#    Coded by: Humberto Arocha           <humberto@openerp.com.ve>
+#              Maria Gabriela Quilarque  <gabriela@openerp.com.ve>
 #              Javier Duran              <javier@nvauxoo.com>
 #    Planified by: Nhomar Hernandez
 #    Finance by: Helados Gilda, C.A. http://heladosgilda.com.ve
@@ -25,34 +26,29 @@
 #    along with this program.  If not, see <http://www.gnu.org/licenses/>.
 ##############################################################################
 
-{
-	"name" : "Retenciones al Impuesto del Valor Agregado",
-	"version" : "0.5",
-	"author" : "Latinux & Netquatro",
-	"category" : "Localisation/Venezuela",
-	"website": "http://wiki.openerp.org.ve/",
-	"description": '''
-Administración de las retenciones aplicadas al Impuesto del Valor Agregado:
-- Compras
-- Ventas
-- Verificar pestañas en Partners, Invoices y menús creados.
-''',
-	"depends" : ["base","account","stock"],
-	"init_xml" : [],
-	"demo_xml" : [], 
-	"update_xml" : [
-            "security/ir.model.access.csv",
-            "retention_workflow.xml",
-            "retention_view.xml", 
-            "account_view.xml", 
-            "account_invoice_view.xml",
-            "partner_view.xml",
-            "stock_view.xml", 
-            "retention_wizard.xml",
-            "retention_sequence.xml",
-            "generate_txt_view.xml",
-            "txt_wh_report.xml",
-    ],
-	"active": False,
-	"installable": True
-}
+import time
+import pooler
+from report import report_sxw
+from tools.translate import _
+
+class list_wh_iva(report_sxw.rml_parse):
+    def __init__(self, cr, uid, name, context):
+        super(list_wh_iva, self).__init__(cr, uid, name, context=context)
+        self.localcontext.update({
+            'get_type_doc': self._get_type_document,
+        })
+
+    def _get_type_document(self,line):
+        return self.pool.get('txt.iva').get_type_document(self.cr,self.uid,line)
+
+    #~ def get_type_document(self,cr,uid,txt_line):
+
+
+
+report_sxw.report_sxw(
+    'report.list_report_wh_vat2',
+    'txt.iva',
+    'addons/retencion_iva/report/list_wh_iva_report.rml',
+    parser=list_wh_iva, 
+    header=False
+)

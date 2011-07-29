@@ -153,6 +153,14 @@ class txt_iva(osv.osv):
             number = self.get_number(cr,uid,txt_line.invoice_id.number.strip(),inv_type,20)
         return number
 
+    def get_amount_exempt(self,cr,uid,txt_line):
+        tax = 0
+        for inv_line in txt_line.invoice_id.tax_line:
+            if 'SDCF' in inv_line.name:
+                tax = inv_line.base + tax
+        return tax
+
+
     def get_buyer_vendor(self,cr,uid,txt,txt_line):
         if txt_line.invoice_id.type in ['out_invoice','out_refund']:
             vendor = txt.company_id.partner_id.vat[2:]
@@ -176,15 +184,15 @@ class txt_iva(osv.osv):
                 control_number = self.get_number(cr,uid,txt_line.invoice_id.nro_ctrl,'inv_ctrl',20)
                 document_affected= self.get_document_affected(cr,uid,txt_line,context)
                 voucher_number = self.get_number(cr,uid,txt_line.voucher_id.number,'vou_number',14)
+                amount_exempt = self.get_amount_exempt(cr,uid,txt_line)
 
                 txt_string= txt_string + buyer +' '+period2.strip()+' '\
                 +txt_line.invoice_id.date_invoice+' '+operation_type+' '+document_type+' '+vendor+' '\
                 +document_number+' '+control_number+' '+str(txt_line.invoice_id.amount_total)+' '\
                 +str(txt_line.invoice_id.amount_untaxed)+' '\
                 +str(txt_line.amount_withheld)+' '+document_affected+' '+voucher_number+' '\
-                +'0'+' '+'12'+' '+'0'\
+                +str(amount_exempt)+' '+'12'+' '+'0'\
                 +'\n'
-                
                 print 'TXT', txt_string
         return txt_string
         
