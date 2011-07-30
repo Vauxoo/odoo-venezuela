@@ -17,6 +17,7 @@
                     <field name="company_id"/>
                     <field name="fiscalyear_id"/>
                     <field name="period_id"/>
+                    <field name="type"/>
                 </tree>
             </field>
         </record>
@@ -27,11 +28,19 @@
             <field name="type">form</field>
             <field name="arch" type="xml">
                 <form string="Lineas de Retencion para TXT">
-                    <field name="company_id"/>
+                    <group col="4" colspan="4">
+                        <field name="company_id"/>
+                        <field name="type"/>
+                    </group>
                     <newline/>
-                    <group col="4" colspan="2">
+                    <group col="4" colspan="4">
                         <field name="fiscalyear_id"  />
                         <field name="period_id" />
+                    </group>
+                    <newline/>
+                    <group col="4" colspan="4">
+                        <field name="date_start"/>
+                        <field name="date_end"/>
                     </group>
                     <notebook colspan="4">
                         <page string="Lineas de Retencion">
