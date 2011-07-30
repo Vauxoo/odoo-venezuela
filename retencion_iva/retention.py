@@ -187,8 +187,6 @@ class account_retention(osv.osv):
         return True
 
 
-    
-
     def action_move_create(self, cr, uid, ids, *args):
         inv_obj = self.pool.get('account.invoice')
         context = {}

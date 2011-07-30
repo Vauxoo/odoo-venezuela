@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+    <data>
+        <report
+            id="list_report_wh_vat" 
+            menu="True"
+            model="txt.iva" 
+            name="list_report_wh_vat2" 
+            rml="addons/retencion_iva/report/list_wh_iva_report.rml" 
+            string="Retenciones IVA"
+            auto = "True"
+            header="False"/>
+    </data>
+</openerp>
+            

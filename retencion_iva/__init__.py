@@ -27,13 +27,12 @@
 #
 ##############################################################################
 
-
+import report
 import retention
 import account
 import invoice
 import partner
 import stock
-import report
 import wizard
 import generate_txt
 
