@@ -8,28 +8,25 @@
         <drawString x="12.0mm" y="245.0mm">[[company.logo and removeParentNode('para') or company.name]]</drawString> 
         <place x="12.0mm"     y="120.0mm"    width="260.0mm"  height="150.0mm">  
             <!--TABLA DE TITULOS-->
-        <blockTable colWidths="80mm,112mm" style="TITLE">
+        <blockTable colWidths="92mm,100mm" style="TITLE">
             <tr>
                 <td><para style="TITLE"></para>
                 </td>
                 <td>
-                    <para style="TITLE"><b>LISTADO DE VENTA</b></para>
+                    <para style="TITLE"><b>[[ get_big_header(data) ]]</b></para>
                 </td>
             </tr>
         </blockTable>
 
-        <blockTable colWidths="80mm,49.0mm,16.0mm,47.0mm" style="TITLE">
+        <blockTable colWidths="92mm,50mm,50mm" style="TITLE">
             <tr>
                 <td><para style="ITEMSCENTER"> </para>
                 </td>
                 <td>
-                    <para style="ITEMSCENTER"><b>DESDE</b></para>
+                    <para style="ITEMSCENTER"><b>FROM</b></para>
                 </td>
                 <td>
-                    <para style="ITEMSCENTER"><b>HASTA</b></para>
-                </td>
-                <td>
-                    <para style="ITEMSCENTER"><b>CONDICION DE PAGO</b></para>
+                    <para style="ITEMSCENTER"><b>TO</b></para>
                 </td>
             </tr>
             <tr>
@@ -41,28 +38,44 @@
                 <td>
                     <para style="ITEMSCENTER"><b>[[ formatLang(get_end_date(data),date=True) ]]</b></para>
                 </td>
-                <td>
-                    <para style="ITEMSCENTER"><b>VACIOXXXX</b></para>
-                </td>
             </tr>
         </blockTable>
 
   <spacer length="5mm"/>
-
-  <spacer length="2mm"/>
-
+<!--TABLA DE PROVEEDOR-->
+        <blockTable colWidths="142mm,50mm" style="ITEMSTITLE">
+            <tr>
+                <td>
+                    <para style="BILLTO">[[ get_header_title(data) ]]</para>
+                </td>
+                <td>
+                    <para style="BILLTO">FILTER BY</para>
+                </td>
+            </tr>
+        </blockTable>
+               
+        <blockTable colWidths="142mm,50mm" rowHeights="7mm" style="ITEMS">
+            <tr>
+                <td>
+                    <para style="NAMEPROVE"><b>[[ get_header_data(data) ]]</b></para>
+                </td>
+                <td>
+                    <para style="NAMEPROVE"><b>[[ get_filter(data)!='No Filter' and get_filter(data) ]]</b></para>
+                </td>
+            </tr>
+        </blockTable>
             </place>
             
             
             <setFont name="Helvetica-BoldOblique" size="8.0"/>
-            <drawRightString x="192mm" y="5mm">ORDEN DE COMPRA N°.:  nro compraxxx / PAGINA: <pageNumber/> DE <pageCount/> </drawRightString> 
+            <drawRightString x="192mm" y="5mm">PAGE: <pageNumber/> OF <pageCount/> </drawRightString> 
 
         </pageGraphics>
         
         
         
         
-      <frame id="first"     x1="0.0mm"     y1="56mm"    width="216mm"  height="123.0mm"/>
+      <frame id="first"     x1="0.0mm"     y1="9mm"    width="216mm"  height="213.0mm"/>
 
     </pageTemplate>
   </template>
@@ -136,6 +149,29 @@
   <story>
 
 
+    
+
+
+    
+<!--TABLA DE ITEMS-->   
+    <section>          
+        <blockTable colWidths="142mm,25mm,25mm" repeatRows="1" style="TERMS">
+            <tr noRowsplits="1">
+                <td><para style="ITEMSTITLE">NAME</para></td>
+                <td><para style="ITEMSTITLE">QUANTITY</para></td>
+                <td><para style="ITEMSTITLE">SUBTOTAL</para></td>
+            </tr>
+        
+            <tr>
+                <td>
+                    <para>[[repeatIn(get_lines(data),'line')]]</para>
+                    <para style="ITEMSLEFT">[[ get_name(data, line) ]]</para>
+                </td>
+                <td><para style="ITEMSRIGHT">[[ formatLang(line.quantity ) ]]</para></td>
+                <td><para style="ITEMSRIGHT">[[ formatLang(line.price_subtotal ) ]]</para></td>
+            </tr>
+        </blockTable>
+    </section>
                       
 
 

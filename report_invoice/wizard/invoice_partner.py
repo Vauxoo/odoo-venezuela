@@ -5,10 +5,8 @@
 #    Copyright (C) OpenERP Venezuela (<http://openerp.com.ve>).
 #    All Rights Reserved
 ###############Credits######################################################
-#    Coded by: Humberto Arocha           <humberto@openerp.com.ve>
-#              Angelica Barrios          <angelicaisabelb@gmail.com>
-#              María Gabriela Quilarque  <gabrielaquilarque97@gmail.com>
-#              Javier Duran              <javier.duran@netquatro.com>             
+#    Coded by: Javier Duran              <javier@vauxoo.com> 
+#                          
 #    Planified by: Nhomar Hernandez
 #    Finance by: Helados Gilda, C.A. http://heladosgilda.com.ve
 #    Audited by: Humberto Arocha humberto@openerp.com.ve
@@ -46,12 +44,24 @@ class invoice_partner(osv.osv_memory):
             ],'Type', required=True),
         'date_from': fields.date('Start of period', required=True),
         'date_to': fields.date('End of period', required=True),
+        'filter': fields.selection([('filter_no', 'No Filters'), ('filter_partner', 'Partners'), ('filter_product', 'Products')], "Filter by", required=True),        
     }
     _defaults= {
         'date_from': lambda *a: time.strftime('%Y-%m-01'),
         'date_to': lambda *a: time.strftime('%Y-%m-%d'),
+        'filter': lambda *a: 'filter_no'
     }   
 
+
+    def onchange_filter(self, cr, uid, ids, filter='filter_no', context=None):
+        res = {}
+        if filter == 'filter_no':
+            res['value'] = {'partner_id': False, 'product_id': False, 'date_from': False ,'date_to': False}
+        if filter == 'filter_product':
+            res['value'] = {'product_id': False}
+        if filter == 'filter_partner':
+            res['value'] = {'partner_id': False}
+        return res
 
 
     def _get_sql_base(self, cr, uid, form, context=None):
@@ -99,7 +109,6 @@ class invoice_partner(osv.osv_memory):
                     )
                 """% (form.date_from,form.date_to)
 
-        print 'sql base: ',sql
         return sql
 
 
@@ -116,16 +125,22 @@ class invoice_partner(osv.osv_memory):
             'out_both':    ['out_invoice', 'out_refund'],
             'in_both': ['in_invoice', 'in_refund'],
         }
-        if form.partner_id and form.partner_id.id:
+        if form.filter == 'filter_product':
             cond = ' r.partner_id=%s' % form.partner_id.id
             claus = 'product_id'
             table = 'product'
-        if form.product_id and form.product_id.id:
+        if form.filter == 'filter_partner':
             cond = ' r.product_id=%s' % form.product_id.id
             claus = 'partner_id'
             table = 'partner'
         if form.type:
-            cond += ' and r.type in %s' % (tuple(type2lst[form.type]),)
+            if len(type2lst[form.type]) == 1:
+                where_str = "'%s'" % (type2lst[form.type][0])
+                op = '='
+            else:
+                where_str = tuple(type2lst[form.type])
+                op = 'in'
+            cond += ' and r.type %s %s' % (op,where_str)
 
         sql = """
             create or replace view report_invoice_%s as (
@@ -143,7 +158,6 @@ class invoice_partner(osv.osv_memory):
             )
                 """% (table,claus,claus,claus,cond,claus,claus)
 
-        print 'sql asociado: ',sql
         return sql
 
 
@@ -154,19 +168,20 @@ class invoice_partner(osv.osv_memory):
         if context is None:
             context = {}        
         form = self.browse(cr, uid, ids[0], context=context)
+        if form.filter == 'filter_no':
+            raise osv.except_osv(_('UserError'), _('You must choose a filter !'))            
         sql = self._get_sql_base(cr, uid, form, context)
         cr.execute(sql)
-        sql = self._get_sql_associated(cr, uid, form, context)        
-
-        if form.partner_id and form.partner_id.id:
+        sql2 = self._get_sql_associated(cr, uid, form, context)        
+        cr.execute(sql2)
+        if form.filter == 'filter_product':
             xml_id = 'action_invoice_prod_prod_tree'
-        if form.product_id and form.product_id.id:            
+        if form.filter == 'filter_partner':
             xml_id = 'action_invoice_partner_tree'
         mod_obj = self.pool.get('ir.model.data')
         act_obj = self.pool.get('ir.actions.act_window')
         if context is None:
             context = {}
-
 
         #we get the model
         result = mod_obj._get_id(cr, uid, 'report_invoice', xml_id)
@@ -180,9 +195,15 @@ class invoice_partner(osv.osv_memory):
         if context is None:
             context = {}
         data = {}
-#        data['ids'] = context.get('active_ids', [])
-#        data['model'] = context.get('active_model', 'ir.ui.menu')
-        data['form'] = self.read(cr, uid, ids, ['partner_id', 'product_id', 'type', 'date_from', 'date_to'])[0]
+        data['form'] = self.read(cr, uid, ids, [])[0]
+        if data['form']['filter'] == 'filter_no':
+            raise osv.except_osv(_('UserError'), _('You must choose a filter !'))
+
+        form = self.browse(cr, uid, ids[0], context=context)
+        sql = self._get_sql_base(cr, uid, form, context)
+        cr.execute(sql)
+        sql2 = self._get_sql_associated(cr, uid, form, context)        
+        cr.execute(sql2)        
         return self._print_report(cr, uid, ids, data, context=context)
     
     def _print_report(self, cr, uid, ids, data, context=None):
