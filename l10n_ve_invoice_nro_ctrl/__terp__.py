@@ -25,17 +25,17 @@
 ##############################################################################
 
 {
-    "name" : "Create Invoice Control Number",
+    "name" : "Generate Invoice Damaged",
     "version" : "0.1",
     "author" : "Openerp Venezuela",
     "category" : "Generic Modules/Others",
     "website": "http://wiki.openerp.org.ve/",
     "description": '''
-                    Generate Invoice Ctrl Number
+                    Generate Invoice from customer invoice form, 
+                    for justify invoice(paper) damaged.
                     ''',
     "depends" : ["base",
                  "account",
-                 "l10n_ve_islr_withholding",
                  ],
     "init_xml" : [],
     "update_xml" : [

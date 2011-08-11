@@ -19,7 +19,7 @@
         </record>
 
         <act_window 
-            name="Create Invoice Damaged" 
+            name="Generar Factura Dañada"  
             res_model="wizard.invoice.nro.ctrl" 
             src_model="account.invoice"
             view_mode="form"
