@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+    <data>
+        <record id="il_company_invoice_damaged" model="ir.ui.view">
+            <field name="name">il_company_invoice_damaged</field>
+            <field name="model">res.company</field>
+            <field name="type">form</field>
+            <field name="inherit_id" ref="base.view_company_form"/>
+            <field name="arch" type="xml">
+                <page string="Configuration" position="inside">
+                    <separator string="Data used by default for invoices damaged" colspan="4"/>
+                    <field name="journal_id"/>
+                    <field name="account_id"/>
+                    <newline/>
+                </page>
+            </field>
+        </record>
+    </data>
+</openerp>
+
