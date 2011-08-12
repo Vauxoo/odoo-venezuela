@@ -22,13 +22,13 @@
         <record model="ir.actions.act_window" id="sales_book_wizard_act">
             <field name="name">Sales Book Report</field>
             <field name="res_model">sales.book.wizard</field>
-            <field name="src_model">sales.book.wizard</field>
+            <field name="type">ir.actions.act_window</field>
             <field name="view_type">form</field>
-            <field name="view_mode">tree,form</field>
+            <field name="view_mode">form</field>
             <field name="view_id" ref="sales_book_wizard_form"/>
             <field name="target">new</field>
         </record>
         <menuitem name="Print Sales Fiscal Report" id="sales_book_wizard_menu" 
-            parent="l10n_ve_fiscal_reports.menu_fr_main" action="sales_book_wizard_act" />
+            parent="menu_fr_main" action="sales_book_wizard_act" />
     </data>
 </openerp>

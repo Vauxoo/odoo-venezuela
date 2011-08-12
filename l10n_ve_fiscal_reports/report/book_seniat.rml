@@ -198,7 +198,7 @@
           <para style="CONTENIDO">[[ time.strftime('%d/%m/%Y', time.strptime(l.ai_date_invoice, '%Y-%m-%d')) ]]</para>
         </td>
         <td>
-          <para style="CONTENIDO">[[ time.strftime('%d/%m/%Y', time.strptime(l.ai_date_document, '%Y-%m-%d')) ]]</para>
+          <para style="CONTENIDO">[[ l.ai_date_document and time.strftime('%d/%m/%Y', time.strptime(l.ai_date_document, '%Y-%m-%d')) or '']]</para>
         </td>
         <td>
           <para style="CONTENIDO">[[ l.rp_id.vat[2:] ]]</para>

@@ -49,7 +49,7 @@
         "wizard/wz_invoice_delivery_note.xml",
         "wizard/wz_picking_delivery_note.xml",
         "wizard/wz_set_nro_ctrl.xml",
-        "wizard/wz_generate_lines_txt_view.xml",
+#        "wizard/wz_generate_lines_txt_view.xml",
         "delivery_note_sequence.xml",
         "stock_view.xml",
         "delivery_note_view.xml",

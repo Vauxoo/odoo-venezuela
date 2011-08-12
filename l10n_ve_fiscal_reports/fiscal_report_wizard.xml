@@ -15,7 +15,7 @@
 			type="wizard"
 			icon="STOCK_PRINT"
 			id="menu_wizard_wh_book_report"
-            groups="account.group_account_manager"			
+            groups="account.group_account_manager"
             sequence="50"/>
 
         <wizard
