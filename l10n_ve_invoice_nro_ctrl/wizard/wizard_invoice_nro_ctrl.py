@@ -71,7 +71,7 @@ class wizard_invoice_nro_ctrl(osv.osv_memory):
         for inv_line in inv_brw.invoice_line:
             if inv_line.concept_id or False:
                 invoice_line.update({
-                'concept_id': inv_brw.company_id.concept_id.id,
+                'concept_id':inv_line.concept_id.id,
                 })
             break
         invoice_line_id = invoice_line_obj.create(cr, uid, invoice_line, {})
