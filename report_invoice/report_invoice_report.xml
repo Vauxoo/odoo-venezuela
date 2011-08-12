@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<openerp>
+    <data>
+        <report 
+        id="report_invoice_product" 
+        string="Print Product Invoice" 
+        model="invoice.partner" 
+        name="inv.prod.wiz.report" 
+        rml="report_invoice/report/invoice_product.rml"
+        auto="False"
+        menu="False"
+        header="False"/>
+    </data>
+</openerp>

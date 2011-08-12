@@ -6,9 +6,9 @@
 #    All Rights Reserved
 ###############Credits######################################################
 #    Coded by: Humberto Arocha           <humberto@openerp.com.ve>
-#              Maria Gabriela Quilarque  <gabriela@openerp.com.ve>
-#              Javier Duran              <javier@nvauxoo.com>
-#    Planified by: Nhomar Hernandez
+#              María Gabriela Quilarque  <gabrielaquilarque97@gmail.com>
+#              Nhomar Hernandez          <nhomar@openerp.com.ve>
+#    Planified by: Humberto Arocha
 #    Finance by: Helados Gilda, C.A. http://heladosgilda.com.ve
 #    Audited by: Humberto Arocha humberto@openerp.com.ve
 #############################################################################
@@ -26,5 +26,37 @@
 #    along with this program.  If not, see <http://www.gnu.org/licenses/>.
 ##############################################################################
 
-import list_wh_iva
+import time
+import pooler
+from report import report_sxw
 
+class product_invoice(report_sxw.rml_parse):
+    def __init__(self, cr, uid, name, context):
+        super(product_invoice, self).__init__(cr, uid, name, context=context)
+        self.localcontext.update({
+            'time': time,
+            'get_start_date':self._get_start_date,
+            'get_end_date':self._get_end_date
+                    })
+
+    def _get_start_date(self, data):
+        if data.get('form', False) and data['form'].get('date_from', False):
+            return data['form']['date_from']
+        return ''
+
+    def _get_end_date(self, data):
+        if data.get('form', False) and data['form'].get('date_to', False):
+            return data['form']['date_to']
+        return ''
+
+
+
+
+report_sxw.report_sxw(
+    'report.inv.prod.wiz.report',
+    'report.invoice.partner',
+    'addons/report_invoice/report/invoice_product.rml',
+    parser=product_invoice,
+    header = 'internal'
+)
+# vim:expandtab:smartindent:tabstop=4:softtabstop=4:shiftwidth=4:

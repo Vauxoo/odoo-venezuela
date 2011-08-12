@@ -1,0 +1,106 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+    <data>
+
+    <!-- 
+    =====================================================
+    XML GENERATE
+    =====================================================
+    -->
+
+         <record id="view_generate_txt_iva_tree" model="ir.ui.view">
+            <field name="name">generate.txt.iva.tree</field>
+            <field name="model">txt.iva</field>
+            <field name="type">tree</field>
+            <field name="arch" type="xml">
+                <tree string="Archivo TXT">
+                    <field name="company_id"/>
+                    <field name="fiscalyear_id"/>
+                    <field name="period_id"/>
+                    <field name="type"/>
+                </tree>
+            </field>
+        </record>
+
+        <record id="view_generate_txt_iva_form" model="ir.ui.view">
+            <field name="name">generate.txt.iva.form</field>
+            <field name="model">txt.iva</field>
+            <field name="type">form</field>
+            <field name="arch" type="xml">
+                <form string="Lineas de Retencion para TXT">
+                    <group col="4" colspan="4">
+                        <field name="company_id"/>
+                        <field name="type"/>
+                    </group>
+                    <newline/>
+                    <group col="4" colspan="4">
+                        <field name="fiscalyear_id"  />
+                        <field name="period_id" />
+                    </group>
+                    <newline/>
+                    <group col="4" colspan="4">
+                        <field name="date_start"/>
+                        <field name="date_end"/>
+                    </group>
+                    <notebook colspan="4">
+                        <page string="Lineas de Retencion">
+                            <field name="txt_ids" nolabel="1"  colspan='4' widget="one2many_list">
+                                <tree string="Lineas del archivo TXT">
+                                    <field name="partner_id"/>
+                                    <field name="invoice_id"/>
+                                    <field name="voucher_id"/>
+                                    <field name="untaxed"/>
+                                    <field name="amount_withheld"/>
+                                </tree>
+                            </field>
+                            <group col="4" colspan="2">
+                                <field name="state" select="2" colspan="4"/>
+                                <button name="action_generate_lines_txt" string="Generar Lineas TXT" states="draft" type="object" icon="gtk-go-forward" colspan="4"/>
+                                <button name="action_confirm" string="Confirmar" states="draft" type="object" icon="gtk-go-forward" colspan="4"/>
+                                <button name="action_done" string="Realizar TXT" states="confirmed" type="object"  icon="gtk-ok"/>
+                                <button name="action_anular" string="Anular" states="confirmed,done" type="object"  icon="gtk-cancel"/>
+                            </group>
+                            <group col="2" colspan="2">
+                                <field name="amount_total_ret"/>
+                                <field name="amount_total_base"/>
+                             </group>
+                        </page>
+                    </notebook>
+                </form>
+            </field>
+        </record>
+
+
+        <record model="ir.actions.act_window" id="action_generate_txt_iva">
+            <field name="name">Generar TXT</field>
+            <field name="res_model">txt.iva</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">tree,form</field>
+        </record>
+        
+        <record model="ir.actions.act_window.view" id="action_generate_txt_iva_tree">
+            <field name="sequence" eval="10"/>
+            <field name="view_mode">tree</field>
+            <field name="view_id" ref="view_generate_txt_iva_tree"/> 
+            <field name="act_window_id" ref="action_generate_txt_iva"/>
+        </record>
+        <record model="ir.actions.act_window.view" id="action_generate_txt_iva_form">
+            <field name="sequence" eval="20"/>
+            <field name="view_mode">form</field>
+            <field name="view_id" ref="view_generate_txt_iva_form"/>
+            <field name="act_window_id" ref="action_generate_txt_iva"/>
+        </record>
+        
+        <menuitem name="Generar TXT" 
+            id="menu_action_generate_txt_iva" 
+            parent="menu_action_account_retention"
+            action="action_generate_txt_iva"/>
+
+    </data>
+</openerp>
+
+
+
+
+

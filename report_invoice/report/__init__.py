@@ -6,9 +6,9 @@
 #    All Rights Reserved
 ###############Credits######################################################
 #    Coded by: Humberto Arocha           <humberto@openerp.com.ve>
-#              Maria Gabriela Quilarque  <gabriela@openerp.com.ve>
-#              Javier Duran              <javier@nvauxoo.com>
-#    Planified by: Nhomar Hernandez
+#              María Gabriela Quilarque  <gabrielaquilarque97@gmail.com>
+#              Nhomar Hernandez          <nhomar@openerp.com.ve>
+#    Planified by: Humberto Arocha
 #    Finance by: Helados Gilda, C.A. http://heladosgilda.com.ve
 #    Audited by: Humberto Arocha humberto@openerp.com.ve
 #############################################################################
@@ -26,5 +26,5 @@
 #    along with this program.  If not, see <http://www.gnu.org/licenses/>.
 ##############################################################################
 
-import list_wh_iva
 
+import invoice_product

@@ -1,0 +1,144 @@
+<?xml version="1.0"?>
+<document filename="test.pdf">
+  <template pageSize="(216.0mm,280.0mm)" title="Test" author="Martin Simon" allowSplitting="20" showBoundary="0">
+    <pageTemplate id="first">
+        <pageGraphics>
+        
+        <image x="12.0mm" y="245.0mm" height="25mm" width="96mm">[[company.logo and company.logo or removeParentNode('image')]]</image>
+        <drawString x="12.0mm" y="245.0mm">[[company.logo and removeParentNode('para') or company.name]]</drawString> 
+        <place x="12.0mm"     y="120.0mm"    width="260.0mm"  height="150.0mm">  
+            <!--TABLA DE TITULOS-->
+        <blockTable colWidths="80mm,112mm" style="TITLE">
+            <tr>
+                <td><para style="TITLE"></para>
+                </td>
+                <td>
+                    <para style="TITLE"><b>LISTADO DE VENTA</b></para>
+                </td>
+            </tr>
+        </blockTable>
+
+        <blockTable colWidths="80mm,49.0mm,16.0mm,47.0mm" style="TITLE">
+            <tr>
+                <td><para style="ITEMSCENTER"> </para>
+                </td>
+                <td>
+                    <para style="ITEMSCENTER"><b>DESDE</b></para>
+                </td>
+                <td>
+                    <para style="ITEMSCENTER"><b>HASTA</b></para>
+                </td>
+                <td>
+                    <para style="ITEMSCENTER"><b>CONDICION DE PAGO</b></para>
+                </td>
+            </tr>
+            <tr>
+                <td><para style="ITEMSCENTER"> </para>
+                </td>
+                <td>
+                    <para style="ITEMSCENTER"><b>[[ formatLang(get_start_date(data),date=True) ]]</b></para>
+                </td>
+                <td>
+                    <para style="ITEMSCENTER"><b>[[ formatLang(get_end_date(data),date=True) ]]</b></para>
+                </td>
+                <td>
+                    <para style="ITEMSCENTER"><b>VACIOXXXX</b></para>
+                </td>
+            </tr>
+        </blockTable>
+
+  <spacer length="5mm"/>
+
+  <spacer length="2mm"/>
+
+            </place>
+            
+            
+            <setFont name="Helvetica-BoldOblique" size="8.0"/>
+            <drawRightString x="192mm" y="5mm">ORDEN DE COMPRA N°.:  nro compraxxx / PAGINA: <pageNumber/> DE <pageCount/> </drawRightString> 
+
+        </pageGraphics>
+        
+        
+        
+        
+      <frame id="first"     x1="0.0mm"     y1="56mm"    width="216mm"  height="123.0mm"/>
+
+    </pageTemplate>
+  </template>
+  <!--ESTILO OBSCURO / TONOS NEGROS-->
+
+  <stylesheet>
+        <blockTableStyle id="TITLE">
+            <blockBackground colorName="#c7c6c7" start="1,0" stop="-1,0"/>
+            <lineStyle kind="GRID" colorName="black" start="1,0" stop="-1,-1" thickness="0.5"/>
+            <blockValign value="TOP"/>
+        </blockTableStyle>     
+
+        <blockTableStyle id="TERMS">
+            <blockBackground colorName="#c7c6c7" start="0,0" stop="-1,0"/>
+            <blockValign value="TOP"/>
+            <lineStyle kind="GRID" colorName="black" start="0,0" stop="-1,-1" thickness="0.5"/>
+<!--
+            <lineStyle kind="GRID" colorName="black" start="0,1" stop="-1,-1" thickness="0.5"/>
+-->
+            <lineStyle kind="OUTLINE" colorName="black" thickness="0.5"/>
+        </blockTableStyle>          
+
+        <blockTableStyle id="ITEMSTRANSP">
+            <blockValign value="TOP"/>
+        </blockTableStyle> 
+
+        <blockTableStyle id="ITEMSTITLE">
+            <blockBackground colorName="#c7c6c7" start="0,0" stop="5,0"/>
+            <blockValign value="TOP"/>
+            <lineStyle kind="GRID" colorName="black" start="0,0" stop="-1,-1" thickness="0.5"/>
+            <lineStyle kind="OUTLINE" colorName="black" thickness="0.5"/>
+        </blockTableStyle>          
+
+        <blockTableStyle id="ITEMS">
+            <blockValign value="TOP"/>
+            <lineStyle kind="GRID" colorName="black" start="0,0" stop="-1,-1" thickness="0.5"/>
+            <lineStyle kind="OUTLINE" colorName="black" thickness="0.5"/>
+        </blockTableStyle>           
+
+        <blockTableStyle id="TOTAL">
+            <blockValign value="TOP"/>
+            <lineStyle kind="GRID" colorName="black" start="1,0" stop="-1,-1" thickness="0.5" />
+        </blockTableStyle>          
+
+    <initialize>
+      <paraStyle name="all" alignment="JUSTIFY" fontName="Helvetica" fontSize="6.0" leading="8" spaceBefore="3.0" textColor="blue"/>
+    </initialize>
+    
+    <paraStyle name="COMPANYNAME" alignment="LEFT" fontName="Helvetica-Bold" fontSize="16.0" leading="10" spaceBefore="3.0" textColor="black"/>    
+    <paraStyle name="TITLE" alignment="CENTER" fontName="Helvetica" fontSize="18.0" leading="20" spaceBefore="-3.0" textColor="black"/>
+    <paraStyle name="SUPPLIERNAME" alignment="LEFT" fontName="Helvetica" fontSize="10.0" leading="12" spaceBefore="3.0" textColor="green"/>    
+    <paraStyle name="NOTEANDNUMBER" alignment="JUSTIFY" fontName="Helvetica" fontSize="10.0" leading="12" spaceBefore="3.0" textColor="darkblue"/>    
+    <paraStyle name="BILLTO" alignment="LEFT" fontName="Helvetica-Bold" fontSize="8.0" leading="10" spaceBefore="3.0" textColor="black"/>    
+    <paraStyle name="TERMS" alignment="CENTER" fontName="Helvetica-Bold" fontSize="8.0" leading="12" spaceBefore="3.0" textColor="black"/>
+    <paraStyle name="ITEMSLEFTITALIC" alignment="LEFT" fontName="Helvetica-Oblique" fontSize="8.0" leading="10" spaceBefore="3.0" textColor="black"/>      
+    <paraStyle name="ITEMSTITLE" alignment="CENTER" fontName="Helvetica-Bold" fontSize="8.0" leading="10" spaceBefore="3.0" textColor="black"/>    
+    <paraStyle name="ITEMSLEFT" alignment="LEFT" fontName="Helvetica-Bold" fontSize="8.0" leading="10" spaceBefore="3.0" textColor="black"/>    
+    <paraStyle name="ITEMSIMPORT" alignment="LEFT" fontName="Helvetica-Bold" fontSize="6.0" leading="7" spaceBefore="3.0" textColor="black"/>    
+    <paraStyle name="ITEMSCENTER" alignment="CENTER" fontName="Helvetica-Bold" fontSize="8.0" leading="10" spaceBefore="3.0" textColor="black"/>    
+    <paraStyle name="ITEMSRIGHT" alignment="RIGHT" fontName="Helvetica-Bold" fontSize="8.0" leading="10" spaceBefore="3.0" textColor="black"/>  
+      
+    <paraStyle name="ITEMSRIGHT-FECHA" alignment="RIGHT" fontName="Helvetica-Bold" fontSize="8.0" leading="10" spaceBefore="-3.0" textColor="black"/>    
+    <paraStyle name="NAMEPROVE" alignment="LEFT" fontName="Helvetica-Bold" fontSize="10.0" leading="10" spaceBefore="0.0" spaceAfter="0.0" textColor="black"/>    
+    <paraStyle name="RIFPROVE" alignment="LEFT" fontName="Helvetica-Bold" fontSize="8.0" leading="10" spaceBefore="1.0" spaceAfter="0.0" textColor="black"/>    
+    <paraStyle name="DIRPROVE" alignment="LEFT" fontName="Helvetica-Bold" fontSize="8.0" leading="10" spaceBefore="0.0" spaceAfter="3.0" textColor="black"/>    
+
+
+  </stylesheet>
+
+  <images/>
+  <story>
+
+
+                      
+
+
+
+  </story>
+</document>
