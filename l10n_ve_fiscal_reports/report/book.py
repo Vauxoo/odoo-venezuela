@@ -72,7 +72,7 @@ class pur_sal_book(report_sxw.rml_parse):
             book_type='fiscal.reports.sale'
         data=[]
         fr_obj = self.pool.get(book_type)
-        fr_ids = fr_obj.search(self.cr,self.uid,[('ai_date_invoice', '<=', d2), ('ai_date_invoice', '>=', d1)])
+        fr_ids = fr_obj.search(self.cr,self.uid,[('ai_date_invoice', '<=', d2), ('ai_date_invoice', '>=', d1)], order='ai_nro_ctrl')
         #Data to review first and add more records to be printed before ordering and send to rml.
         data = fr_obj.browse(self.cr,self.uid, fr_ids)
         return data

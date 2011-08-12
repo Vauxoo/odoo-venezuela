@@ -45,6 +45,7 @@ class fiscal_reports_purchase(osv.osv):
     _description = "Purchase by period"
     _auto = False
     _rec_name = 'ai_nro_ctrl'
+    _order = 'ai_nro_ctrl asc'
     _columns = {
         'ai_date_document': fields.date('Date'),
         'ai_date_invoice': fields.date('Date'),
