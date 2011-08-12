@@ -59,6 +59,7 @@ class pur_sal_book(report_sxw.rml_parse):
             'get_totals':self._get_totals,
             'get_doc':self._get_doc,
             'get_ret':self._get_ret,
+            'get_prev_ret': self._get_prev_ret,
         })
 
 
@@ -66,7 +67,7 @@ class pur_sal_book(report_sxw.rml_parse):
         d1=form['date_start']
         d2=form['date_end']
         if form['type']=='purchase':
-            book_type='fiscal.reports.purchase'           
+            book_type='fiscal.reports.purchase'
         else:
             book_type='fiscal.reports.sale'
         data=[]
@@ -74,10 +75,31 @@ class pur_sal_book(report_sxw.rml_parse):
         fr_ids = fr_obj.search(self.cr,self.uid,[('ai_date_invoice', '<=', d2), ('ai_date_invoice', '>=', d1)])
         #Data to review first and add more records to be printed before ordering and send to rml.
         data = fr_obj.browse(self.cr,self.uid, fr_ids)
-        gran_list_dict = fr_obj.read(self.cr,self.uid,fr_ids)
-        for g in gran_list_dict:
-            print g
         return data
+
+    def _get_prev_ret(self,form):
+        '''
+            Point 3: method to locate withholding outsite period but that need 
+            be declared on this one. 
+        '''
+        d1=form['date_start']
+        d2=form['date_end']
+        if form['type']=='purchase':
+            book_type='fiscal.reports.whp'
+            _type='fiscal.reports.purchase'
+        else:
+            book_type='fiscal.reports.whs'
+            _type='fiscal.reports.sale'
+        data=[]
+        ret_obj = self.pool.get(book_type)
+        fr_obj = self.pool.get(_type)
+        ret_ids = fr_obj.search(self.cr,self.uid,[('ar_date_ret', '<=', d2), ('ar_date_ret', '>=', d1)])
+        fr_ids = fr_obj.search(self.cr,self.uid,[('ar_date_ret', '<=', d2), ('ar_date_ret', '>=', d1)])
+        #Data to review first and add more records to be printed before ordering and send to rml.
+        
+        data = fr_obj.browse(self.cr,self.uid, fr_ids)
+        return data
+
 
     def _get_ret(self,form,ret_id=None):
         '''
