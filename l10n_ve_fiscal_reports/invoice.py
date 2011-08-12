@@ -1,9 +1,8 @@
 # -*- encoding: utf-8 -*-
 ##############################################################################
-#
-# Copyright (c) 2010 Netquatro C.A. (http://openerp.netquatro.com/) All Rights Reserved.
-#                    Javier Duran <javier.duran@netquatro.com>
-# 
+# Copyright (c) 2011 OpenERP Venezuela (http://openerp.com.ve)
+# All Rights Reserved.
+# Programmed by: Israel Fermín Montilla  <israel@openerp.com.ve>
 #
 # WARNING: This program as such is intended to be used by professional
 # programmers who take the whole responsability of assessing all potential
@@ -25,7 +24,23 @@
 # You should have received a copy of the GNU General Public License
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
-#
-##############################################################################
+###############################################################################
+from osv import osv
+from osv import fields
 
-import sales_book_wizard
+class inherited_invoice(osv.osv):
+    _inherit = "account.invoice"
+    _columns = {
+        'date_document': fields.date("Document Date", 
+                                help="Administrative date", 
+                                states={'paid':[('readonly',True)], 
+                                        'open':[('readonly',True)], 
+                                        'close':[('readonly',True)]}, 
+                                        select=True),
+        'date_invoice': fields.date('Date Invoiced', 
+                                    states={'open':[('readonly',True)],
+                                    'close':[('readonly',True)],
+                                    'paid':[('readonly',True)]}, 
+        help="Keep empty to use the current date\n It represent the date when we did account charge, known as Accounting Date too!"),
+        }
+inherited_invoice()

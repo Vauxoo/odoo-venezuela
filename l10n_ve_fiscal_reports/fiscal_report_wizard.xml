@@ -1,22 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <openerp>
     <data>
-        <wizard
-            id="wizard_sale_purchase_book"
-            model="fiscal.reports.purchase"
-            name="fiscal.reports.purchase.book_seniat"
-            string="Book Seniat"
-            /> 
-
-		<menuitem
-			name="Print Report Book seniat."
-			parent="l10n_ve_fiscal_reports.menu_fr_main"
-			action="wizard_sale_purchase_book"
-			type="wizard"
-			icon="STOCK_PRINT"
-			id="menu_wz_book_report"
-            groups="account.group_account_manager"
-            sequence="50"/>
 
         <wizard
             id="wizard_wh_book"
@@ -31,7 +15,7 @@
 			type="wizard"
 			icon="STOCK_PRINT"
 			id="menu_wizard_wh_book_report"
-            groups="account.group_account_manager"			
+            groups="account.group_account_manager"
             sequence="50"/>
 
         <wizard

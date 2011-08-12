@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+    <data>
+        <record model="ir.ui.view" id="sales_book_wizard_form">
+            <field name="name">sales.book.wizard.form</field>
+            <field name="model">sales.book.wizard</field>
+            <field name="type">form</field>
+            <field name="arch" type="xml">
+                <form string="Sales Book Report">
+                <notebook colspan="4">
+                    <page string="General">
+                        <field name="date_start" />
+                        <field name="date_end" />
+                        <field name="type" />
+                        <button special="cancel" string="Cancel" icon="gtk-cancel" />
+                        <button name="check_report" string="Print Report" type="object" icon="gtk-print" />
+                    </page>
+                </notebook>
+                </form>
+            </field>
+        </record>
+        <record model="ir.actions.act_window" id="sales_book_wizard_act">
+            <field name="name">Sales Book Report</field>
+            <field name="res_model">sales.book.wizard</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">form</field>
+            <field name="view_id" ref="sales_book_wizard_form"/>
+            <field name="target">new</field>
+        </record>
+        <menuitem name="Print Sales Fiscal Report" id="sales_book_wizard_menu" 
+            parent="menu_fr_main" action="sales_book_wizard_act" />
+    </data>
+</openerp>

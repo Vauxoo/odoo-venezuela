@@ -49,16 +49,78 @@ class pur_sal_book(report_sxw.rml_parse):
         super(pur_sal_book, self).__init__(cr, uid, name, context)    
         self.localcontext.update({
             'time': time,
+            'get_data':self._get_data,
             'get_partner_addr': self._get_partner_addr,
             'get_p_country': self._get_p_country,
             'get_alicuota': self._get_alicuota,
             'get_rif': self._get_rif,
-            'get_data':self._get_data,
             'get_month':self._get_month,
             'get_dates':self._get_dates,
             'get_totals':self._get_totals,
             'get_doc':self._get_doc,
+            'get_ret':self._get_ret,
+            'get_prev_ret': self._get_prev_ret,
         })
+
+
+    def _get_data(self,form):
+        d1=form['date_start']
+        d2=form['date_end']
+        if form['type']=='purchase':
+            book_type='fiscal.reports.purchase'
+        else:
+            book_type='fiscal.reports.sale'
+        data=[]
+        fr_obj = self.pool.get(book_type)
+        fr_ids = fr_obj.search(self.cr,self.uid,[('ai_date_invoice', '<=', d2), ('ai_date_invoice', '>=', d1)])
+        #Data to review first and add more records to be printed before ordering and send to rml.
+        data = fr_obj.browse(self.cr,self.uid, fr_ids)
+        return data
+
+    def _get_prev_ret(self,form):
+        '''
+            Point 3: method to locate withholding outsite period but that need 
+            be declared on this one. 
+        '''
+        d1=form['date_start']
+        d2=form['date_end']
+        if form['type']=='purchase':
+            book_type='fiscal.reports.whp'
+            _type='fiscal.reports.purchase'
+        else:
+            book_type='fiscal.reports.whs'
+            _type='fiscal.reports.sale'
+        data=[]
+        ret_obj = self.pool.get(book_type)
+        fr_obj = self.pool.get(_type)
+        ret_ids = fr_obj.search(self.cr,self.uid,[('ar_date_ret', '<=', d2), ('ar_date_ret', '>=', d1)])
+        fr_ids = fr_obj.search(self.cr,self.uid,[('ar_date_ret', '<=', d2), ('ar_date_ret', '>=', d1)])
+        #Data to review first and add more records to be printed before ordering and send to rml.
+        
+        data = fr_obj.browse(self.cr,self.uid, fr_ids)
+        return data
+
+
+    def _get_ret(self,form,ret_id=None):
+        '''
+            Ensure that Withholding date is inside period specified on form.
+        '''
+        d1=form['date_start']
+        d2=form['date_end']
+        if ret_id:
+            ret_obj = self.pool.get('account.retention')
+            rets = ret_obj.browse(self.cr,self.uid,[ret_id])
+            if rets:
+                if time.strptime(rets[0].date, '%Y-%m-%d') >= time.strptime(d1, '%Y-%m-%d') \
+                and time.strptime(rets[0].date, '%Y-%m-%d') <=  time.strptime(d2, '%Y-%m-%d'):
+                    return rets[0].number
+                else:
+                    return False
+            else:
+                return False
+        else:
+            return False
+
 
     def _get_partner_addr(self, idp=None):
         '''
@@ -129,18 +191,6 @@ class pur_sal_book(report_sxw.rml_parse):
             return []
         return vat[2:].replace(' ', '')
 
-    def _get_data(self,form):
-        d1=form['date_start']
-        d2=form['date_end']
-        if form['model']=='b_p':
-            book_type='fiscal.reports.purchase'           
-        else:
-            book_type='fiscal.reports.sale'
-        data=[]
-        fr_obj = self.pool.get(book_type)
-        fr_ids = fr_obj.search(self.cr,self.uid,[('ai_date_invoice', '<=', d2), ('ai_date_invoice', '>=', d1)])
-        data = fr_obj.browse(self.cr,self.uid, fr_ids)
-        return data
 
     def _get_month(self, form):
         '''
@@ -169,7 +219,7 @@ class pur_sal_book(report_sxw.rml_parse):
         '''    
         d1=form['date_start']
         d2=form['date_end']
-        if form['model']=='b_p':
+        if form['type']=='purchase':
             book_type='fiscal.reports.purchase'           
         else:
             book_type='fiscal.reports.sale'

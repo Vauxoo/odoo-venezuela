@@ -9,17 +9,18 @@
             <field name="arch" type="xml">
                 <form string="Detail of entry">
                     <group col="6" colspan="4">
-                        <field name="ai_date_invoice"/>
-                        <field name="rp_vat"/>
-                        <field name="rp_id"/>
-                        <field name="ai_nro_ctrl"/>
-                        <field name="ai_reference"/>
-                        <field name="ai_amount_total"/>
-                        <field name="ai_amount_untaxed"/>
-                        <field name="ai_amount_tax"/>
-                        <field name="ai_type"/>
-                        <field name="rp_retention"/>
-                        <field name="ai_id"/>
+                        <field name="ai_date_document" readonly="1"/>
+                        <field name="ai_date_invoice" readonly="1"/>
+                        <field name="rp_vat" readonly="1"/>
+                        <field name="rp_id" readonly="1"/>
+                        <field name="ai_nro_ctrl" readonly="1"/>
+                        <field name="ai_reference" readonly="1"/>
+                        <field name="ai_amount_total" readonly="1"/>
+                        <field name="ai_amount_untaxed" readonly="1"/>
+                        <field name="ai_amount_tax" readonly="1"/>
+                        <field name="ai_type" readonly="1"/>
+                        <field name="rp_retention" readonly="1"/>
+                        <field name="ai_id" readonly="1"/>
                     </group>
                 </form>
             </field>
@@ -29,7 +30,8 @@
             <field name="model">fiscal.reports.sale</field>
             <field name="type">tree</field>
             <field name="arch" type="xml">
-                <tree string="List of Purchases." editable="top/bottom">
+                <tree string="List of Purchases.">
+                        <field name="ai_date_document"/>
                         <field name="ai_date_invoice"/>
                         <field name="rp_vat"/>
                         <field name="rp_id"/>
@@ -45,10 +47,10 @@
             </field>
         </record>
     <record id="action_fiscal_reports_sale_tree" model="ir.actions.act_window">
-    <field name="name">Profit by Product</field>
-    <field name="res_model">fiscal.reports.sale</field>
-    <field name="view_type">form</field>
-    <field name="view_mode">tree,form</field>
+        <field name="name">Fiscal Report Sales</field>
+        <field name="res_model">fiscal.reports.sale</field>
+        <field name="view_type">form</field>
+        <field name="view_mode">tree,form</field>
     </record>
     <menuitem id="menu_fiscal_reports_sale_tree" name="Sales Book" parent="l10n_ve_fiscal_reports.menu_fr_main" action="action_fiscal_reports_sale_tree" groups="account.group_account_manager"/>
     </data>

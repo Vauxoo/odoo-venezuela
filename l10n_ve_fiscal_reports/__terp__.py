@@ -56,6 +56,8 @@
         "fiscal_report_whs.xml",
         "fiscal_report_report.xml",
         "fiscal_report_wizard.xml",
+        "wizard/sales_book_wizard_view.xml",
+        "invoice_view.xml",
     ],
     "active": False,
     "installable": True,
