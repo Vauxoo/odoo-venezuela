@@ -13,6 +13,18 @@
                 </data>
             </field>
         </record>
+        <record model="ir.ui.view" id="inherited_account_invoice_form_fiscal2">
+            <field name="name">account.invoice.inherit.fiscal2</field>
+            <field name="model">account.invoice</field>
+            <field name="inherit_id" ref="account.invoice_supplier_form"/>
+            <field name="arch" type="xml">
+                <data>
+                    <field name="date_due" position="after">
+                        <field name="date_document"/>
+                    </field>
+                </data>
+            </field>
+        </record>
     </data>
 </openerp>
 
