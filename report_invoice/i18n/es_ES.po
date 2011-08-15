@@ -1,0 +1,393 @@
+# Translation of OpenERP Server.
+# This file contains the translation of the following modules:
+#	* report_invoice
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: OpenERP Server 5.0.15\n"
+"Report-Msgid-Bugs-To: support@openerp.com\n"
+"POT-Creation-Date: 2011-08-03 19:56:34+0000\n"
+"PO-Revision-Date: 2011-08-03 19:56:34+0000\n"
+"Last-Translator: <>\n"
+"Language-Team: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: \n"
+"Plural-Forms: \n"
+
+#. module: report_invoice
+#: help:invoice.partner,product_id:0
+msgid "Select a product to compute sale or purchase product"
+msgstr "Seleccione un producto para calcular las ventas o compras del producto"
+
+#. module: report_invoice
+#: selection:invoice.partner,type:0
+#: selection:report.invoice,type:0
+msgid "Customer Refund"
+msgstr "Devolución Cliente"
+
+#. module: report_invoice
+#: code:addons/report_invoice/report/invoice_product.py:0
+#, python-format
+msgid "SALES REFUND"
+msgstr "DEVOLUCION VENTA"
+
+#. module: report_invoice
+#: model:ir.actions.act_window,name:report_invoice.act_product_invoice_sale
+msgid "Product Invoice Sales"
+msgstr "Product Invoice Sales"
+
+#. module: report_invoice
+#: selection:invoice.partner,filter:0
+msgid "Partners"
+msgstr "Partners"
+
+#. module: report_invoice
+#: model:ir.module.module,description:report_invoice.module_meta_information
+msgid "Report of Product Invoiced\n"
+""
+msgstr "Listado de productos facturados\n"
+""
+
+#. module: report_invoice
+#: selection:invoice.partner,type:0
+#: selection:report.invoice,type:0
+msgid "Customer Invoice"
+msgstr "Factura de cliente"
+
+#. module: report_invoice
+#: view:report.invoice.partner:0
+#: view:report.invoice.product:0
+msgid "Total quatity"
+msgstr "Cantidad Total"
+
+#. module: report_invoice
+#: code:addons/report_invoice/wizard/invoice_partner.py:0
+#, python-format
+msgid "You must choose a filter !"
+msgstr "Debe seleccionar un filtro !"
+
+#. module: report_invoice
+#: code:addons/report_invoice/report/invoice_product.py:0
+#, python-format
+msgid "NO TYPE"
+msgstr "SIN TIPO"
+
+#. module: report_invoice
+#: field:invoice.partner,date_to:0
+msgid "End of period"
+msgstr "Fin de período"
+
+#. module: report_invoice
+#: field:report.invoice,price_unit:0
+msgid "Unit Price"
+msgstr "Precio Unitario"
+
+#. module: report_invoice
+#: rml:inv.prod.wiz.report:0
+msgid "PAGE:"
+msgstr "PAGINA:"
+
+#. module: report_invoice
+#: rml:inv.prod.wiz.report:0
+msgid "FILTER BY"
+msgstr "FILTRADO POR"
+
+#. module: report_invoice
+#: selection:invoice.partner,type:0
+msgid "Customer Invoice and Refund"
+msgstr "Factura y Devolucion Clientes"
+
+#. module: report_invoice
+#: code:addons/report_invoice/report/invoice_product.py:0
+#, python-format
+msgid "PURCHASES"
+msgstr "COMPRAS"
+
+#. module: report_invoice
+#: field:invoice.partner,product_id:0
+#: field:report.invoice,product_id:0
+#: field:report.invoice.product,product_id:0
+msgid "Product"
+msgstr "Producto"
+
+#. module: report_invoice
+#: model:ir.module.module,shortdesc:report_invoice.module_meta_information
+msgid "Report Invoice"
+msgstr "Reporte Invoice"
+
+#. module: report_invoice
+#: field:invoice.partner,date_from:0
+msgid "Start of period"
+msgstr "Inicio de periodo"
+
+#. module: report_invoice
+#: model:ir.model,name:report_invoice.model_report_invoice_partner
+msgid "Invoice Products by Partner"
+msgstr "Productos Facturados por Partner"
+
+#. module: report_invoice
+#: rml:inv.prod.wiz.report:0
+msgid "SUBTOTAL"
+msgstr "SUBTOTAL"
+
+#. module: report_invoice
+#: help:invoice.partner,partner_id:0
+msgid "Select a partner to compute sale or purchase product"
+msgstr "Seleccione un partner para calcular las ventas o compras del producto"
+
+#. module: report_invoice
+#: code:addons/report_invoice/report/invoice_product.py:0
+#, python-format
+msgid "NO FILTER"
+msgstr "SIN FILTRO"
+
+#. module: report_invoice
+#: model:ir.actions.report.xml,name:report_invoice.report_invoice_product
+msgid "Print Product Invoice"
+msgstr "Imprimir Productos Facturados"
+
+#. module: report_invoice
+#: rml:inv.prod.wiz.report:0
+msgid "TO"
+msgstr "HASTA"
+
+#. module: report_invoice
+#: code:addons/report_invoice/report/invoice_product.py:0
+#, python-format
+msgid "PRODUCTS"
+msgstr "PRODUCTOS"
+
+#. module: report_invoice
+#: field:report.invoice,user_id:0
+msgid "User"
+msgstr "Usuario"
+
+#. module: report_invoice
+#: field:report.invoice,quantity:0
+msgid "# of Products"
+msgstr "# de Productos"
+
+#. module: report_invoice
+#: field:report.invoice,name:0
+msgid "Date"
+msgstr "Fecha"
+
+#. module: report_invoice
+#: field:report.invoice.partner,price_subtotal:0
+#: field:report.invoice.product,price_subtotal:0
+msgid "Subtotal"
+msgstr "Subtotal"
+
+#. module: report_invoice
+#: rml:inv.prod.wiz.report:0
+msgid "QUANTITY"
+msgstr "CANTIDAD"
+
+#. module: report_invoice
+#: constraint:ir.ui.view:0
+msgid "Invalid XML for View Architecture!"
+msgstr "¡XML inválido para la definición de la vista!"
+
+#. module: report_invoice
+#: view:invoice.partner:0
+msgid "Compute"
+msgstr "Calcular"
+
+#. module: report_invoice
+#: model:ir.model,name:report_invoice.model_invoice_partner
+msgid "invoice.partner"
+msgstr "invoice.partner"
+
+#. module: report_invoice
+#: model:ir.ui.menu,name:report_invoice.invoice_product_config
+msgid "Invoice Product"
+msgstr "Productos Facturados"
+
+#. module: report_invoice
+#: model:ir.actions.act_window,name:report_invoice.act_product_invoice_purchase
+msgid "Product Invoice Purchases"
+msgstr "Product Invoice Purchases"
+
+#. module: report_invoice
+#: view:report.invoice:0
+#: view:report.invoice.partner:0
+#: view:report.invoice.product:0
+msgid "Total amount"
+msgstr "Monto Total"
+
+#. module: report_invoice
+#: model:ir.actions.act_window,name:report_invoice.action_invoice_partner
+#: model:ir.actions.act_window,name:report_invoice.action_invoice_partner_tree
+#: model:ir.ui.menu,name:report_invoice.invoice_partner
+#: model:ir.ui.menu,name:report_invoice.menu_invoice_partner
+#: view:report.invoice.partner:0
+msgid "Invoice Product by Partner"
+msgstr "Productos Facturados por Partner"
+
+#. module: report_invoice
+#: view:invoice.partner:0
+msgid "Invoice Product Report"
+msgstr "Reporte Productos Facturados"
+
+#. module: report_invoice
+#: field:report.invoice,price_subtotal:0
+msgid "Subtotal Price"
+msgstr "Precio Subtotal"
+
+#. module: report_invoice
+#: model:ir.actions.act_window,name:report_invoice.action_invoice_prod_prod_tree
+#: model:ir.ui.menu,name:report_invoice.invoice_prod_prod
+#: view:report.invoice.product:0
+msgid "Invoice Product by Product"
+msgstr "Productos Facturados"
+
+#. module: report_invoice
+#: view:invoice.partner:0
+msgid "Select Dates Period"
+msgstr "Seleccione las fechas del período"
+
+#. module: report_invoice
+#: code:addons/report_invoice/report/invoice_product.py:0
+#, python-format
+msgid "CUSTOMER/SUPPLIER"
+msgstr "CLIENTE/PROVEEDOR"
+
+#. module: report_invoice
+#: selection:invoice.partner,type:0
+#: selection:report.invoice,type:0
+msgid "Supplier Refund"
+msgstr "Devolucion Proveedores"
+
+#. module: report_invoice
+#: selection:invoice.partner,filter:0
+msgid "Products"
+msgstr "Productos"
+
+#. module: report_invoice
+#: selection:invoice.partner,filter:0
+msgid "No Filters"
+msgstr "Sin Filtros"
+
+#. module: report_invoice
+#: model:ir.model,name:report_invoice.model_report_invoice
+msgid "Invoice by Products"
+msgstr "Invoice by Products"
+
+#. module: report_invoice
+#: model:ir.model,name:report_invoice.model_report_invoice_product
+msgid "Invoice Products by Product"
+msgstr "Invoice Products by Product"
+
+#. module: report_invoice
+#: field:report.invoice,uom_id:0
+msgid " UoM"
+msgstr " UoM"
+
+#. module: report_invoice
+#: code:addons/report_invoice/report/invoice_product.py:0
+#, python-format
+msgid "PURCHASES REFUND"
+msgstr "DEVOLUCION COMPRA"
+
+#. module: report_invoice
+#: field:report.invoice.partner,quantity:0
+#: field:report.invoice.product,quantity:0
+msgid "Quantity"
+msgstr "Cantidad"
+
+#. module: report_invoice
+#: code:addons/report_invoice/wizard/invoice_partner.py:0
+#, python-format
+msgid "UserError"
+msgstr "Error Usuario"
+
+#. module: report_invoice
+#: code:addons/report_invoice/report/invoice_product.py:0
+#, python-format
+msgid "PRODUCT"
+msgstr "PRODUCTO"
+
+#. module: report_invoice
+#: rml:inv.prod.wiz.report:0
+msgid "FROM"
+msgstr "DESDE"
+
+#. module: report_invoice
+#: rml:inv.prod.wiz.report:0
+msgid "NAME"
+msgstr "NOMBRE"
+
+#. module: report_invoice
+#: selection:invoice.partner,type:0
+#: selection:report.invoice,type:0
+msgid "Supplier Invoice"
+msgstr "Factura Proveedor"
+
+#. module: report_invoice
+#: model:ir.actions.act_window,name:report_invoice.act_partner_invoice_purchase
+msgid "Purchases Invoice"
+msgstr "Compras Facturadas"
+
+#. module: report_invoice
+#: selection:invoice.partner,type:0
+msgid "Supplier Invoice and Refund"
+msgstr "Factura y Devolucion Proveedor"
+
+#. module: report_invoice
+#: code:addons/report_invoice/report/invoice_product.py:0
+#, python-format
+msgid "SALES"
+msgstr "VENTAS"
+
+#. module: report_invoice
+#: model:ir.actions.act_window,name:report_invoice.action_invoice_product_tree
+#: model:ir.ui.menu,name:report_invoice.invoice_product
+#: view:report.invoice:0
+msgid "Invoice by Product"
+msgstr "Productos Facturados"
+
+#. module: report_invoice
+#: field:invoice.partner,type:0
+#: field:report.invoice,type:0
+msgid "Type"
+msgstr "Tipo"
+
+#. module: report_invoice
+#: model:ir.actions.act_window,name:report_invoice.act_partner_invoice_sale
+msgid "Sales Invoice"
+msgstr "Ventas Facturadas"
+
+#. module: report_invoice
+#: field:report.invoice,invoice_id:0
+msgid "Invoice"
+msgstr "Invoice"
+
+#. module: report_invoice
+#: field:invoice.partner,partner_id:0
+#: field:report.invoice,partner_id:0
+#: field:report.invoice.partner,partner_id:0
+msgid "Partner"
+msgstr "Partner"
+
+#. module: report_invoice
+#: view:invoice.partner:0
+msgid "Cancel"
+msgstr "Cancelar"
+
+#. module: report_invoice
+#: code:addons/report_invoice/report/invoice_product.py:0
+#, python-format
+msgid "PARTNER"
+msgstr "PARTNER"
+
+#. module: report_invoice
+#: view:invoice.partner:0
+msgid "This wizard will compute the invoiced product"
+msgstr "Este asistente calcula los productos facturados"
+
+#. module: report_invoice
+#: field:invoice.partner,filter:0
+msgid "Filter by"
+msgstr "Filtrado por"
+

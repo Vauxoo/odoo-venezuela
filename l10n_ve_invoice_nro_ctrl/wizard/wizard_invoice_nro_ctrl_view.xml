@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+    <data>
+        <record id="view_wizard_invoice_nro_ctrl" model="ir.ui.view">
+            <field name="name">view.wizard.invoice.nro.ctrl</field>
+            <field name="model">wizard.invoice.nro.ctrl</field>
+            <field name="type">form</field>
+            <field name="arch" type="xml">
+                <form string="Crear Factura para justificar alguna dañada">
+                    <field name="nro_ctrl"/>
+                    <separator string="Esta seguro de cambiar el Nro Control y Generar una nueva Factura?" colspan="4"/>
+                    <field name="sure"/>
+                     <group colspan="8" col="8">
+                            <button icon="gtk-cancel" special="cancel" string="Cancel"/>
+                            <button icon="gtk-ok" name="create_invoice" string="Create Invoice" type="object"/>
+                     </group>
+                </form>
+            </field>
+        </record>
+
+        <act_window 
+            name="Generar Factura Dañada"  
+            res_model="wizard.invoice.nro.ctrl" 
+            src_model="account.invoice"
+            view_mode="form"
+            key2="client_action_multi"
+            target="new" 
+            id="menu_create_invoice_duplicate" 
+        />
+
+        <record id="wizard_invoice_nro_control" model="ir.actions.act_window">
+            <field name="name">Crear Factura Dañada</field>
+            <field name="res_model">wizard.invoice.nro.ctrl</field>
+            <field name="src_model">wizard.invoice.nro.ctrl</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">tree,form</field>
+            <field name="view_id" ref="view_wizard_invoice_nro_ctrl"/>
+            <field name="target">new</field>
+        </record>
+
+    </data>
+</openerp>
