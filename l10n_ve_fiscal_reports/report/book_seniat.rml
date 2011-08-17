@@ -195,13 +195,13 @@
           <para style="CONTENIDO">[[ time.strftime('%d/%m/%Y', time.strptime(l.ai_date_invoice, '%Y-%m-%d')) ]]</para>
         </td>
         <td>
-          <para style="CONTENIDO">[[ l.rp_id.vat[2:] ]]</para>
+          <para style="CONTENIDO">[[ ("PAPELANULADO" not in l.ai_id.name) and l.rp_id.vat[2:] or 'ANULADO' ]]</para>
         </td>
         <td>
-          <para style="CONTENIDOLEFT">[[ l.rp_id.name ]]</para>
+          <para style="CONTENIDOLEFT">[[ ("PAPELANULADO" not in l.ai_id.name) and l.rp_id.name or 'ANULADO' ]]</para>
         </td>
         <td>
-          <para style="CONTENIDO">[[ l.ai_reference ]]</para>
+          <para style="CONTENIDO">[[ ("PAPELANULADO" not in l.ai_id.name) and l.ai_reference or 'ANULADO' ]]</para>
         </td>
         <td>
           <para style="CONTENIDO">[[ l.ai_id.nro_ctrl ]]</para>
@@ -312,7 +312,7 @@
       <!-- Total Retenciones -->
         <td>
             <para style="CONTENIDO">
-            [[ formatLang(get_totals(data['form'])[4]) ]]
+            [[ formatLang(get_totals_ret(data['form'])) ]]
             </para>
         </td>
         <td></td>
@@ -546,7 +546,7 @@
       <!-- Total Retenciones -->
         <td>
             <para style="CONTENIDO">
-            [[ formatLang(get_totals(data['form'])[4]) ]]
+            [[ formatLang(get_totals_ret(data['form']) ]]
             </para>
         </td>
         <td></td>
