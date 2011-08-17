@@ -91,9 +91,9 @@
         </td>
       </tr>
     </blockTable>
-    <blockTable colWidths="33.0,33.0,35.0,181.0,38.0,38.0,38.0,10.0,38.0,34.0,114.0,114.0,44.0,55.0" style="CONTENIDOTABLE" repeatRows="2">[[(data['form']['type'] == 'purchase') and removeParentNode('blockTable') or '' ]]
+    <blockTable colWidths="33.0,35.0,209.0,38.0,38.0,38.0,15.0,38.0,34.0,114.0,114.0,44.0,55.0" style="CONTENIDOTABLE" repeatRows="2">[[(data['form']['type'] == 'purchase') and removeParentNode('blockTable') or '' ]]
       <tr>
-        <td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td>
+        <td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td>
         <td>
         </td>
         <td>
@@ -121,9 +121,6 @@
       <tr>
         <td>
           <para style="HEADER">Fecha Rec.</para>
-        </td>
-        <td>
-          <para style="HEADER">Fecha Doc.</para>
         </td>
         <td>
           <para style="HEADER">RIF</para>
@@ -198,9 +195,6 @@
           <para style="CONTENIDO">[[ time.strftime('%d/%m/%Y', time.strptime(l.ai_date_invoice, '%Y-%m-%d')) ]]</para>
         </td>
         <td>
-          <para style="CONTENIDO">[[ l.ai_date_document and time.strftime('%d/%m/%Y', time.strptime(l.ai_date_document, '%Y-%m-%d')) or '']]</para>
-        </td>
-        <td>
           <para style="CONTENIDO">[[ l.rp_id.vat[2:] ]]</para>
         </td>
         <td>
@@ -270,7 +264,7 @@
       <!-- Relleno para colocar totales -->
         <tr>
         <td></td>
-        <td></td><td></td><td></td><td></td><td></td>
+        <td></td><td></td><td></td><td></td>
       <!-- Fin Relleno -->
       <!-- Total Con IVA -->
         <td>
