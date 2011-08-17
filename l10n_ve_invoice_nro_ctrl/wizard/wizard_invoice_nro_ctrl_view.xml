@@ -19,7 +19,7 @@
         </record>
 
         <act_window 
-            name="Generar Factura Dañada"  
+            name="Generar Papel Anulado"  
             res_model="wizard.invoice.nro.ctrl" 
             src_model="account.invoice"
             view_mode="form"
@@ -29,7 +29,7 @@
         />
 
         <record id="wizard_invoice_nro_control" model="ir.actions.act_window">
-            <field name="name">Crear Factura Dañada</field>
+            <field name="name">Crear Papel Anulado</field>
             <field name="res_model">wizard.invoice.nro.ctrl</field>
             <field name="src_model">wizard.invoice.nro.ctrl</field>
             <field name="view_type">form</field>

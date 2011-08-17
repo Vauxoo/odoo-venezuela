@@ -34,11 +34,11 @@ class wizard_invoice_nro_ctrl(osv.osv_memory):
     _name = "wizard.invoice.nro.ctrl"
     _columns = {
         'nro_ctrl': fields.char('Control Number',size= 32,required=True,help="New control number of the invoice damaged."),
-        'sure': fields.boolean('You are sure?'),
+        'sure': fields.boolean('Are You Sure?'),
     }
 
     def action_invoice_create(self, cr, uid, ids, wizard_brw,invoice_id,context=None):
-        
+
         invoice_line_obj = self.pool.get('account.invoice.line')
         invoice_obj = self.pool.get('account.invoice')
         inv_brw = invoice_obj.browse(cr,uid,invoice_id,context)
@@ -57,17 +57,23 @@ class wizard_invoice_nro_ctrl(osv.osv_memory):
             'nro_ctrl': wizard_brw.nro_ctrl,
             'account_id': inv_brw.company_id.account_id.id,
             'currency_id': inv_brw.company_id.currency_id.id,
-            'name': 'PAPEL DAÑADO_NRO CTRL_'+wizard_brw.nro_ctrl,
+            'name': 'PAPELANULADO_NRO_CTRL_'+wizard_brw.nro_ctrl,
             'state':'paid',
             })
         inv_id = invoice_obj.create(cr, uid, invoice,{})
+        tax_id=self.pool.get('account.invoice.tax').create(cr,uid,{'name':'SDCF',
+                         'amount':0.00,
+                         'tax_amount':0.00,
+                         'base':0.00,
+                         'account_id':inv_brw.company_id.account_id.id,
+                         'invoice_id':inv_id},{})
         invoice_line.update({
-            'name': 'PAPEL DAÑADO_NRO CTRL_'+wizard_brw.nro_ctrl,
+            'name': 'PAPELANULADO_NRO_CTRL_'+wizard_brw.nro_ctrl,
             'account_id': inv_brw.company_id.account_id.id,
-            'price_unit':0,
-            'quantity':0,
+            'price_unit': 0,
+            'quantity': 0,
             'invoice_id': inv_id,
-        })
+            })
         for inv_line in inv_brw.invoice_line:
             if inv_line.concept_id or False:
                 invoice_line.update({
@@ -103,7 +109,6 @@ class wizard_invoice_nro_ctrl(osv.osv_memory):
                 inv_id = self.action_invoice_create(cr,uid,ids,wizard,inv_id,context)
             else:
                 raise osv.except_osv(_('Error'), _('Debe especificar la cuenta contable y el diario por defecto a utilizar para crear una factura dañada en el formulario de la compañia'))
-            
         return self.new_open_window(cr,uid,ids,[inv_id],'action_invoice_tree1','account')
 
 wizard_invoice_nro_ctrl()
