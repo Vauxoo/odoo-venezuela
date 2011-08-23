@@ -1,7 +1,6 @@
 <?xml version="1.0"?>
 <openerp>
     <data>
-    
         <record model="ir.ui.view" id="view_fiscal_reports_sale_form">
             <field name="name">fiscal.reports.sale.form</field>
             <field name="model">fiscal.reports.sale</field>

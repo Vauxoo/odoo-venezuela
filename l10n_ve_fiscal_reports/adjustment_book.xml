@@ -1,0 +1,158 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+    <data>
+
+    <!-- 
+    =====================================================
+    ADJUSTMENT BOOK
+    =====================================================
+    -->
+
+        <record id="view_adjustment_book_line_line_form" model="ir.ui.view">
+            <field name="name">adjustment.book.line.form</field>
+            <field name="model">adjustment.book.line</field>
+            <field name="type">form</field>
+            <field name="arch" type="xml">
+                <form string="Adjustment Book Line">
+                    <group col="4" colspan="4">
+                        <field name="date_accounting"/>
+                        <field name="date_admin"/>
+                        <field name="vat"/>
+                        <field name="partner"/>
+                        <field name="invoice_number"/>
+                        <field name="control_number"/>
+                        <field name="amount"/>
+                        <field name="type_doc"/>
+                        <field name="doc_affected"/>
+                        <field name="uncredit_fiscal"/>
+                    </group>
+                    <newline/>
+                    <separator string="National Operations" colspan="6"/>
+                    <newline/>
+                    <group col="4" colspan="4">
+                        <field name="amount_untaxed_n"/>
+                        <field name="percent_with_vat_n"/>
+                        <field name="amount_with_vat_n"/>
+                    </group>
+                    <newline/>
+                    <separator string="International Operations" colspan="6"/>
+                    <newline/>
+                    <group col="4" colspan="4">
+                        <field name="amount_untaxed_i"/>
+                        <field name="percent_with_vat_i"/>
+                        <field name="amount_with_vat_i"/>
+                    </group>
+                </form>
+            </field>
+        </record>
+
+        <record id="view_adjustment_book_tree" model="ir.ui.view">
+            <field name="name">adjustment.book.tree</field>
+            <field name="model">adjustment.book</field>
+            <field name="type">tree</field>
+            <field name="arch" type="xml">
+                <tree string="Adjustment Book">
+                    <field name="name"/>
+                    <field name="type"/>
+                    <field name="period_id"/>
+                    <field name="note"/>
+                </tree>
+            </field>
+        </record>
+
+        <record id="view_adjustment_book_line_tree" model="ir.ui.view">
+            <field name="name">adjustment.book.line.tree</field>
+            <field name="model">adjustment.book.line</field>
+            <field name="type">tree</field>
+            <field name="arch" type="xml">
+                <tree string="Adjustment Book Line">
+                    <field name="date_accounting"/>
+                    <field name="date_admin"/>
+                    <field name="vat"/>
+                    <field name="partner"/>
+                    <field name="invoice_number"/>
+                    <field name="control_number"/>
+                    <field name="amount"/>
+                    <field name="type_doc"/>
+                    <field name="uncredit_fiscal"/>
+                    <field name="doc_affected"/>
+                    <field name="amount_untaxed_n"/>
+                    <field name="percent_with_vat_n"/>
+                    <field name="amount_with_vat_n"/>
+                    <field name="amount_untaxed_i"/>
+                    <field name="percent_with_vat_i"/>
+                    <field name="amount_with_vat_i"/>
+                </tree>
+            </field>
+        </record>
+
+
+        <record id="view_adjustment_bookr_form" model="ir.ui.view">
+            <field name="name">adjustment.book.form</field>
+            <field name="model">adjustment.book</field>
+            <field name="type">form</field>
+            <field name="arch" type="xml">
+                <form string="Adjustment Book">
+                    <group col="6" colspan="6">
+                        <field name="name"/>
+                        <field name="type"/>
+                        <field name="period_id"/>
+                    </group>
+                    <notebook colspan="6">
+                        <page string="Adjustment Book Lines">
+                            <field name="adjustment_ids" nolabel="1" colspan='4'/>
+                            <group col="4" colspan="4">
+                                <field name="amount_total"/>
+                                <field name="uncredit_fiscal_total"/>
+                            </group>
+                            <group col="8" colspan="8">
+                                <field name="amount_untaxed_n_total"/>
+                                <field name="amount_with_vat_n_total"/>
+                                <field name="amount_untaxed_i_total"/>
+                                <field name="amount_with_vat_i_total"/>
+                            </group>
+                        </page>
+                    </notebook>
+                    <group col="6" colspan="6">
+                        <separator string="Explanation about this adjustment"/>
+                        <newline/>
+                        <field name="note" nolabel="1"/>
+                    </group>
+                </form>
+            </field>
+        </record>
+
+
+        <record model="ir.actions.act_window" id="action_adjustment_book">
+            <field name="name">Adjustment Book</field>
+            <field name="res_model">adjustment.book</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">tree,form</field>
+        </record>
+        
+        <record model="ir.actions.act_window.view" id="action_adjustment_book_tree">
+            <field name="sequence" eval="10"/>
+            <field name="view_mode">tree</field>
+            <field name="view_id" ref="view_adjustment_book_tree"/> 
+            <field name="act_window_id" ref="action_adjustment_book"/>
+        </record>
+        <record model="ir.actions.act_window.view" id="action_adjustment_book_form">
+            <field name="sequence" eval="20"/>
+            <field name="view_mode">form</field>
+            <field name="view_id" ref="view_adjustment_bookr_form"/>
+            <field name="act_window_id" ref="action_adjustment_book"/>
+        </record>
+        
+        <menuitem name="Adjustment Book" 
+            id="menu_adjustment_book" 
+            parent="l10n_ve_fiscal_reports.menu_fr_main"
+            action="action_adjustment_book"/>
+
+    </data>
+</openerp>
+
+
+
+
+

@@ -58,6 +58,7 @@
         "fiscal_report_wizard.xml",
         "wizard/sales_book_wizard_view.xml",
         "invoice_view.xml",
+        "adjustment_book.xml",
     ],
     "active": False,
     "installable": True,
