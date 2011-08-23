@@ -72,6 +72,11 @@ class adjustment_book(osv.osv):
         'amount_with_vat_i_total':fields.function(_get_amount_total,multi='all',method=True,digits=(16, int(config['price_accuracy'])),string='Amount Withheld International',readonly=True,help="Amount Total Withheld for adjustment book of international operations"),
         'uncredit_fiscal_total':fields.function(_get_amount_total,multi='all',method=True,digits=(16, int(config['price_accuracy'])),string='Sin derecho a credito fiscal',readonly=True,help="Sin derecho a credito fiscal"),
     }
+
+    _sql_constraints = [
+        ('period_id_uniq', 'unique (period_id)', 'The period must be unique!')
+    ]
+
 adjustment_book()
 
 
@@ -87,9 +92,9 @@ class adjustment_book_line(osv.osv):
         'control_number':fields.char('Invoice Control', size=256,required=True,help="Invoice control for adjustment book"),        
         'amount':fields.float('Amount Document at Withholding VAT',digits=(16, int(config['price_accuracy'])),required=True,help="Amount document for adjustment book"),
         'type_doc': fields.selection([
-            ('f','Invoice'),
-            ('dn', 'Debit Note'),
-            ('cn', 'Credit Note'),
+            ('F','Invoice'),
+            ('ND', 'Debit Note'),
+            ('NC', 'Credit Note'),
             ],'Document Type', select=True, required=True, help="Type of Document for adjustment book: -Invoice(F),-Debit Note(dn),-Credit Note(cn)"),
         'doc_affected':fields.char('Affected Document', size=256,required=True,help="Affected Document for adjustment book"),
         'uncredit_fiscal':fields.float('Sin derecho a Credito Fiscal',digits=(16, int(config['price_accuracy'])),required=True,help="Sin derechoa credito fiscal"),
