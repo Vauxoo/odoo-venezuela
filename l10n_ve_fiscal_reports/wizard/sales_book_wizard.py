@@ -143,15 +143,6 @@ class sales_book_wizard(osv.osv_memory):
 
 
     def _print_report(self, cr, uid, ids, data, context=None):
-#        if context is None:
-#            context = {}
-#        data = self.pre_print_report(cr, uid, ids, data, context=context)
-#        data['form'].update(self.read(cr, uid, ids, ['landscape',  'initial_balance', 'amount_currency', 'sortby'])[0])
-#        if not data['form']['fiscalyear_id']:# GTK client problem onchange does not consider in save record
-#            data['form'].update({'initial_balance': False})
-#        if data['form']['landscape']:
-#            return { 'type': 'ir.actions.report.xml', 'report_name': 'account.general.ledger_landscape', 'datas': data}   
-        print "Dataaaaaaaaaaaaaaaaaaaaaaaaaaa     %s " % data
         return { 'type': 'ir.actions.report.xml', 'report_name': 'fiscal.reports.purchase.purchase_seniat', 'datas': data}
     _columns = {
             "date_start": fields.date("Start Date", required=True),

@@ -60,6 +60,7 @@ class pur_sal_book(report_sxw.rml_parse):
             'get_doc':self._get_doc,
             'get_ret':self._get_ret,
             'get_prev_ret': self._get_prev_ret,
+            'get_totals_ret': self._get_totals_ret,
         })
 
 
@@ -68,11 +69,13 @@ class pur_sal_book(report_sxw.rml_parse):
         d2=form['date_end']
         if form['type']=='purchase':
             book_type='fiscal.reports.purchase'
+            orden='ai_date_invoice'
         else:
             book_type='fiscal.reports.sale'
+            orden='ai_nro_ctrl'
         data=[]
         fr_obj = self.pool.get(book_type)
-        fr_ids = fr_obj.search(self.cr,self.uid,[('ai_date_invoice', '<=', d2), ('ai_date_invoice', '>=', d1)], order='ai_nro_ctrl')
+        fr_ids = fr_obj.search(self.cr,self.uid,[('ai_date_invoice', '<=', d2), ('ai_date_invoice', '>=', d1)], order=orden)
         #Data to review first and add more records to be printed before ordering and send to rml.
         data = fr_obj.browse(self.cr,self.uid, fr_ids)
         return data
@@ -107,6 +110,11 @@ class pur_sal_book(report_sxw.rml_parse):
         '''
         d1=form['date_start']
         d2=form['date_end']
+        if form['type']=='purchase':
+            if ret_id:
+                ret_obj = self.pool.get('account.retention')
+                rets = ret_obj.browse(self.cr,self.uid,[ret_id])
+                return rets[0].number
         if ret_id:
             ret_obj = self.pool.get('account.retention')
             rets = ret_obj.browse(self.cr,self.uid,[ret_id])
@@ -120,6 +128,24 @@ class pur_sal_book(report_sxw.rml_parse):
                 return False
         else:
             return False
+
+    def _get_totals_ret(self,form):
+        d1=form['date_start']
+        d2=form['date_end']
+        if form['type']=='purchase':
+            book_type='fiscal.reports.purchase'
+        else:
+            book_type='fiscal.reports.sale'
+        data=[]
+        fr_obj = self.pool.get(book_type)
+        fr_ids = fr_obj.search(self.cr,self.uid,[('ai_date_invoice', '<=', d2), ('ai_date_invoice', '>=', d1)], order='ai_nro_ctrl')
+        #Data to review first and add more records to be printed before ordering and send to rml.
+        data = fr_obj.browse(self.cr,self.uid, fr_ids)
+        total=0.00
+        for d in data:
+            if self._get_ret(form,d.ar_id.id):
+                total+=d.ar_id.total_tax_ret
+        return total
 
 
     def _get_partner_addr(self, idp=None):
@@ -220,7 +246,7 @@ class pur_sal_book(report_sxw.rml_parse):
         d1=form['date_start']
         d2=form['date_end']
         if form['type']=='purchase':
-            book_type='fiscal.reports.purchase'           
+            book_type='fiscal.reports.purchase'
         else:
             book_type='fiscal.reports.sale'
         fr_obj = self.pool.get(book_type)
