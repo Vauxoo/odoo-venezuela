@@ -25,6 +25,8 @@
                         <field name="type_doc"/>
                         <field name="doc_affected"/>
                         <field name="uncredit_fiscal"/>
+                        <field name="amount_with_vat"/>
+                        <field name="voucher"/>
                     </group>
                     <newline/>
                     <separator string="National Operations" colspan="6"/>
@@ -93,7 +95,7 @@
             <field name="type">form</field>
             <field name="arch" type="xml">
                 <form string="Adjustment Book">
-                    <group col="6" colspan="6">
+                    <group col="4" colspan="4">
                         <field name="name"/>
                         <field name="type"/>
                         <field name="period_id"/>
@@ -104,6 +106,7 @@
                             <group col="4" colspan="4">
                                 <field name="amount_total"/>
                                 <field name="uncredit_fiscal_total"/>
+                                <field name="amount_with_vat_total"/>
                             </group>
                             <group col="8" colspan="8">
                                 <field name="amount_untaxed_n_total"/>
@@ -113,7 +116,7 @@
                             </group>
                         </page>
                     </notebook>
-                    <group col="6" colspan="6">
+                    <group col="4" colspan="4">
                         <separator string="Explanation about this adjustment"/>
                         <newline/>
                         <field name="note" nolabel="1"/>

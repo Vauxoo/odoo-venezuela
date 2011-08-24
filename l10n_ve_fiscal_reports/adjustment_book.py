@@ -45,6 +45,7 @@ class adjustment_book(osv.osv):
                 'amount_untaxed_i_total' : 0.0,
                 'amount_with_vat_i_total': 0.0,
                 'uncredit_fiscal_total'  : 0.0,
+                'amount_with_vat_total'  : 0.0,
             }
             for line in adj.adjustment_ids:
                 res[adj.id]['amount_total'] += line.amount
@@ -53,6 +54,7 @@ class adjustment_book(osv.osv):
                 res[adj.id]['amount_untaxed_i_total'] += line.amount_untaxed_i
                 res[adj.id]['amount_with_vat_i_total'] += line.amount_with_vat_i
                 res[adj.id]['uncredit_fiscal_total'] += line.uncredit_fiscal
+                res[adj.id]['amount_with_vat_total'] += line.amount_with_vat
         return res
 
     _name='adjustment.book'
@@ -71,6 +73,7 @@ class adjustment_book(osv.osv):
         'amount_untaxed_i_total':fields.function(_get_amount_total,multi='all',method=True,digits=(16, int(config['price_accuracy'])),string='Amount Untaxed International',readonly=True,help="Amount Total Untaxed for adjustment book of internacional operations"),
         'amount_with_vat_i_total':fields.function(_get_amount_total,multi='all',method=True,digits=(16, int(config['price_accuracy'])),string='Amount Withheld International',readonly=True,help="Amount Total Withheld for adjustment book of international operations"),
         'uncredit_fiscal_total':fields.function(_get_amount_total,multi='all',method=True,digits=(16, int(config['price_accuracy'])),string='Sin derecho a credito fiscal',readonly=True,help="Sin derecho a credito fiscal"),
+        'amount_with_vat_total':fields.function(_get_amount_total,multi='all',method=True,digits=(16, int(config['price_accuracy'])),string='Amount Withholding VAT Total',readonly=True,help="Amount Total Withholding VAT for adjustment book"),
     }
 
     _sql_constraints = [
@@ -103,7 +106,9 @@ class adjustment_book_line(osv.osv):
         'amount_with_vat_n': fields.float('Amount Withholding VAT',digits=(16, int(config['price_accuracy'])),required=True,help="Percent(%) VAT for national operations"),
         'amount_untaxed_i': fields.float('Amount Untaxed',digits=(16, int(config['price_accuracy'])),required=True,help="Amount untaxed for international operations"),
         'percent_with_vat_i': fields.float('% Withholding VAT',digits=(16, int(config['price_accuracy'])),required=True,help="Percent(%) VAT for international operations"),
-        'amount_with_vat_i': fields.float('Amount Withholding VAT',digits=(16, int(config['price_accuracy'])),required=True,help="Percent(%) VAT for international operations"),        
+        'amount_with_vat_i': fields.float('Amount Withholding VAT',digits=(16, int(config['price_accuracy'])),required=True,help="Amount withholding VAT for international operations"),
+        'amount_with_vat': fields.float('Amount Withholding VAT Total',digits=(16, int(config['price_accuracy'])),required=True,help="Amount withheld VAT total"),
+        'voucher': fields.char('Voucher Withholding VAT', size=256,required=True,help="Voucher Withholding VAT"),
         'adjustment_id':fields.many2one('adjustment.book','Adjustment Book')
     }
     _rec_rame = 'partner'
