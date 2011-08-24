@@ -52,7 +52,7 @@ class adjustment_book(osv.osv):
                 res[adj.id]['amount_with_vat_n_total'] += line.amount_with_vat_n
                 res[adj.id]['amount_untaxed_i_total'] += line.amount_untaxed_i
                 res[adj.id]['amount_with_vat_i_total'] += line.amount_with_vat_i
-                res[adj.id]['uncredit_fiscal_total'] += line.amount_with_vat_i
+                res[adj.id]['uncredit_fiscal_total'] += line.uncredit_fiscal
         return res
 
     _name='adjustment.book'

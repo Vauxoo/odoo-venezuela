@@ -61,7 +61,26 @@ class pur_sal_book(report_sxw.rml_parse):
             'get_ret':self._get_ret,
             'get_prev_ret': self._get_prev_ret,
             'get_totals_ret': self._get_totals_ret,
+            'get_data_adjustment': self._get_data_adjustment,
         })
+
+    def _get_data_adjustment(self,form):
+        d1=form['date_start']
+        d2=form['date_end']
+        adjust_obj = self.pool.get('adjustment.book')
+        adjust_line_obj = self.pool.get('adjustment.book.line')
+        period_obj=self.pool.get('account.period')
+        data=[]
+        period_ids = period_obj.search(self.cr,self.uid,[('date_start','<=',d1),('date_stop','>=',d2)])
+        fr_ids = adjust_obj.search(self.cr,self.uid,[('period_id', '=',period_ids[0] )])
+        #~ LAS FECHAS DEBEN CONTENER UN SOLO PERIODO FISCAL
+        adj_ids = adjust_line_obj.search(self.cr,self.uid,[('adjustment_id','=',fr_ids[0])])
+        print "IDS CONSEGUIDOS", fr_ids
+        #Data to review first and add more records to be printed before ordering and send to rml.
+        data = adjust_obj.browse(self.cr,self.uid, fr_ids)
+        data_line = adjust_line_obj.browse(self.cr,self.uid, adj_ids)
+        print 'DATA', data
+        return (data,data_line)
 
 
     def _get_data(self,form):
