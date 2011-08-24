@@ -334,10 +334,12 @@
 
 
       <!-- ************ AJUSTMENT BOOK ************-->
-      
-    <blockTable colWidths="33.0,33.0,35.0,200.0,47.0,38.0,38.0,15.0,38.0,34.0,114.0,114.0" style="CONTENIDOTABLE_ADJUST" repeatRows="2">
+    
+    <spacer length="10mm"/>
+    
+    <blockTable colWidths="33.0,33.0,37.0,200.0,47.0,38.0,38.0,15.0,38.0,34.0,114.0,114.0" style="CONTENIDOTABLE_ADJUST" repeatRows="2">
       <tr>
-        <td></td><td></td><td></td>
+        <td></td><td></td><td>[['LIBRO DE AJUSTES']]</td>
         <td></td><td></td><td></td>
         <td></td><td></td><td></td>
         <td></td>
@@ -391,8 +393,8 @@
         </td>
     </tr>
     <tr>
-    <para>[[repeatIn( get_data_adjustment( data['form'] )[1],'a')]]</para> 
-    <para>[[ setLang(company.partner_id.lang) ]]</para> 
+        <para>[[repeatIn( get_data_adjustment( data['form'] )[1],'a')]]</para>
+        <para>[[ setLang(company.partner_id.lang) ]]</para>
         <td><para style="CONTENIDO">[[ a.date_accounting ]]</para></td>
         <td><para style="CONTENIDO">[[ a.date_admin ]]</para></td>
         <td><para style="CONTENIDO">[[ a.vat ]]</para></td>
@@ -425,6 +427,7 @@
     <tr>
         <para>[[repeatIn( get_data_adjustment( data['form'] )[0],'al')]]</para> 
         <para>[[ setLang(company.partner_id.lang) ]]</para> 
+        
         <td></td><td></td><td></td>
         <td></td><td></td><td></td>
         <td><para style="CONTENIDOINT">[[ formatLang(al.amount_total) ]]</para></td>
