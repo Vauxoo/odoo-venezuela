@@ -63,6 +63,7 @@ class pur_sal_book(report_sxw.rml_parse):
             'get_totals_ret': self._get_totals_ret,
             'get_data_adjustment': self._get_data_adjustment,
             'validation': self._validation,
+            'validation_wh': self._validation_wh,
             'get_data_wh': self._get_data_wh,
         })
 
@@ -120,10 +121,15 @@ class pur_sal_book(report_sxw.rml_parse):
         data = fr_obj.browse(self.cr,self.uid, fr_ids)
         return data
 
+    def _validation_wh(self,form):
+        if form['type']=='sale':
+            return True
+        return False
+
     def _get_data_wh(self,form):
         d1=form['date_start']
         d2=form['date_end']
-        book_type='fiscal.reports.whs'
+
         if form['type']=='purchase':
             book_type='fiscal.reports.whp'
             

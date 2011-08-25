@@ -172,6 +172,7 @@
     <!-- ************ WITHHOLDING VAT BOOK LINES************-->
 
     <blockTable colWidths="33.0,35.0,200.0,47.0,38.0,38.0,15.0,38.0,34.0,114.0,114.0,44.0,55.0" style="CONTENIDOTABLE_LINES" repeatRows="2">        
+    <para>[[ validation_wh(data['form']) or removeParentNode('blockTable') ]]</para>
     <tr>
         <para>[[repeatIn( get_data_wh(data['form']),'wh')]]</para>
         <para>[[ setLang(company.partner_id.lang) ]]</para>
