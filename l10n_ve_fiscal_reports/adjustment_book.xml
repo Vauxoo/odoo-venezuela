@@ -15,12 +15,12 @@
             <field name="arch" type="xml">
                 <form string="Adjustment Book Line">
                     <group col="4" colspan="4">
-                        <field name="date_accounting" />
-                        <field name="date_admin"/>
-                        <field name="vat"/>
-                        <field name="partner"/>
-                        <field name="invoice_number"/>
-                        <field name="control_number"/>
+                        <field name="date_accounting" select="1"/>
+                        <field name="date_admin" select="1"/>
+                        <field name="vat" select="1"/>
+                        <field name="partner" select="1"/>
+                        <field name="invoice_number" select="1"/>
+                        <field name="control_number" select="1"/>
                         <field name="amount"/>
                         <field name="type_doc"/>
                         <field name="doc_affected"/>
@@ -96,9 +96,9 @@
             <field name="arch" type="xml">
                 <form string="Adjustment Book">
                     <group col="4" colspan="4">
-                        <field name="name"/>
-                        <field name="type"/>
-                        <field name="period_id"/>
+                        <field name="name" select="1"/>
+                        <field name="type" select="1"/>
+                        <field name="period_id" select="1"/>
                     </group>
                     <notebook colspan="6">
                         <page string="Adjustment Book Lines">
@@ -108,11 +108,11 @@
                                 <field name="uncredit_fiscal_total"/>
                                 <field name="amount_with_vat_total"/>
                             </group>
-                            <group col="8" colspan="8">
+                            <group col="4" colspan="4">
                                 <field name="amount_untaxed_n_total"/>
+                                <field name="amount_with_vat_i_total"/>
                                 <field name="amount_with_vat_n_total"/>
                                 <field name="amount_untaxed_i_total"/>
-                                <field name="amount_with_vat_i_total"/>
                             </group>
                         </page>
                     </notebook>
