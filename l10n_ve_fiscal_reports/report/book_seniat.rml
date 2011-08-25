@@ -40,6 +40,9 @@
 <!--        <blockBackground colorName="#cdd1bc" start="12,1" stop="12,-1"/>-->
 <!--Fin definicion de Colores.-->
 <!--Definiendo las líneas de los Bordes "NUMERO DE COLUMNA, NUMERO DE FILA"-->
+<!--
+        <blockBackground colorName="#e5e2e5" start="0,0" stop="-1,0"/>
+-->
         <lineStyle kind="GRID" colorName="black" thickness="1" start="0,1" stop="-1,-1"/>
         <lineStyle kind="GRID" colorName="black" thickness="1" start="-4,0" stop="-3,0"/>
 <!--        <lineStyle kind="LINEBELOW" colorName="white" thickness="1" start="0,0" stop="14,1" count="2"/>-->
@@ -47,6 +50,19 @@
 <!--        <lineStyle kind="LINEBELOW" colorName="white" start="0,2" stop="-1,-2" thickness="0.5"/>-->
 <!--        <lineStyle kind="LINEBELOW" colorName="white" thickness="2" start="-10,-2" stop="-1,-1" count="2"/>-->
 <!--Fin definición bordes-->
+    </blockTableStyle>
+    
+    <blockTableStyle id="CONTENIDOTABLE_TITULOS">
+        <blockAlignment value="LEFT"/>
+        <blockValign value="MIDDLE"/>
+        <lineStyle kind="GRID" colorName="black" start="0,0" stop="-1,-1" thickness="0.5"/>
+        <blockBackground colorName="#e5e2e5" start="0,0" stop="-1,0"/>
+    </blockTableStyle>
+    
+    <blockTableStyle id="CONTENIDOTABLE_LINES">
+        <blockAlignment value="LEFT"/>
+        <blockValign value="MIDDLE"/>
+        <lineStyle kind="GRID" colorName="black" start="0,0" stop="-1,-1" thickness="0.5"/>
     </blockTableStyle>
     
     <initialize>
@@ -356,6 +372,9 @@
         </td>
         <td></td><td></td>
       </tr>
+    </blockTable>
+    
+    <blockTable colWidths="33.0,33.0,37.0,160.0,47.0,38.0,38.0,15.0,38.0,34.0,114.0,114.0,44.0,50.0" style="CONTENIDOTABLE_TITULOS" repeatRows="2">
     <tr>
         <td><para style="HEADER">Fecha Cont.</para></td>
         <td><para style="HEADER">Fecha Adm.</para></td>
@@ -371,12 +390,8 @@
             <blockTable colWidths="40.0,30.0,40.0" style="INTERNALTABLE">
                 <tr>
                     <td><para style="HEADER">Base Imponible</para></td>
-                    <td><para style="HEADER">%</para>
-                        <para style="HEADER">IVA</para>
-                    </td>
-                    <td><para style="HEADER">Monto</para>
-                        <para style="HEADER">Impuesto</para>
-                    </td>
+                    <td><para style="HEADER">%</para><para style="HEADER">IVA</para></td>
+                    <td><para style="HEADER">Monto</para><para style="HEADER">Impuesto</para></td>
                 </tr>
             </blockTable>
         </td>
@@ -384,18 +399,17 @@
             <blockTable colWidths="40.0,30.0,40.0" style="INTERNALTABLE">
                 <tr>
                     <td><para style="HEADER">Base Imponible</para></td>
-                    <td><para style="HEADER">%</para>
-                        <para style="HEADER">IVA</para>
-                    </td>
-                    <td><para style="HEADER">Monto</para>
-                        <para style="HEADER">Impuesto</para>
-                    </td>
+                    <td><para style="HEADER">%</para><para style="HEADER">IVA</para></td>
+                    <td><para style="HEADER">Monto</para><para style="HEADER">Impuesto</para></td>
                 </tr>
             </blockTable>
         </td>
         <td><para style="HEADER">Retencion IVA</para></td>
         <td><para style="HEADER">Comprobante</para></td>
     </tr>
+    </blockTable>
+        
+<blockTable colWidths="33.0,33.0,37.0,160.0,47.0,38.0,38.0,15.0,38.0,34.0,114.0,114.0,44.0,50.0" style="CONTENIDOTABLE_LINES" repeatRows="2">        
     <tr>
         <para>[[repeatIn( get_data_adjustment(data['form'])[1],'a')]]</para>
         <para>[[ setLang(company.partner_id.lang) ]]</para>
