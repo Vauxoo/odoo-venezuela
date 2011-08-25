@@ -63,6 +63,7 @@ class pur_sal_book(report_sxw.rml_parse):
             'get_totals_ret': self._get_totals_ret,
             'get_data_adjustment': self._get_data_adjustment,
             'validation': self._validation,
+            'get_data_wh': self._get_data_wh,
         })
 
     def _validation(self,form):
@@ -115,6 +116,20 @@ class pur_sal_book(report_sxw.rml_parse):
         data=[]
         fr_obj = self.pool.get(book_type)
         fr_ids = fr_obj.search(self.cr,self.uid,[('ai_date_invoice', '<=', d2), ('ai_date_invoice', '>=', d1)], order=orden)
+        #Data to review first and add more records to be printed before ordering and send to rml.
+        data = fr_obj.browse(self.cr,self.uid, fr_ids)
+        return data
+
+    def _get_data_wh(self,form):
+        d1=form['date_start']
+        d2=form['date_end']
+        book_type='fiscal.reports.whs'
+        if form['type']=='purchase':
+            book_type='fiscal.reports.whp'
+            
+        data=[]
+        fr_obj = self.pool.get(book_type)
+        fr_ids = fr_obj.search(self.cr,self.uid,[('ar_date_ret', '<=', d2), ('ar_date_ret', '>=', d1)], order='ar_date_ret')
         #Data to review first and add more records to be printed before ordering and send to rml.
         data = fr_obj.browse(self.cr,self.uid, fr_ids)
         return data

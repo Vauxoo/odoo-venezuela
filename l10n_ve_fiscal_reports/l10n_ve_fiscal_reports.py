@@ -199,7 +199,7 @@ class fiscal_reports_whp(osv.osv):
     Modifying the object fiscal.reports.whp
     '''
     _name = "fiscal.reports.whp"
-    _description = "Sale by period"
+    _description = "Purchase by period"
     _auto = False
     _rec_name = 'ai_nro_ctrl'
     _columns = {
@@ -280,7 +280,7 @@ class fiscal_reports_whs(osv.osv):
     'ai_amount_total': fields.float('Invoice Total', digits=(16, int(config['price_accuracy'])), readonly=True),
     'ai_amount_untaxed': fields.float('Amount Untaxed', digits=(16, int(config['price_accuracy'])), readonly=True),
     'ar_line_id':fields.many2one('account.retention.line', 'Account Retention', readonly=True),
-    'ai_amount_tax': fields.float('Amoun Tax', digits=(16, int(config['price_accuracy'])), readonly=True),
+    'ai_amount_tax': fields.float('Amount Tax', digits=(16, int(config['price_accuracy'])), readonly=True),
     'ar_id':fields.many2one('account.retention', 'Retention', required=False, readonly=True),
     'ai_reference':fields.char('Invoice Number', size=64, required=False, readonly=True),
     }
