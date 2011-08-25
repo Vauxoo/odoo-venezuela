@@ -89,7 +89,7 @@ class adjustment_book_line(osv.osv):
     _columns={
         'date_accounting': fields.date('Date Accounting', required=True,help="Date accounting for adjustment book"),
         'date_admin': fields.date('Date Administrative',required=True, help="Date administrative for adjustment book"),
-        'vat':fields.char('Vat', size=256,required=True,help="Vat of partner for adjustment book"),
+        'vat':fields.char('Vat', size=10,required=True,help="Vat of partner for adjustment book"),
         'partner':fields.char('Partner', size=256,required=True,help="Partner for adjustment book"),
         'invoice_number':fields.char('Invoice Number', size=256,required=True,help="Invoice number for adjustment book"),
         'control_number':fields.char('Invoice Control', size=256,required=True,help="Invoice control for adjustment book"),        

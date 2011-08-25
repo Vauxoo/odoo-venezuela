@@ -70,9 +70,7 @@ class pur_sal_book(report_sxw.rml_parse):
         d2=form['date_end']
         period_obj=self.pool.get('account.period')
         period_ids = period_obj.search(self.cr,self.uid,[('date_start','<=',d1),('date_stop','>=',d2)])
-        print 'PERIOD_IDS', period_ids
         if len(period_ids)>1 or len(period_ids)<=0:
-            print 'HAY MUCHOS PERIODOS'
             return False
         return True
 
