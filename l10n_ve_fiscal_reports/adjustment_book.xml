@@ -15,7 +15,7 @@
             <field name="arch" type="xml">
                 <form string="Adjustment Book Line">
                     <group col="4" colspan="4">
-                        <field name="date_accounting"/>
+                        <field name="date_accounting" />
                         <field name="date_admin"/>
                         <field name="vat"/>
                         <field name="partner"/>

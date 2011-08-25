@@ -375,6 +375,7 @@
     </blockTable>
     
     <blockTable colWidths="33.0,33.0,37.0,160.0,47.0,38.0,38.0,15.0,38.0,34.0,114.0,114.0,44.0,50.0" style="CONTENIDOTABLE_TITULOS" repeatRows="2">
+    <para>[[ validation(data['form']) or removeParentNode('blockTable')]]</para>
     <tr>
         <td><para style="HEADER">Fecha Cont.</para></td>
         <td><para style="HEADER">Fecha Adm.</para></td>
@@ -409,7 +410,8 @@
     </tr>
     </blockTable>
         
-<blockTable colWidths="33.0,33.0,37.0,160.0,47.0,38.0,38.0,15.0,38.0,34.0,114.0,114.0,44.0,50.0" style="CONTENIDOTABLE_LINES" repeatRows="2">        
+    <blockTable colWidths="33.0,33.0,37.0,160.0,47.0,38.0,38.0,15.0,38.0,34.0,114.0,114.0,44.0,50.0" style="CONTENIDOTABLE_LINES" repeatRows="2">        
+    <para>[[ validation(data['form']) or removeParentNode('blockTable')]]</para>
     <tr>
         <para>[[repeatIn( get_data_adjustment(data['form'])[1],'a')]]</para>
         <para>[[ setLang(company.partner_id.lang) ]]</para>

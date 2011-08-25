@@ -68,22 +68,35 @@ class pur_sal_book(report_sxw.rml_parse):
     def _validation(self,form):
         d1=form['date_start']
         d2=form['date_end']
+        type_doc = 'sale'
+        if form['type']=='purchase':
+            type_doc = 'purchase'
         period_obj=self.pool.get('account.period')
+        adjust_obj = self.pool.get('adjustment.book')
         period_ids = period_obj.search(self.cr,self.uid,[('date_start','<=',d1),('date_stop','>=',d2)])
-        if len(period_ids)>1 or len(period_ids)<=0:
+        if len(period_ids)<=0:
+            return False
+        fr_ids = adjust_obj.search(self.cr,self.uid,[('period_id','in',period_ids),('type','=',type_doc)])
+        if not fr_ids:
             return False
         return True
 
     def _get_data_adjustment(self,form):
         d1=form['date_start']
         d2=form['date_end']
+        type_doc = 'sale'
+        
+        if form['type']=='purchase':
+            type_doc = 'purchase'
+        
         adjust_obj = self.pool.get('adjustment.book')
         adjust_line_obj = self.pool.get('adjustment.book.line')
         period_obj=self.pool.get('account.period')
         data=[]
         data_line=[]
         period_ids = period_obj.search(self.cr,self.uid,[('date_start','<=',d1),('date_stop','>=',d2)])
-        fr_ids = adjust_obj.search(self.cr,self.uid,[('period_id', '=',period_ids[0] )])
+        fr_ids = adjust_obj.search(self.cr,self.uid,[('period_id', 'in',period_ids),('type','=',type_doc)])
+        
         adj_ids = adjust_line_obj.search(self.cr,self.uid,[('adjustment_id','=',fr_ids[0])])
         #Data to review first and add more records to be printed before ordering and send to rml.
         data = adjust_obj.browse(self.cr,self.uid, fr_ids)

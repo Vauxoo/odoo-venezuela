@@ -77,7 +77,7 @@ class adjustment_book(osv.osv):
     }
 
     _sql_constraints = [
-        ('period_id_uniq', 'unique (period_id)', 'The period must be unique!')
+        ('period_id_type_uniq', 'unique (period_id,type)', 'The period and type combination must be unique!')
     ]
 
 adjustment_book()
