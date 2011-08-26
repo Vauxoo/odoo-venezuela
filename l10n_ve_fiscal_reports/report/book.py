@@ -130,11 +130,8 @@ class pur_sal_book(report_sxw.rml_parse):
         d1=form['date_start']
         d2=form['date_end']
 
-        if form['type']=='purchase':
-            book_type='fiscal.reports.whp'
-            
         data=[]
-        fr_obj = self.pool.get(book_type)
+        fr_obj = self.pool.get('fiscal.reports.whs')
         fr_ids = fr_obj.search(self.cr,self.uid,[('ar_date_ret', '<=', d2), ('ar_date_ret', '>=', d1)], order='ar_date_ret')
         #Data to review first and add more records to be printed before ordering and send to rml.
         data = fr_obj.browse(self.cr,self.uid, fr_ids)

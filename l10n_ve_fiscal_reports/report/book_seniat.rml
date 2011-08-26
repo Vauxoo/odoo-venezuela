@@ -184,7 +184,7 @@
         <td><para style="CONTENIDO">[[ formatLang(wh.ai_amount_total) ]]</para></td>
         <td><para style="CONTENIDO">[[ get_doc(wh.ai_id.id)]]</para></td>
         <td><para style="HEADER">[[ wh.ai_id.parent_id.number or '' ]]</para></td>
-        <td><para style="CONTENIDO">[[ 'sss' ]]</para></td>
+        <td><para style="CONTENIDO">[[ '0.00' ]]</para></td>
         <td>
             <section>
                 [[ repeatIn( wh.ai_id.tax_line,'tax' ) ]]

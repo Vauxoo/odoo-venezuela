@@ -10,3 +10,5 @@
 "access_sales_book_wizard","sales.book.wizard","model_sales_book_wizard","account.group_account_manager",1,1,1,1
 "access_adjustment_book_manager","adjustment.book","model_adjustment_book","account.group_account_manager",1,1,1,1
 "access_adjustment_book","adjustment.book","model_adjustment_book","account.group_account_user",1,0,0,0
+"access_adjustment_book_line_manager","adjustment.book.line","model_adjustment_book_line","account.group_account_manager",1,1,1,1
+"access_adjustment_book_line","adjustment.book.line","model_adjustment_book_line","account.group_account_user",1,0,0,0
