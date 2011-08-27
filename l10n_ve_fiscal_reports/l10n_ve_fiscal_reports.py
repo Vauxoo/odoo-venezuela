@@ -272,6 +272,7 @@ class fiscal_reports_whs(osv.osv):
     _rec_name = 'ai_nro_ctrl'
     _columns = {
     'ar_date_ret': fields.date('Date'),
+    'ai_date_inv': fields.date('Date Invoice'),
     'rp_vat':fields.char('Vat Number', size=64, readonly=True),
     'rp_id':fields.many2one('res.partner', 'Partner Name', readonly=True),
     'ar_number':fields.char('WH Number', size=64, readonly=True),
@@ -297,6 +298,7 @@ class fiscal_reports_whs(osv.osv):
                      ar."number" AS ar_number,
                      ai."number" AS ai_reference,
                      ai."number" AS ai_number,
+                     ai."date_invoice" AS ai_date_inv,
                     case when ai.type='out_refund'
                     then
                         ai."amount_total"*(-1)

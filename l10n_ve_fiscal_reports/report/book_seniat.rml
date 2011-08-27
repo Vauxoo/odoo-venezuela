@@ -137,7 +137,7 @@
     
     <blockTable colWidths="33.0,35.0,200.0,47.0,38.0,38.0,15.0,38.0,34.0,114.0,114.0,44.0,55.0" style="CONTENIDOTABLE_TITULOS" repeatRows="2">
     <tr>
-        <td><para style="HEADER">Fecha Rec.</para></td>
+        <td><para style="HEADER">Fecha</para></td>
         <td><para style="HEADER">RIF</para></td>
         <td><para style="HEADER">Razon Social</para></td>
         <td><para style="HEADER">Numero Factura</para></td>
@@ -209,7 +209,7 @@
             </blockTable>
         </section>
         </td>
-        <td><para style="CONTENIDO">[[ formatLang(wh.ai_amount_tax) ]]</para></td>
+        <td><para style="CONTENIDO">[[ formatLang(get_amount_withheld(wh.ar_line_id.id)) or '' ]]</para></td>
         <td><para style="CONTENIDO">[[ wh.ar_id.number ]]</para></td>
     </tr>
     </blockTable>
@@ -252,7 +252,7 @@
         </blockTable>
     </section>
     </td>
-    <td><para style="CONTENIDO">[[ get_ret(data['form'], l.ar_id and l.ar_id.id) and (formatLang(((l.ai_id.type in ['in_refund', 'out_refund']) and (l.ar_id.total_tax_ret*(-1)) or l.ar_id.total_tax_ret))) ]]</para></td>
+    <td><para style="CONTENIDO">[[ get_ret(data['form'], l.ar_id and l.ar_id.id) and (formatLang(((l.ai_id.type in ['in_refund', 'out_refund']) and (get_amount_withheld(l.ar_line_id.id)*(-1)) or get_amount_withheld(l.ar_line_id.id)))) ]]</para></td>
     <td><para style="CONTENIDO">[[ get_ret(data['form'],l.ar_id and l.ar_id.id) and l.ar_id.number ]]</para></td>
     </tr>
     <tr>

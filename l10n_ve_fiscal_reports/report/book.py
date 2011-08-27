@@ -65,6 +65,7 @@ class pur_sal_book(report_sxw.rml_parse):
             'validation': self._validation,
             'validation_wh': self._validation_wh,
             'get_data_wh': self._get_data_wh,
+            'get_amount_withheld': self._get_amount_withheld,
         })
 
     def _validation(self,form):
@@ -132,7 +133,7 @@ class pur_sal_book(report_sxw.rml_parse):
 
         data=[]
         fr_obj = self.pool.get('fiscal.reports.whs')
-        fr_ids = fr_obj.search(self.cr,self.uid,[('ar_date_ret', '<=', d2), ('ar_date_ret', '>=', d1)], order='ar_date_ret')
+        fr_ids = fr_obj.search(self.cr,self.uid,[('ar_date_ret', '<=', d2), ('ar_date_ret', '>=', d1),('ai_date_inv','<=',d1)], order='ar_date_ret')
         #Data to review first and add more records to be printed before ordering and send to rml.
         data = fr_obj.browse(self.cr,self.uid, fr_ids)
         return data
@@ -204,6 +205,10 @@ class pur_sal_book(report_sxw.rml_parse):
                 total+=d.ar_id.total_tax_ret
         return total
 
+    def _get_amount_withheld(self,wh_line_id):
+        wh_obj = self.pool.get('account.retention.line')
+        data = wh_obj.browse(self.cr,self.uid, [wh_line_id])[0]
+        return data.amount_tax_ret
 
     def _get_partner_addr(self, idp=None):
         '''
