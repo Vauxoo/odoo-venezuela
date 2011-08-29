@@ -203,7 +203,7 @@
     <tr>
         <para>[[repeatIn( get_data_wh(data['form']),'wh')]]</para>
         <para>[[ setLang(company.partner_id.lang) ]]</para>
-        <td><para style="CONTENIDO">[[ (data['form']['type'] == 'purchase') and wh.ai_id.date_document or '' ]]</para></td>
+        <td><para style="CONTENIDO">[[ data['form']['type'] == 'purchase' and ( wh.ai_id.date_document and formatLang(wh.ai_id.date_document, date=True) or '') or '' ]]</para></td>
         <td><para style="CONTENIDO">[[ time.strftime('%d/%m/%Y', time.strptime(wh.ar_date_ret, '%Y-%m-%d'))]]</para></td>
         <td><para style="CONTENIDO">[[ get_rif(wh.rp_vat) ]]</para></td>
         <td><para style="CONTENIDOLEFT">[[ wh.rp_id.name ]]</para></td>
@@ -248,7 +248,7 @@
     <tr>
     [[repeatIn( get_data( data['form'] ),'l')]]
     [[ setLang(l.ai_id.company_id.partner_id.lang) ]]
-    <td><para style="CONTENIDO">[[ (data['form']['type'] == 'purchase') and l.ai_id.date_document or '' ]]</para></td>
+    <td><para style="CONTENIDO">[[ data['form']['type'] == 'purchase' and ( l.ai_id.date_document and formatLang(l.ai_id.date_document, date=True) or '') or '' ]]</para></td>
     <td><para style="CONTENIDO">[[ time.strftime('%d/%m/%Y', time.strptime(l.ai_date_invoice, '%Y-%m-%d')) ]]</para></td>
     <td><para style="CONTENIDO">[[ ("PAPELANULADO" not in l.ai_id.name) and l.rp_id.vat[2:] or 'ANULADO' ]]</para></td>
     <td><para style="CONTENIDOLEFT">[[ ("PAPELANULADO" not in l.ai_id.name) and l.rp_id.name or 'ANULADO' ]]</para></td>
@@ -260,7 +260,7 @@
     <td><para style="CONTENIDO">[[ formatLang(l.ai_id.sin_cred and ((l.ai_id.type in ['in_refund', 'out_refund']) and l.ai_amount_total*(-1) or l.ai_amount_total) or 0.0) ]]</para></td>
     <td>
         <section>
-            [[ repeatIn( l.ai_id.tax_line,'s' ) ]]
+            [[ repeatIn( l.ai_id.tax_line,'s' ) ]]n
             <blockTable colWidths="40.0,30.0,40.0" style="INTERNALTABLE">
                 <tr>
                     <td><para style="CONTENIDOINT">[[ formatLang((get_p_country(company.partner_id.id) == get_p_country(s.invoice_id.partner_id.id)) and s.base_amount or 0.0) ]]</para></td>
@@ -392,7 +392,7 @@
     <tr>
         <para>[[repeatIn( get_data_adjustment(data['form'])[1],'a')]]</para>
         <para>[[ setLang(company.partner_id.lang) ]]</para>
-        <td><para style="CONTENIDO">[[ data['form']['type'] == 'purchase' and time.strftime('%d/%m/%Y', time.strptime(a.date_admin, '%Y-%m-%d')) or '' ]]</para></td>
+        <td><para style="CONTENIDO">[[ data['form']['type'] == 'purchase' and ( a.date_admin and formatLang(a.date_admin, date=True) or '') or '' ]]</para></td>
         <td><para style="CONTENIDO">[[ time.strftime('%d/%m/%Y', time.strptime(a.date_accounting, '%Y-%m-%d'))]]</para></td>
         <td><para style="CONTENIDO">[[ a.vat ]]</para></td>
         <td><para style="CONTENIDOLEFT">[[ a.partner ]]</para></td>
