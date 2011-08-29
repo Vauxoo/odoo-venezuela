@@ -2,7 +2,7 @@
 <document filename="test.pdf">
   <template pageSize="(825.0,612.0)" title="Test" author="Martin Simon" allowSplitting="20" showBoundary="0">
     <pageTemplate id="first">
-        <frame id="first" x1="15.0" y1="15.0" width="793" height="580"/>
+        
         <pageGraphics>
             <setFont name="Helvetica" size="9"/>
             <drawString x="1.3cm" y="0.5cm"> [[ formatLang(time.strftime("%Y-%m-%d %H:%M:%S", time.localtime()),date_time = True) ]]</drawString>
@@ -11,6 +11,7 @@
             <lines>1.3cm 24.9cm 38.3cm 24.9cm</lines>
             <setFont name="Helvetica" size="8"/>
         </pageGraphics>
+    <frame id="first" x1="15.0" y1="15.0" width="793" height="580"/>
     </pageTemplate>
     
     
@@ -24,6 +25,11 @@
       <blockAlignment value="LEFT"/>
       <blockValign value="TOP"/>
       <lineStyle kind="LINEBELOW" colorName="#000000" thickness="1" start="0,0" stop="14,0"/>
+    </blockTableStyle>
+    <blockTableStyle id="HEADERTABLE_AD">
+      <blockAlignment value="LEFT"/>
+      <blockValign value="TOP"/>
+      <lineStyle kind="LINEBELOW" colorName="#000000" thickness="1" start="0,3" stop="14,3"/>
     </blockTableStyle>
     <blockTableStyle id="INTERNALTABLE">
       <blockAlignment value="LEFT"/>
@@ -43,7 +49,7 @@
 <!--
         <blockBackground colorName="#e5e2e5" start="0,0" stop="-1,0"/>
 -->
-        <lineStyle kind="GRID" colorName="black" thickness="1" start="0,1" stop="-1,-1"/>
+        <lineStyle kind="GRID" colorName="black" thickness="1" start="1,1" stop="-1,-1"/>
         <lineStyle kind="GRID" colorName="black" thickness="1" start="-4,0" stop="-3,0"/>
 <!--        <lineStyle kind="LINEBELOW" colorName="white" thickness="1" start="0,0" stop="14,1" count="2"/>-->
 <!--        <lineStyle kind="LINEABOVE" colorName="white" thickness="1" start="0,1" stop="14,1" count="2"/>-->
@@ -51,8 +57,21 @@
 <!--        <lineStyle kind="LINEBELOW" colorName="white" thickness="2" start="-10,-2" stop="-1,-1" count="2"/>-->
 <!--Fin definición bordes-->
     </blockTableStyle>
-    
+
+    <blockTableStyle id="CONTENIDOTABLE_PUR">
+      <blockAlignment value="LEFT"/>
+      <blockValign value="MIDDLE"/>
+        <lineStyle kind="GRID" colorName="black" thickness="1" start="0,1" stop="-1,-1"/>
+        <lineStyle kind="GRID" colorName="black" thickness="1" start="-4,0" stop="-3,0"/>
+    </blockTableStyle>
+
     <blockTableStyle id="CONTENIDOTABLE_TITULOS">
+        <blockAlignment value="LEFT"/>
+        <blockValign value="MIDDLE"/>
+        <lineStyle kind="GRID" colorName="black" start="1,0" stop="-1,-1" thickness="0.5"/>
+        <blockBackground colorName="#e5e2e5" start="1,0" stop="-1,0"/>
+    </blockTableStyle>
+    <blockTableStyle id="CONTENIDOTABLE_TITULOS_PUR">
         <blockAlignment value="LEFT"/>
         <blockValign value="MIDDLE"/>
         <lineStyle kind="GRID" colorName="black" start="0,0" stop="-1,-1" thickness="0.5"/>
@@ -60,6 +79,11 @@
     </blockTableStyle>
     
     <blockTableStyle id="CONTENIDOTABLE_LINES">
+        <blockAlignment value="LEFT"/>
+        <blockValign value="MIDDLE"/>
+        <lineStyle kind="GRID" colorName="black" start="1,0" stop="-1,-1" thickness="0.5"/>
+    </blockTableStyle>
+    <blockTableStyle id="CONTENIDOTABLE_LINES_PUR">
         <blockAlignment value="LEFT"/>
         <blockValign value="MIDDLE"/>
         <lineStyle kind="GRID" colorName="black" start="0,0" stop="-1,-1" thickness="0.5"/>
@@ -116,11 +140,13 @@
           <!-- ****************************************-->
           <!-- ********* SALE, PURCHASE, BOOK *********-->
           <!-- ****************************************-->
-    <blockTable colWidths="33.0,35.0,200.0,47.0,38.0,38.0,15.0,38.0,34.0,114.0,114.0,44.0,55.0" style="CONTENIDOTABLE" repeatRows="2">
+    <blockTable colWidths="1.0,33.0,37.0,192.0,47.0,38.0,38.0,15.0,38.0,34.0,114.0,114.0,44.0,50.0" style="CONTENIDOTABLE" repeatRows="2">
+    [[(data['form']['type'] == 'purchase') and setTag('blockTable','blockTable',{'colWidths':"33.0,33.0,37.0,160.0,47.0,38.0,38.0,15.0,38.0,34.0,114.0,114.0,44.0,50.0",'style':'CONTENIDOTABLE', 'repeatRows':'2'}) or '']]
     <tr>
         <td></td><td></td><td></td>
         <td></td><td></td><td></td>
         <td></td><td></td><td></td>
+        <td></td>
         <td>
             <blockTable colWidths="110.0" style="INTERNALTABLE">
                 <tr><td vAlign="MIDDLE"><para style="HEADER">Operaciones Nacionales</para></td></tr>
@@ -134,10 +160,11 @@
         <td></td><td></td>
     </tr>
     </blockTable>
-    
-    <blockTable colWidths="33.0,35.0,200.0,47.0,38.0,38.0,15.0,38.0,34.0,114.0,114.0,44.0,55.0" style="CONTENIDOTABLE_TITULOS" repeatRows="2">
+    <blockTable colWidths="1.0,33.0,37.0,192.0,47.0,38.0,38.0,15.0,38.0,34.0,114.0,114.0,44.0,50.0" style="CONTENIDOTABLE_TITULOS" repeatRows="2">
+    [[(data['form']['type'] == 'purchase') and setTag('blockTable','blockTable',{'colWidths':"33.0,33.0,37.0,160.0,47.0,38.0,38.0,15.0,38.0,34.0,114.0,114.0,44.0,50.0",'style':'CONTENIDOTABLE_TITULOS_PUR', 'repeatRows':'2'}) or '']]
     <tr>
-        <td><para style="HEADER">Fecha</para></td>
+        <td><para style="HEADER">[[ (data['form']['type'] == 'purchase') and 'Fecha Adm.' or '' ]]</para></td>
+        <td><para style="HEADER">Fecha Cont.</para></td>
         <td><para style="HEADER">RIF</para></td>
         <td><para style="HEADER">Razon Social</para></td>
         <td><para style="HEADER">Numero Factura</para></td>
@@ -171,11 +198,12 @@
     
     <!-- ************ WITHHOLDING VAT BOOK LINES************-->
 
-    <blockTable colWidths="33.0,35.0,200.0,47.0,38.0,38.0,15.0,38.0,34.0,114.0,114.0,44.0,55.0" style="CONTENIDOTABLE_LINES" repeatRows="2">        
+    <blockTable colWidths="1.0,33.0,37.0,192.0,47.0,38.0,38.0,15.0,38.0,34.0,114.0,114.0,44.0,50.0" style="CONTENIDOTABLE_LINES" repeatRows="2">        
     <para>[[ validation_wh(data['form']) or removeParentNode('blockTable') ]]</para>
     <tr>
         <para>[[repeatIn( get_data_wh(data['form']),'wh')]]</para>
         <para>[[ setLang(company.partner_id.lang) ]]</para>
+        <td><para style="CONTENIDO">[[ (data['form']['type'] == 'purchase') and wh.ai_id.date_document or '' ]]</para></td>
         <td><para style="CONTENIDO">[[ time.strftime('%d/%m/%Y', time.strptime(wh.ar_date_ret, '%Y-%m-%d'))]]</para></td>
         <td><para style="CONTENIDO">[[ get_rif(wh.rp_vat) ]]</para></td>
         <td><para style="CONTENIDOLEFT">[[ wh.rp_id.name ]]</para></td>
@@ -215,10 +243,12 @@
     </blockTable>
 
     <!-- ************ PURCHASE, SALE, BOOK LINES************-->
-    <blockTable colWidths="33.0,35.0,200.0,47.0,38.0,38.0,15.0,38.0,34.0,114.0,114.0,44.0,55.0" style="CONTENIDOTABLE_LINES" repeatRows="2">        
+    <blockTable colWidths="1.0,33.0,37.0,192.0,47.0,38.0,38.0,15.0,38.0,34.0,114.0,114.0,44.0,50.0" style="CONTENIDOTABLE_LINES" repeatRows="2">
+    [[(data['form']['type'] == 'purchase') and setTag('blockTable','blockTable',{'colWidths':"33.0,33.0,37.0,160.0,47.0,38.0,38.0,15.0,38.0,34.0,114.0,114.0,44.0,50.0",'style':'CONTENIDOTABLE_LINES_PUR', 'repeatRows':'2'}) or '']]
     <tr>
     [[repeatIn( get_data( data['form'] ),'l')]]
     [[ setLang(l.ai_id.company_id.partner_id.lang) ]]
+    <td><para style="CONTENIDO">[[ (data['form']['type'] == 'purchase') and l.ai_id.date_document or '' ]]</para></td>
     <td><para style="CONTENIDO">[[ time.strftime('%d/%m/%Y', time.strptime(l.ai_date_invoice, '%Y-%m-%d')) ]]</para></td>
     <td><para style="CONTENIDO">[[ ("PAPELANULADO" not in l.ai_id.name) and l.rp_id.vat[2:] or 'ANULADO' ]]</para></td>
     <td><para style="CONTENIDOLEFT">[[ ("PAPELANULADO" not in l.ai_id.name) and l.rp_id.name or 'ANULADO' ]]</para></td>
@@ -258,7 +288,7 @@
     <tr>
         <td></td><td></td>
         <td></td><td></td>
-        <td></td>
+        <td></td><td></td>
         <td><para style="CONTENIDO">[[ formatLang(get_totals(data['form'])[1]+get_totals(data['form'])[2]) ]]</para></td>
         <td></td><td></td>
         <td><para style="CONTENIDO">[[ formatLang(get_totals(data['form'])[3]+get_totals(data['form'])[4]) ]]</para></td>
@@ -285,19 +315,20 @@
     </tr>
     </blockTable>
 
-    <spacer length="10mm"/>
           <!-- ****************************************-->
           <!-- ************ AJUSTMENT BOOK ************-->
           <!-- ****************************************-->
-          
-    <blockTable colWidths="795.0" style="HEADERTABLE">
-        <para>[[ validation(data['form']) or removeParentNode('blockTable')]]</para>
-        <tr><td><para style="TITULO_AJUSTE">LIBRO DE AJUSTES</para></td></tr>
+    <blockTable colWidths="795.0" style="HEADERTABLE_AD">
+    <tr><td><para></para></td></tr>
+    <tr><td><para></para></td></tr>
+    <tr><td><para style="TITULO_AJUSTE">LIBRO DE AJUSTES</para></td></tr>
+    [[(data['form']['type'] == 'purchase') and setTag('blockTable','blockTable',{'colWidths':"795.0",'style':'HEADERTABLE_AD'}) or '']]        
+    [[ validation(data['form']) or removeParentNode('blockTable')]]
+    <tr><td><para></para></td></tr>
     </blockTable>
 
-    <spacer length="2mm"/>
-
-    <blockTable colWidths="33.0,33.0,37.0,160.0,47.0,38.0,38.0,15.0,38.0,34.0,114.0,114.0,44.0,50.0" style="CONTENIDOTABLE" repeatRows="2">
+    <blockTable colWidths="1.0,33.0,37.0,192.0,47.0,38.0,38.0,15.0,38.0,34.0,114.0,114.0,44.0,50.0" style="CONTENIDOTABLE" repeatRows="2">
+    [[(data['form']['type'] == 'purchase') and setTag('blockTable','blockTable',{'colWidths':"33.0,33.0,37.0,160.0,47.0,38.0,38.0,15.0,38.0,34.0,114.0,114.0,44.0,50.0",'style':'CONTENIDOTABLE_PUR', 'repeatRows':'2'}) or '']]
     <para>[[ validation(data['form']) or removeParentNode('blockTable')]]</para>
       <tr>
         <td></td><td></td><td></td>
@@ -318,11 +349,12 @@
       </tr>
     </blockTable>
     
-    <blockTable colWidths="33.0,33.0,37.0,160.0,47.0,38.0,38.0,15.0,38.0,34.0,114.0,114.0,44.0,50.0" style="CONTENIDOTABLE_TITULOS" repeatRows="2">
+    <blockTable colWidths="1.0,33.0,37.0,192.0,47.0,38.0,38.0,15.0,38.0,34.0,114.0,114.0,44.0,50.0" style="CONTENIDOTABLE_TITULOS" repeatRows="2">
+    [[(data['form']['type'] == 'purchase') and setTag('blockTable','blockTable',{'colWidths':"33.0,33.0,37.0,160.0,47.0,38.0,38.0,15.0,38.0,34.0,114.0,114.0,44.0,50.0",'style':'CONTENIDOTABLE_TITULOS_PUR', 'repeatRows':'2'}) or '']]
     <para>[[ validation(data['form']) or removeParentNode('blockTable')]]</para>
     <tr>
+        <td><para style="HEADER">[[ (data['form']['type'] == 'purchase') and 'Fecha Adm.' or '' ]]</para></td>
         <td><para style="HEADER">Fecha Cont.</para></td>
-        <td><para style="HEADER">Fecha Adm.</para></td>
         <td><para style="HEADER">RIF</para></td>
         <td><para style="HEADER">Razon Social</para></td>
         <td><para style="HEADER">Numero Factura</para></td>
@@ -354,13 +386,14 @@
     </tr>
     </blockTable>
         
-    <blockTable colWidths="33.0,33.0,37.0,160.0,47.0,38.0,38.0,15.0,38.0,34.0,114.0,114.0,44.0,50.0" style="CONTENIDOTABLE_LINES" repeatRows="2">        
+    <blockTable colWidths="1.0,33.0,37.0,192.0,47.0,38.0,38.0,15.0,38.0,34.0,114.0,114.0,44.0,50.0" style="CONTENIDOTABLE_LINES" repeatRows="2">        
+    [[(data['form']['type'] == 'purchase') and setTag('blockTable','blockTable',{'colWidths':"33.0,33.0,37.0,160.0,47.0,38.0,38.0,15.0,38.0,34.0,114.0,114.0,44.0,50.0",'style':'CONTENIDOTABLE_LINES_PUR', 'repeatRows':'2'}) or '']]
     <para>[[ validation(data['form']) or removeParentNode('blockTable')]]</para>
     <tr>
         <para>[[repeatIn( get_data_adjustment(data['form'])[1],'a')]]</para>
         <para>[[ setLang(company.partner_id.lang) ]]</para>
+        <td><para style="CONTENIDO">[[ data['form']['type'] == 'purchase' and time.strftime('%d/%m/%Y', time.strptime(a.date_admin, '%Y-%m-%d')) or '' ]]</para></td>
         <td><para style="CONTENIDO">[[ time.strftime('%d/%m/%Y', time.strptime(a.date_accounting, '%Y-%m-%d'))]]</para></td>
-        <td><para style="CONTENIDO">[[ time.strftime('%d/%m/%Y', time.strptime(a.date_admin, '%Y-%m-%d')) ]]</para></td>
         <td><para style="CONTENIDO">[[ a.vat ]]</para></td>
         <td><para style="CONTENIDOLEFT">[[ a.partner ]]</para></td>
         <td><para style="CONTENIDO">[[ a.invoice_number ]]</para></td>

@@ -74,13 +74,18 @@ class pur_sal_book(report_sxw.rml_parse):
         type_doc = 'sale'
         if form['type']=='purchase':
             type_doc = 'purchase'
+        print 'TYPE DOC', type_doc
         period_obj=self.pool.get('account.period')
         adjust_obj = self.pool.get('adjustment.book')
         period_ids = period_obj.search(self.cr,self.uid,[('date_start','<=',d1),('date_stop','>=',d2)])
+        print 'PERIODOS', period_ids
         if len(period_ids)<=0:
+            print 'NO HAY PERIODOS'
             return False
         fr_ids = adjust_obj.search(self.cr,self.uid,[('period_id','in',period_ids),('type','=',type_doc)])
+        print 'FR_IDS', fr_ids
         if not fr_ids:
+            print 'NO HAY LIBRO DE AJUSTE'
             return False
         return True
 
@@ -187,22 +192,35 @@ class pur_sal_book(report_sxw.rml_parse):
         else:
             return False
 
+
+    def _get_amount_wh(self,form):
+        total=0.00
+        data_wh = self._get_data_wh(form)
+        if data_wh:
+            for wh in data_wh:
+                total+= self._get_amount_withheld(wh.ar_line_id.id)
+        return total
+
     def _get_totals_ret(self,form):
         d1=form['date_start']
         d2=form['date_end']
+        total=0.00
+        
         if form['type']=='purchase':
             book_type='fiscal.reports.purchase'
         else:
+            total+=self._get_amount_wh(form)
             book_type='fiscal.reports.sale'
         data=[]
         fr_obj = self.pool.get(book_type)
         fr_ids = fr_obj.search(self.cr,self.uid,[('ai_date_invoice', '<=', d2), ('ai_date_invoice', '>=', d1)], order='ai_nro_ctrl')
         #Data to review first and add more records to be printed before ordering and send to rml.
         data = fr_obj.browse(self.cr,self.uid, fr_ids)
-        total=0.00
+
         for d in data:
             if self._get_ret(form,d.ar_id.id):
                 total+=d.ar_id.total_tax_ret
+        
         return total
 
     def _get_amount_withheld(self,wh_line_id):
@@ -333,6 +351,8 @@ class pur_sal_book(report_sxw.rml_parse):
                 #International Invoices
                 total[7]+=d.ai_amount_untaxed
                 total[8]+=d.ai_amount_tax
+        
+        
         return total
       
 report_sxw.report_sxw(
