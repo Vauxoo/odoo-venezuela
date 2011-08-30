@@ -66,7 +66,16 @@ class pur_sal_book(report_sxw.rml_parse):
             'validation_wh': self._validation_wh,
             'get_data_wh': self._get_data_wh,
             'get_amount_withheld': self._get_amount_withheld,
+            'get_sdcf': self._get_sdcf,
         })
+
+    def _get_sdcf(self,inv):
+        print 'INV', inv
+        if inv.ai_id.sin_cred:
+            print 'SI SOY, SI TENGO CREDITO'
+            return inv.ai_id.amount_total
+        print 'NO SOY' 
+        return 0.00
 
     def _validation(self,form):
         d1=form['date_start']
@@ -74,18 +83,13 @@ class pur_sal_book(report_sxw.rml_parse):
         type_doc = 'sale'
         if form['type']=='purchase':
             type_doc = 'purchase'
-        print 'TYPE DOC', type_doc
         period_obj=self.pool.get('account.period')
         adjust_obj = self.pool.get('adjustment.book')
         period_ids = period_obj.search(self.cr,self.uid,[('date_start','<=',d1),('date_stop','>=',d2)])
-        print 'PERIODOS', period_ids
         if len(period_ids)<=0:
-            print 'NO HAY PERIODOS'
             return False
         fr_ids = adjust_obj.search(self.cr,self.uid,[('period_id','in',period_ids),('type','=',type_doc)])
-        print 'FR_IDS', fr_ids
         if not fr_ids:
-            print 'NO HAY LIBRO DE AJUSTE'
             return False
         return True
 
@@ -112,6 +116,7 @@ class pur_sal_book(report_sxw.rml_parse):
         return (data,data_line)
 
     def _get_data(self,form):
+        print 'ENTRE AQUI'
         d1=form['date_start']
         d2=form['date_end']
         if form['type']=='purchase':
@@ -125,11 +130,20 @@ class pur_sal_book(report_sxw.rml_parse):
         fr_ids = fr_obj.search(self.cr,self.uid,[('ai_date_invoice', '<=', d2), ('ai_date_invoice', '>=', d1)], order=orden)
         #Data to review first and add more records to be printed before ordering and send to rml.
         data = fr_obj.browse(self.cr,self.uid, fr_ids)
+        
+        for d in data:
+            if d.ai_id.partner_id.id ==  291:
+                print 'FACTURA', d.ai_id.number
+                print 'REFERENCIA LIBRE', d.ai_id.reference
+        
         return data
 
     def _validation_wh(self,form):
+        print 'ENTRE'
         if form['type']=='sale':
+            print 'SOY VENTA'
             return True
+        print 'SOY PURCHASE'
         return False
 
     def _get_data_wh(self,form):
@@ -322,12 +336,14 @@ class pur_sal_book(report_sxw.rml_parse):
             [3],[4] Invoice without right to fiscal declaration.
             [5],[6] National Invoices
             [7],[8] International Invoices
-        '''    
+        '''
+        wh_list=None
         d1=form['date_start']
         d2=form['date_end']
         if form['type']=='purchase':
             book_type='fiscal.reports.purchase'
         else:
+            wh_list = self._get_data_wh(form)
             book_type='fiscal.reports.sale'
         fr_obj = self.pool.get(book_type)
         user_obj = self.pool.get('res.users')
@@ -343,15 +359,34 @@ class pur_sal_book(report_sxw.rml_parse):
                 #Sum for Invoice without right to fiscal declaration.
                 total[3]+=d.ai_amount_untaxed
                 total[4]+=d.ai_amount_tax
-            if self._get_p_country(user[0].company_id.partner_id.id)==self._get_p_country(d.ai_id.partner_id.id):
-                #National Invoices
-                total[5]+=d.ai_amount_untaxed
-                total[6]+=d.ai_amount_tax
             else:
-                #International Invoices
-                total[7]+=d.ai_amount_untaxed
-                total[8]+=d.ai_amount_tax
+                if self._get_p_country(user[0].company_id.partner_id.id)==self._get_p_country(d.ai_id.partner_id.id):
+                    #National Invoices
+                    total[5]+=d.ai_amount_untaxed
+                    total[6]+=d.ai_amount_tax
+                else:
+                    #International Invoices
+                    total[7]+=d.ai_amount_untaxed
+                    total[8]+=d.ai_amount_tax
         
+        if wh_list:
+            for wh in wh_list:
+                #Sum for Invoice in period
+                total[1]+=wh.ai_amount_untaxed
+                total[2]+=wh.ai_amount_tax
+                if wh.ai_id.sin_cred:
+                    #Sum for Invoice without right to fiscal declaration.
+                    total[3]+=wh.ai_amount_untaxed
+                    total[4]+=wh.ai_amount_tax
+                else:
+                    if self._get_p_country(user[0].company_id.partner_id.id)==self._get_p_country(wh.ai_id.partner_id.id):
+                        #National Invoices
+                        total[5]+=wh.ai_amount_untaxed
+                        total[6]+=wh.ai_amount_tax
+                    else:
+                        #International Invoices
+                        total[7]+=wh.ai_amount_untaxed
+                        total[8]+=wh.ai_amount_tax
         
         return total
       

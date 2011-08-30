@@ -100,7 +100,7 @@
                         <field name="type" select="1"/>
                         <field name="period_id" select="1"/>
                     </group>
-                    <notebook colspan="6">
+                    <notebook colspan="4">
                         <page string="Adjustment Book Lines">
                             <field name="adjustment_ids" nolabel="1" colspan='4'/>
                             <group col="4" colspan="4">

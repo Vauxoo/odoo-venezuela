@@ -31,6 +31,15 @@
       <blockValign value="TOP"/>
       <lineStyle kind="LINEBELOW" colorName="#000000" thickness="1" start="0,3" stop="14,3"/>
     </blockTableStyle>
+    <blockTableStyle id="OBSERVACION">
+      <blockAlignment value="LEFT"/>
+      <blockValign value="TOP"/>
+      <lineStyle kind="GRID" colorName="black" start="0,0" stop="-1,-1" thickness="0.5"/>
+    </blockTableStyle>
+    <blockTableStyle id="OBSERVACION_TRANS">
+      <blockAlignment value="LEFT"/>
+      <blockValign value="TOP"/>
+    </blockTableStyle>
     <blockTableStyle id="INTERNALTABLE">
       <blockAlignment value="LEFT"/>
       <blockValign value="MIDDLE"/>
@@ -82,11 +91,25 @@
         <blockAlignment value="LEFT"/>
         <blockValign value="MIDDLE"/>
         <lineStyle kind="GRID" colorName="black" start="1,0" stop="-1,-1" thickness="0.5"/>
+        <blockBackground colorName="#e5e2e5"/>
+    </blockTableStyle>
+    <blockTableStyle id="CONTENIDOTABLE_LINES2">
+        <blockAlignment value="LEFT"/>
+        <blockValign value="MIDDLE"/>
+        <lineStyle kind="GRID" colorName="black" start="1,0" stop="-1,-1" thickness="0.5"/>
+        <blockBackground colorName="#c7c6c7"/>
     </blockTableStyle>
     <blockTableStyle id="CONTENIDOTABLE_LINES_PUR">
         <blockAlignment value="LEFT"/>
         <blockValign value="MIDDLE"/>
         <lineStyle kind="GRID" colorName="black" start="0,0" stop="-1,-1" thickness="0.5"/>
+        <blockBackground colorName="#e5e2e5"/>
+    </blockTableStyle>
+    <blockTableStyle id="CONTENIDOTABLE_LINES_PUR2">
+        <blockAlignment value="LEFT"/>
+        <blockValign value="MIDDLE"/>
+        <lineStyle kind="GRID" colorName="black" start="0,0" stop="-1,-1" thickness="0.5"/>
+        <blockBackground colorName="#c7c6c7"/>
     </blockTableStyle>
     
     <initialize>
@@ -99,6 +122,7 @@
     <paraStyle name="P5" fontName="Helvetica" fontSize="6.0" leading="8"/>
     <paraStyle name="CONTENIDO" fontName="Helvetica" fontSize="6.0" leading="6" alignment="CENTER"/>
     <paraStyle name="TITULO_AJUSTE" fontName="Helvetica" fontSize="10.0" alignment="CENTER"/>
+    <paraStyle name="TITULO_OBSERV" fontName="Helvetica" fontSize="10.0"/>
     <paraStyle name="CONTENIDOINT" fontName="Helvetica" fontSize="6.0" leading="1" alignment="CENTER"/>
     <paraStyle name="CONTENIDOLEFT" fontName="Helvetica" fontSize="6.0" leading="6" alignment="LEFT"/>
     <paraStyle name="HEADERDOC" fontName="Helvetica-bold" fontSize="8.0" leading="8" alignment="JUSTIFY"/>
@@ -167,12 +191,13 @@
         <td><para style="HEADER">Fecha Cont.</para></td>
         <td><para style="HEADER">RIF</para></td>
         <td><para style="HEADER">Razon Social</para></td>
-        <td><para style="HEADER">Numero Factura</para></td>
+        <td><para style="HEADER">Numero Doc.</para></td>
         <td><para style="HEADER">Numero Control</para></td>
         <td><para style="HEADER">Total con IVA</para></td>
-        <td><para style="HEADER">T.</para><para style="HEADER">Doc.</para></td>
+        <td><para style="HEADER">Tipo Doc.</para></td>
         <td><para style="HEADER">Documento Afectado</para></td>
         <td><para style="HEADER">Sin derecho a Credito Fiscal</para></td>
+        
         <td>
             <blockTable colWidths="40.0,30.0,40.0" style="INTERNALTABLE">
                 <tr>
@@ -199,6 +224,7 @@
     <!-- ************ WITHHOLDING VAT BOOK LINES************-->
 
     <blockTable colWidths="1.0,33.0,37.0,192.0,47.0,38.0,38.0,15.0,38.0,34.0,114.0,114.0,44.0,50.0" style="CONTENIDOTABLE_LINES" repeatRows="2">        
+    [[(data['form']['type'] == 'purchase') and setTag('blockTable','blockTable',{'colWidths':"33.0,33.0,37.0,160.0,47.0,38.0,38.0,15.0,38.0,34.0,114.0,114.0,44.0,50.0",'style':'CONTENIDOTABLE_LINES_PUR', 'repeatRows':'2'}) or '']]
     <para>[[ validation_wh(data['form']) or removeParentNode('blockTable') ]]</para>
     <tr>
         <para>[[repeatIn( get_data_wh(data['form']),'wh')]]</para>
@@ -212,17 +238,17 @@
         <td><para style="CONTENIDO">[[ formatLang(wh.ai_amount_total) ]]</para></td>
         <td><para style="CONTENIDO">[[ get_doc(wh.ai_id.id)]]</para></td>
         <td><para style="HEADER">[[ wh.ai_id.parent_id.number or '' ]]</para></td>
-        <td><para style="CONTENIDO">[[ '0.00' ]]</para></td>
+        <td><para style="CONTENIDO">[[ formatLang(wh.ai_id.sin_cred and ((wh.ai_id.type in ['in_refund', 'out_refund']) and get_sdcf(l)*(-1) or get_sdcf(l)) or 0.0) ]]</para></td>
         <td>
             <section>
                 [[ repeatIn( wh.ai_id.tax_line,'tax' ) ]]
-                <blockTable colWidths="40.0,30.0,40.0" style="INTERNALTABLE">
-                    <tr>
-                        <td><para style="CONTENIDOINT">[[ formatLang((get_p_country(company.partner_id.id) == get_p_country(tax.invoice_id.partner_id.id)) and tax.base_amount or 0.0) ]]</para></td>
-                        <td><para style="CONTENIDOINT">[[ formatLang((get_p_country(company.partner_id.id) == get_p_country(tax.invoice_id.partner_id.id)) and round(tax.tax_amount/(tax.base_amount and tax.base_amount or 1)*100.0) or 0.0) ]]</para></td>
-                        <td><para style="CONTENIDOINT">[[ formatLang((get_p_country(company.partner_id.id) == get_p_country(tax.invoice_id.partner_id.id)) and tax.tax_amount or 0.0) ]]</para></td>
-                    </tr>
-                </blockTable>
+        <blockTable colWidths="40.0,30.0,40.0" style="INTERNALTABLE">
+            <tr>
+                <td><para style="CONTENIDOINT">[[ formatLang((get_p_country(company.partner_id.id) == get_p_country(tax.invoice_id.partner_id.id)) and ((tax.invoice_id.sin_cred==False) and tax.base_amount or 0.0) or 0.0) ]]</para></td>
+                <td><para style="CONTENIDOINT">[[ formatLang((get_p_country(company.partner_id.id) == get_p_country(tax.invoice_id.partner_id.id)) and ((tax.invoice_id.sin_cred==False) and round(tax.tax_amount/(tax.base_amount and tax.base_amount or 1)*100.0) or 0.0) or 0.0) ]]</para></td>
+                <td><para style="CONTENIDOINT">[[ formatLang((get_p_country(company.partner_id.id) == get_p_country(tax.invoice_id.partner_id.id)) and ((tax.invoice_id.sin_cred==False) and tax.tax_amount or 0.0) or 0.0) ]]</para></td>
+            </tr>
+        </blockTable>
             </section>
         </td>
         <td>
@@ -230,9 +256,9 @@
             [[ repeatIn( wh.ai_id.tax_line,'taxi' ) ]]
             <blockTable colWidths="40.0,30.0,40.0" style="INTERNALTABLE">
                 <tr>
-                    <td><para style="CONTENIDOINT">[[ formatLang((get_p_country(company.partner_id.id) != get_p_country(taxi.invoice_id.partner_id.id)) and taxi.base_amount or 0.0) ]]</para></td>
-                    <td><para style="CONTENIDOINT">[[ formatLang((get_p_country(company.partner_id.id) != get_p_country(taxi.invoice_id.partner_id.id)) and tax.tax_amount/(tax.base_amount and tax.base_amount or 1)*100.0 or 0.0) ]]</para></td>
-                    <td><para style="CONTENIDOINT">[[ formatLang((get_p_country(company.partner_id.id) != get_p_country(taxi.invoice_id.partner_id.id)) and taxi.tax_amount or 0.0) ]]</para></td>
+                    <td><para style="CONTENIDOINT">[[ formatLang((get_p_country(company.partner_id.id) != get_p_country(taxi.invoice_id.partner_id.id)) and ((taxi.invoice_id.sin_cred==False) and taxi.base_amount or 0.0) or 0.0) ]]</para></td>
+                    <td><para style="CONTENIDOINT">[[ formatLang((get_p_country(company.partner_id.id) != get_p_country(taxi.invoice_id.partner_id.id)) and ((taxi.invoice_id.sin_cred==False) and tax.tax_amount/(tax.base_amount and tax.base_amount or 1)*100.0 or 0.0) or 0.0) ]]</para></td>
+                    <td><para style="CONTENIDOINT">[[ formatLang((get_p_country(company.partner_id.id) != get_p_country(taxi.invoice_id.partner_id.id)) and ((taxi.invoice_id.sin_cred==False) and taxi.tax_amount or 0.0) or 0.0) ]]</para></td>
                 </tr>
             </blockTable>
         </section>
@@ -243,8 +269,8 @@
     </blockTable>
 
     <!-- ************ PURCHASE, SALE, BOOK LINES************-->
-    <blockTable colWidths="1.0,33.0,37.0,192.0,47.0,38.0,38.0,15.0,38.0,34.0,114.0,114.0,44.0,50.0" style="CONTENIDOTABLE_LINES" repeatRows="2">
-    [[(data['form']['type'] == 'purchase') and setTag('blockTable','blockTable',{'colWidths':"33.0,33.0,37.0,160.0,47.0,38.0,38.0,15.0,38.0,34.0,114.0,114.0,44.0,50.0",'style':'CONTENIDOTABLE_LINES_PUR', 'repeatRows':'2'}) or '']]
+    <blockTable colWidths="1.0,33.0,37.0,192.0,47.0,38.0,38.0,15.0,38.0,34.0,114.0,114.0,44.0,50.0" style="CONTENIDOTABLE_LINES2">
+    [[(data['form']['type'] == 'purchase') and setTag('blockTable','blockTable',{'colWidths':"33.0,33.0,37.0,160.0,47.0,38.0,38.0,15.0,38.0,34.0,114.0,114.0,44.0,50.0",'style':'CONTENIDOTABLE_LINES_PUR2'}) or '']]
     <tr>
     [[repeatIn( get_data( data['form'] ),'l')]]
     [[ setLang(l.ai_id.company_id.partner_id.lang) ]]
@@ -257,15 +283,15 @@
     <td><para style="CONTENIDO">[[ formatLang((l.ai_id.type in ['in_refund', 'out_refund']) and l.ai_amount_total*(-1) or l.ai_amount_total) ]]</para></td>
     <td><para style="CONTENIDO">[[ get_doc(l.ai_id.id) ]]</para></td>
     <td><para style="HEADER">[[ (data['form']['type'] == 'purchase') and l.ai_id.parent_id.reference or l.ai_id.parent_id.number ]]</para></td>
-    <td><para style="CONTENIDO">[[ formatLang(l.ai_id.sin_cred and ((l.ai_id.type in ['in_refund', 'out_refund']) and l.ai_amount_total*(-1) or l.ai_amount_total) or 0.0) ]]</para></td>
+    <td><para style="CONTENIDO">[[ formatLang(l.ai_id.sin_cred and ((l.ai_id.type in ['in_refund', 'out_refund']) and get_sdcf(l)*(-1) or get_sdcf(l)) or 0.0) ]]</para></td>
     <td>
         <section>
-            [[ repeatIn( l.ai_id.tax_line,'s' ) ]]n
+            [[ repeatIn( l.ai_id.tax_line,'s' ) ]]
             <blockTable colWidths="40.0,30.0,40.0" style="INTERNALTABLE">
                 <tr>
-                    <td><para style="CONTENIDOINT">[[ formatLang((get_p_country(company.partner_id.id) == get_p_country(s.invoice_id.partner_id.id)) and s.base_amount or 0.0) ]]</para></td>
-                    <td><para style="CONTENIDOINT">[[ formatLang((get_p_country(company.partner_id.id) == get_p_country(s.invoice_id.partner_id.id)) and round(s.tax_amount/(s.base_amount and s.base_amount or 1)*100.0) or 0.0) ]]</para></td>
-                    <td><para style="CONTENIDOINT">[[ formatLang((get_p_country(company.partner_id.id) == get_p_country(s.invoice_id.partner_id.id)) and s.tax_amount or 0.0) ]]</para></td>
+                    <td><para style="CONTENIDOINT">[[ formatLang((get_p_country(company.partner_id.id) == get_p_country(s.invoice_id.partner_id.id)) and ((s.invoice_id.sin_cred==False) and s.base_amount or 0.0) or 0.0) ]]</para></td>
+                    <td><para style="CONTENIDOINT">[[ formatLang((get_p_country(company.partner_id.id) == get_p_country(s.invoice_id.partner_id.id)) and ((s.invoice_id.sin_cred==False) and round(s.tax_amount/(s.base_amount and s.base_amount or 1)*100.0) or 0.0) or 0.0) ]]</para></td>
+                    <td><para style="CONTENIDOINT">[[ formatLang((get_p_country(company.partner_id.id) == get_p_country(s.invoice_id.partner_id.id)) and ((s.invoice_id.sin_cred==False) and s.tax_amount or 0.0) or 0.0) ]]</para></td>
                 </tr>
             </blockTable>
         </section>
@@ -275,9 +301,9 @@
     [[ repeatIn( l.ai_id.tax_line,'t' ) ]]
         <blockTable colWidths="40.0,30.0,40.0" style="INTERNALTABLE">
             <tr>
-                <td><para style="CONTENIDOINT">[[ formatLang((get_p_country(company.partner_id.id) != get_p_country(t.invoice_id.partner_id.id)) and t.base_amount or 0.0) ]]</para></td>
-                <td><para style="CONTENIDOINT">[[ formatLang((get_p_country(company.partner_id.id) != get_p_country(t.invoice_id.partner_id.id)) and s.tax_amount/(s.base_amount and s.base_amount or 1)*100.0 or 0.0) ]]</para></td>
-                <td><para style="CONTENIDOINT">[[ formatLang((get_p_country(company.partner_id.id) != get_p_country(t.invoice_id.partner_id.id)) and t.tax_amount or 0.0) ]]</para></td>
+                <td><para style="CONTENIDOINT">[[ formatLang((get_p_country(company.partner_id.id) != get_p_country(t.invoice_id.partner_id.id)) and ((t.invoice_id.sin_cred==False) and t.base_amount or 0.0) or 0.0) ]]</para></td>
+                <td><para style="CONTENIDOINT">[[ formatLang((get_p_country(company.partner_id.id) != get_p_country(t.invoice_id.partner_id.id)) and ((t.invoice_id.sin_cred==False) and s.tax_amount/(s.base_amount and s.base_amount or 1)*100.0 or 0.0) or 0.0) ]]</para></td>
+                <td><para style="CONTENIDOINT">[[ formatLang((get_p_country(company.partner_id.id) != get_p_country(t.invoice_id.partner_id.id)) and ((t.invoice_id.sin_cred==False) and t.tax_amount or 0.0) or 0.0) ]]</para></td>
             </tr>
         </blockTable>
     </section>
@@ -357,10 +383,10 @@
         <td><para style="HEADER">Fecha Cont.</para></td>
         <td><para style="HEADER">RIF</para></td>
         <td><para style="HEADER">Razon Social</para></td>
-        <td><para style="HEADER">Numero Factura</para></td>
+        <td><para style="HEADER">Numero Doc.</para></td>
         <td><para style="HEADER">Numero Control</para></td>
         <td><para style="HEADER">Total con IVA</para></td>
-        <td><para style="HEADER">T. Doc</para></td>
+        <td><para style="HEADER">Tipo Doc.</para></td>
         <td><para style="HEADER">Documento Afectado</para></td>
         <td><para style="HEADER">Sin derecho a Credito Fiscal</para></td>
         <td>
@@ -453,7 +479,14 @@
         <td></td>
     </tr>
     </blockTable>
-    
+
+    <blockTable colWidths="794.0" style="OBSERVACION">
+    <para>[[repeatIn( get_data_adjustment( data['form'] )[0],'ad')]]</para> 
+    [[(data['form']['type'] == 'purchase') and setTag('blockTable','blockTable','colWidths':'795.0'}) or '']]
+    <para>[[ validation(data['form']) or removeParentNode('blockTable')]]</para>
+    <tr><td><para style="TITULO_OBSERV">[[ (ad.note and 'Observaciones:  %s'%(ad.note)) or '' ]]</para></td></tr>
+    </blockTable>
+
   </story>
 </document>
 
