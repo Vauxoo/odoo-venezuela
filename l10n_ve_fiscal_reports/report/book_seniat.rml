@@ -91,7 +91,6 @@
         <blockAlignment value="LEFT"/>
         <blockValign value="MIDDLE"/>
         <lineStyle kind="GRID" colorName="black" start="1,0" stop="-1,-1" thickness="0.5"/>
-        <blockBackground colorName="#e5e2e5"/>
     </blockTableStyle>
     <blockTableStyle id="CONTENIDOTABLE_LINES2">
         <blockAlignment value="LEFT"/>
@@ -103,7 +102,6 @@
         <blockAlignment value="LEFT"/>
         <blockValign value="MIDDLE"/>
         <lineStyle kind="GRID" colorName="black" start="0,0" stop="-1,-1" thickness="0.5"/>
-        <blockBackground colorName="#e5e2e5"/>
     </blockTableStyle>
     <blockTableStyle id="CONTENIDOTABLE_LINES_PUR2">
         <blockAlignment value="LEFT"/>
@@ -269,8 +267,8 @@
     </blockTable>
 
     <!-- ************ PURCHASE, SALE, BOOK LINES************-->
-    <blockTable colWidths="1.0,33.0,37.0,192.0,47.0,38.0,38.0,15.0,38.0,34.0,114.0,114.0,44.0,50.0" style="CONTENIDOTABLE_LINES2">
-    [[(data['form']['type'] == 'purchase') and setTag('blockTable','blockTable',{'colWidths':"33.0,33.0,37.0,160.0,47.0,38.0,38.0,15.0,38.0,34.0,114.0,114.0,44.0,50.0",'style':'CONTENIDOTABLE_LINES_PUR2'}) or '']]
+    <blockTable colWidths="1.0,33.0,37.0,192.0,47.0,38.0,38.0,15.0,38.0,34.0,114.0,114.0,44.0,50.0" style="CONTENIDOTABLE_LINES">
+    [[(data['form']['type'] == 'purchase') and setTag('blockTable','blockTable',{'colWidths':"33.0,33.0,37.0,160.0,47.0,38.0,38.0,15.0,38.0,34.0,114.0,114.0,44.0,50.0",'style':'CONTENIDOTABLE_LINES_PUR'}) or '']]
     <tr>
     [[repeatIn( get_data( data['form'] ),'l')]]
     [[ setLang(l.ai_id.company_id.partner_id.lang) ]]
