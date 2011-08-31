@@ -89,11 +89,12 @@ class pur_sal_book(report_sxw.rml_parse):
         if len(period_ids)<=0:
             return False
         fr_ids = adjust_obj.search(self.cr,self.uid,[('period_id','in',period_ids),('type','=',type_doc)])
-        if not fr_ids:
+        if len(fr_ids)<=0:
             return False
         return True
 
     def _get_data_adjustment(self,form):
+        print 'entre a data de libro de ajustes ..............'
         d1=form['date_start']
         d2=form['date_end']
         type_doc = 'sale'
@@ -107,13 +108,21 @@ class pur_sal_book(report_sxw.rml_parse):
         data=[]
         data_line=[]
         period_ids = period_obj.search(self.cr,self.uid,[('date_start','<=',d1),('date_stop','>=',d2)])
-        fr_ids = adjust_obj.search(self.cr,self.uid,[('period_id', 'in',period_ids),('type','=',type_doc)])
         
-        adj_ids = adjust_line_obj.search(self.cr,self.uid,[('adjustment_id','=',fr_ids[0])])
+        print 'PERIOD IDS:',period_ids
+        if len(period_ids)>0:
+            fr_ids = adjust_obj.search(self.cr,self.uid,[('period_id', 'in',period_ids),('type','=',type_doc)])
+            print 'FR_IDS', fr_ids
+            if len(fr_ids)>0:
+                adj_ids = adjust_line_obj.search(self.cr,self.uid,[('adjustment_id','=',fr_ids[0])])
+                print 'ADJ_IDS', adj_ids
         #Data to review first and add more records to be printed before ordering and send to rml.
-        data = adjust_obj.browse(self.cr,self.uid, fr_ids)
-        data_line = adjust_line_obj.browse(self.cr,self.uid, adj_ids)
+                data = adjust_obj.browse(self.cr,self.uid, fr_ids)
+                data_line = adjust_line_obj.browse(self.cr,self.uid, adj_ids)
+        print 'DATA', data
+        print 'DATA LINE', data_line
         return (data,data_line)
+
 
     def _get_data(self,form):
         print 'ENTRE AQUI'
@@ -129,12 +138,11 @@ class pur_sal_book(report_sxw.rml_parse):
         fr_obj = self.pool.get(book_type)
         fr_ids = fr_obj.search(self.cr,self.uid,[('ai_date_invoice', '<=', d2), ('ai_date_invoice', '>=', d1)], order=orden)
         #Data to review first and add more records to be printed before ordering and send to rml.
-        data = fr_obj.browse(self.cr,self.uid, fr_ids)
         
-        for d in data:
-            if d.ai_id.partner_id.id ==  291:
-                print 'FACTURA', d.ai_id.number
-                print 'REFERENCIA LIBRE', d.ai_id.reference
+        if len(fr_ids)<=0:
+            return False
+            
+        data = fr_obj.browse(self.cr,self.uid, fr_ids)
         
         return data
 
@@ -328,6 +336,29 @@ class pur_sal_book(report_sxw.rml_parse):
         res.append(form['date_end'])
         return res
 
+    #~ def _get_totals_resumen(self,total,d,user)
+        #~ for tax in d.ai_id.tax_line:
+            #~ print 'TAX NAME', tax.name
+            #~ if self._get_p_country(user[0].company_id.partner_id.id)==self._get_p_country(d.ai_id.partner_id.id):
+                #~ if '12%' in tax.name:
+                    #~ total[9]+=(tax.tax_amount/tax.base_amount)*100.0
+                #~ if '8%' in tax.name:
+                    #~ total[10]+=(tax.tax_amount/tax.base_amount)*100.0
+                #~ if '0%' in tax.name:
+                    #~ total[11]+=(tax.tax_amount/tax.base_amount)*100.0
+                #~ if '22%' in tax.name:
+                    #~ total[12]+=(tax.tax_amount/tax.base_amount)*100.0
+            #~ else:
+                #~ if '12%' in tax.name:
+                    #~ total[13]+=(tax.tax_amount/tax.base_amount)*100.0
+                #~ if '8%' in tax.name:
+                    #~ total[14]+=(tax.tax_amount/tax.base_amount)*100.0
+                #~ if '0%' in tax.name:
+                    #~ total[15]+=(tax.tax_amount/tax.base_amount)*100.0
+                #~ if '22%' in tax.name:
+                    #~ total[16]+=(tax.tax_amount/tax.base_amount)*100.0
+        #~ return total
+
     def _get_totals(self,form):
         '''
         Get Totals
@@ -336,6 +367,13 @@ class pur_sal_book(report_sxw.rml_parse):
             [3],[4] Invoice without right to fiscal declaration.
             [5],[6] National Invoices
             [7],[8] International Invoices
+            [9] Total Alicuota General Nacional
+            [10] Total Alicuota Reducida Nacional
+            [11] Total Alicuota Exenta Nacional,    [12] Total Alicuota Lujo Nacional
+            [13] Total Alicuota General InNacional, [14] Total Alicuota Reducida InNacional
+            [15] Total Alicuota Exenta InNacional,  [16] Total Alicuota Lujo InNacional
+            [17] Total Tax Nacionales,              [18] Total Base Imponible Nacionales
+            [19] Total Tax Internacionales,         [20] Total Base Imponible Internacionales
         '''
         wh_list=None
         d1=form['date_start']
@@ -350,7 +388,7 @@ class pur_sal_book(report_sxw.rml_parse):
         user_ids = user_obj.search(self.cr,self.uid,[('id', '=', self.uid)])
         fr_ids = fr_obj.search(self.cr,self.uid,[('ai_date_invoice', '<=', d2), ('ai_date_invoice', '>=', d1)])
         user=user_obj.browse(self.cr,self.uid, [self.uid])
-        total=[0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0]
+        total=[0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0]
         for d in fr_obj.browse(self.cr,self.uid, fr_ids):
             #Sum for Invoice in period
             total[1]+=d.ai_amount_untaxed
@@ -368,7 +406,29 @@ class pur_sal_book(report_sxw.rml_parse):
                     #International Invoices
                     total[7]+=d.ai_amount_untaxed
                     total[8]+=d.ai_amount_tax
+                #~ total=self._get_totals_resumen(self,total,d,user)
+            for tax in d.ai_id.tax_line:
+                print 'TAX NAME', tax.name
+                if self._get_p_country(user[0].company_id.partner_id.id)==self._get_p_country(d.ai_id.partner_id.id):
+                    if '12%' in tax.name:
+                        total[9]+=(tax.tax_amount/tax.base_amount)*100.0
+                    if '8%' in tax.name:
+                        total[10]+=(tax.tax_amount/tax.base_amount)*100.0
+                    if '0%' in tax.name:
+                        total[11]+=(tax.tax_amount/tax.base_amount)*100.0
+                    if '22%' in tax.name:
+                        total[12]+=(tax.tax_amount/tax.base_amount)*100.0
+                else:
+                    if '12%' in tax.name:
+                        total[13]+=(tax.tax_amount/tax.base_amount)*100.0
+                    if '8%' in tax.name:
+                        total[14]+=(tax.tax_amount/tax.base_amount)*100.0
+                    if '0%' in tax.name:
+                        total[15]+=(tax.tax_amount/tax.base_amount)*100.0
+                    if '22%' in tax.name:
+                        total[16]+=(tax.tax_amount/tax.base_amount)*100.0
         
+        print 'TOTAL', total
         if wh_list:
             for wh in wh_list:
                 #Sum for Invoice in period
@@ -387,6 +447,31 @@ class pur_sal_book(report_sxw.rml_parse):
                         #International Invoices
                         total[7]+=wh.ai_amount_untaxed
                         total[8]+=wh.ai_amount_tax
+                for tax in wh.ai_id.tax_line:
+                    print 'TAX NAME', tax.name
+                    if self._get_p_country(user[0].company_id.partner_id.id)==self._get_p_country(wh.ai_id.partner_id.id):
+                        if '12%' in tax.name:
+                            total[9]+=(tax.tax_amount/tax.base_amount)*100.0
+                        if '8%' in tax.name:
+                            total[10]+=(tax.tax_amount/tax.base_amount)*100.0
+                        if '0%' in tax.name:
+                            total[11]+=(tax.tax_amount/tax.base_amount)*100.0
+                        if '22%' in tax.name:
+                            total[12]+=(tax.tax_amount/tax.base_amount)*100.0
+                    else:
+                        if '12%' in tax.name:
+                            total[13]+=(tax.tax_amount/tax.base_amount)*100.0
+                        if '8%' in tax.name:
+                            total[14]+=(tax.tax_amount/tax.base_amount)*100.0
+                        if '0%' in tax.name:
+                            total[15]+=(tax.tax_amount/tax.base_amount)*100.0
+                        if '22%' in tax.name:
+                            total[16]+=(tax.tax_amount/tax.base_amount)*100.0
+        
+        total[17]= total[13]+total[13]+total[16]+total[14]+total[9]+total[9]+total[12]+total[10]
+        total[18]= total[5]+total[5]+total[5]+total[7]+total[7]+total[7]
+        total[19]= total[13]+total[14]+total[16]+total[9]+total[9]+total[12]+total[10]
+        total[20]= total[7]+total[5]+total[5]+total[5]
         
         return total
       
