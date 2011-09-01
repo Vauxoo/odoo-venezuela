@@ -88,45 +88,101 @@
             </field>
         </record>
 
-
         <record id="view_adjustment_bookr_form" model="ir.ui.view">
             <field name="name">adjustment.book.form</field>
             <field name="model">adjustment.book</field>
             <field name="type">form</field>
             <field name="arch" type="xml">
                 <form string="Adjustment Book">
-                    <group col="4" colspan="4">
+                    <group col="6" colspan="6">
                         <field name="name" select="1"/>
                         <field name="type" select="1"/>
                         <field name="period_id" select="1"/>
                     </group>
-                    <notebook colspan="4">
+                    <notebook colspan="8">
                         <page string="Adjustment Book Lines">
                             <field name="adjustment_ids" nolabel="1" colspan='4'/>
-                            <group col="4" colspan="4">
+                            <group col="8" colspan="8">
                                 <field name="amount_total"/>
                                 <field name="uncredit_fiscal_total"/>
                                 <field name="amount_with_vat_total"/>
+                                <hpaned/>
+                                <hpaned/>
                             </group>
-                            <group col="4" colspan="4">
+                            <group col="8" colspan="8">
                                 <field name="amount_untaxed_n_total"/>
-                                <field name="amount_with_vat_i_total"/>
                                 <field name="amount_with_vat_n_total"/>
                                 <field name="amount_untaxed_i_total"/>
+                                <field name="amount_with_vat_i_total"/>
                             </group>
+                        <group col="4" colspan="4">
+                            <separator string="Explanation about this adjustment"/>
+                            <newline/>
+                            <field name="note" nolabel="1"/>
+                        </group>
+                        </page>
+                        <page string="Totales">
+                            <group colspan="4" col="6">
+                            <field name="no_grav" colspan="4"/>
+                            </group>
+                            <notebook colspan="8">
+                                <page string="Base Imponible" >
+                                    <group colspan="4" col="6">
+                                        <group colspan="4" col="2">
+                                        <separator string="Internacionales" colspan="4"/>
+                                        <field name="vat_general_i" attrs="{'readonly':[('type','=','sale')]}"/>
+                                        <field name="vat_general_add_i" attrs="{'readonly':[('type','=','sale')]}"/>
+                                        <field name="vat_reduced_i" attrs="{'readonly':[('type','=','sale')]}"/>
+                                        <field name="sale_export" attrs="{'readonly':[('type','=','purchase')]}"/>
+                                        </group>
+                                        <group colspan="1" col="2">
+                                        <separator string="Nacionales" colspan="2"/>
+                                        <field name="vat_general_n"/>
+                                        <field name="vat_general_add_n"/>
+                                        <field name="vat_reduced_n"/>
+                                        </group>
+                                        <group colspan="1" col="2">
+                                        <separator string="Total y Ajuste" colspan="2"/>
+                                        <field name="adjustment" colspan="4"/>
+                                        <field name="amount_base_total" colspan="4"/>
+                                        </group>
+                                    </group>
+                                </page>
+                            </notebook>
+                            <notebook colspan="8">
+                                <page string="Porcentaje Fiscal" >
+                                    <group colspan="4" col="6">
+                                        <group colspan="4" col="2">
+                                        <separator string="Internacionales" colspan="4"/>
+                                        <field name="vat_general_icf" attrs="{'readonly':[('type','=','sale')]}"/>
+                                        <field name="vat_general_add_icf" attrs="{'readonly':[('type','=','sale')]}"/>
+                                        <field name="vat_reduced_icf" attrs="{'readonly':[('type','=','sale')]}"/>
+                                        <field name="sale_export_cf" attrs="{'readonly':[('type','=','purchase')]}"/>
+                                        </group>
+                                        <group colspan="1" col="2">
+                                        <separator string="Nacionales" colspan="2"/>
+                                        <field name="vat_general_ncf"/>
+                                        <field name="vat_general_add_ncf"/>
+                                        <field name="vat_reduced_ncf"/>
+                                        </group>
+                                        <group colspan="1" col="2">
+                                        <separator string="Total y Ajuste" colspan="2"/>
+                                        <field name="adjustment_cf" colspan="4"/>
+                                        <field name="amount_percent_total" colspan="4"/>
+                                        </group>
+                                    </group>
+                                    <group colspan="2" col="2">
+                                    <button name="action_set_totals" string="Cargar Totales" type="object" icon="gtk-go-forward" colspan="2"/>
+                                    </group>
+                                </page>
+                            </notebook>
                         </page>
                     </notebook>
-                    <group col="4" colspan="4">
-                        <separator string="Explanation about this adjustment"/>
-                        <newline/>
-                        <field name="note" nolabel="1"/>
-                    </group>
                 </form>
             </field>
         </record>
 
-
-        <record model="ir.actions.act_window" id="action_adjustment_book">
+      <record model="ir.actions.act_window" id="action_adjustment_book">
             <field name="name">Adjustment Book</field>
             <field name="res_model">adjustment.book</field>
             <field name="type">ir.actions.act_window</field>

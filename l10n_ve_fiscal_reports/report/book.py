@@ -109,18 +109,13 @@ class pur_sal_book(report_sxw.rml_parse):
         data_line=[]
         period_ids = period_obj.search(self.cr,self.uid,[('date_start','<=',d1),('date_stop','>=',d2)])
         
-        print 'PERIOD IDS:',period_ids
         if len(period_ids)>0:
             fr_ids = adjust_obj.search(self.cr,self.uid,[('period_id', 'in',period_ids),('type','=',type_doc)])
-            print 'FR_IDS', fr_ids
             if len(fr_ids)>0:
                 adj_ids = adjust_line_obj.search(self.cr,self.uid,[('adjustment_id','=',fr_ids[0])])
-                print 'ADJ_IDS', adj_ids
         #Data to review first and add more records to be printed before ordering and send to rml.
                 data = adjust_obj.browse(self.cr,self.uid, fr_ids)
                 data_line = adjust_line_obj.browse(self.cr,self.uid, adj_ids)
-        print 'DATA', data
-        print 'DATA LINE', data_line
         return (data,data_line)
 
 
@@ -133,16 +128,26 @@ class pur_sal_book(report_sxw.rml_parse):
             orden='ai_date_invoice'
         else:
             book_type='fiscal.reports.sale'
-            orden='ai_nro_ctrl'
+            orden='ai_reference'
         data=[]
+        fr_ids2=[]
         fr_obj = self.pool.get(book_type)
+        
         fr_ids = fr_obj.search(self.cr,self.uid,[('ai_date_invoice', '<=', d2), ('ai_date_invoice', '>=', d1)], order=orden)
         #Data to review first and add more records to be printed before ordering and send to rml.
         
         if len(fr_ids)<=0:
             return False
-            
-        data = fr_obj.browse(self.cr,self.uid, fr_ids)
+        for fr in fr_obj.browse(self.cr,self.uid, fr_ids):
+            if fr.ar_date_document:
+                if fr.ar_date_document<=d2 and fr.ar_date_document>=d1:
+                    fr_ids2.append(fr.id)
+            else:
+                fr_ids2.append(fr.id)
+        if len(fr_ids2)<=0:
+            return False
+        
+        data = fr_obj.browse(self.cr,self.uid, fr_ids2)
         
         return data
 
@@ -408,7 +413,6 @@ class pur_sal_book(report_sxw.rml_parse):
                     total[8]+=d.ai_amount_tax
                 #~ total=self._get_totals_resumen(self,total,d,user)
             for tax in d.ai_id.tax_line:
-                print 'TAX NAME', tax.name
                 if self._get_p_country(user[0].company_id.partner_id.id)==self._get_p_country(d.ai_id.partner_id.id):
                     if '12%' in tax.name:
                         total[9]+=(tax.tax_amount/tax.base_amount)*100.0
@@ -428,7 +432,6 @@ class pur_sal_book(report_sxw.rml_parse):
                     if '22%' in tax.name:
                         total[16]+=(tax.tax_amount/tax.base_amount)*100.0
         
-        print 'TOTAL', total
         if wh_list:
             for wh in wh_list:
                 #Sum for Invoice in period
@@ -448,7 +451,6 @@ class pur_sal_book(report_sxw.rml_parse):
                         total[7]+=wh.ai_amount_untaxed
                         total[8]+=wh.ai_amount_tax
                 for tax in wh.ai_id.tax_line:
-                    print 'TAX NAME', tax.name
                     if self._get_p_country(user[0].company_id.partner_id.id)==self._get_p_country(wh.ai_id.partner_id.id):
                         if '12%' in tax.name:
                             total[9]+=(tax.tax_amount/tax.base_amount)*100.0
@@ -456,6 +458,7 @@ class pur_sal_book(report_sxw.rml_parse):
                             total[10]+=(tax.tax_amount/tax.base_amount)*100.0
                         if '0%' in tax.name:
                             total[11]+=(tax.tax_amount/tax.base_amount)*100.0
+                            #~ total[21]+=tax.base_amount
                         if '22%' in tax.name:
                             total[12]+=(tax.tax_amount/tax.base_amount)*100.0
                     else:

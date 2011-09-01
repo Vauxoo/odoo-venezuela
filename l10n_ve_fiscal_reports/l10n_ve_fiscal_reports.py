@@ -49,6 +49,7 @@ class fiscal_reports_purchase(osv.osv):
     _columns = {
         'ai_date_document': fields.date('Date'),
         'ai_date_invoice': fields.date('Date'),
+        'ar_date_document': fields.date('Date Account Retencion'),
         'rp_vat':fields.char('VAT Number', size=24, required=False, readonly=True),
         'rp_id':fields.many2one('res.partner', 'Partner Name', required=True),
         'ai_nro_ctrl':fields.char('Control No.', size=128, required=False, readonly=True),
@@ -76,6 +77,7 @@ class fiscal_reports_purchase(osv.osv):
                      rp."id" AS rp_id,
                      ai."nro_ctrl" AS ai_nro_ctrl,
                      ai."reference" AS ai_reference,
+                     ar."date_ret" AS ar_date_document,
                 case when ai.type='in_refund'
                 then
                     ai."amount_total"*(-1)
@@ -128,6 +130,7 @@ class fiscal_reports_sale(osv.osv):
     _columns = {
     'ai_date_document': fields.date('Date'),
     'ai_date_invoice': fields.date('Date'),
+    'ar_date_document': fields.date('Date Account Retencion'),
     'rp_vat':fields.char('VAT Number', size=64, required=False, readonly=False),
     'rp_id':fields.many2one('res.partner', 'Partner Name', required=True),
     'ai_reference':fields.char('Invoice Number', size=64, required=False, readonly=False),
@@ -155,6 +158,7 @@ class fiscal_reports_sale(osv.osv):
                 rp."id" AS rp_id,
                 ai."number" AS ai_reference,
                 ai."nro_ctrl" AS ai_nro_ctrl,
+                ar."date_ret" AS ar_date_document,
                 case when ai.type='out_refund'
                 then
                     ai."amount_total"*(-1)
@@ -180,8 +184,9 @@ class fiscal_reports_sale(osv.osv):
                 ar_line."id" AS ar_line_id,
                 ar_line."retention_id" AS ar_id
                 FROM
-                "res_partner" rp INNER JOIN "account_invoice" ai ON rp."id" = ai."partner_id"
-                LEFT JOIN "account_retention_line" ar_line ON ar_line."invoice_id" = ai."id"
+                 "res_partner" rp INNER JOIN "account_invoice" ai ON rp."id" = ai."partner_id"
+                 LEFT JOIN "account_retention_line" ar_line ON ar_line."invoice_id" = ai."id"
+                 LEFT JOIN "account_retention" ar ON ar_line."retention_id" = ar."id"
                 WHERE
                 (ai.type = 'out_refund'
                 OR ai.type = 'out_invoice')
