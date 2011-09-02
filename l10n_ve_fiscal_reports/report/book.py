@@ -67,6 +67,7 @@ class pur_sal_book(report_sxw.rml_parse):
             'get_data_wh': self._get_data_wh,
             'get_amount_withheld': self._get_amount_withheld,
             'get_sdcf': self._get_sdcf,
+            'get_date_wh': self._get_date_wh,
         })
 
     def _get_sdcf(self,inv):
@@ -118,6 +119,12 @@ class pur_sal_book(report_sxw.rml_parse):
                 data_line = adjust_line_obj.browse(self.cr,self.uid, adj_ids)
         return (data,data_line)
 
+    def _get_date_wh(self,form, l):
+        
+        if l.ar_date_document>= form['date_end']:
+            return False
+        return True
+
 
     def _get_data(self,form):
         print 'ENTRE AQUI'
@@ -128,7 +135,7 @@ class pur_sal_book(report_sxw.rml_parse):
             orden='ai_date_invoice'
         else:
             book_type='fiscal.reports.sale'
-            orden='ai_reference'
+            orden='ai_nro_ctrl'
         data=[]
         fr_ids2=[]
         fr_obj = self.pool.get(book_type)
@@ -138,16 +145,16 @@ class pur_sal_book(report_sxw.rml_parse):
         
         if len(fr_ids)<=0:
             return False
-        for fr in fr_obj.browse(self.cr,self.uid, fr_ids):
-            if fr.ar_date_document:
-                if fr.ar_date_document<=d2 and fr.ar_date_document>=d1:
-                    fr_ids2.append(fr.id)
-            else:
-                fr_ids2.append(fr.id)
-        if len(fr_ids2)<=0:
-            return False
+        #~ for fr in fr_obj.browse(self.cr,self.uid, fr_ids):
+            #~ if fr.ar_date_document:
+                #~ if fr.ar_date_document<=d2 and fr.ar_date_document>=d1:
+                    #~ fr_ids2.append(fr.id)
+            #~ else:
+                #~ fr_ids2.append(fr.id)
+        #~ if len(fr_ids2)<=0:
+            #~ return False
         
-        data = fr_obj.browse(self.cr,self.uid, fr_ids2)
+        data = fr_obj.browse(self.cr,self.uid, fr_ids)
         
         return data
 
