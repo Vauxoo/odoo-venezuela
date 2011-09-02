@@ -121,7 +121,7 @@ class pur_sal_book(report_sxw.rml_parse):
 
     def _get_date_wh(self,form, l):
         
-        if l.ar_date_document>= form['date_end']:
+        if l.ar_date_document> form['date_end']:
             return False
         return True
 
