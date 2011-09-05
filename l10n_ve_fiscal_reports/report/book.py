@@ -68,6 +68,9 @@ class pur_sal_book(report_sxw.rml_parse):
             'get_amount_withheld': self._get_amount_withheld,
             'get_sdcf': self._get_sdcf,
             'get_date_wh': self._get_date_wh,
+            'get_v_sdcf': self._get_v_sdcf,
+            'get_tax_line': self._get_tax_line,
+            'get_total_wh': self._get_total_wh,
         })
 
     def _get_sdcf(self,inv):
@@ -125,19 +128,55 @@ class pur_sal_book(report_sxw.rml_parse):
             return False
         return True
 
+    def _get_v_sdcf(self,l):
+        amount = 0.0
+        if not l:
+            return 0.0
+        for tax in l.ai_id.tax_line:
+            name=tax.name
+            if name.find('SDCF')>=0:
+                #~ print 'SOY SDCF',tax.name
+                amount = tax.base
+        if l.ai_id.type in ['in_refund', 'out_refund']:
+            amount = tax.base * (-1)
+            
+        return (amount)
+
+    def _get_tax_line(self,s):
+        #~ print 'ENTRando'
+        name = s.name
+        #~ print 'NAME', s.name
+        cont = 0
+        
+        if name.find('SDCF')>=0:
+            #~ print 'consegui SDCF'
+            if cont==0:
+                return 0
+            else:
+                return 111
+        else:
+            cont = cont + 1
+        return s.base_amount
+    
+    
+    
+    
 
     def _get_data(self,form):
-        print 'ENTRE AQUI'
+        #~ print 'ENTRE AQUI'
         d1=form['date_start']
         d2=form['date_end']
+        data=[]
+        fr_ids=[]
+        fr_obj=None
+        
         if form['type']=='purchase':
             book_type='fiscal.reports.purchase'
             orden='ai_date_invoice'
         else:
             book_type='fiscal.reports.sale'
             orden='ai_nro_ctrl'
-        data=[]
-        fr_ids2=[]
+        
         fr_obj = self.pool.get(book_type)
         
         fr_ids = fr_obj.search(self.cr,self.uid,[('ai_date_invoice', '<=', d2), ('ai_date_invoice', '>=', d1)], order=orden)
@@ -145,17 +184,10 @@ class pur_sal_book(report_sxw.rml_parse):
         
         if len(fr_ids)<=0:
             return False
-        #~ for fr in fr_obj.browse(self.cr,self.uid, fr_ids):
-            #~ if fr.ar_date_document:
-                #~ if fr.ar_date_document<=d2 and fr.ar_date_document>=d1:
-                    #~ fr_ids2.append(fr.id)
-            #~ else:
-                #~ fr_ids2.append(fr.id)
-        #~ if len(fr_ids2)<=0:
-            #~ return False
         
         data = fr_obj.browse(self.cr,self.uid, fr_ids)
-        
+        for d in data:
+            print 'RIF:', d.rp_vat
         return data
 
     def _validation_wh(self,form):
@@ -176,6 +208,33 @@ class pur_sal_book(report_sxw.rml_parse):
         #Data to review first and add more records to be printed before ordering and send to rml.
         data = fr_obj.browse(self.cr,self.uid, fr_ids)
         return data
+
+    def _get_total_wh(self,form):
+        d1=form['date_start']
+        d2=form['date_end']
+        total=0
+        data=[]
+        if form['type']=='purchase':
+            book_type='fiscal.reports.whp'
+        else:
+            book_type='fiscal.reports.whs'
+            
+        fr_obj = self.pool.get(book_type)
+        fr_ids = fr_obj.search(self.cr,self.uid,[('ar_date_ret', '<=', d2), ('ar_date_ret', '>=', d1)])
+        #Data to review first and add more records to be printed before ordering and send to rml.
+        print 'FR_IDS_whh', fr_ids
+        data = fr_obj.browse(self.cr,self.uid, fr_ids)
+        print 'DATA', data
+        for wh in data:
+            if wh.ai_id.type in ['in_refund', 'out_refund']:
+                total+= wh.ar_line_id.amount_tax_ret * (-1)
+            else:
+                total+= wh.ar_line_id.amount_tax_ret
+        #~ for wh in data:
+            #~ print wh.ar_id.number
+        return total
+
+
 
     def _get_prev_ret(self,form):
         '''
@@ -250,10 +309,14 @@ class pur_sal_book(report_sxw.rml_parse):
         fr_ids = fr_obj.search(self.cr,self.uid,[('ai_date_invoice', '<=', d2), ('ai_date_invoice', '>=', d1)], order='ai_nro_ctrl')
         #Data to review first and add more records to be printed before ordering and send to rml.
         data = fr_obj.browse(self.cr,self.uid, fr_ids)
-
+        
+        print 'FR_IDS', fr_ids
+        print 'DATA', data
+        
         for d in data:
             if self._get_ret(form,d.ar_id.id):
                 total+=d.ar_id.total_tax_ret
+                print 'MONTO', d.ar_id.total_tax_ret
         
         return total
 
