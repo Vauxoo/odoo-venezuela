@@ -414,7 +414,7 @@ msgstr "Operaciones Nacionales"
 #. module: l10n_ve_fiscal_reports
 #: help:adjustment.book,amount_with_vat_n_total:0
 msgid "Amount Total Withheld for adjustment book of national operations"
-msgstr "Monto Total retenido en cuanto a operaciones internacionales para el libro de ajustes"
+msgstr "Base Total del impuesto al valor agregado(IVA)"
 
 #. module: l10n_ve_fiscal_reports
 #: field:fiscal.reports.whs,ai_amount_tax:0
