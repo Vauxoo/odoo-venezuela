@@ -180,7 +180,57 @@
         </tr>
         </blockTable>
     </section>
-    
+
+
+    <!-- ************ WITHHOLDING VAT BOOK LINES************-->
+    <section>
+        <para>[[repeatIn( get_data_wh(data['form']),'wh')]]</para>
+        <blockTable colWidths="1.0,33.0,37.0,192.0,47.0,38.0,38.0,15.0,38.0,34.0,114.0,114.0,44.0,50.0" style="CONTENIDOTABLE_LINES" repeatRows="2">        
+        [[(data['form']['type'] == 'purchase') and setTag('blockTable','blockTable',{'colWidths':"33.0,33.0,37.0,160.0,47.0,38.0,38.0,15.0,38.0,34.0,114.0,114.0,44.0,50.0",'style':'CONTENIDOTABLE_LINES_PUR', 'repeatRows':'2'}) or '']]
+        <tr>
+            <para>[[ validation_wh(data['form']) and '.' or removeParentNode('blockTable') ]]</para>
+            [[ setLang(company.partner_id.lang) ]]
+            <td><para style="CONTENIDO">[[ data['form']['type'] == 'purchase' and ( wh.ai_id.date_document and formatLang(wh.ai_id.date_document, date=True) or '') or '' ]]</para></td>
+            <td><para style="CONTENIDO">[[ time.strftime('%d/%m/%Y', time.strptime(wh.ar_date_ret, '%Y-%m-%d'))]]</para></td>
+            <td><para style="CONTENIDO">[[ get_rif(wh.rp_vat) ]]</para></td>
+            <td><para style="CONTENIDOLEFT">[[ wh.rp_id.name ]]</para></td>
+            <td><para style="CONTENIDO">[[ wh.ai_number ]]</para></td>
+            <td><para style="CONTENIDO">[[ wh.ai_id.nro_ctrl ]]</para></td>
+            <td><para style="CONTENIDO">[[ formatLang(wh.ai_amount_total) ]]</para></td>
+            <td><para style="CONTENIDO">[[ get_doc(wh.ai_id.id)]]</para></td>
+            <td><para style="HEADER">[[ wh.ai_id.parent_id.number or '' ]]</para></td>
+            <td><para style="CONTENIDO">[[ formatLang(wh.ai_id.sin_cred and ((wh.ai_id.type in ['in_refund', 'out_refund']) and get_sdcf(l)*(-1) or get_sdcf(l)) or 0.0) ]]</para></td>
+            <td>
+                <section>
+                    [[ repeatIn( wh.ai_id.tax_line,'tax' ) ]]
+            <blockTable colWidths="40.0,30.0,40.0" style="INTERNALTABLE">
+                <tr>
+                    <td><para style="CONTENIDOINT">[[ formatLang((get_p_country(company.partner_id.id) == get_p_country(tax.invoice_id.partner_id.id)) and ((tax.invoice_id.sin_cred==False) and tax.base_amount or 0.0) or 0.0) ]]</para></td>
+                    <td><para style="CONTENIDOINT">[[ formatLang((get_p_country(company.partner_id.id) == get_p_country(tax.invoice_id.partner_id.id)) and ((tax.invoice_id.sin_cred==False) and round(tax.tax_amount/(tax.base_amount and tax.base_amount or 1)*100.0) or 0.0) or 0.0) ]]</para></td>
+                    <td><para style="CONTENIDOINT">[[ formatLang((get_p_country(company.partner_id.id) == get_p_country(tax.invoice_id.partner_id.id)) and ((tax.invoice_id.sin_cred==False) and tax.tax_amount or 0.0) or 0.0) ]]</para></td>
+                </tr>
+            </blockTable>
+                </section>
+            </td>
+            <td>
+            <section>
+                [[ repeatIn( wh.ai_id.tax_line,'taxi' ) ]]
+                <blockTable colWidths="40.0,30.0,40.0" style="INTERNALTABLE">
+                    <tr>
+                        <td><para style="CONTENIDOINT">[[ formatLang((get_p_country(company.partner_id.id) != get_p_country(taxi.invoice_id.partner_id.id)) and ((taxi.invoice_id.sin_cred==False) and taxi.base_amount or 0.0) or 0.0) ]]</para></td>
+                        <td><para style="CONTENIDOINT">[[ formatLang((get_p_country(company.partner_id.id) != get_p_country(taxi.invoice_id.partner_id.id)) and ((taxi.invoice_id.sin_cred==False) and tax.tax_amount/(tax.base_amount and tax.base_amount or 1)*100.0 or 0.0) or 0.0) ]]</para></td>
+                        <td><para style="CONTENIDOINT">[[ formatLang((get_p_country(company.partner_id.id) != get_p_country(taxi.invoice_id.partner_id.id)) and ((taxi.invoice_id.sin_cred==False) and taxi.tax_amount or 0.0) or 0.0) ]]</para></td>
+                    </tr>
+                </blockTable>
+            </section>
+            </td>
+            <td><para style="CONTENIDO">[[ formatLang(get_amount_withheld(wh.ar_line_id.id)) or '' ]]</para></td>
+            <td><para style="CONTENIDO">[[ wh.ar_id.number ]]</para></td>
+        </tr>
+        </blockTable>
+    </section>
+
+
     <!-- ************ PURCHASE, SALE, BOOK LINES************-->
     <section>
         <para>[[repeatIn( get_data( data['form'] ),'l')]]</para>

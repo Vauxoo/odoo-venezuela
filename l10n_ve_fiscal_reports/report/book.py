@@ -206,6 +206,7 @@ class pur_sal_book(report_sxw.rml_parse):
         return data
 
     def _get_total_wh(self,form):
+        print 'TOTAL WH'
         d1=form['date_start']
         d2=form['date_end']
         total=0
@@ -222,8 +223,10 @@ class pur_sal_book(report_sxw.rml_parse):
         for wh in data:
             if wh.ai_id.type in ['in_refund', 'out_refund']:
                 total+= wh.ar_line_id.amount_tax_ret * (-1)
+                print wh.ar_line_id.amount_tax_ret * (-1)
             else:
                 total+= wh.ar_line_id.amount_tax_ret
+                print wh.ar_line_id.amount_tax_ret * (-1)
         return total
 
 
@@ -443,17 +446,23 @@ class pur_sal_book(report_sxw.rml_parse):
         user=user_obj.browse(self.cr,self.uid, [self.uid])
         
         for d in fr_obj.browse(self.cr,self.uid, fr_ids):
-            
+            print d.ai_amount_total
             for tax in d.ai_id.tax_line:
                 
                 if percent in tax.name:
+                    
+                    #~ if self._get_p_country(user[0].company_id.partner_id.id)==self._get_p_country(d.ai_id.partner_id.id):
+                        
+                    
                     if d.ai_id.type in ['in_refund', 'out_refund']:
                         amount_untaxed+= tax.base * (-1)
                         amount_tax+= tax.amount * (-1)
-                        print tax.base
                     else:
                         amount_untaxed+= tax.base
                         amount_tax+= tax.amount
+                    #~ else:
+                        
+                        
 
         print 'BASE IMPONIBLE', amount_untaxed
         print 'MONTO IMPUESTO ', amount_tax
@@ -463,6 +472,17 @@ class pur_sal_book(report_sxw.rml_parse):
         
         return (amount_untaxed,amount_tax)
        
+    #~ def _get_amount_untaxed_tax(self,type,tax):
+        #~ if d.ai_id.type in ['in_refund', 'out_refund']:
+            #~ amount_untaxed+= tax.base * (-1)
+            #~ amount_tax+= tax.amount * (-1)
+        #~ else:
+            #~ amount_untaxed+= tax.base
+            #~ amount_tax+= tax.amount
+        #~ 
+    
+    
+
 
     def _get_totals(self,form):
         '''
