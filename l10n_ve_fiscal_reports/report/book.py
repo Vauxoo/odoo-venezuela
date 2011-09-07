@@ -206,7 +206,6 @@ class pur_sal_book(report_sxw.rml_parse):
         return data
 
     def _get_total_wh(self,form):
-        print 'TOTAL WH'
         d1=form['date_start']
         d2=form['date_end']
         total=0
@@ -223,10 +222,8 @@ class pur_sal_book(report_sxw.rml_parse):
         for wh in data:
             if wh.ai_id.type in ['in_refund', 'out_refund']:
                 total+= wh.ar_line_id.amount_tax_ret * (-1)
-                print wh.ar_line_id.amount_tax_ret * (-1)
             else:
                 total+= wh.ar_line_id.amount_tax_ret
-                print wh.ar_line_id.amount_tax_ret * (-1)
         return total
 
 
@@ -462,13 +459,6 @@ class pur_sal_book(report_sxw.rml_parse):
                         amount_tax+= tax.amount
                     #~ else:
                         
-                        
-
-        print 'BASE IMPONIBLE', amount_untaxed
-        print 'MONTO IMPUESTO ', amount_tax
-        print 'SALIENDOOOOOOOOOOOOOOOOOOOO'
-        print '.'
-        
         
         return (amount_untaxed,amount_tax)
        
