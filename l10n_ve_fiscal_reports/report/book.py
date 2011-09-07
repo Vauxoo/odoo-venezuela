@@ -139,9 +139,8 @@ class pur_sal_book(report_sxw.rml_parse):
             if name.find('SDCF')>=0:
                 #~ print 'SOY SDCF',tax.name
                 amount = tax.base
-        if l.ai_id.type in ['in_refund', 'out_refund']:
-            amount = tax.base * (-1)
-            
+                if l.ai_id.type in ['in_refund', 'out_refund']:
+                    amount = amount * (-1)
         return (amount)
 
     def _get_tax_line(self,s):
@@ -225,8 +224,6 @@ class pur_sal_book(report_sxw.rml_parse):
                 total+= wh.ar_line_id.amount_tax_ret * (-1)
             else:
                 total+= wh.ar_line_id.amount_tax_ret
-        #~ for wh in data:
-            #~ print wh.ar_id.number
         return total
 
 
@@ -402,28 +399,6 @@ class pur_sal_book(report_sxw.rml_parse):
         res.append(form['date_end'])
         return res
 
-    #~ def _get_totals_resumen(self,total,d,user)
-        #~ for tax in d.ai_id.tax_line:
-            #~ print 'TAX NAME', tax.name
-            #~ if self._get_p_country(user[0].company_id.partner_id.id)==self._get_p_country(d.ai_id.partner_id.id):
-                #~ if '12%' in tax.name:
-                    #~ total[9]+=(tax.tax_amount/tax.base_amount)*100.0
-                #~ if '8%' in tax.name:
-                    #~ total[10]+=(tax.tax_amount/tax.base_amount)*100.0
-                #~ if '0%' in tax.name:
-                    #~ total[11]+=(tax.tax_amount/tax.base_amount)*100.0
-                #~ if '22%' in tax.name:
-                    #~ total[12]+=(tax.tax_amount/tax.base_amount)*100.0
-            #~ else:
-                #~ if '12%' in tax.name:
-                    #~ total[13]+=(tax.tax_amount/tax.base_amount)*100.0
-                #~ if '8%' in tax.name:
-                    #~ total[14]+=(tax.tax_amount/tax.base_amount)*100.0
-                #~ if '0%' in tax.name:
-                    #~ total[15]+=(tax.tax_amount/tax.base_amount)*100.0
-                #~ if '22%' in tax.name:
-                    #~ total[16]+=(tax.tax_amount/tax.base_amount)*100.0
-        #~ return total
 
     def _get_total_iva(self,form):
         '''
@@ -447,7 +422,7 @@ class pur_sal_book(report_sxw.rml_parse):
         '''
         Return Amount Untaxed and Amount Tax, accorded percent of withholding vat
         '''
-        print 'ENTRANDOOO'
+        print 'ENTRANDOOO00000000000'
         print 'PERCENT', percent
         book_type='fiscal.reports.sale'
         amount_untaxed=0.0
@@ -472,11 +447,20 @@ class pur_sal_book(report_sxw.rml_parse):
             for tax in d.ai_id.tax_line:
                 
                 if percent in tax.name:
-                    amount_untaxed+= tax.base
-                else:
-                    amount_tax+= tax.amount
+                    if d.ai_id.type in ['in_refund', 'out_refund']:
+                        amount_untaxed+= tax.base * (-1)
+                        amount_tax+= tax.amount * (-1)
+                        print tax.base
+                    else:
+                        amount_untaxed+= tax.base
+                        amount_tax+= tax.amount
+
         print 'BASE IMPONIBLE', amount_untaxed
         print 'MONTO IMPUESTO ', amount_tax
+        print 'SALIENDOOOOOOOOOOOOOOOOOOOO'
+        print '.'
+        
+        
         return (amount_untaxed,amount_tax)
        
 
