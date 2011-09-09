@@ -878,7 +878,7 @@ msgstr "Fecha Fin"
 #: field:adjustment.book.line,amount_with_vat_i:0
 #: field:adjustment.book.line,amount_with_vat_n:0
 msgid "Amount Withholding VAT"
-msgstr "Monto de IVA retenido"
+msgstr "Monto de IVA"
 
 #. module: l10n_ve_fiscal_reports
 #: help:adjustment.book,amount_total:0

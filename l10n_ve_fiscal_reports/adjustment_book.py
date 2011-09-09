@@ -6,7 +6,6 @@
 #    All Rights Reserved
 ###############Credits######################################################
 #    Coded by: Humberto Arocha           <humberto@openerp.com.ve>
-#              Angelica Barrios          <angelicaisabelb@gmail.com>
 #              María Gabriela Quilarque  <gabrielaquilarque97@gmail.com>
 #              Javier Duran              <javier.duran@netquatro.com>             
 #    Planified by: Nhomar Hernandez

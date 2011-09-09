@@ -13,6 +13,7 @@
                 </data>
             </field>
         </record>
+        
         <record model="ir.ui.view" id="inherited_account_invoice_form_fiscal2">
             <field name="name">account.invoice.inherit.fiscal2</field>
             <field name="model">account.invoice</field>
@@ -20,6 +21,7 @@
             <field name="arch" type="xml">
                 <data>
                     <field name="date_due" position="after">
+                        <field name="expedient" attrs="{'readonly':[('type','in',['out_invoice','out_refund'])]}"/>
                         <field name="date_document"/>
                     </field>
                 </data>

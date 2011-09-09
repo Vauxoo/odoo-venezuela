@@ -101,15 +101,16 @@
 
     <blockTable colWidths="350.0,190.0,220.0" style="HEADERTABLE">
       <tr>
+        [[ setLang(l.ai_id.company_id.partner_id.lang) ]]
         <td>
           <para style="HEADERDOC">[[ company.partner_id.name ]] [[ company.partner_id.vat[2:] ]]</para>
           <para style="HEADERDOC">[[ get_partner_addr( company.partner_id.id ) ]]</para>
         </td>
         <td>
           <para style="HEADERDOC">Libro: [[ (data['form']['type'] == 'purchase') and "Compras"or "Ventas" ]] </para>
-          <para style="HEADERDOC">Correspodiente al Mes de [[ get_month( data['form'] )[0] ]] del año [[ get_month( data['form'] )[1] ]] </para>
-          <para style="HEADERDOC">Desde : [[ time.strftime('%d/%m/%Y', time.strptime(get_dates( data['form'] )[0], '%Y-%m-%d')) ]]</para>
-          <para style="HEADERDOC">Hasta: [[ time.strftime('%d/%m/%Y', time.strptime(get_dates( data['form'] )[1], '%Y-%m-%d')) ]]</para>
+          <para style="HEADERDOC">Correspodiente al Mes de [[ get_month( data['form'] )[0] ]] del año [[ get_month( data['form'] )[1] ]]</para>
+          <para style="HEADERDOC">[[data['form'] and ('Desde: %s'%formatLang( data['form']['date_start'], date=True)) or '']]</para>
+          <para style="HEADERDOC">[[data['form'] and ('Hasta: %s'%formatLang( data['form']['date_end'], date=True)) or '']]</para>
         </td>
         <td>
           <para style="HEADERDOC" fontName="Helvetica">Según Articulo 76 del Reglamento de la Ley del IVA No. 5.363 del 12 de Julio de 1999</para>
@@ -151,10 +152,10 @@
             <td><para style="HEADER">Fecha Cont.</para></td>
             <td><para style="HEADER">RIF</para></td>
             <td><para style="HEADER">Razon Social</para></td>
-            <td><para style="HEADER">Numero Factura</para></td>
+            <td><para style="HEADER">Numero Doc.</para></td>
             <td><para style="HEADER">Numero Control</para></td>
             <td><para style="HEADER">Total con IVA</para></td>
-            <td><para style="HEADER">T.</para><para style="HEADER">Doc.</para></td>
+            <td><para style="HEADER">T. Doc.</para></td>
             <td><para style="HEADER">Documento Afectado</para></td>
             <td><para style="HEADER">Sin derecho a Credito Fiscal</para></td>
             <td>
@@ -272,7 +273,6 @@
         </blockTable>
     </section>
     
-    
         <!-- ************ TOTALS PURCHASE,SALE PARCIALES************-->
     <section>
         <blockTable colWidths="1.0,33.0,37.0,192.0,47.0,38.0,38.0,15.0,38.0,34.0,114.0,114.0,44.0,50.0" style="CONTENIDOTABLE_LINES" repeatRows="2">
@@ -284,28 +284,37 @@
             <td></td><td></td>
             <td><para style="CONTENIDO">[[ formatLang(get_total_iva(data['form'])) ]]</para></td>
             <td></td><td></td>
-            <td><para style="CONTENIDO">[[ formatLang(get_amount_untaxed_tax(data['form'],'SDCF')[0])]]</para></td>
+            <td><para style="CONTENIDO">[[ formatLang(get_amount_untaxed_tax(data['form'],'SDCF','nacional')[0])]]</para></td>
             <td>
                 <blockTable colWidths="40.0,30.0,40.0" style="INTERNALTABLE">
                     <tr>
-                        <td><para style="HEADER">[[ formatLang(get_amount_untaxed_tax(data['form'],'12')[0]+get_amount_untaxed_tax(data['form'],'8')[0]+get_amount_untaxed_tax(data['form'],'EXONERADO')[0]) ]]</para></td>
+                        <td><para style="HEADER">[[ formatLang(get_amount_untaxed_tax(data['form'],'12','nacional')[0]+get_amount_untaxed_tax(data['form'],'8','nacional')[0]+get_amount_untaxed_tax(data['form'],'EXONERADO','nacional')[0]) ]]</para></td>
                         <td></td>
-                        <td><para style="HEADER">[[ formatLang(get_amount_untaxed_tax(data['form'],'12')[1]) ]]</para></td>
+                        <td><para style="HEADER">[[ formatLang(get_amount_untaxed_tax(data['form'],'12','nacional')[1] +get_amount_untaxed_tax(data['form'],'8','nacional')[1]+get_amount_untaxed_tax(data['form'],'EXONERADO','nacional')[1]) ]]</para></td>
                     </tr>
                 </blockTable>
             </td>
             <td>
                 <blockTable colWidths="40.0,30.0,40.0" style="INTERNALTABLE">
                     <tr>
-                        <td><para style="HEADER"></para></td>
+                        <td><para style="HEADER">[[ formatLang(get_amount_untaxed_tax(data['form'],'12')[0]+get_amount_untaxed_tax(data['form'],'8')[0]+get_amount_untaxed_tax(data['form'],'EXONERADO')[0]) ]]</para></td>
                         <td></td>
-                        <td><para style="HEADER"></para></td>
+                        <td><para style="HEADER">[[ formatLang(get_amount_untaxed_tax(data['form'],'12')[1] +get_amount_untaxed_tax(data['form'],'8')[1]+get_amount_untaxed_tax(data['form'],'EXONERADO')[1]) ]]</para></td>
                     </tr>
                 </blockTable>
             </td>
             <td><para style="CONTENIDO">[[ formatLang(get_total_wh(data['form'])) ]]</para></td>
             <td></td>
         </tr>
+        </blockTable>
+    </section>
+
+    <!-- ************ LEYENDA************-->
+    <section>
+        <blockTable colWidths="794.0">
+            <tr>
+                <td><para style="CONTENIDOLEFT">LEYENDA. F:Factura, ND:Nota de Débito, NC:Nota de Crédito, E:Expediente</para></td>
+            </tr>
         </blockTable>
     </section>
 
@@ -322,25 +331,26 @@
     </section>
     
     <section>
+        [[ setLang(l.ai_id.company_id.partner_id.lang) ]]
         <blockTable colWidths="280.0,80.0,80.0" style="CONTENIDOTABLE_LINES_PUR" repeatRows="2">
             <tr>
                 <td><para style="CONTENIDOLEFT">[[data['form']['type'] == 'purchase' and 'COMPRAS NO GRAVADAS Y/O SIN DERECHO A CREDITO FISCAL' or 'DEBITOS FISCALES']]</para></td>
-                <td><para style="CONTENIDO">0.00</para></td>
+                <td><para style="CONTENIDO">[[ formatLang(get_amount_untaxed_tax(data['form'],'SDCF','nacional')[0]+get_amount_untaxed_tax(data['form'],'EXONERADO','nacional')[0]+get_amount_untaxed_tax(data['form'],'SDCF')[0]+get_amount_untaxed_tax(data['form'],'EXONERADO')[0]) ]]</para></td>
                 <td><para style="CONTENIDO"></para></td>
             </tr>
             <tr>
                 <td><para style="CONTENIDOLEFT">[[data['form']['type'] == 'purchase' and 'IMPORTACION GRAVADAS POR ALICUOTA GENERAL' or removeParentNode('tr')]]</para></td>
-                <td><para style="CONTENIDO"></para></td>
+                <td><para style="CONTENIDO">[[formatLang(get_amount_untaxed_tax(data['form'],'12')[0])]]</para></td>
                 <td><para style="CONTENIDO"></para></td>
             </tr>
             <tr>
                 <td><para style="CONTENIDOLEFT">[[data['form']['type'] == 'purchase' and 'IMPORTACIONES GRAVADAS POR ALICUOTA GENERAL MAS ALICUOTA ADICIONAL' or removeParentNode('tr')]]</para></td>
-                <td><para style="CONTENIDO"></para></td>
+                <td><para style="CONTENIDO">[[formatLang(get_amount_untaxed_tax(data['form'],'12')[0]+get_amount_untaxed_tax(data['form'],'22')[0])]]</para></td>
                 <td><para style="CONTENIDO"></para></td>
             </tr>
             <tr>
                 <td><para style="CONTENIDOLEFT">[[data['form']['type'] == 'purchase' and 'IMPORTACIONES GRAVADAS POR ALICUOTA REDUCIDA' or removeParentNode('tr')]]</para></td>
-                <td><para style="CONTENIDO"></para></td>
+                <td><para style="CONTENIDO">[[formatLang(get_amount_untaxed_tax(data['form'],'8')[0])]]</para></td>
                 <td><para style="CONTENIDO"></para></td>
             </tr>
             <tr>
@@ -350,17 +360,17 @@
             </tr>
             <tr>
                 <td><para style="CONTENIDOLEFT">[[data['form']['type'] == 'purchase' and 'COMPRAS GRAVADAS POR ALICUOTA GENERAL' or 'VENTAS INTERNAS GRAVADAS POR ALICUOTA GENERAL']]</para></td>
-                <td><para style="CONTENIDO"></para></td>
+                <td><para style="CONTENIDO">[[formatLang(get_amount_untaxed_tax(data['form'],'12','nacional')[0])]]</para></td>
                 <td><para style="CONTENIDO"></para></td>
             </tr>
             <tr>
                 <td><para style="CONTENIDOLEFT">[[data['form']['type'] == 'purchase' and 'COMPRAS INTERNAS GRAVADAS POR ALICUOTA GENERAL MAS ALICUOTA ADICIONAL' or 'VENTAS INTERNAS GRAVADAS POR ALICUOTA GENERAL MAS ALICUOTA ADICIONAL']]</para></td>
-                <td><para style="CONTENIDO"></para></td>
+                <td><para style="CONTENIDO">[[formatLang(get_amount_untaxed_tax(data['form'],'12','nacional')[0]+get_amount_untaxed_tax(data['form'],'22','nacional')[0])]]</para></td>
                 <td><para style="CONTENIDO"></para></td>
             </tr>
             <tr>
                 <td><para style="CONTENIDOLEFT">[[data['form']['type'] == 'purchase' and 'COMPRAS INTERNAS GRAVADAS POR ALICUOTA REDUCIDA' or 'VENTAS INTERNAS GRAVADAS POR ALICUOTA REDUCIDA']]</para></td>
-                <td><para style="CONTENIDO"></para></td>
+                <td><para style="CONTENIDO">[[formatLang(get_amount_untaxed_tax(data['form'],'8','nacional')[0])]]</para></td>
                 <td><para style="CONTENIDO"></para></td>
             </tr>
             <tr>
