@@ -54,76 +54,71 @@ class pur_sal_book(report_sxw.rml_parse):
             'get_p_country': self._get_p_country,
             'get_rif': self._get_rif,
             'get_month':self._get_month,
-            'get_totals':self._get_totals,
             'get_doc':self._get_doc,
             'get_ret':self._get_ret,
-            'get_prev_ret': self._get_prev_ret,
-            'get_totals_ret': self._get_totals_ret,
             'get_data_adjustment': self._get_data_adjustment,
             'validation': self._validation,
-            'validation_wh': self._validation_wh,
             'get_data_wh': self._get_data_wh,
             'get_amount_withheld': self._get_amount_withheld,
-            'get_sdcf': self._get_sdcf,
             'get_date_wh': self._get_date_wh,
             'get_v_sdcf': self._get_v_sdcf,
             'get_tax_line': self._get_tax_line,
             'get_total_wh': self._get_total_wh,
             'get_total_iva': self._get_total_iva,
             'get_amount_untaxed_tax': self._get_amount_untaxed_tax,
+            'get_taxes': self._get_taxes,
         })
 
-    def _get_sdcf(self,inv):
-        print 'INV', inv
-        if inv.ai_id.sin_cred:
-            print 'SI SOY, SI TENGO CREDITO'
-            return inv.ai_id.amount_total
-        print 'NO SOY' 
-        return 0.00
+    def _get_book_type(self,form):
+        book_type=None
+        book_type='fiscal.reports.sale'
+        if form['type']=='purchase':
+            book_type='fiscal.reports.purchase'
+        
+        return book_type
+
+    def _get_book_type_wh(self,form):
+        book_type=None
+        book_type='fiscal.reports.whs'
+        if form['type']=='purchase':
+            book_type='fiscal.reports.whp'
+        return book_type
 
     def _validation(self,form):
-        d1=form['date_start']
-        d2=form['date_end']
         type_doc = 'sale'
         if form['type']=='purchase':
             type_doc = 'purchase'
         period_obj=self.pool.get('account.period')
         adjust_obj = self.pool.get('adjustment.book')
-        period_ids = period_obj.search(self.cr,self.uid,[('date_start','<=',d1),('date_stop','>=',d2)])
+        period_ids = period_obj.search(self.cr,self.uid,[('date_start','<=',form['date_start']),('date_stop','>=',form['date_end'])])
         if len(period_ids)<=0:
             return False
         fr_ids = adjust_obj.search(self.cr,self.uid,[('period_id','in',period_ids),('type','=',type_doc)])
         if len(fr_ids)<=0:
             return False
         return True
-
-    def _get_data_adjustment(self,form):
-        print 'entre a data de libro de ajustes ..............'
-        d1=form['date_start']
-        d2=form['date_end']
-        type_doc = 'sale'
         
+    def _get_data_adjustment(self,form):
+
+        type_doc = 'sale'
         if form['type']=='purchase':
             type_doc = 'purchase'
-        
         adjust_obj = self.pool.get('adjustment.book')
         adjust_line_obj = self.pool.get('adjustment.book.line')
         period_obj=self.pool.get('account.period')
         data=[]
         data_line=[]
-        period_ids = period_obj.search(self.cr,self.uid,[('date_start','<=',d1),('date_stop','>=',d2)])
+        period_ids = period_obj.search(self.cr,self.uid,[('date_start','<=',form['date_start']),('date_stop','>=',form['date_end'])])
         
         if len(period_ids)>0:
             fr_ids = adjust_obj.search(self.cr,self.uid,[('period_id', 'in',period_ids),('type','=',type_doc)])
             if len(fr_ids)>0:
                 adj_ids = adjust_line_obj.search(self.cr,self.uid,[('adjustment_id','=',fr_ids[0])],order='date_admin')
-        #Data to review first and add more records to be printed before ordering and send to rml.
                 data = adjust_obj.browse(self.cr,self.uid, fr_ids)
                 data_line = adjust_line_obj.browse(self.cr,self.uid, adj_ids)
         return (data,data_line)
 
     def _get_date_wh(self,form, l):
-        
         if l.ar_date_document> form['date_end']:
             return False
         return True
@@ -135,120 +130,61 @@ class pur_sal_book(report_sxw.rml_parse):
         for tax in l.ai_id.tax_line:
             name=tax.name
             if name.find('SDCF')>=0:
-                #~ print 'SOY SDCF',tax.name
                 amount = tax.base
                 if l.ai_id.type in ['in_refund', 'out_refund']:
                     amount = amount * (-1)
         return (amount)
 
     def _get_tax_line(self,s):
-        #~ print 'ENTRando'
         name = s.name
-        #~ print 'NAME', s.name
         cont = 0
-        
         if name.find('SDCF')>=0:
-            #~ print 'consegui SDCF'
             if cont==0:
                 return 0
-            else:
-                return 111
         else:
             cont = cont + 1
         return s.base_amount
     
-
     def _get_data(self,form):
-        #~ print 'ENTRE AQUI'
-        d1=form['date_start']
-        d2=form['date_end']
         data=[]
-        fr_ids=[]
-        fr_obj=None
+        orden='ai_nro_ctrl'
         
-        if form['type']=='purchase':
-            book_type='fiscal.reports.purchase'
-            orden='ai_date_document'
-        else:
-            book_type='fiscal.reports.sale'
-            orden='ai_nro_ctrl'
-        
+        book_type = self._get_book_type(form)
         fr_obj = self.pool.get(book_type)
         
-        fr_ids = fr_obj.search(self.cr,self.uid,[('ai_date_invoice', '<=', d2), ('ai_date_invoice', '>=', d1)], order=orden)
-        #Data to review first and add more records to be printed before ordering and send to rml.
+        if book_type=='fiscal.reports.purchase':
+            orden='ai_date_document'
+        fr_ids = fr_obj.search(self.cr,self.uid,[('ai_date_invoice', '<=', form['date_end']), ('ai_date_invoice', '>=', form['date_start'])], order=orden)
         
         if len(fr_ids)<=0:
             return False
-        
         data = fr_obj.browse(self.cr,self.uid, fr_ids)
         return data
 
-    def _validation_wh(self,form):
-        print 'ENTRE'
-        if form['type']=='sale':
-            print 'SOY VENTA'
-            return True
-        print 'SOY PURCHASE'
-        return False
-
     def _get_data_wh(self,form):
+        data=[]
         d1=form['date_start']
         d2=form['date_end']
-
-        data=[]
         fr_obj = self.pool.get('fiscal.reports.whs')
-        fr_ids = fr_obj.search(self.cr,self.uid,[('ar_date_ret', '<=', d2), ('ar_date_ret', '>=', d1),('ai_date_inv','<=',d1)], order='ar_date_ret')
-        #Data to review first and add more records to be printed before ordering and send to rml.
+        fr_ids = fr_obj.search(self.cr,self.uid,[('ar_date_ret', '<=', d2), ('ar_date_ret', '>=',d1),('ai_date_inv','<=',d1)], order='ar_date_ret')
         data = fr_obj.browse(self.cr,self.uid, fr_ids)
         return data
 
     def _get_total_wh(self,form):
-        d1=form['date_start']
-        d2=form['date_end']
         total=0
         data=[]
-        if form['type']=='purchase':
-            book_type='fiscal.reports.whp'
-        else:
-            book_type='fiscal.reports.whs'
-            
+        book_type= self._get_book_type_wh(form)
         fr_obj = self.pool.get(book_type)
-        fr_ids = fr_obj.search(self.cr,self.uid,[('ar_date_ret', '<=', d2), ('ar_date_ret', '>=', d1)])
-        #Data to review first and add more records to be printed before ordering and send to rml.
+        
+        fr_ids = fr_obj.search(self.cr,self.uid,[('ar_date_ret', '<=', form['date_end']), ('ar_date_ret', '>=', form['date_start'])])
         data = fr_obj.browse(self.cr,self.uid, fr_ids)
+        
         for wh in data:
             if wh.ai_id.type in ['in_refund', 'out_refund']:
                 total+= wh.ar_line_id.amount_tax_ret * (-1)
             else:
                 total+= wh.ar_line_id.amount_tax_ret
         return total
-
-
-
-    def _get_prev_ret(self,form):
-        '''
-            Point 3: method to locate withholding outsite period but that need 
-            be declared on this one. 
-        '''
-        d1=form['date_start']
-        d2=form['date_end']
-        if form['type']=='purchase':
-            book_type='fiscal.reports.whp'
-            _type='fiscal.reports.purchase'
-        else:
-            book_type='fiscal.reports.whs'
-            _type='fiscal.reports.sale'
-        data=[]
-        ret_obj = self.pool.get(book_type)
-        fr_obj = self.pool.get(_type)
-        ret_ids = fr_obj.search(self.cr,self.uid,[('ar_date_ret', '<=', d2), ('ar_date_ret', '>=', d1)])
-        fr_ids = fr_obj.search(self.cr,self.uid,[('ar_date_ret', '<=', d2), ('ar_date_ret', '>=', d1)])
-        #Data to review first and add more records to be printed before ordering and send to rml.
-        
-        data = fr_obj.browse(self.cr,self.uid, fr_ids)
-        return data
-
 
     def _get_ret(self,form,ret_id=None):
         '''
@@ -274,37 +210,6 @@ class pur_sal_book(report_sxw.rml_parse):
                 return False
         else:
             return False
-
-
-    def _get_amount_wh(self,form):
-        total=0.00
-        data_wh = self._get_data_wh(form)
-        if data_wh:
-            for wh in data_wh:
-                total+= self._get_amount_withheld(wh.ar_line_id.id)
-        return total
-
-    def _get_totals_ret(self,form):
-        d1=form['date_start']
-        d2=form['date_end']
-        total=0.00
-        
-        if form['type']=='purchase':
-            book_type='fiscal.reports.purchase'
-        else:
-            total+=self._get_amount_wh(form)
-            book_type='fiscal.reports.sale'
-        data=[]
-        fr_obj = self.pool.get(book_type)
-        fr_ids = fr_obj.search(self.cr,self.uid,[('ai_date_invoice', '<=', d2), ('ai_date_invoice', '>=', d1)], order='ai_nro_ctrl')
-        #Data to review first and add more records to be printed before ordering and send to rml.
-        data = fr_obj.browse(self.cr,self.uid, fr_ids)
-        
-        for d in data:
-            if self._get_ret(form,d.ar_id.id):
-                total+=d.ar_id.total_tax_ret
-        
-        return total
 
     def _get_amount_withheld(self,wh_line_id):
         wh_obj = self.pool.get('account.retention.line')
@@ -376,15 +281,12 @@ class pur_sal_book(report_sxw.rml_parse):
         res[0] = months[time.strptime(form['date_start'],"%Y-%m-%d")[1]-1]
         res[1] = time.strptime(form['date_start'],"%Y-%m-%d")[0]
         return res
-    
+
     def _get_total_iva(self,form):
         '''
         Return Amount Total of each invoice at Withholding Vat
         '''
-        book_type='fiscal.reports.sale'
-        
-        if form['type']=='purchase':
-            book_type='fiscal.reports.purchase'
+        book_type= self._get_book_type(form)
         
         sql =   ''' select sum(ai_amount_total) as total 
                     from %s 
@@ -394,14 +296,6 @@ class pur_sal_book(report_sxw.rml_parse):
         
         res = self.cr.dictfetchone()
         return res['total']
-
-    def _get_book_type(self,form):
-        book_type=None
-        book_type='fiscal.reports.sale'
-        if form['type']=='purchase':
-            book_type='fiscal.reports.purchase'
-        
-        return book_type
 
     def _get_amount_untaxed_tax(self,form,percent,nationality=''):
         '''
@@ -446,127 +340,26 @@ class pur_sal_book(report_sxw.rml_parse):
             amount_untaxed= tax.base
             amount_tax= tax.amount
         return [amount_untaxed,amount_tax]
-    
 
-    def _get_totals(self,form):
-        '''
-        Get Totals
-        Total:
-            [0],[1],[2] Absolute totals
-            [3],[4] Invoice without right to fiscal declaration.
-            [5],[6] National Invoices
-            [7],[8] International Invoices
-            [9] Total Alicuota General Nacional
-            [10] Total Alicuota Reducida Nacional
-            [11] Total Alicuota Exenta Nacional,    [12] Total Alicuota Lujo Nacional
-            [13] Total Alicuota General InNacional, [14] Total Alicuota Reducida InNacional
-            [15] Total Alicuota Exenta InNacional,  [16] Total Alicuota Lujo InNacional
-            [17] Total Tax Nacionales,              [18] Total Base Imponible Nacionales
-            [19] Total Tax Internacionales,         [20] Total Base Imponible Internacionales
-        '''
-        wh_list=None
-        d1=form['date_start']
-        d2=form['date_end']
-        if form['type']=='purchase':
-            book_type='fiscal.reports.purchase'
-        else:
-            wh_list = self._get_data_wh(form)
-            book_type='fiscal.reports.sale'
-            
-        fr_obj = self.pool.get(book_type)
-        user_obj = self.pool.get('res.users')
-        user_ids = user_obj.search(self.cr,self.uid,[('id', '=', self.uid)])
-        fr_ids = fr_obj.search(self.cr,self.uid,[('ai_date_invoice', '<=', d2), ('ai_date_invoice', '>=', d1)])
+    def _get_taxes(self,l):
         
-        user=user_obj.browse(self.cr,self.uid, [self.uid])
+        tax_obj = self.pool.get('account.invoice.tax')
+        tax_ids = tax_obj.search(self.cr,self.uid,[('invoice_id', '=', l.ai_id.id)])
         
-        total=[0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0]
+        tam = len(tax_ids)
+        data = tax_obj.browse(self.cr,self.uid, tax_ids)
+        
+        for tax in data:
+            if 'SDCF' in tax.name and tam>=2:
+                tax_ids.remove(tax.id)
+        
+        data = tax_obj.browse(self.cr,self.uid, tax_ids)
+        
+        if len(data)<=0:
+            return False
+        return data
 
-        for d in fr_obj.browse(self.cr,self.uid, fr_ids):
-            
-            #Sum for Invoice in period
-            total[1]+=d.ai_amount_untaxed
-            total[2]+=d.ai_amount_tax
-            if d.ai_id.sin_cred:
-                #Sum for Invoice without right to fiscal declaration.
-                total[3]+=d.ai_amount_untaxed
-                total[4]+=d.ai_amount_tax
-            else:
-                if self._get_p_country(user[0].company_id.partner_id.id)==self._get_p_country(d.ai_id.partner_id.id):
-                    #National Invoices
-                    total[5]+=d.ai_amount_untaxed
-                    total[6]+=d.ai_amount_tax
-                else:
-                    #International Invoices
-                    total[7]+=d.ai_amount_untaxed
-                    total[8]+=d.ai_amount_tax
 
-            for tax in d.ai_id.tax_line:
-                if self._get_p_country(user[0].company_id.partner_id.id)==self._get_p_country(d.ai_id.partner_id.id):
-                    if '12%' in tax.name:
-                        total[9]+=(tax.tax_amount/tax.base_amount)*100.0
-                    if '8%' in tax.name:
-                        total[10]+=(tax.tax_amount/tax.base_amount)*100.0
-                    if '0%' in tax.name:
-                        total[11]+=(tax.tax_amount/tax.base_amount)*100.0
-                    if '22%' in tax.name:
-                        total[12]+=(tax.tax_amount/tax.base_amount)*100.0
-                else:
-                    if '12%' in tax.name:
-                        total[13]+=(tax.tax_amount/tax.base_amount)*100.0
-                    if '8%' in tax.name:
-                        total[14]+=(tax.tax_amount/tax.base_amount)*100.0
-                    if '0%' in tax.name:
-                        total[15]+=(tax.tax_amount/tax.base_amount)*100.0
-                    if '22%' in tax.name:
-                        total[16]+=(tax.tax_amount/tax.base_amount)*100.0
-        
-        if wh_list:
-            for wh in wh_list:
-                #Sum for Invoice in period
-                total[1]+=wh.ai_amount_untaxed
-                total[2]+=wh.ai_amount_tax
-                if wh.ai_id.sin_cred:
-                    #Sum for Invoice without right to fiscal declaration.
-                    total[3]+=wh.ai_amount_untaxed
-                    total[4]+=wh.ai_amount_tax
-                else:
-                    if self._get_p_country(user[0].company_id.partner_id.id)==self._get_p_country(wh.ai_id.partner_id.id):
-                        #National Invoices
-                        total[5]+=wh.ai_amount_untaxed
-                        total[6]+=wh.ai_amount_tax
-                    else:
-                        #International Invoices
-                        total[7]+=wh.ai_amount_untaxed
-                        total[8]+=wh.ai_amount_tax
-                for tax in wh.ai_id.tax_line:
-                    if self._get_p_country(user[0].company_id.partner_id.id)==self._get_p_country(wh.ai_id.partner_id.id):
-                        if '12%' in tax.name:
-                            total[9]+=(tax.tax_amount/tax.base_amount)*100.0
-                        if '8%' in tax.name:
-                            total[10]+=(tax.tax_amount/tax.base_amount)*100.0
-                        if '0%' in tax.name:
-                            total[11]+=(tax.tax_amount/tax.base_amount)*100.0
-                            #~ total[21]+=tax.base_amount
-                        if '22%' in tax.name:
-                            total[12]+=(tax.tax_amount/tax.base_amount)*100.0
-                    else:
-                        if '12%' in tax.name:
-                            total[13]+=(tax.tax_amount/tax.base_amount)*100.0
-                        if '8%' in tax.name:
-                            total[14]+=(tax.tax_amount/tax.base_amount)*100.0
-                        if '0%' in tax.name:
-                            total[15]+=(tax.tax_amount/tax.base_amount)*100.0
-                        if '22%' in tax.name:
-                            total[16]+=(tax.tax_amount/tax.base_amount)*100.0
-        
-        total[17]= total[13]+total[13]+total[16]+total[14]+total[9]+total[9]+total[12]+total[10]
-        total[18]= total[5]+total[5]+total[5]+total[7]+total[7]+total[7]
-        total[19]= total[13]+total[14]+total[16]+total[9]+total[9]+total[12]+total[10]
-        total[20]= total[7]+total[5]+total[5]+total[5]
-        
-        return total
-      
 report_sxw.report_sxw(
     'report.fiscal.reports.purchase.purchase_seniat',
     'fiscal.reports.purchase',

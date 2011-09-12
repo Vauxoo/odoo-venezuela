@@ -82,6 +82,7 @@
     <paraStyle name="TITULO_AJUSTE" fontName="Helvetica" fontSize="10.0" alignment="CENTER"/>
     <paraStyle name="CONTENIDOINT" fontName="Helvetica" fontSize="6.0" leading="1" alignment="CENTER"/>
     <paraStyle name="CONTENIDOLEFT" fontName="Helvetica" fontSize="6.0" leading="6" alignment="LEFT"/>
+    <paraStyle name="OBSERVACIONES" fontName="Helvetica" fontSize="9.0"  alignment="LEFT"/>
     <paraStyle name="HEADERDOC" fontName="Helvetica-bold" fontSize="8.0" leading="8" alignment="JUSTIFY"/>
     <paraStyle name="HEADER" fontName="Helvetica-bold" fontSize="6.0" leading="6" alignment="CENTER"/>
     <paraStyle name="CONTENIDOLEFT_BOLD" fontName="Helvetica-bold" fontSize="6.0" leading="6" alignment="LEFT"/>
@@ -189,17 +190,17 @@
         <blockTable colWidths="1.0,33.0,37.0,192.0,47.0,38.0,38.0,15.0,38.0,34.0,114.0,114.0,44.0,50.0" style="CONTENIDOTABLE_LINES" repeatRows="2">        
         [[(data['form']['type'] == 'purchase') and setTag('blockTable','blockTable',{'colWidths':"33.0,33.0,37.0,160.0,47.0,38.0,38.0,15.0,38.0,34.0,114.0,114.0,44.0,50.0",'style':'CONTENIDOTABLE_LINES_PUR', 'repeatRows':'2'}) or '']]
         <tr>
-            <para>[[ validation_wh(data['form']) and '.' or removeParentNode('blockTable') ]]</para>
+            <para>[[ (data['form']['type'] == 'sale') and '.' or removeParentNode('blockTable') ]]</para>
             [[ setLang(company.partner_id.lang) ]]
             <td><para style="CONTENIDO">[[ (data['form']['type'] == 'purchase') and wh.ai_id.date_document or '' ]]</para></td>
             <td><para style="CONTENIDO">[[ time.strftime('%d/%m/%Y', time.strptime(wh.ar_date_ret, '%Y-%m-%d'))]]</para></td>
             <td><para style="CONTENIDO">[[ get_rif(wh.rp_vat) ]]</para></td>
             <td><para style="CONTENIDOLEFT">[[ wh.rp_id.name ]]</para></td>
-            <td><para style="CONTENIDO"></para></td>
-            <td><para style="CONTENIDO"></para></td>
+            <td><para style="CONTENIDO">----</para></td>
+            <td><para style="CONTENIDO">----</para></td>
             <td><para style="CONTENIDO">0.00</para></td>
-            <td><para style="CONTENIDO"></para></td>
-            <td><para style="CONTENIDO"></para></td>
+            <td><para style="CONTENIDO">-</para></td>
+            <td><para style="CONTENIDO">----</para></td>
             <td><para style="CONTENIDO">0.00</para></td>
             <td>
                 <blockTable colWidths="40.0,30.0,40.0" style="INTERNALTABLE">
@@ -245,7 +246,7 @@
             <td><para style="CONTENIDO">[[ formatLang(get_v_sdcf(l)) ]]</para></td>
             <td>  
                 <section>
-                    [[ repeatIn( l.ai_id.tax_line,'s' ) ]]
+                    <para>[[ repeatIn(get_taxes(l) and get_taxes(l) or [0.0],'s')]]</para> 
                     <blockTable colWidths="40.0,30.0,40.0" style="INTERNALTABLE">
                         <tr>
                             <td><para style="CONTENIDOINT">[[ formatLang((get_p_country(company.partner_id.id) == get_p_country(s.invoice_id.partner_id.id)) and get_tax_line(s) or 0.0) ]]</para></td>
@@ -257,11 +258,11 @@
             </td>
             <td>
             <section>
-            [[ repeatIn( l.ai_id.tax_line,'t' ) ]]
+            <para>[[ repeatIn(get_taxes(l) and get_taxes(l) or [0.0],'t')]]</para> 
                 <blockTable colWidths="40.0,30.0,40.0" style="INTERNALTABLE">
                     <tr>
-                        <td><para style="CONTENIDOINT">[[ formatLang((get_p_country(company.partner_id.id) != get_p_country(t.invoice_id.partner_id.id)) and get_tax_line(s) or 0.0) ]]</para></td>
-                        <td><para style="CONTENIDOINT">[[ formatLang((get_p_country(company.partner_id.id) != get_p_country(t.invoice_id.partner_id.id)) and s.tax_amount/(s.base_amount and s.base_amount or 1)*100.0 or 0.0) ]]</para></td>
+                        <td><para style="CONTENIDOINT">[[ formatLang((get_p_country(company.partner_id.id) != get_p_country(t.invoice_id.partner_id.id)) and get_tax_line(t) or 0.0) ]]</para></td>
+                        <td><para style="CONTENIDOINT">[[ formatLang((get_p_country(company.partner_id.id) != get_p_country(t.invoice_id.partner_id.id)) and t.tax_amount/(t.base_amount and t.base_amount or 1)*100.0 or 0.0) ]]</para></td>
                         <td><para style="CONTENIDOINT">[[ formatLang((get_p_country(company.partner_id.id) != get_p_country(t.invoice_id.partner_id.id)) and t.tax_amount or 0.0) ]]</para></td>
                     </tr>
                 </blockTable>
@@ -341,17 +342,17 @@
             <tr>
                 <td><para style="CONTENIDOLEFT">[[data['form']['type'] == 'purchase' and 'IMPORTACION GRAVADAS POR ALICUOTA GENERAL' or removeParentNode('tr')]]</para></td>
                 <td><para style="CONTENIDO">[[formatLang(get_amount_untaxed_tax(data['form'],'12')[0])]]</para></td>
-                <td><para style="CONTENIDO"></para></td>
+                <td><para style="CONTENIDO">[[formatLang(get_amount_untaxed_tax(data['form'],'12')[1])]]</para></td>
             </tr>
             <tr>
                 <td><para style="CONTENIDOLEFT">[[data['form']['type'] == 'purchase' and 'IMPORTACIONES GRAVADAS POR ALICUOTA GENERAL MAS ALICUOTA ADICIONAL' or removeParentNode('tr')]]</para></td>
                 <td><para style="CONTENIDO">[[formatLang(get_amount_untaxed_tax(data['form'],'12')[0]+get_amount_untaxed_tax(data['form'],'22')[0])]]</para></td>
-                <td><para style="CONTENIDO"></para></td>
+                <td><para style="CONTENIDO">[[formatLang(get_amount_untaxed_tax(data['form'],'12')[1]+get_amount_untaxed_tax(data['form'],'22')[1])]]</para></td>
             </tr>
             <tr>
                 <td><para style="CONTENIDOLEFT">[[data['form']['type'] == 'purchase' and 'IMPORTACIONES GRAVADAS POR ALICUOTA REDUCIDA' or removeParentNode('tr')]]</para></td>
                 <td><para style="CONTENIDO">[[formatLang(get_amount_untaxed_tax(data['form'],'8')[0])]]</para></td>
-                <td><para style="CONTENIDO"></para></td>
+                <td><para style="CONTENIDO">[[formatLang(get_amount_untaxed_tax(data['form'],'8')[1])]]</para></td>
             </tr>
             <tr>
                 <td><para style="CONTENIDOLEFT">[[data['form']['type'] == 'sale' and 'VENTAS DE EXPORTACION' or removeParentNode('tr')]]</para></td>
@@ -361,22 +362,42 @@
             <tr>
                 <td><para style="CONTENIDOLEFT">[[data['form']['type'] == 'purchase' and 'COMPRAS GRAVADAS POR ALICUOTA GENERAL' or 'VENTAS INTERNAS GRAVADAS POR ALICUOTA GENERAL']]</para></td>
                 <td><para style="CONTENIDO">[[formatLang(get_amount_untaxed_tax(data['form'],'12','nacional')[0])]]</para></td>
-                <td><para style="CONTENIDO"></para></td>
+                <td><para style="CONTENIDO">[[formatLang(get_amount_untaxed_tax(data['form'],'12','nacional')[1])]]</para></td>
             </tr>
             <tr>
                 <td><para style="CONTENIDOLEFT">[[data['form']['type'] == 'purchase' and 'COMPRAS INTERNAS GRAVADAS POR ALICUOTA GENERAL MAS ALICUOTA ADICIONAL' or 'VENTAS INTERNAS GRAVADAS POR ALICUOTA GENERAL MAS ALICUOTA ADICIONAL']]</para></td>
                 <td><para style="CONTENIDO">[[formatLang(get_amount_untaxed_tax(data['form'],'12','nacional')[0]+get_amount_untaxed_tax(data['form'],'22','nacional')[0])]]</para></td>
-                <td><para style="CONTENIDO"></para></td>
+                <td><para style="CONTENIDO">[[formatLang(get_amount_untaxed_tax(data['form'],'12','nacional')[1]+get_amount_untaxed_tax(data['form'],'22','nacional')[1])]]</para></td>
             </tr>
             <tr>
                 <td><para style="CONTENIDOLEFT">[[data['form']['type'] == 'purchase' and 'COMPRAS INTERNAS GRAVADAS POR ALICUOTA REDUCIDA' or 'VENTAS INTERNAS GRAVADAS POR ALICUOTA REDUCIDA']]</para></td>
                 <td><para style="CONTENIDO">[[formatLang(get_amount_untaxed_tax(data['form'],'8','nacional')[0])]]</para></td>
-                <td><para style="CONTENIDO"></para></td>
+                <td><para style="CONTENIDO">[[formatLang(get_amount_untaxed_tax(data['form'],'8','nacional')[1])]]</para></td>
             </tr>
             <tr>
                 <td><para style="CONTENIDOLEFT_BOLD">[[data['form']['type'] == 'purchase' and 'TOTAL COMPRAS Y CREDITOS FISCALES DEL PERIODO' or 'TOTAL VENTAS Y DEBITOS FISCAL PARA EFECTOS DE DETERMINACION']]</para></td>
-                <td><para style="CONTENIDO"></para></td>
-                <td><para style="CONTENIDO"></para></td>
+                <td><para style="CONTENIDO">
+[[ formatLang(get_amount_untaxed_tax(data['form'],'SDCF','nacional')[0]+
+get_amount_untaxed_tax(data['form'],'EXONERADO','nacional')[0]+
+get_amount_untaxed_tax(data['form'],'SDCF')[0]+
+get_amount_untaxed_tax(data['form'],'EXONERADO')[0]+
+get_amount_untaxed_tax(data['form'],'12')[0]*2+
+get_amount_untaxed_tax(data['form'],'22')[0]+
+get_amount_untaxed_tax(data['form'],'8')[0]+
+get_amount_untaxed_tax(data['form'],'12','nacional')[0]*2+
+get_amount_untaxed_tax(data['form'],'22','nacional')[0]+
+get_amount_untaxed_tax(data['form'],'8','nacional')[0])]]
+                </para></td>
+                <td><para style="CONTENIDO">
+[[formatLang(
+get_amount_untaxed_tax(data['form'],'12')[1]*2+
+get_amount_untaxed_tax(data['form'],'22')[1]+
+get_amount_untaxed_tax(data['form'],'8')[1]+
+get_amount_untaxed_tax(data['form'],'12','nacional')[1]*2+
+get_amount_untaxed_tax(data['form'],'22','nacional')[1]+
+get_amount_untaxed_tax(data['form'],'8','nacional')[1]
+)]]
+                </para></td>
             </tr>
         </blockTable>
     </section>
@@ -385,14 +406,16 @@
           <!-- ************ AJUSTMENT BOOK ************-->
           <!-- ****************************************-->
     <section>
-        <para>[[ validation(data['form']) and '.' or removeParentNode('blockTable')]]</para>
-        <blockTable colWidths="795.0" style="HEADERTABLE_AD">
-            <tr><td><para></para></td></tr>
-            <tr><td><para></para></td></tr>
-            <tr><td><para style="TITULO_AJUSTE">LIBRO DE AJUSTES</para></td></tr>
-            <tr><td><para></para></td></tr>
-        </blockTable>
+    <blockTable colWidths="795.0" style="HEADERTABLE_AD">
+        <tr><td><para></para></td></tr>
+        <tr><td><para></para></td></tr>
+        <tr> 
+            <para>[[ validation(data['form']) and '.' or removeParentNode('blockTable')]]</para>
+            <td><para style="TITULO_AJUSTE">LIBRO DE AJUSTES</para></td></tr>
+        <tr><td><para></para></td></tr>
+    </blockTable>
     </section>
+
 
     <section>
         <blockTable colWidths="1.0,33.0,37.0,192.0,47.0,38.0,38.0,15.0,38.0,34.0,114.0,114.0,44.0,50.0" style="CONTENIDOTABLE" repeatRows="2">
@@ -423,6 +446,7 @@
         <blockTable colWidths="1.0,33.0,37.0,192.0,47.0,38.0,38.0,15.0,38.0,34.0,114.0,114.0,44.0,50.0" style="CONTENIDOTABLE_TITULOS" repeatRows="2">        
         [[(data['form']['type'] == 'purchase') and setTag('blockTable','blockTable',{'colWidths':"33.0,33.0,37.0,160.0,47.0,38.0,38.0,15.0,38.0,34.0,114.0,114.0,44.0,50.0",'style':'CONTENIDOTABLE_TITULOS_PUR', 'repeatRows':'2'}) or '']]
             <tr>
+                <para>[[ validation(data['form']) and '.' or removeParentNode('blockTable')]]</para>
                 <td><para style="HEADER">[[ (data['form']['type'] == 'purchase') and 'Fecha Adm.' or '' ]]</para></td>
                 <td><para style="HEADER">Fecha Cont.</para></td>
                 <td><para style="HEADER">RIF</para></td>
@@ -458,51 +482,89 @@
     </section>
 
     <section>
-        <para>[[ repeatIn(validation(data['form']) and get_data_adjustment(data['form'])[1] or [],'a')]]</para>  
-        <blockTable colWidths="1.0,33.0,37.0,192.0,47.0,38.0,38.0,15.0,38.0,34.0,114.0,114.0,44.0,50.0" style="CONTENIDOTABLE_LINES" repeatRows="2">        
-        [[(data['form']['type'] == 'purchase') and setTag('blockTable','blockTable',{'colWidths':"33.0,33.0,37.0,160.0,47.0,38.0,38.0,15.0,38.0,34.0,114.0,114.0,44.0,50.0",'style':'CONTENIDOTABLE_LINES_PUR', 'repeatRows':'2'}) or '']]
-        <tr>
-            [[ setLang(l.ai_id.company_id.partner_id.lang) ]]
-            <td><para style="CONTENIDO">[[ data['form']['type'] == 'purchase' and ( a.date_admin and formatLang(a.date_admin, date=True) or '') or '' ]]</para></td>
-            <td><para style="CONTENIDO">[[ time.strftime('%d/%m/%Y', time.strptime(a.date_accounting, '%Y-%m-%d'))]]</para></td>
-            <td><para style="CONTENIDO">[[ a.vat ]]</para></td>
-            <td><para style="CONTENIDOLEFT">[[ a.partner ]]</para></td>
-            <td><para style="CONTENIDO">[[ a.invoice_number ]]</para></td>
-            <td><para style="CONTENIDO">[[ a.control_number ]]</para></td>
-            <td><para style="CONTENIDO">[[ formatLang(a.amount) ]]</para></td>
-            <td><para style="CONTENIDO">[[ a.type_doc ]]</para></td>
-            <td><para style="CONTENIDO">[[ a.doc_affected ]]</para></td>
-            <td><para style="CONTENIDO">[[ a.uncredit_fiscal ]]</para></td>
-            <td>
-                <blockTable colWidths="40.0,30.0,40.0" style="INTERNALTABLE">
-                    <tr>
-                        <td><para style="CONTENIDOINT">[[ formatLang(a.amount_untaxed_n) ]]</para></td>
-                        <td><para style="CONTENIDOINT">[[ formatLang(a.percent_with_vat_n) ]]</para></td>
-                        <td><para style="CONTENIDOINT">[[ formatLang(a.amount_with_vat_n) ]]</para></td>
-                    </tr>
-                </blockTable>
-            </td>
-            <td>
-                <blockTable colWidths="40.0,30.0,40.0" style="INTERNALTABLE">
-                    <tr>
-                        <td><para style="CONTENIDOINT">[[ formatLang(a.amount_untaxed_i) ]]</para></td>
-                        <td><para style="CONTENIDOINT">[[ formatLang(a.percent_with_vat_i) ]]</para></td>
-                        <td><para style="CONTENIDOINT">[[ formatLang(a.amount_with_vat_i) ]]</para></td>
-                    </tr>
-                </blockTable>
-            </td>
-            <td><para style="CONTENIDO">[[ formatLang(a.amount_with_vat) ]]</para></td>
-            <td><para style="CONTENIDO">[[ a.voucher ]]</para></td>
-        </tr>
-        </blockTable>
+    <para>[[ repeatIn(validation(data['form']) and get_data_adjustment(data['form'])[1] or [],'a')]]</para>  
+    <blockTable colWidths="1.0,33.0,37.0,192.0,47.0,38.0,38.0,15.0,38.0,34.0,114.0,114.0,44.0,50.0" style="CONTENIDOTABLE_LINES" repeatRows="2">        
+    [[(data['form']['type'] == 'purchase') and setTag('blockTable','blockTable',{'colWidths':"33.0,33.0,37.0,160.0,47.0,38.0,38.0,15.0,38.0,34.0,114.0,114.0,44.0,50.0",'style':'CONTENIDOTABLE_LINES_PUR', 'repeatRows':'2'}) or '']]
+    <tr>
+        <para>[[ validation(data['form']) and '.' or removeParentNode('blockTable')]]</para>
+        [[ setLang(l.ai_id.company_id.partner_id.lang) ]]
+        <td><para style="CONTENIDO">[[ data['form']['type'] == 'purchase' and ( a.date_admin and formatLang(a.date_admin, date=True) or '') or '' ]]</para></td>
+        <td><para style="CONTENIDO">[[ time.strftime('%d/%m/%Y', time.strptime(a.date_accounting, '%Y-%m-%d'))]]</para></td>
+        <td><para style="CONTENIDO">[[ a.vat ]]</para></td>
+        <td><para style="CONTENIDOLEFT">[[ a.partner ]]</para></td>
+        <td><para style="CONTENIDO">[[ a.invoice_number ]]</para></td>
+        <td><para style="CONTENIDO">[[ a.control_number ]]</para></td>
+        <td><para style="CONTENIDO">[[ formatLang(a.amount) ]]</para></td>
+        <td><para style="CONTENIDO">[[ a.type_doc ]]</para></td>
+        <td><para style="CONTENIDO">[[ a.doc_affected ]]</para></td>
+        <td><para style="CONTENIDO">[[ a.uncredit_fiscal ]]</para></td>
+        <td>
+            <blockTable colWidths="40.0,30.0,40.0" style="INTERNALTABLE">
+                <tr>
+                    <td><para style="CONTENIDOINT">[[ formatLang(a.amount_untaxed_n) ]]</para></td>
+                    <td><para style="CONTENIDOINT">[[ formatLang(a.percent_with_vat_n) ]]</para></td>
+                    <td><para style="CONTENIDOINT">[[ formatLang(a.amount_with_vat_n) ]]</para></td>
+                </tr>
+            </blockTable>
+        </td>
+        <td>
+            <blockTable colWidths="40.0,30.0,40.0" style="INTERNALTABLE">
+                <tr>
+                    <td><para style="CONTENIDOINT">[[ formatLang(a.amount_untaxed_i) ]]</para></td>
+                    <td><para style="CONTENIDOINT">[[ formatLang(a.percent_with_vat_i) ]]</para></td>
+                    <td><para style="CONTENIDOINT">[[ formatLang(a.amount_with_vat_i) ]]</para></td>
+                </tr>
+            </blockTable>
+        </td>
+        <td><para style="CONTENIDO">[[ formatLang(a.amount_with_vat) ]]</para></td>
+        <td><para style="CONTENIDO">[[ a.voucher ]]</para></td>
+    </tr>
+    </blockTable>
     </section>
 
+    <section>
+        <para>[[repeatIn( get_data_adjustment( data['form'] )[0],'al')]]</para> 
+        <blockTable colWidths="1.0,33.0,37.0,192.0,47.0,38.0,38.0,15.0,38.0,34.0,114.0,114.0,44.0,50.0" style="CONTENIDOTABLE_LINES" repeatRows="2">
+        [[(data['form']['type'] == 'purchase') and setTag('blockTable','blockTable',{'colWidths':"33.0,33.0,37.0,160.0,47.0,38.0,38.0,15.0,38.0,34.0,114.0,114.0,44.0,50.0",'style':'CONTENIDOTABLE_LINES_PUR', 'repeatRows':'2'}) or '']]
+            <tr>
+                <para>
+                [[ validation(data['form']) and '.' or removeParentNode('blockTable')]]</para>
+                [[ setLang(company.partner_id.lang) ]]
+                <td></td><td></td><td></td>
+                <td></td><td></td><td></td>
+                <td><para style="CONTENIDOINT">[[ formatLang(al.amount_total) ]]</para></td>
+                <td></td><td></td>
+                <td><para style="CONTENIDOINT">[[ formatLang(al.uncredit_fiscal_total) ]]</para></td>
+                <td>
+                    <blockTable colWidths="40.0,30.0,40.0" style="INTERNALTABLE">
+                        <tr>
+                            <td><para style="CONTENIDOINT">[[ formatLang(al.amount_untaxed_n_total) ]]</para></td>
+                            <td></td>
+                            <td><para style="CONTENIDOINT">[[ formatLang(al.amount_with_vat_n_total) ]]</para></td>
+                        </tr>
+                    </blockTable>
+                </td>
+                <td>
+                    <blockTable colWidths="40.0,30.0,40.0" style="INTERNALTABLE">
+                        <tr>
+                            <td><para style="CONTENIDOINT">[[ formatLang(al.amount_untaxed_i_total) ]]</para></td>
+                            <td></td>
+                            <td><para style="CONTENIDOINT">[[ formatLang(al.amount_with_vat_i_total) ]]</para></td>
+                        </tr>
+                    </blockTable>
+                </td>
+                <td><para style="CONTENIDO">[[ formatLang(al.amount_with_vat_total) ]]</para></td>
+                <td></td>
+            </tr>
+        </blockTable>
+    </section>
 
     <spacer length='5mm'/>
     <!-- ************ TOTALES ADJUSTMENT BOOK************-->
     <section>
         <blockTable colWidths="280.0,80.0,80.0" style="CONTENIDOTABLE_TITULOS_PUR" repeatRows="2">        
             <tr>
+                <para>[[ validation(data['form']) and '.' or removeParentNode('blockTable')]]</para>
                 <td><para style="HEADER">CREDITOS FISCALES</para></td>
                 <td><para style="HEADER">BASE IMPONIBLE</para></td>
                 <td><para style="HEADER">CREDITO FISCAL</para></td>
@@ -511,7 +573,8 @@
     </section>
     
     <section>
-        <blockTable colWidths="280.0,80.0,80.0" style="CONTENIDOTABLE_LINES_PUR" repeatRows="2">        
+        [[ validation(data['form']) and '.' or removeParentNode('blockTable')]]
+        <blockTable colWidths="280.0,80.0,80.0" style="CONTENIDOTABLE_LINES_PUR" repeatRows="2">
             <tr>
                 <td><para style="CONTENIDOLEFT">[[ data['form']['type'] == 'purchase' and 'COMPRAS NO GRAVADAS Y/O SIN DERECHO A CREDITO FISCAL' or 'DEBITOS FISCALES']]</para></td>
                 <td><para style="CONTENIDO">0.00</para></td>
@@ -566,10 +629,10 @@
         <para>[[ repeatIn(validation(data['form']) and get_data_adjustment(data['form'])[0] or [],'ob')]]</para>  
         <blockTable colWidths="794.0" style="CONTENIDOTABLE_LINES_PUR">
             <tr>
-                <td><para style="CONTENIDOLEFT">[[ob.note and 'OBSERVACIONES:' or removeParentNode('para')]]</para></td>
+                <td><para style="OBSERVACIONES">[[ob.note and 'OBSERVACIONES:' or removeParentNode('para')]]</para></td>
             </tr>
             <tr>
-                <td><para style="CONTENIDOLEFT">[[ ob.note and ob.note or removeParentNode('para') ]]</para></td>
+                <td><para style="OBSERVACIONES">[[ ob.note and ob.note or removeParentNode('para') ]]</para></td>
             </tr>
         </blockTable>
     </section>
