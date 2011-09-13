@@ -1,5 +1,5 @@
 <?xml version="1.0"?>
-<document filename="test.pdf">
+<document filename="test.pdf" invariant="1">
   <template pageSize="(825.0,612.0)" title="Test" author="Martin Simon" allowSplitting="20" showBoundary="0">
     <pageTemplate id="first">
         
@@ -72,6 +72,7 @@
     
     <initialize>
       <paraStyle name="all" alignment="justify"/>
+      <alias id="style.normal" value="style.Normal"/>
     </initialize>
     <paraStyle name="P1" fontName="Helvetica" fontSize="6.0" leading="8" alignment="CENTER"/>
     <paraStyle name="P2" fontName="Helvetica" fontSize="6.0" leading="8" alignment="CENTER"/>
@@ -96,10 +97,19 @@
     <paraStyle name="Index" fontName="Times-Roman"/>
     <paraStyle name="Table Contents" fontName="Times-Roman"/>
     <paraStyle name="Table Heading" fontName="Times-Roman" alignment="CENTER"/>
+    <paraStyle name="h1" fontName="Helvetica-BoldOblique" fontSize="32" leading="36"/>
+    <paraStyle name="normal" fontName="Helvetica" fontSize="10" leading="12"/>
+    <paraStyle name="normal_indent" parent="normal" leftIndent="36"/>
   </stylesheet>
   <images/>
   <story>
-
+    
+<!--
+    <para style="normal"></para>
+    <para style="normal_indent"><seq id="level_1"/></para>
+    <para style="normal_indent"><seq id="level_1"/></para>
+-->
+    
     <blockTable colWidths="350.0,190.0,220.0" style="HEADERTABLE">
       <tr>
         [[ setLang(l.ai_id.company_id.partner_id.lang) ]]
@@ -196,11 +206,11 @@
             <td><para style="CONTENIDO">[[ time.strftime('%d/%m/%Y', time.strptime(wh.ar_date_ret, '%Y-%m-%d'))]]</para></td>
             <td><para style="CONTENIDO">[[ get_rif(wh.rp_vat) ]]</para></td>
             <td><para style="CONTENIDOLEFT">[[ wh.rp_id.name ]]</para></td>
-            <td><para style="CONTENIDO">----</para></td>
-            <td><para style="CONTENIDO">----</para></td>
+            <td><para style="CONTENIDO">-----</para></td>
+            <td><para style="CONTENIDO">-----</para></td>
             <td><para style="CONTENIDO">0.00</para></td>
             <td><para style="CONTENIDO">-</para></td>
-            <td><para style="CONTENIDO">----</para></td>
+            <td><para style="CONTENIDO">-----</para></td>
             <td><para style="CONTENIDO">0.00</para></td>
             <td>
                 <blockTable colWidths="40.0,30.0,40.0" style="INTERNALTABLE">
@@ -236,9 +246,9 @@
             [[ setLang(l.ai_id.company_id.partner_id.lang) ]]
             <td><para style="CONTENIDO">[[ data['form']['type'] == 'purchase' and ( l.ai_id.date_document and formatLang(l.ai_id.date_document, date=True) or '') or '' ]]</para></td>
             <td><para style="CONTENIDO">[[ time.strftime('%d/%m/%Y', time.strptime(l.ai_date_invoice, '%Y-%m-%d')) ]]</para></td>
-            <td><para style="CONTENIDO">[[ ("PAPELANULADO" not in l.ai_id.name) and l.rp_id.vat[2:] or '' ]]</para></td>
+            <td><para style="CONTENIDO">[[ ("PAPELANULADO" not in l.ai_id.name) and l.rp_id.vat[2:] or '-----' ]]</para></td>
             <td><para style="CONTENIDOLEFT">[[ ("PAPELANULADO" not in l.ai_id.name) and l.rp_id.name or 'ANULADO' ]]</para></td>
-            <td><para style="CONTENIDO">[[ ("PAPELANULADO" not in l.ai_id.name) and l.ai_reference or '' ]]</para></td>
+            <td><para style="CONTENIDO">[[ ("PAPELANULADO" not in l.ai_id.name) and l.ai_reference or '-----' ]]</para></td>
             <td><para style="CONTENIDO">[[ l.ai_id.nro_ctrl ]]</para></td>
             <td><para style="CONTENIDO">[[ formatLang((l.ai_id.type in ['in_refund', 'out_refund']) and l.ai_amount_total*(-1) or l.ai_amount_total) ]]</para></td>
             <td><para style="CONTENIDO">[[ get_doc(l.ai_id.id) ]]</para></td>
@@ -346,8 +356,8 @@
             </tr>
             <tr>
                 <td><para style="CONTENIDOLEFT">[[data['form']['type'] == 'purchase' and 'IMPORTACIONES GRAVADAS POR ALICUOTA GENERAL MAS ALICUOTA ADICIONAL' or removeParentNode('tr')]]</para></td>
-                <td><para style="CONTENIDO">[[formatLang(get_amount_untaxed_tax(data['form'],'12')[0]+get_amount_untaxed_tax(data['form'],'22')[0])]]</para></td>
-                <td><para style="CONTENIDO">[[formatLang(get_amount_untaxed_tax(data['form'],'12')[1]+get_amount_untaxed_tax(data['form'],'22')[1])]]</para></td>
+                <td><para style="CONTENIDO">[[formatLang(get_amount_untaxed_tax(data['form'],'22')[0])]]</para></td>
+                <td><para style="CONTENIDO">[[formatLang(get_amount_untaxed_tax(data['form'],'22')[1])]]</para></td>
             </tr>
             <tr>
                 <td><para style="CONTENIDOLEFT">[[data['form']['type'] == 'purchase' and 'IMPORTACIONES GRAVADAS POR ALICUOTA REDUCIDA' or removeParentNode('tr')]]</para></td>
@@ -356,8 +366,8 @@
             </tr>
             <tr>
                 <td><para style="CONTENIDOLEFT">[[data['form']['type'] == 'sale' and 'VENTAS DE EXPORTACION' or removeParentNode('tr')]]</para></td>
-                <td><para style="CONTENIDO"></para></td>
-                <td><para style="CONTENIDO"></para></td>
+                <td><para style="CONTENIDO">0.0</para></td>
+                <td><para style="CONTENIDO">0.0</para></td>
             </tr>
             <tr>
                 <td><para style="CONTENIDOLEFT">[[data['form']['type'] == 'purchase' and 'COMPRAS GRAVADAS POR ALICUOTA GENERAL' or 'VENTAS INTERNAS GRAVADAS POR ALICUOTA GENERAL']]</para></td>
@@ -366,8 +376,8 @@
             </tr>
             <tr>
                 <td><para style="CONTENIDOLEFT">[[data['form']['type'] == 'purchase' and 'COMPRAS INTERNAS GRAVADAS POR ALICUOTA GENERAL MAS ALICUOTA ADICIONAL' or 'VENTAS INTERNAS GRAVADAS POR ALICUOTA GENERAL MAS ALICUOTA ADICIONAL']]</para></td>
-                <td><para style="CONTENIDO">[[formatLang(get_amount_untaxed_tax(data['form'],'12','nacional')[0]+get_amount_untaxed_tax(data['form'],'22','nacional')[0])]]</para></td>
-                <td><para style="CONTENIDO">[[formatLang(get_amount_untaxed_tax(data['form'],'12','nacional')[1]+get_amount_untaxed_tax(data['form'],'22','nacional')[1])]]</para></td>
+                <td><para style="CONTENIDO">[[formatLang(get_amount_untaxed_tax(data['form'],'22','nacional')[0])]]</para></td>
+                <td><para style="CONTENIDO">[[formatLang(get_amount_untaxed_tax(data['form'],'22','nacional')[1])]]</para></td>
             </tr>
             <tr>
                 <td><para style="CONTENIDOLEFT">[[data['form']['type'] == 'purchase' and 'COMPRAS INTERNAS GRAVADAS POR ALICUOTA REDUCIDA' or 'VENTAS INTERNAS GRAVADAS POR ALICUOTA REDUCIDA']]</para></td>
@@ -381,19 +391,19 @@
 get_amount_untaxed_tax(data['form'],'EXONERADO','nacional')[0]+
 get_amount_untaxed_tax(data['form'],'SDCF')[0]+
 get_amount_untaxed_tax(data['form'],'EXONERADO')[0]+
-get_amount_untaxed_tax(data['form'],'12')[0]*2+
+get_amount_untaxed_tax(data['form'],'12')[0]+
 get_amount_untaxed_tax(data['form'],'22')[0]+
 get_amount_untaxed_tax(data['form'],'8')[0]+
-get_amount_untaxed_tax(data['form'],'12','nacional')[0]*2+
+get_amount_untaxed_tax(data['form'],'12','nacional')[0]+
 get_amount_untaxed_tax(data['form'],'22','nacional')[0]+
 get_amount_untaxed_tax(data['form'],'8','nacional')[0])]]
                 </para></td>
                 <td><para style="CONTENIDO">
 [[formatLang(
-get_amount_untaxed_tax(data['form'],'12')[1]*2+
+get_amount_untaxed_tax(data['form'],'12')[1]+
 get_amount_untaxed_tax(data['form'],'22')[1]+
 get_amount_untaxed_tax(data['form'],'8')[1]+
-get_amount_untaxed_tax(data['form'],'12','nacional')[1]*2+
+get_amount_untaxed_tax(data['form'],'12','nacional')[1]+
 get_amount_untaxed_tax(data['form'],'22','nacional')[1]+
 get_amount_untaxed_tax(data['form'],'8','nacional')[1]
 )]]
