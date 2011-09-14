@@ -59,7 +59,7 @@ class adjustment_book(osv.osv):
             res[adj.id]['amount_base_total'] += adj.vat_general_i+adj.vat_general_add_i+adj.vat_reduced_i+adj.vat_general_n+\
                                      adj.vat_general_add_n+adj.vat_reduced_n+adj.adjustment+adj.no_grav+adj.sale_export
             res[adj.id]['amount_percent_total'] += adj.vat_general_icf+adj.vat_general_add_icf+adj.vat_reduced_icf+adj.vat_general_ncf+\
-                                         adj.vat_general_add_ncf+adj.vat_reduced_ncf+adj.adjustment_cf+adj.no_grav+adj.sale_export_cf
+                                         adj.vat_general_add_ncf+adj.vat_reduced_ncf+adj.adjustment_cf+adj.sale_export_cf
             
         return res
 
@@ -106,68 +106,47 @@ class adjustment_book(osv.osv):
     ]
     
     
-    def action_set_totals(self,cr,uid,ids, *args):
-
-
-
-
-
-        self.write(cr, uid, ids, {'vat_general_i':0.00,
-        'vat_general_add_i':0.00,'vat_reduced_i':0.00,
-        'vat_general_n':0.00,'vat_general_add_n':0.00,
-        'vat_reduced_n':0.00,'sale_export':0.00,
-        })
-        
-        total={'amount_untaxed_n':0.0,'amount_untaxed_n_scdf':0.0,
-               'amount_untaxed_i':0.0,'amount_untaxed_i_scdf':0.0,
-               'vat_general_ncf':0.0,'vat_general_ncf':0.0,
-               'vat_add_ncf':0.0}
-
-        for adj in self.browse(cr, uid, ids):
-            
-            
-            
-            if adj.type=='purchase':
-                self.write(cr, uid, ids, {'vat_general_i':adj.amount_untaxed_i_total,
-                'vat_general_add_i':adj.amount_untaxed_i_total,
-                'vat_reduced_i':adj.amount_untaxed_i_total,})
-            else:
-                self.write(cr, uid, ids, {'sale_export':adj.amount_untaxed_n_total,})
-            
-            self.write(cr, uid, ids, {'vat_general_n':adj.amount_untaxed_n_total,
-            'vat_general_add_n':adj.amount_untaxed_n_total,
-            'vat_reduced_n':adj.amount_untaxed_n_total,
-            })
-            
-            for line in adj.adjustment_ids:
-                
-                if 0==line.percent_with_vat_n:
-                    total['amount_untaxed_n_scdf']+=line.amount_untaxed_n
-                    total['amount_untaxed_i_scdf']+=line.amount_untaxed_i
-                else:
-                    total['amount_untaxed_n']+=line.amount_untaxed_n
-                    total['amount_untaxed_i']+=line.amount_untaxed_i
-                
-                
-                
-                
-                
-                
-                if 12 == line.percent_with_vat_n:
-                    total['vat_general_ncf']+=12.0
-                if 8 == line.percent_with_vat_n:
-                    total['vat_reduced_ncf']+=8.0
-                if 22 == line.percent_with_vat_n:
-                    total['vat_additional_ncf']+=22.0
-                    
-            self.write(cr, uid, ids, {'vat_general_ncf':total['vat_general_ncf'],
-            'vat_general_add_ncf':total['vat_general_ncf']+total['vat_add_ncf'],
-            'vat_reduced_n':total['vat_reduced_n'],
-            })
-            
-            
-            
-        return True
+    #~ def action_set_totals(self,cr,uid,ids, *args):
+        #~ self.write(cr, uid, ids, {'vat_general_i':0.00,
+        #~ 'vat_general_add_i':0.00,'vat_reduced_i':0.00,
+        #~ 'vat_general_n':0.00,'vat_general_add_n':0.00,
+        #~ 'vat_reduced_n':0.00,'sale_export':0.00,
+        #~ })
+        #~ total={'amount_untaxed_n':0.0,'amount_untaxed_n_scdf':0.0,
+               #~ 'amount_untaxed_i':0.0,'amount_untaxed_i_scdf':0.0,
+               #~ 'vat_general_ncf':0.0,'vat_general_ncf':0.0,
+               #~ 'vat_add_ncf':0.0}
+#~ 
+        #~ for adj in self.browse(cr, uid, ids):
+            #~ if adj.type=='purchase':
+                #~ self.write(cr, uid, ids, {'vat_general_i':adj.amount_untaxed_i_total,
+                #~ 'vat_general_add_i':adj.amount_untaxed_i_total,
+                #~ 'vat_reduced_i':adj.amount_untaxed_i_total,})
+            #~ else:
+                #~ self.write(cr, uid, ids, {'sale_export':adj.amount_untaxed_n_total,})
+            #~ self.write(cr, uid, ids, {'vat_general_n':adj.amount_untaxed_n_total,
+            #~ 'vat_general_add_n':adj.amount_untaxed_n_total,
+            #~ 'vat_reduced_n':adj.amount_untaxed_n_total,
+            #~ })
+            #~ for line in adj.adjustment_ids:
+                #~ 
+                #~ if 0==line.percent_with_vat_n:
+                    #~ total['amount_untaxed_n_scdf']+=line.amount_untaxed_n
+                    #~ total['amount_untaxed_i_scdf']+=line.amount_untaxed_i
+                #~ else:
+                    #~ total['amount_untaxed_n']+=line.amount_untaxed_n
+                    #~ total['amount_untaxed_i']+=line.amount_untaxed_i
+                #~ if 12 == line.percent_with_vat_n:
+                    #~ total['vat_general_ncf']+=12.0
+                #~ if 8 == line.percent_with_vat_n:
+                    #~ total['vat_reduced_ncf']+=8.0
+                #~ if 22 == line.percent_with_vat_n:
+                    #~ total['vat_additional_ncf']+=22.0
+            #~ self.write(cr, uid, ids, {'vat_general_ncf':total['vat_general_ncf'],
+            #~ 'vat_general_add_ncf':total['vat_general_ncf']+total['vat_add_ncf'],
+            #~ 'vat_reduced_n':total['vat_reduced_n'],
+            #~ })
+        #~ return True
     
     
     

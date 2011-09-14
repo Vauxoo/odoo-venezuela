@@ -132,6 +132,7 @@
           <!-- ****************************************-->
           <!-- ********* SALE, PURCHASE, BOOK *********-->
           <!-- ****************************************-->
+
     <section>
         <blockTable colWidths="1.0,33.0,37.0,192.0,47.0,38.0,38.0,15.0,38.0,34.0,114.0,114.0,44.0,50.0" style="CONTENIDOTABLE" repeatRows="2">
         [[(data['form']['type'] == 'purchase') and setTag('blockTable','blockTable',{'colWidths':"33.0,33.0,37.0,160.0,47.0,38.0,38.0,15.0,38.0,34.0,114.0,114.0,44.0,50.0",'style':'CONTENIDOTABLE', 'repeatRows':'2'}) or '']]
@@ -347,7 +348,7 @@
             <tr>
                 <td><para style="CONTENIDOLEFT">[[data['form']['type'] == 'purchase' and 'COMPRAS NO GRAVADAS Y/O SIN DERECHO A CREDITO FISCAL' or 'DEBITOS FISCALES']]</para></td>
                 <td><para style="CONTENIDO">[[ formatLang(get_amount_untaxed_tax(data['form'],'SDCF','nacional')[0]+get_amount_untaxed_tax(data['form'],'EXONERADO','nacional')[0]+get_amount_untaxed_tax(data['form'],'SDCF')[0]+get_amount_untaxed_tax(data['form'],'EXONERADO')[0]) ]]</para></td>
-                <td><para style="CONTENIDO"></para></td>
+                <td><para style="CONTENIDO">0.0</para></td>
             </tr>
             <tr>
                 <td><para style="CONTENIDOLEFT">[[data['form']['type'] == 'purchase' and 'IMPORTACION GRAVADAS POR ALICUOTA GENERAL' or removeParentNode('tr')]]</para></td>
@@ -412,6 +413,8 @@ get_amount_untaxed_tax(data['form'],'8','nacional')[1]
         </blockTable>
     </section>
 
+
+    <spacer length='35mm'/>
           <!-- ****************************************-->
           <!-- ************ AJUSTMENT BOOK ************-->
           <!-- ****************************************-->
@@ -581,54 +584,54 @@ get_amount_untaxed_tax(data['form'],'8','nacional')[1]
             </tr>
         </blockTable>
     </section>
-    
+
     <section>
-        [[ validation(data['form']) and '.' or removeParentNode('blockTable')]]
+        <para>[[ repeatIn(validation(data['form']) and get_data_adjustment(data['form'])[0] or [],'to')]]</para>
         <blockTable colWidths="280.0,80.0,80.0" style="CONTENIDOTABLE_LINES_PUR" repeatRows="2">
             <tr>
-                <td><para style="CONTENIDOLEFT">[[ data['form']['type'] == 'purchase' and 'COMPRAS NO GRAVADAS Y/O SIN DERECHO A CREDITO FISCAL' or 'DEBITOS FISCALES']]</para></td>
-                <td><para style="CONTENIDO">0.00</para></td>
-                <td><para style="CONTENIDO">0.00</para></td>
-            </tr>
-            <tr>
-                <td><para style="CONTENIDOLEFT">[[data['form']['type'] == 'purchase' and 'IMPORTACION GRAVADAS POR ALICUOTA GENERAL' or 'VENTAS INTERNAS NO GRAVADAS']]</para></td>
-                <td><para style="CONTENIDO">0.00</para></td>
+                <td><para style="CONTENIDOLEFT">[[ data['form']['type'] == 'purchase' and 'COMPRAS NO GRAVADAS Y/O SIN DERECHO A CREDITO FISCAL' or 'VENTAS INTERNAS NO GRAVADAS']]</para></td>
+                <td><para style="CONTENIDO">[[formatLang(to.no_grav)]]</para></td>
                 <td><para style="CONTENIDO">0.00</para></td>
             </tr>
             <tr>
-                <td><para style="CONTENIDOLEFT">[[data['form']['type'] == 'purchase' and 'IMPORTACIONES GRAVADAS POR ALICUOTA GENERAL MAS ALICUOTA ADICIONA' or '']]</para></td>
-                <td><para style="CONTENIDO">0.00</para></td>
-                <td><para style="CONTENIDO">0.00</para></td>
+                <td><para style="CONTENIDOLEFT">[[data['form']['type'] == 'purchase' and 'IMPORTACION GRAVADAS POR ALICUOTA GENERAL' or removeParentNode('tr')]]</para></td>
+                <td><para style="CONTENIDO">[[formatLang(to.vat_general_i)]]</para></td>
+                <td><para style="CONTENIDO">[[formatLang(to.vat_general_icf)]]</para></td>
             </tr>
             <tr>
-                <td><para style="CONTENIDOLEFT">IMPORTACIONES GRAVADAS POR ALICUOTA REDUCIDA</para></td>
-                <td><para style="CONTENIDO">0.00</para></td>
-                <td><para style="CONTENIDO">0.00</para></td>
+                <td><para style="CONTENIDOLEFT">[[data['form']['type'] == 'purchase' and 'IMPORTACIONES GRAVADAS POR ALICUOTA GENERAL MAS ALICUOTA ADICIONAL' or removeParentNode('tr')]]</para></td>
+                <td><para style="CONTENIDO">[[formatLang(to.vat_general_add_i)]]</para></td>
+                <td><para style="CONTENIDO">[[formatLang(to.vat_general_add_icf)]]</para></td>
             </tr>
             <tr>
-                <td><para style="CONTENIDOLEFT">COMPRAS GRAVADAS POR ALICUOTA GENERAL</para></td>
-                <td><para style="CONTENIDO">0.00</para></td>
-                <td><para style="CONTENIDO">0.00</para></td>
+                <td><para style="CONTENIDOLEFT">[[data['form']['type'] == 'purchase' and 'IMPORTACIONES GRAVADAS POR ALICUOTA REDUCIDA' or removeParentNode('tr')]]</para></td>
+                <td><para style="CONTENIDO">[[formatLang(to.vat_reduced_i)]]</para></td>
+                <td><para style="CONTENIDO">[[formatLang(to.vat_reduced_icf)]]</para></td>
             </tr>
             <tr>
-                <td><para style="CONTENIDOLEFT">COMPRAS INTERNAS GRAVADAS POR ALICUOTA GENERAL MAS ALICUOTA ADICIONAL</para></td>
-                <td><para style="CONTENIDO">0.00</para></td>
-                <td><para style="CONTENIDO">0.00</para></td>
+                <td><para style="CONTENIDOLEFT">[[data['form']['type'] == 'purchase' and 'COMPRAS GRAVADAS POR ALICUOTA GENERAL' or 'VENTAS INTERNAS GRAVADAS POR ALICUOTA GENERAL']]</para></td>
+                <td><para style="CONTENIDO">[[formatLang(to.vat_general_n)]]</para></td>
+                <td><para style="CONTENIDO">[[formatLang(to.vat_general_ncf)]]</para></td>
             </tr>
             <tr>
-                <td><para style="CONTENIDOLEFT">COMPRAS INTERNAS GRAVADAS POR ALICUOTA REDUCIDA</para></td>
-                <td><para style="CONTENIDO">0.00</para></td>
-                <td><para style="CONTENIDO">0.00</para></td>
+                <td><para style="CONTENIDOLEFT">[[data['form']['type'] == 'purchase' and 'COMPRAS INTERNAS GRAVADAS POR ALICUOTA GENERAL MAS ALICUOTA ADICIONAL' or 'VENTAS INTERNAS GRAVADAS POR ALICUOTA GENERAL MAS ALICUOTA ADICIONAL']]</para></td>
+                <td><para style="CONTENIDO">[[formatLang(to.vat_general_add_n)]]</para></td>
+                <td><para style="CONTENIDO">[[formatLang(to.vat_general_add_ncf)]]</para></td>
             </tr>
             <tr>
-                <td><para style="CONTENIDOLEFT">AJUSTES A LOS CREDITOS FISCALES DE LOS PERIODOS ANTERIORES</para></td>
-                <td><para style="CONTENIDO">0.00</para></td>
-                <td><para style="CONTENIDO">0.00</para></td>
+                <td><para style="CONTENIDOLEFT">[[data['form']['type'] == 'purchase' and 'COMPRAS INTERNAS GRAVADAS POR ALICUOTA REDUCIDA' or 'VENTAS INTERNAS GRAVADAS POR ALICUOTA REDUCIDA']]</para></td>
+                <td><para style="CONTENIDO">[[formatLang(to.vat_reduced_n)]]</para></td>
+                <td><para style="CONTENIDO">[[formatLang(to.vat_reduced_ncf)]]</para></td>
             </tr>
             <tr>
-                <td><para style="CONTENIDOLEFT">TOTAL COMPRAS Y CREDITOS FISCALES DEL PERIODO</para></td>
-                <td><para style="CONTENIDO">0.00</para></td>
-                <td><para style="CONTENIDO">0.00</para></td>
+                <td><para style="CONTENIDOLEFT">[[data['form']['type'] == 'purchase' and 'AJUSTES A LOS CREDITOS FISCALES DE LOS PERIODOS ANTERIORES' or 'AJUSTES A LOS DEBITOS FISCALES DE LOS PERIODOS ANTERIORES']]</para></td>
+                <td><para style="CONTENIDO">[[formatLang(to.adjustment)]]</para></td>
+                <td><para style="CONTENIDO">[[formatLang(to.adjustment_cf)]]</para></td>
+            </tr>
+            <tr>
+                <td><para style="CONTENIDOLEFT_BOLD">TOTAL COMPRAS Y CREDITOS FISCALES DEL PERIODO</para></td>
+                <td><para style="CONTENIDO">[[formatLang(to.amount_base_total)]]</para></td>
+                <td><para style="CONTENIDO">[[formatLang(to.amount_percent_total)]]</para></td>
             </tr>
         </blockTable>
     </section>

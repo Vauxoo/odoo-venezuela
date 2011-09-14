@@ -171,9 +171,6 @@
                                         <field name="amount_percent_total" colspan="4"/>
                                         </group>
                                     </group>
-                                    <group colspan="2" col="2">
-                                    <button name="action_set_totals" string="Cargar Totales" type="object" icon="gtk-go-forward" colspan="2"/>
-                                    </group>
                                 </page>
                             </notebook>
                         </page>
