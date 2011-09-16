@@ -104,6 +104,7 @@ class adjustment_book(osv.osv):
         ('period_id_type_uniq', 'unique (period_id,type)', 'The period and type combination must be unique!')
     ]
     
+    
 adjustment_book()
 
 
