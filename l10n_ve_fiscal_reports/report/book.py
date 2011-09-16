@@ -186,6 +186,22 @@ class pur_sal_book(report_sxw.rml_parse):
                 total+= wh.ar_line_id.amount_tax_ret
         return total
 
+
+    def _get_wh_atual(self,form):
+        
+        book_type= self._get_book_type_wh(form)
+        
+        sql =   ''' select sum(ai_amount_total) as total 
+                    from %s 
+                    where ar_date_ret>= '%s' and ar_date_ret<='%s' 
+                ''' % (book_type.replace('.','_'),form['date_start'],form['date_end'])
+        self.cr.execute(sql)
+        
+        res = self.cr.dictfetchone()
+        return res['total']
+
+
+
     def _get_ret(self,form,ret_id=None):
         '''
             Ensure that Withholding date is inside period specified on form.

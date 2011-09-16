@@ -331,6 +331,7 @@
     </section>
 
     <spacer length='5mm'/>
+    
     <!-- ************ TOTALS SALE/PURCHASE BOOK************-->
     <section>
         <blockTable colWidths="280.0,80.0,80.0" style="CONTENIDOTABLE_TITULOS_PUR" repeatRows="2">
