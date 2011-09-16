@@ -143,7 +143,6 @@
                                         </group>
                                         <group colspan="1" col="2">
                                         <separator string="Total y Ajuste" colspan="2"/>
-                                        <field name="adjustment" colspan="4"/>
                                         <field name="amount_base_total" colspan="4"/>
                                         </group>
                                     </group>

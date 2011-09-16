@@ -57,7 +57,7 @@ class adjustment_book(osv.osv):
                 res[adj.id]['uncredit_fiscal_total'] += line.uncredit_fiscal
                 res[adj.id]['amount_with_vat_total'] += line.amount_with_vat
             res[adj.id]['amount_base_total'] += adj.vat_general_i+adj.vat_general_add_i+adj.vat_reduced_i+adj.vat_general_n+\
-                                     adj.vat_general_add_n+adj.vat_reduced_n+adj.adjustment+adj.no_grav+adj.sale_export
+                                     adj.vat_general_add_n+adj.vat_reduced_n+adj.no_grav+adj.sale_export
             res[adj.id]['amount_percent_total'] += adj.vat_general_icf+adj.vat_general_add_icf+adj.vat_reduced_icf+adj.vat_general_ncf+\
                                          adj.vat_general_add_ncf+adj.vat_reduced_ncf+adj.adjustment_cf+adj.sale_export_cf
             
@@ -87,7 +87,6 @@ class adjustment_book(osv.osv):
         'vat_general_n': fields.float('Alicuota general', digits=(16, int(config['price_accuracy'])),help="Compras gravadas por alicuota general/Ventas internas gravadas por alicuota general"),
         'vat_general_add_n': fields.float('Alicuota general + Alicuota adicional', digits=(16, int(config['price_accuracy'])),help="Compras/Ventas internas gravadas por alicuota general mas alicuota adicional"),
         'vat_reduced_n': fields.float('Alicuota Reducida', digits=(16, int(config['price_accuracy'])),help="Compras/Ventas Internas gravadas por alicuota reducida"),
-        'adjustment': fields.float('Ajustes', digits=(16, int(config['price_accuracy'])),help="Ajustes a los creditos/debitos fiscales de los periodos anteriores"),
         'vat_general_icf': fields.float('Alicuota general', digits=(16, int(config['price_accuracy'])), help="Importaciones gravadas por alicuota general"),
         'vat_general_add_icf': fields.float('Alicuota general + Alicuota adicional', digits=(16, int(config['price_accuracy'])),help="Importaciones gravadas por alicuota general mas alicuota adicional"),
         'vat_reduced_icf': fields.float('Alicuota Reducida', digits=(16, int(config['price_accuracy'])),help="Importaciones gravadas por alicuota reducida"),
@@ -104,51 +103,6 @@ class adjustment_book(osv.osv):
     _sql_constraints = [
         ('period_id_type_uniq', 'unique (period_id,type)', 'The period and type combination must be unique!')
     ]
-    
-    
-    #~ def action_set_totals(self,cr,uid,ids, *args):
-        #~ self.write(cr, uid, ids, {'vat_general_i':0.00,
-        #~ 'vat_general_add_i':0.00,'vat_reduced_i':0.00,
-        #~ 'vat_general_n':0.00,'vat_general_add_n':0.00,
-        #~ 'vat_reduced_n':0.00,'sale_export':0.00,
-        #~ })
-        #~ total={'amount_untaxed_n':0.0,'amount_untaxed_n_scdf':0.0,
-               #~ 'amount_untaxed_i':0.0,'amount_untaxed_i_scdf':0.0,
-               #~ 'vat_general_ncf':0.0,'vat_general_ncf':0.0,
-               #~ 'vat_add_ncf':0.0}
-#~ 
-        #~ for adj in self.browse(cr, uid, ids):
-            #~ if adj.type=='purchase':
-                #~ self.write(cr, uid, ids, {'vat_general_i':adj.amount_untaxed_i_total,
-                #~ 'vat_general_add_i':adj.amount_untaxed_i_total,
-                #~ 'vat_reduced_i':adj.amount_untaxed_i_total,})
-            #~ else:
-                #~ self.write(cr, uid, ids, {'sale_export':adj.amount_untaxed_n_total,})
-            #~ self.write(cr, uid, ids, {'vat_general_n':adj.amount_untaxed_n_total,
-            #~ 'vat_general_add_n':adj.amount_untaxed_n_total,
-            #~ 'vat_reduced_n':adj.amount_untaxed_n_total,
-            #~ })
-            #~ for line in adj.adjustment_ids:
-                #~ 
-                #~ if 0==line.percent_with_vat_n:
-                    #~ total['amount_untaxed_n_scdf']+=line.amount_untaxed_n
-                    #~ total['amount_untaxed_i_scdf']+=line.amount_untaxed_i
-                #~ else:
-                    #~ total['amount_untaxed_n']+=line.amount_untaxed_n
-                    #~ total['amount_untaxed_i']+=line.amount_untaxed_i
-                #~ if 12 == line.percent_with_vat_n:
-                    #~ total['vat_general_ncf']+=12.0
-                #~ if 8 == line.percent_with_vat_n:
-                    #~ total['vat_reduced_ncf']+=8.0
-                #~ if 22 == line.percent_with_vat_n:
-                    #~ total['vat_additional_ncf']+=22.0
-            #~ self.write(cr, uid, ids, {'vat_general_ncf':total['vat_general_ncf'],
-            #~ 'vat_general_add_ncf':total['vat_general_ncf']+total['vat_add_ncf'],
-            #~ 'vat_reduced_n':total['vat_reduced_n'],
-            #~ })
-        #~ return True
-    
-    
     
 adjustment_book()
 
