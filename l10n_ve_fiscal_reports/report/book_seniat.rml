@@ -625,7 +625,7 @@ get_amount_untaxed_tax(data['form'],'8','nacional')[1]
             </tr>
             <tr>
                 <td><para style="CONTENIDOLEFT">[[data['form']['type'] == 'purchase' and 'AJUSTES A LOS CREDITOS FISCALES DE LOS PERIODOS ANTERIORES' or 'AJUSTES A LOS DEBITOS FISCALES DE LOS PERIODOS ANTERIORES']]</para></td>
-                <td><para style="CONTENIDO">[[formatLang(to.adjustment)]]</para></td>
+                <td><para style="CONTENIDO">0.0</para></td>
                 <td><para style="CONTENIDO">[[formatLang(to.adjustment_cf)]]</para></td>
             </tr>
             <tr>
