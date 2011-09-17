@@ -284,7 +284,7 @@
         </tr>
         </blockTable>
     </section>
-    
+
         <!-- ************ TOTALS PURCHASE,SALE PARCIALES************-->
     <section>
         <blockTable colWidths="1.0,33.0,37.0,192.0,47.0,38.0,38.0,15.0,38.0,34.0,114.0,114.0,44.0,50.0" style="CONTENIDOTABLE_LINES" repeatRows="2">
@@ -331,7 +331,36 @@
     </section>
 
     <spacer length='5mm'/>
+
+    <!-- ************ WHITHHOLDING***********-->
     
+        <section>
+        <blockTable colWidths="110mm" style="CONTENIDOTABLE_TITULOS_PUR" repeatRows="2">
+            <tr>
+                <td><para style="HEADER">[[data['form']['type'] == 'sale' and 'RESUMEN RETENCIONES' or removeParentNode('tr')]]</para></td>
+            </tr>
+        </blockTable>
+    </section>
+    <!-- ************ TOTALS WHITHHOLDING***********-->
+    
+        <section>
+        <blockTable colWidths="70mm,40mm" style="CONTENIDOTABLE_LINES_PUR" repeatRows="2">
+            <tr>
+                <td><para style="CONTENIDOLEFT">[[data['form']['type'] == 'sale' and 'RETENCIONES PERIODOS ANTERIORES' or removeParentNode('tr')]]</para></td>
+                <td><para style="CONTENIDO">[[ formatLang(get_total_wh(data['form'])-get_wh_actual(data['form'])) ]]</para></td>
+            </tr>
+            <tr>
+                <td><para style="CONTENIDOLEFT">[[data['form']['type'] == 'sale' and 'RETENCIONES DEL PERIODO' or removeParentNode('tr')]]</para></td>
+                <td><para style="CONTENIDO">[[ formatLang(get_wh_actual(data['form'])) ]]</para></td>
+            </tr>
+            <tr>
+                <td><para style="CONTENIDOLEFT">[[data['form']['type'] == 'sale' and 'TOTAL RETENCIONES' or removeParentNode('tr')]]</para></td>
+                <td><para style="CONTENIDO">[[ formatLang(get_total_wh(data['form'])) ]]</para></td>
+            </tr>
+        </blockTable>
+    </section>
+    <spacer length='5mm'/>
+
     <!-- ************ TOTALS SALE/PURCHASE BOOK************-->
     <section>
         <blockTable colWidths="280.0,80.0,80.0" style="CONTENIDOTABLE_TITULOS_PUR" repeatRows="2">

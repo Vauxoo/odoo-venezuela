@@ -67,6 +67,7 @@ class pur_sal_book(report_sxw.rml_parse):
             'get_total_iva': self._get_total_iva,
             'get_amount_untaxed_tax': self._get_amount_untaxed_tax,
             'get_taxes': self._get_taxes,
+            'get_wh_actual': self._get_wh_actual,
         })
 
     def _get_book_type(self,form):
@@ -170,7 +171,7 @@ class pur_sal_book(report_sxw.rml_parse):
         data = fr_obj.browse(self.cr,self.uid, fr_ids)
         return data
 
-    def _get_total_wh(self,form):
+    def _get_total_wh(self,form,actual=None):
         total=0
         data=[]
         book_type= self._get_book_type_wh(form)
@@ -178,7 +179,6 @@ class pur_sal_book(report_sxw.rml_parse):
         
         fr_ids = fr_obj.search(self.cr,self.uid,[('ar_date_ret', '<=', form['date_end']), ('ar_date_ret', '>=', form['date_start'])])
         data = fr_obj.browse(self.cr,self.uid, fr_ids)
-        
         for wh in data:
             if wh.ai_id.type in ['in_refund', 'out_refund']:
                 total+= wh.ar_line_id.amount_tax_ret * (-1)
@@ -187,18 +187,20 @@ class pur_sal_book(report_sxw.rml_parse):
         return total
 
 
-    def _get_wh_atual(self,form):
-        
+    def _get_wh_actual(self,form):
+        total=0
+        data=[]
         book_type= self._get_book_type_wh(form)
+        fr_obj = self.pool.get(book_type)
         
-        sql =   ''' select sum(ai_amount_total) as total 
-                    from %s 
-                    where ar_date_ret>= '%s' and ar_date_ret<='%s' 
-                ''' % (book_type.replace('.','_'),form['date_start'],form['date_end'])
-        self.cr.execute(sql)
-        
-        res = self.cr.dictfetchone()
-        return res['total']
+        fr_ids = fr_obj.search(self.cr,self.uid,[('ar_date_ret', '<=', form['date_end']),('ar_date_ret', '>=', form['date_start']),('ai_date_inv','>=',form['date_start']),('ai_date_inv','<=',form['date_end'])])
+        data = fr_obj.browse(self.cr,self.uid, fr_ids)
+        for wh in data:
+            if wh.ai_id.type in ['in_refund', 'out_refund']:
+                total+= wh.ar_line_id.amount_tax_ret * (-1)
+            else:
+                total+= wh.ar_line_id.amount_tax_ret
+        return total
 
 
 
