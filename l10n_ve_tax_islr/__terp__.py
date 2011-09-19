@@ -3,7 +3,7 @@
 #
 #    OpenERP, Open Source Management Solution    
 #    Copyright (C) 2004-2009 Tiny SPRL (<http://tiny.be>). All Rights Reserved
-#    Author: nhomar.hernandez@netquatro.com  & Javier Duran <javier.duran@netquatro.com>
+#    Author: nhomar@vauxoo.com  & Javier Duran <javier@vauxoo.com>
 #
 #    This program is free software: you can redistribute it and/or modify
 #    it under the terms of the GNU General Public License as published by
@@ -25,7 +25,7 @@
     "name" : "Automatized Calc for ISLR",
     "version" : "0.1",
     "depends" : ["account","retencion_islr",],
-    "author" : "Netquatro",
+    "author" : "Vauxoo",
     "description" : """
     What do this module:
     Calculate in an automatic way the ISLR for Venezuela.
@@ -36,7 +36,7 @@
         "Reglamento LISLR Decreto No. 2507 de la GO No. 5662 Extraordinaria de fecha 24-09-2003"
         "regulación del Cumplimiento del Deber de Información y enteramiento de retenciones ISLR - Providencia 0095 - GO No. 39269 del 22-09-2009"
                     """,
-    "website" : "http://openerp.netquatro.com",
+    "website" : "http://openerp.com.ve",
     "category" : "Localisation/Accounting",
     "init_xml" : [
     ],

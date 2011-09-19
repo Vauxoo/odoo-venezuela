@@ -1,7 +1,7 @@
 ##############################################################################
 #
 #    OpenERP-Venezuela, Venezuelan Localization of OpenERP    
-#    Copyright (C) 2004-2009 Tiny SPRL (<http://openerp.netquatro.com>). All Rights Reserved
+#    Copyright (C) 2004-2009 Tiny SPRL (<http://openerp.com.ve>). All Rights Reserved
 #
 #    This program is free software: you can redistribute it and/or modify
 #    it under the terms of the GNU General Public License as published by
@@ -18,7 +18,7 @@
 #
 #
 #    OpenERP-Venezuela, Localizacion Venezolana de OpenERP    
-#    Copyright (C) 2010 Netquatro (<http://openerp.netquatro.com>). Todos los derechos Reservados
+#    Copyright (C) 2010 Vauxoo (<http://openerp.com.ve>). Todos los derechos Reservados
 #
 #    Este programa es un Software Libre lo puedes redistribuir y/o modificar
 #    Se encuentra bajo los terminos de licencia GNU

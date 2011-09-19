@@ -1,7 +1,7 @@
 # -*- encoding: utf-8 -*-
 ##############################################################################
 #
-# Copyright (c) 2010 Netquatro C.A. (http://openerp.netquatro.com/) All Rights Reserved.
+# Copyright (c) 2010 Vauxoo C.A. (http://openerp.com.ve/) All Rights Reserved.
 #                    Humberto Arocha <humbertoarocha@gmail.com>
 # 
 #
@@ -31,7 +31,7 @@
 {
 	"name" : "Registro Histórico de los costos y los precios de venta de un producto en el tiempo",
 	"version" : "0.1",
-	"author" : "Netquatro",
+	"author" : "Vauxoo",
 	"category" : "Generic Modules/Others",
 	"website": "http://wiki.openerp.org.ve/",
 	"description": '''

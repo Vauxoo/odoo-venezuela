@@ -1,9 +1,9 @@
 # -*- encoding: utf-8 -*-
 ##############################################################################
 #
-# Copyright (c) 2010 Netquatro C.A. (http://openerp.netquatro.com/) All Rights Reserved.
-#                    Javier Duran <javier.duran@netquatro.com>
-#                    Nhomar Hernandéz <nhomar.hernandez@netquatro.com>
+# Copyright (c) 2010 Vauxoo C.A. (http://openerp.com.ve/) All Rights Reserved.
+#                    Javier Duran <javier@vauxoo.com>
+#                    Nhomar Hernandéz <nhomar@vauxoo.com>
 # 
 #
 # WARNING: This program as such is intended to be used by professional
@@ -33,7 +33,7 @@
     "name" : "Due report For Venezuela",
     "version" : "0.1",
     "depends" : ["account","retencion_iva","retencion_municipal","retencion_islr",],
-    "author" : "Netquatro",
+    "author" : "Vauxoo",
     "description" : """
     What this module does:
     --    Build the due report analisys from an administrative point of view.
@@ -41,7 +41,7 @@
     --    Filter Retentions about ISLR, IVA and Municipal.
     Give a presentable report for Banks.
     """,
-    "website" : "http://openerp.netquatro.com",
+    "website" : "http://openerp.com.ve",
     "category" : "Generic Modules/Accounting",
     "init_xml" : [
     ],

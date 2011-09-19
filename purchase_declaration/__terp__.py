@@ -24,6 +24,6 @@
   'active' : False,
   # This line would be 'Profiles' to enable it to appear with other profiles during installation
   'category' : 'Generic Modules/Purchase',
-  'author' : 'Netquatro',
-  'website' : 'http://openerp.netquatro.com',
+  'author' : 'Vauxoo',
+  'website' : 'http://openerp.com.ve',
 }

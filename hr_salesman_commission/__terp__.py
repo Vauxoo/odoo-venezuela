@@ -21,6 +21,6 @@
   'installable' : True,
   'active' : False,
   'category' : 'Generic Modules/Human Resources',
-  'author' : 'Netquatro',
-  'website' : 'http://openerp.netquatro.com',
+  'author' : 'Vauxoo',
+  'website' : 'http://openerp.com.ve',
 }

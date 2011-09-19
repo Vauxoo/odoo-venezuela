@@ -1,9 +1,9 @@
 # -*- encoding: utf-8 -*-
 ##############################################################################
 #
-# Copyright (c) 2010 Netquatro C.A. (http://openerp.netquatro.com/) All Rights Reserved.
-#                    Javier Duran <javier.duran@netquatro.com>
-#                    Nhomar Hernandez <nhomar.hernandez@netquatro.com>
+# Copyright (c) 2010 Vauxoo C.A. (http://openerp.com.ve/) All Rights Reserved.
+#                    Javier Duran <javier@vauxoo.com>
+#                    Nhomar Hernandez <nhomar@vauxoo.com>
 # 
 #
 # WARNING: This program as such is intended to be used by professional

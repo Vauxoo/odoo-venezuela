@@ -5,9 +5,9 @@ http://wiki.openerp.org.ve
 --Estudialo.
 --Compartelo.
 Cursos en función de la instalación y funcionalidad:
-http://openerp.netquatro.com
+http://openerp.com.ve
 Implementaciones Profesionales:
-http://openerp.netquatro.com
+http://openerp.com.ve
 Solicitud realizada en el bug: 
 494570
 ------------------------

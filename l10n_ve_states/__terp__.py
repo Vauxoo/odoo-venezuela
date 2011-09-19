@@ -2,7 +2,7 @@
 {
   'name' : 'States Venezuela',
   'version' : '0.1',
-  'author' : 'Netquatro',
+  'author' : 'Vauxoo',
   'website' : 'http://wiki.openerp.org.ve/index.php?title=Boceto_estados_municipios',
   'category' : 'Localisation/Venezuela',
   'description' : 

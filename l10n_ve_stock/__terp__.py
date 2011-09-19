@@ -7,13 +7,13 @@
 #    Copyright (c) 2008 Pablo Rocandio. All Rights Reserved.
 #    $Id$
 #    Modificado para cumplir con legislacion Venezolana por
-#    Netquatro, C.A. <openerp@netquatro.com>
+#    Vauxoo, C.A. <openerp.com.ve>
 ##############################################################################
 
 {
     "name" : "Formatos Nota de Entrega y Guia Despacho",
     "version" : "0.3",
-    "author" : "Pablo Rocandio y ACYSOS, S.L., Ajustado para Venezuela Netquatro, C.A.",
+    "author" : "Pablo Rocandio y ACYSOS, S.L., Ajustado para Venezuela Vauxoo, C.A.",
     "category" : "Localisation/Venezuela",
     "description": """
     Notas de entrega
@@ -33,7 +33,7 @@
                    ],
     "active": False,
     "installable": True,
-    "website": "http://openerp.netquatro.com",
+    "website": "http://openerp.com.ve",
 }
 
 

@@ -2,7 +2,7 @@
 #
 #    OpenERP, Open Source Management Solution    
 #    Copyright (C) 2004-2009 Tiny SPRL (<http://tiny.be>). All Rights Reserved
-#    nhomar.hernandez@netquatro.com
+#    nhomar@vauxoo.com
 #
 #    This program is free software: you can redistribute it and/or modify
 #    it under the terms of the GNU General Public License as published by
@@ -22,11 +22,11 @@
     "name" : "Baremo Para calculo de Comisiones",
     "version" : "0.1",
     "depends" : ["base",],
-    "author" : "Netquatro",
+    "author" : "Vauxoo",
     "description" : """
     Crea un modelo para el calculo de comisiones.
                     """,
-    "website" : "http://openerp.netquatro.com",
+    "website" : "http://openerp.com.ve",
     "category" : "Generic Modules",
     "init_xml" : [
     ],

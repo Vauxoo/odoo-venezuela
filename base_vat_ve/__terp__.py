@@ -1,8 +1,8 @@
 # -*- encoding: utf-8 -*-
 ##############################################################################
 #
-# Copyright (c) 2009 Netquatro C.A. (http://openerp.netquatro.com/) All Rights Reserved.
-#                    Javier Duran <javier.duran@netquatro.com>
+# Copyright (c) 2009 Vauxoo C.A. (http://openerp.com.ve/) All Rights Reserved.
+#                    Javier Duran <javier@vauxoo.com>
 # 
 #
 # WARNING: This program as such is intended to be used by professional
@@ -32,7 +32,7 @@
 {
     'name': 'Manejo del RIF para Venezuela',
     'version': '1.0',
-    'author': 'Netquatro',
+    'author': 'Vauxoo',
     'category': 'Localisation/Venezuela',
     'description': """
     Habilita y revisa el numero de RIF en Venezuela.
@@ -46,7 +46,7 @@
     VEV111234456
     VEE112344556
     """,
-	"website": "http://openerp.netquatro.com/",
+	"website": "http://openerp.com.ve/",
     'depends': ['base', 'account', 'base_vat'],
     'update_xml': [],
     'installable': True,

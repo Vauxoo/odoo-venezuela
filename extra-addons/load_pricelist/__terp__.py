@@ -23,10 +23,10 @@
     "name" : "Import Price List",
     "description": """This module allow load a price list from a supplier.""",
     "version" : "1.0",
-    "author" : "Netquatro",
+    "author" : "Vauxoo",
     "category" : "Generic Modules/Sales",
     "module": "",
-    "website": "http://www.openerp.netquatro.com",
+    "website": "http://www.openerp.com.ve",
     "depends" : ["base", "product"],
     "init_xml" : [],
     "update_xml" : [

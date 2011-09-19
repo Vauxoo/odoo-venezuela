@@ -2,7 +2,7 @@
 #
 #    OpenERP, Open Source Management Solution    
 #    Copyright (C) 2004-2009 Tiny SPRL (<http://tiny.be>). All Rights Reserved
-#    nhomaar.hernandez@netquatro.com
+#    nhomar@vauxoo.com
 #
 #    This program is free software: you can redistribute it and/or modify
 #    it under the terms of the GNU General Public License as published by
@@ -24,12 +24,12 @@
     "name" : "Opening balance Of Products",
     "version" : "0.1",
     "depends" : ["product","product",],
-    "author" : "Netquatro",
+    "author" : "Vauxoo",
     "description" : """This is an informational model tu push on openerp, you imported data on products:
         All this fields will be usables:
 default_code	categ_id	standard_price	list_price	cost_method	uom_id	uos_id	mes_type	name	procure_method	type	uom_po_id	supply_method	sale_ok	purchase_ok	property_account_income	property_account_expense	property_stock_account_output	property_stock_account_input	taxes_id	supplier_taxes_id	product_qty
                     """,
-    "website" : "http://openerp.netquatro.com",
+    "website" : "http://openerp.com.ve",
     "category" : "Generic Modules/Accounting",
     "init_xml" : [
     ],

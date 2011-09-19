@@ -1,8 +1,8 @@
 # -*- encoding: utf-8 -*-
 ##############################################################################
 #
-# Copyright (c) 2009 Netquatro C.A. (http://openerp.netquatro.com/) All Rights Reserved.
-#                    Javier Duran <javier.duran@netquatro.com>
+# Copyright (c) 2009 Vauxoo C.A. (http://openerp.com.ve/) All Rights Reserved.
+#                    Javier Duran <javier@vauxoo.com>
 # 
 #
 # WARNING: This program as such is intended to be used by professional
@@ -31,9 +31,9 @@
 {
 	"name" : "Orden de compra revision",
 	"version" : "0.1",
-	"author" : "Netquatro",
+	"author" : "Vauxoo",
 	"category" : "Generic Modules",
-	"website": "http://openerp.netquatro.com/",
+	"website": "http://openerp.com.ve/",
 	"description": "Verificacion en la orden de la referencia del cliente",
 	"depends" : ["base", "sale"],
 	"init_xml" : [],

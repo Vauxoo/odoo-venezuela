@@ -1,8 +1,8 @@
 # -*- encoding: utf-8 -*-
 ##############################################################################
 #
-# Copyright (c) 2010 Netquatro C.A. (http://openerp.netquatro.com/) All Rights Reserved.
-#                    Javier Duran <javier.duran@netquatro.com>
+# Copyright (c) 2010 Vauxoo C.A. (http://openerp.com.ve/) All Rights Reserved.
+#                    Javier Duran <javier@vauxoo.com>
 # 
 #
 # WARNING: This program as such is intended to be used by professional
@@ -31,9 +31,9 @@
 {
 	"name" : "Partner Generico",
 	"version" : "1.0",
-	"author" : "Netquatro",
+	"author" : "Vauxoo",
 	"category" : "Localisation/Venezuela",
-	"website": "http://openerp.netquatro.com/",
+	"website": "http://openerp.com.ve/",
 	"description": "Agilizar el proceso de caja chica",
 	"depends" : ["base", "account", "account_voucher_payment"],
 	"init_xml" : [],

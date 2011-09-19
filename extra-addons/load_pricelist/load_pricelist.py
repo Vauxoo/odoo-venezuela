@@ -3,10 +3,10 @@
 #
 #    OpenERP, Open Source Management Solution    
 #    Copyright (C) 2004-2009 Tiny SPRL (<http://tiny.be>). All Rights Reserved
-#    This Modules was developed by Netquatro, C.A. (<http://openerp.netquatro.com>)
+#    This Modules was developed by Vauxoo, C.A. (<http://openerp.com.ve>)
 #    Silver partner of Tiny.
-#    author Nhomar Hernandez (nhomar.hernandez@netquatro.com) &
-#           Javier Duran (<javier.duran@netquatro.com>)
+#    author Nhomar Hernandez (nhomar@vauxoo.com) &
+#           Javier Duran (<javier@vauxoo.com>)
 #    This program is free software: you can redistribute it and/or modify
 #    it under the terms of the GNU General Public License as published by
 #    the Free Software Foundation, either version 3 of the License, or

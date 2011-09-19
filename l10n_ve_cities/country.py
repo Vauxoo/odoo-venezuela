@@ -3,7 +3,7 @@
 #    OpenERP, Open Source Management Solution    
 #    Copyright (C) 2004-2009 Tiny SPRL (<http://tiny.be>). All Rights Reserved
 #    d$
-# Copyright (C) 2004-2009 Netquatro, C.A. (<http://openerp.netquatro.com>). All Rights Reserved
+# Copyright (C) 2004-2009 Vauxoo, C.A. (<http://openerp.com.ve>). All Rights Reserved
 #
 #    This program is free software: you can redistribute it and/or modify
 #    it under the terms of the GNU General Public License as published by

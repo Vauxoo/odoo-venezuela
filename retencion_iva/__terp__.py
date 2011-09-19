@@ -28,7 +28,7 @@
 {
 	"name" : "Retenciones al Impuesto del Valor Agregado",
 	"version" : "0.5",
-	"author" : "Latinux & Netquatro",
+	"author" : "Latinux & Vauxoo",
 	"category" : "Localisation/Venezuela",
 	"website": "http://wiki.openerp.org.ve/",
 	"description": '''

@@ -2,12 +2,12 @@
     "name" : "Tax Unit for Venezuela",
     "version" : "0.1",
     "depends" : ["account",],
-    "author" : "Netquatro",
+    "author" : "Vauxoo",
     "description" : """
     What do this module:
     Record the value for the Tax Unit
                     """,
-    "website" : "http://openerp.netquatro.com",
+    "website" : "http://openerp.com.ve",
     "category" : "Generic Modules/Accounting",
     "init_xml" : [
     ],
