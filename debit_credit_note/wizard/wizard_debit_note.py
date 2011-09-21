@@ -63,7 +63,14 @@ class wiz_debit(wizard.interface):
             if form['period'] :
                 period = form['period']
             else:
-                period = inv.period_id and inv.period_id.id or False
+                cr.execute("""SELECT id
+                              from account_period where date('%s')
+                              between date_start AND  date_stop  limit 1 """%(
+                                time.strftime('%Y-%m-%d'),
+                              ))
+                res = cr.fetchone()
+                if res:
+                    period = res[0]
 
             if form['date'] :
                 date = form['date']
@@ -89,16 +96,13 @@ class wiz_debit(wizard.interface):
                     if res:
                         period = res[0]
             else:
-                date = inv.date_invoice
+                date = time.strftime('%Y-%m-%d')
 
             if form['description'] :
                 description = form['description']
             else:
                 description = inv.name
             
-            if not period:
-                raise wizard.except_wizard(_('Data Insufficient !'), _('No Period found on Invoice!'))
-                
             #we create a new invoice that is the copy of the original
 
             invoice = pool.get('account.invoice').read(cr, uid, [inv.id],

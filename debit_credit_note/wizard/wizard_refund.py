@@ -69,7 +69,14 @@ class wiz_refund(wizard.interface):
             if form['period'] :
                 period = form['period']
             else:
-                period = inv.period_id and inv.period_id.id or False
+                cr.execute("""SELECT id
+                              from account_period where date('%s')
+                              between date_start AND  date_stop  limit 1 """%(
+                                time.strftime('%Y-%m-%d'),
+                              ))
+                res = cr.fetchone()
+                if res:
+                    period = res[0]
 
             if form['date'] :
                 date = form['date']
@@ -95,7 +102,7 @@ class wiz_refund(wizard.interface):
                     if res:
                         period = res[0]
             else:
-                date = inv.date_invoice
+                date = time.strftime('%Y-%m-%d')
 
             if form['description'] :
                 description = form['description']
