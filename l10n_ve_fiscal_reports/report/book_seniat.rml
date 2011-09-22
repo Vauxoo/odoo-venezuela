@@ -11,16 +11,12 @@
             <lines>1.3cm 24.9cm 38.3cm 24.9cm</lines>
             <setFont name="Helvetica" size="8"/>
         </pageGraphics>
-    <frame id="first" x1="15.0" y1="15.0" width="793" height="580"/>
+    <frame id="first" x1="5.0" y1="15.0" width="815" height="580"/>
     </pageTemplate>
     
     
   </template>
   <stylesheet>
-    <blockTableStyle id="Standard_Outline">
-      <blockAlignment value="LEFT"/>
-      <blockValign value="TOP"/>
-    </blockTableStyle>
     <blockTableStyle id="HEADERTABLE">
       <blockAlignment value="LEFT"/>
       <blockValign value="TOP"/>
@@ -39,10 +35,24 @@
       <blockAlignment value="LEFT"/>
       <blockValign value="MIDDLE"/>
         <lineStyle kind="GRID" colorName="black" thickness="1" start="1,1" stop="-1,-1"/>
-        <lineStyle kind="GRID" colorName="black" thickness="1" start="-4,0" stop="-3,0"/>
+        <lineStyle kind="GRID" colorName="black" thickness="1" start="-5,0" stop="-4,0"/>
+    </blockTableStyle>
+    <blockTableStyle id="ENCANBEZADO">
+        <lineStyle kind="GRID" colorName="black" thickness="1" start="10,0" stop="11,0"/>
+        <lineStyle kind="GRID" colorName="black" thickness="1" start="0,1" stop="-1,-1"/>
+        <blockBackground colorName="#e5e2e5" start="0,1" stop="-1,1"/>
+    </blockTableStyle>
+    <blockTableStyle id="ENCANBEZADO_SINCOLUM">
+        <lineStyle kind="GRID" colorName="black" thickness="1" start="10,0" stop="11,0"/>
+        <lineStyle kind="GRID" colorName="black" thickness="1" start="1,1" stop="-1,-1"/>
+        <blockBackground colorName="#e5e2e5" start="1,1" stop="-1,1"/>
+    </blockTableStyle>
+    <blockTableStyle id="TOTALS_TABLE">
+      <blockValign value="MIDDLE"/>
+        <lineStyle kind="GRID" colorName="black" thickness="1" start="0,0" stop="-1,-1"/>
+        <blockBackground colorName="#e5e2e5" start="0,0" stop="-1,0"/>
     </blockTableStyle>
     <blockTableStyle id="CONTENIDOTABLE_PUR">
-      <blockAlignment value="LEFT"/>
       <blockValign value="MIDDLE"/>
         <lineStyle kind="GRID" colorName="black" thickness="1" start="0,1" stop="-1,-1"/>
         <lineStyle kind="GRID" colorName="black" thickness="1" start="-4,0" stop="-3,0"/>
@@ -71,7 +81,6 @@
     </blockTableStyle>
     
     <initialize>
-      <paraStyle name="all" alignment="justify"/>
       <alias id="style.normal" value="style.Normal"/>
     </initialize>
     <paraStyle name="P1" fontName="Helvetica" fontSize="6.0" leading="8" alignment="CENTER"/>
@@ -97,19 +106,10 @@
     <paraStyle name="Index" fontName="Times-Roman"/>
     <paraStyle name="Table Contents" fontName="Times-Roman"/>
     <paraStyle name="Table Heading" fontName="Times-Roman" alignment="CENTER"/>
-    <paraStyle name="h1" fontName="Helvetica-BoldOblique" fontSize="32" leading="36"/>
-    <paraStyle name="normal" fontName="Helvetica" fontSize="10" leading="12"/>
-    <paraStyle name="normal_indent" parent="normal" leftIndent="36"/>
   </stylesheet>
   <images/>
+
   <story>
-    
-<!--
-    <para style="normal"></para>
-    <para style="normal_indent"><seq id="level_1"/></para>
-    <para style="normal_indent"><seq id="level_1"/></para>
--->
-    
     <blockTable colWidths="350.0,190.0,220.0" style="HEADERTABLE">
       <tr>
         [[ setLang(l.ai_id.company_id.partner_id.lang) ]]
@@ -132,15 +132,13 @@
           <!-- ****************************************-->
           <!-- ********* SALE, PURCHASE, BOOK *********-->
           <!-- ****************************************-->
-
     <section>
-        <blockTable colWidths="1.0,33.0,37.0,192.0,47.0,38.0,38.0,15.0,38.0,34.0,114.0,114.0,44.0,50.0" style="CONTENIDOTABLE" repeatRows="2">
-        [[(data['form']['type'] == 'purchase') and setTag('blockTable','blockTable',{'colWidths':"33.0,33.0,37.0,160.0,47.0,38.0,38.0,15.0,38.0,34.0,114.0,114.0,44.0,50.0",'style':'CONTENIDOTABLE', 'repeatRows':'2'}) or '']]
+        <blockTable colWidths="1.0,33.0,37.0,177.0,47.0,38.0,38.0,15.0,38.0,34.0,114.0,114.0,44.0,50.0,18.0" style="ENCANBEZADO_SINCOLUM" repeatRows="2">
+        [[(data['form']['type'] == 'purchase') and setTag('blockTable','blockTable',{'colWidths':"33.0,33.0,37.0,145.0,47.0,38.0,38.0,15.0,38.0,34.0,114.0,114.0,44.0,50.0,18.0",'style':'ENCANBEZADO', 'repeatRows':'2'}) or '']]
         <tr>
-            <td></td><td></td><td></td>
-            <td></td><td></td><td></td>
-            <td></td><td></td><td></td>
-            <td></td>
+            <td></td><td></td><td></td><td></td>
+            <td></td><td></td><td></td><td></td>
+            <td></td><td></td>
             <td>
                 <blockTable colWidths="110.0" style="INTERNALTABLE">
                     <tr><td vAlign="MIDDLE"><para style="HEADER">Operaciones Nacionales</para></td></tr>
@@ -151,14 +149,8 @@
                     <tr><td vAlign="MIDDLE"><para style="HEADER">Operaciones Internacionales</para></td></tr>
                 </blockTable>
             </td>
-            <td></td><td></td>
+            <td></td><td></td><td></td>
         </tr>
-        </blockTable>
-    </section>
-    
-    <section>
-        <blockTable colWidths="1.0,33.0,37.0,192.0,47.0,38.0,38.0,15.0,38.0,34.0,114.0,114.0,44.0,50.0" style="CONTENIDOTABLE_TITULOS" repeatRows="2">
-        [[(data['form']['type'] == 'purchase') and setTag('blockTable','blockTable',{'colWidths':"33.0,33.0,37.0,160.0,47.0,38.0,38.0,15.0,38.0,34.0,114.0,114.0,44.0,50.0",'style':'CONTENIDOTABLE_TITULOS_PUR', 'repeatRows':'2'}) or '']]
         <tr>
             <td><para style="HEADER">[[ (data['form']['type'] == 'purchase') and 'Fecha Adm.' or '' ]]</para></td>
             <td><para style="HEADER">Fecha Cont.</para></td>
@@ -190,16 +182,16 @@
             </td>
             <td><para style="HEADER">Retencion Iva</para></td>
             <td><para style="HEADER">Comprobante</para></td>
+            <td><para style="HEADER">Linea</para></td>
         </tr>
         </blockTable>
     </section>
 
-
     <!-- ************ WITHHOLDING VAT BOOK LINES************-->
     <section>
         <para>[[repeatIn( get_data_wh(data['form']),'wh')]]</para>
-        <blockTable colWidths="1.0,33.0,37.0,192.0,47.0,38.0,38.0,15.0,38.0,34.0,114.0,114.0,44.0,50.0" style="CONTENIDOTABLE_LINES" repeatRows="2">        
-        [[(data['form']['type'] == 'purchase') and setTag('blockTable','blockTable',{'colWidths':"33.0,33.0,37.0,160.0,47.0,38.0,38.0,15.0,38.0,34.0,114.0,114.0,44.0,50.0",'style':'CONTENIDOTABLE_LINES_PUR', 'repeatRows':'2'}) or '']]
+        <blockTable colWidths="1.0,33.0,37.0,177.0,47.0,38.0,38.0,15.0,38.0,34.0,114.0,114.0,44.0,50.0,18.0" style="CONTENIDOTABLE_LINES" repeatRows="2">
+        [[(data['form']['type'] == 'purchase') and setTag('blockTable','blockTable',{'colWidths':"33.0,33.0,37.0,145.0,47.0,38.0,38.0,15.0,38.0,34.0,114.0,114.0,44.0,50.0,18.0",'style':'CONTENIDOTABLE_LINES_PUR', 'repeatRows':'2'}) or '']]
         <tr>
             <para>[[ (data['form']['type'] == 'sale') and '.' or removeParentNode('blockTable') ]]</para>
             [[ setLang(company.partner_id.lang) ]]
@@ -233,16 +225,16 @@
             </td>
             <td><para style="CONTENIDO">[[ formatLang(get_amount_withheld(wh.ar_line_id.id)) or '' ]]</para></td>
             <td><para style="CONTENIDO">[[ wh.ar_id.number ]]</para></td>
+            <td><para style="CONTENIDO">[[ get_id(data['form'],wh.id) ]]</para></td>
         </tr>
         </blockTable>
     </section>
 
-
-    <!-- ************ PURCHASE, SALE, BOOK LINES************-->
+   <!-- ************ PURCHASE, SALE, BOOK LINES************-->
     <section>
         <para>[[repeatIn( get_data( data['form'] ),'l')]]</para>
-        <blockTable colWidths="1.0,33.0,37.0,192.0,47.0,38.0,38.0,15.0,38.0,34.0,114.0,114.0,44.0,50.0" style="CONTENIDOTABLE_LINES" repeatRows="2">
-        [[(data['form']['type'] == 'purchase') and setTag('blockTable','blockTable',{'colWidths':"33.0,33.0,37.0,160.0,47.0,38.0,38.0,15.0,38.0,34.0,114.0,114.0,44.0,50.0",'style':'CONTENIDOTABLE_LINES_PUR', 'repeatRows':'2'}) or '']]
+        <blockTable colWidths="1.0,33.0,37.0,177.0,47.0,38.0,38.0,15.0,38.0,34.0,114.0,114.0,44.0,50.0,18.0" style="CONTENIDOTABLE_LINES" repeatRows="2">
+        [[(data['form']['type'] == 'purchase') and setTag('blockTable','blockTable',{'colWidths':"33.0,33.0,37.0,145.0,47.0,38.0,38.0,15.0,38.0,34.0,114.0,114.0,44.0,50.0,18.0",'style':'CONTENIDOTABLE_LINES_PUR', 'repeatRows':'2'}) or '']]
         <tr>
             [[ setLang(l.ai_id.company_id.partner_id.lang) ]]
             <td><para style="CONTENIDO">[[ data['form']['type'] == 'purchase' and ( l.ai_id.date_document and formatLang(l.ai_id.date_document, date=True) or '') or '' ]]</para></td>
@@ -281,14 +273,16 @@
             </td>
             <td><para style="CONTENIDO">[[ get_date_wh(data['form'],l) and (get_ret(data['form'], l.ar_id and l.ar_id.id) and (formatLang(((l.ai_id.type in ['in_refund', 'out_refund']) and (get_amount_withheld(l.ar_line_id.id)*(-1)) or get_amount_withheld(l.ar_line_id.id)))) or '') or '']]</para></td>
             <td><para style="CONTENIDO">[[ get_date_wh(data['form'],l) and (get_ret(data['form'],l.ar_id and l.ar_id.id) and l.ar_id.number or '') or '' ]]</para></td>
+            <td><para style="CONTENIDO">[[ get_id(data['form'],l.id,'book') ]]</para></td>
         </tr>
         </blockTable>
     </section>
 
+
         <!-- ************ TOTALS PURCHASE,SALE PARCIALES************-->
     <section>
-        <blockTable colWidths="1.0,33.0,37.0,192.0,47.0,38.0,38.0,15.0,38.0,34.0,114.0,114.0,44.0,50.0" style="CONTENIDOTABLE_LINES" repeatRows="2">
-        [[(data['form']['type'] == 'purchase') and setTag('blockTable','blockTable',{'colWidths':"33.0,33.0,37.0,160.0,47.0,38.0,38.0,15.0,38.0,34.0,114.0,114.0,44.0,50.0",'style':'CONTENIDOTABLE_LINES_PUR', 'repeatRows':'2'}) or '']]
+        <blockTable colWidths="1.0,33.0,37.0,177.0,47.0,38.0,38.0,15.0,38.0,34.0,114.0,114.0,44.0,50.0,18.0" style="CONTENIDOTABLE_LINES" repeatRows="2">
+        [[(data['form']['type'] == 'purchase') and setTag('blockTable','blockTable',{'colWidths':"33.0,33.0,37.0,145.0,47.0,38.0,38.0,15.0,38.0,34.0,114.0,114.0,44.0,50.0,18.0",'style':'CONTENIDOTABLE_LINES_PUR', 'repeatRows':'2'}) or '']]
         <tr>
             [[ setLang(l.ai_id.company_id.partner_id.lang) ]]
             <td></td><td></td>
@@ -317,6 +311,7 @@
             </td>
             <td><para style="CONTENIDO">[[ formatLang(get_total_wh(data['form'])) ]]</para></td>
             <td></td>
+            <td></td>
         </tr>
         </blockTable>
     </section>
@@ -332,19 +327,15 @@
 
     <spacer length='5mm'/>
 
-    <!-- ************ WHITHHOLDING***********-->
-    
-        <section>
-        <blockTable colWidths="110mm" style="CONTENIDOTABLE_TITULOS_PUR" repeatRows="2">
-            <tr>
-                <td><para style="HEADER">[[data['form']['type'] == 'sale' and 'RESUMEN RETENCIONES' or removeParentNode('tr')]]</para></td>
-            </tr>
-        </blockTable>
-    </section>
     <!-- ************ TOTALS WHITHHOLDING***********-->
     
-        <section>
-        <blockTable colWidths="70mm,40mm" style="CONTENIDOTABLE_LINES_PUR" repeatRows="2">
+    <section>
+        [[data['form']['type'] == 'sale' and '.' or removeParentNode('section')]]
+        <blockTable colWidths="70mm,40mm" style="TOTALS_TABLE" repeatRows="2">
+            <tr>
+                <td><para style="HEADER">[[data['form']['type'] == 'sale' and 'RESUMEN RETENCIONES' or removeParentNode('tr')]]</para></td>
+                <td></td>
+            </tr>
             <tr>
                 <td><para style="CONTENIDOLEFT">[[data['form']['type'] == 'sale' and 'RETENCIONES PERIODOS ANTERIORES' or removeParentNode('tr')]]</para></td>
                 <td><para style="CONTENIDO">[[ formatLang(get_total_wh(data['form'])-get_wh_actual(data['form'])) ]]</para></td>
@@ -354,7 +345,7 @@
                 <td><para style="CONTENIDO">[[ formatLang(get_wh_actual(data['form'])) ]]</para></td>
             </tr>
             <tr>
-                <td><para style="CONTENIDOLEFT">[[data['form']['type'] == 'sale' and 'TOTAL RETENCIONES' or removeParentNode('tr')]]</para></td>
+                <td><para style="CONTENIDOLEFT_BOLD">[[data['form']['type'] == 'sale' and 'TOTAL RETENCIONES' or removeParentNode('tr')]]</para></td>
                 <td><para style="CONTENIDO">[[ formatLang(get_total_wh(data['form'])) ]]</para></td>
             </tr>
         </blockTable>
@@ -362,19 +353,15 @@
     <spacer length='5mm'/>
 
     <!-- ************ TOTALS SALE/PURCHASE BOOK************-->
+   
     <section>
-        <blockTable colWidths="280.0,80.0,80.0" style="CONTENIDOTABLE_TITULOS_PUR" repeatRows="2">
+        [[ setLang(l.ai_id.company_id.partner_id.lang) ]]
+        <blockTable colWidths="280.0,80.0,80.0" style="TOTALS_TABLE" repeatRows="2">
             <tr>
                 <td><para style="HEADER">[[data['form']['type'] == 'purchase' and 'CREDITOS FISCALES' or 'DEBITOS FISCALES']]</para></td>
                 <td><para style="HEADER">BASE IMPONIBLE</para></td>
                 <td><para style="HEADER">[[data['form']['type'] == 'purchase' and 'CREDITO FISCAL' or 'DEBITO FISCAL']]</para></td>
             </tr>
-        </blockTable>
-    </section>
-    
-    <section>
-        [[ setLang(l.ai_id.company_id.partner_id.lang) ]]
-        <blockTable colWidths="280.0,80.0,80.0" style="CONTENIDOTABLE_LINES_PUR" repeatRows="2">
             <tr>
                 <td><para style="CONTENIDOLEFT">[[data['form']['type'] == 'purchase' and 'COMPRAS NO GRAVADAS Y/O SIN DERECHO A CREDITO FISCAL' or 'DEBITOS FISCALES']]</para></td>
                 <td><para style="CONTENIDO">[[ formatLang(get_amount_untaxed_tax(data['form'],'SDCF','nacional')[0]+get_amount_untaxed_tax(data['form'],'EXONERADO','nacional')[0]+get_amount_untaxed_tax(data['form'],'SDCF')[0]+get_amount_untaxed_tax(data['form'],'EXONERADO')[0]) ]]</para></td>
@@ -442,9 +429,9 @@ get_amount_untaxed_tax(data['form'],'8','nacional')[1]
             </tr>
         </blockTable>
     </section>
+<nextPage/>
 
-
-    <spacer length='35mm'/>
+    <spacer length='5mm'/>
           <!-- ****************************************-->
           <!-- ************ AJUSTMENT BOOK ************-->
           <!-- ****************************************-->
@@ -459,10 +446,11 @@ get_amount_untaxed_tax(data['form'],'8','nacional')[1]
     </blockTable>
     </section>
 
-
-    <section>
-        <blockTable colWidths="1.0,33.0,37.0,192.0,47.0,38.0,38.0,15.0,38.0,34.0,114.0,114.0,44.0,50.0" style="CONTENIDOTABLE" repeatRows="2">
-        [[(data['form']['type'] == 'purchase') and setTag('blockTable','blockTable',{'colWidths':"33.0,33.0,37.0,160.0,47.0,38.0,38.0,15.0,38.0,34.0,114.0,114.0,44.0,50.0",'style':'CONTENIDOTABLE_PUR', 'repeatRows':'2'}) or '']]
+    
+     <section>
+        <para>[[ validation(data['form']) and '.' or removeParentNode('blockTable')]]</para>
+        <blockTable colWidths="1.0,33.0,37.0,177.0,47.0,38.0,38.0,15.0,38.0,34.0,114.0,114.0,44.0,50.0" style="ENCANBEZADO_SINCOLUM" repeatRows="2">        
+        [[(data['form']['type'] == 'purchase') and setTag('blockTable','blockTable',{'colWidths':"33.0,33.0,37.0,145.0,47.0,38.0,38.0,15.0,38.0,34.0,114.0,114.0,44.0,50.0",'style':'ENCANBEZADO', 'repeatRows':'2'}) or '']]
         <tr>
             <para>[[ validation(data['form']) and '.' or removeParentNode('blockTable')]]</para>
             <td></td><td></td><td></td>
@@ -481,53 +469,46 @@ get_amount_untaxed_tax(data['form'],'8','nacional')[1]
             </td>
             <td></td><td></td>
         </tr>
-        </blockTable>
-    </section>
-
-    <section>
-        <para>[[ validation(data['form']) and '.' or removeParentNode('blockTable')]]</para>
-        <blockTable colWidths="1.0,33.0,37.0,192.0,47.0,38.0,38.0,15.0,38.0,34.0,114.0,114.0,44.0,50.0" style="CONTENIDOTABLE_TITULOS" repeatRows="2">        
-        [[(data['form']['type'] == 'purchase') and setTag('blockTable','blockTable',{'colWidths':"33.0,33.0,37.0,160.0,47.0,38.0,38.0,15.0,38.0,34.0,114.0,114.0,44.0,50.0",'style':'CONTENIDOTABLE_TITULOS_PUR', 'repeatRows':'2'}) or '']]
-            <tr>
-                <para>[[ validation(data['form']) and '.' or removeParentNode('blockTable')]]</para>
-                <td><para style="HEADER">[[ (data['form']['type'] == 'purchase') and 'Fecha Adm.' or '' ]]</para></td>
-                <td><para style="HEADER">Fecha Cont.</para></td>
-                <td><para style="HEADER">RIF</para></td>
-                <td><para style="HEADER">Razon Social</para></td>
-                <td><para style="HEADER">Numero Doc.</para></td>
-                <td><para style="HEADER">Numero Control</para></td>
-                <td><para style="HEADER">Total con IVA</para></td>
-                <td><para style="HEADER">Tipo Doc.</para></td>
-                <td><para style="HEADER">Documento Afectado</para></td>
-                <td><para style="HEADER">Sin derecho a Credito Fiscal</para></td>
-                <td>
-                    <blockTable colWidths="40.0,30.0,40.0" style="INTERNALTABLE">
-                        <tr>
-                            <td><para style="HEADER">Base Imponible</para></td>
-                            <td><para style="HEADER">%</para><para style="HEADER">IVA</para></td>
-                            <td><para style="HEADER">Monto</para><para style="HEADER">Impuesto</para></td>
-                        </tr>
-                    </blockTable>
-                </td>
-                <td>
-                    <blockTable colWidths="40.0,30.0,40.0" style="INTERNALTABLE">
-                        <tr>
-                            <td><para style="HEADER">Base Imponible</para></td>
-                            <td><para style="HEADER">%</para><para style="HEADER">IVA</para></td>
-                            <td><para style="HEADER">Monto</para><para style="HEADER">Impuesto</para></td>
-                        </tr>
-                    </blockTable>
-                </td>
-                <td><para style="HEADER">Retencion IVA</para></td>
-                <td><para style="HEADER">Comprobante</para></td>
-            </tr>
+        <tr>
+            <para>[[ validation(data['form']) and '.' or removeParentNode('blockTable')]]</para>
+            <td><para style="HEADER">[[ (data['form']['type'] == 'purchase') and 'Fecha Adm.' or '' ]]</para></td>
+            <td><para style="HEADER">Fecha Cont.</para></td>
+            <td><para style="HEADER">RIF</para></td>
+            <td><para style="HEADER">Razon Social</para></td>
+            <td><para style="HEADER">Numero Doc.</para></td>
+            <td><para style="HEADER">Numero Control</para></td>
+            <td><para style="HEADER">Total con IVA</para></td>
+            <td><para style="HEADER">Tipo Doc.</para></td>
+            <td><para style="HEADER">Documento Afectado</para></td>
+            <td><para style="HEADER">Sin derecho a Credito Fiscal</para></td>
+            <td>
+                <blockTable colWidths="40.0,30.0,40.0" style="INTERNALTABLE">
+                    <tr>
+                        <td><para style="HEADER">Base Imponible</para></td>
+                        <td><para style="HEADER">%</para><para style="HEADER">IVA</para></td>
+                        <td><para style="HEADER">Monto</para><para style="HEADER">Impuesto</para></td>
+                    </tr>
+                </blockTable>
+            </td>
+            <td>
+                <blockTable colWidths="40.0,30.0,40.0" style="INTERNALTABLE">
+                    <tr>
+                        <td><para style="HEADER">Base Imponible</para></td>
+                        <td><para style="HEADER">%</para><para style="HEADER">IVA</para></td>
+                        <td><para style="HEADER">Monto</para><para style="HEADER">Impuesto</para></td>
+                    </tr>
+                </blockTable>
+            </td>
+            <td><para style="HEADER">Retencion IVA</para></td>
+            <td><para style="HEADER">Comprobante</para></td>
+        </tr>
         </blockTable>
     </section>
 
     <section>
     <para>[[ repeatIn(validation(data['form']) and get_data_adjustment(data['form'])[1] or [],'a')]]</para>  
-    <blockTable colWidths="1.0,33.0,37.0,192.0,47.0,38.0,38.0,15.0,38.0,34.0,114.0,114.0,44.0,50.0" style="CONTENIDOTABLE_LINES" repeatRows="2">        
-    [[(data['form']['type'] == 'purchase') and setTag('blockTable','blockTable',{'colWidths':"33.0,33.0,37.0,160.0,47.0,38.0,38.0,15.0,38.0,34.0,114.0,114.0,44.0,50.0",'style':'CONTENIDOTABLE_LINES_PUR', 'repeatRows':'2'}) or '']]
+    <blockTable colWidths="1.0,33.0,37.0,177.0,47.0,38.0,38.0,15.0,38.0,34.0,114.0,114.0,44.0,50.0" style="CONTENIDOTABLE_LINES" repeatRows="2">        
+    [[(data['form']['type'] == 'purchase') and setTag('blockTable','blockTable',{'colWidths':"33.0,33.0,37.0,145.0,47.0,38.0,38.0,15.0,38.0,34.0,114.0,114.0,44.0,50.0",'style':'CONTENIDOTABLE_LINES_PUR', 'repeatRows':'2'}) or '']]
     <tr>
         <para>[[ validation(data['form']) and '.' or removeParentNode('blockTable')]]</para>
         [[ setLang(l.ai_id.company_id.partner_id.lang) ]]
@@ -567,8 +548,8 @@ get_amount_untaxed_tax(data['form'],'8','nacional')[1]
 
     <section>
         <para>[[repeatIn( get_data_adjustment( data['form'] )[0],'al')]]</para> 
-        <blockTable colWidths="1.0,33.0,37.0,192.0,47.0,38.0,38.0,15.0,38.0,34.0,114.0,114.0,44.0,50.0" style="CONTENIDOTABLE_LINES" repeatRows="2">
-        [[(data['form']['type'] == 'purchase') and setTag('blockTable','blockTable',{'colWidths':"33.0,33.0,37.0,160.0,47.0,38.0,38.0,15.0,38.0,34.0,114.0,114.0,44.0,50.0",'style':'CONTENIDOTABLE_LINES_PUR', 'repeatRows':'2'}) or '']]
+        <blockTable colWidths="1.0,33.0,37.0,177.0,47.0,38.0,38.0,15.0,38.0,34.0,114.0,114.0,44.0,50.0" style="CONTENIDOTABLE_LINES" repeatRows="2">
+        [[(data['form']['type'] == 'purchase') and setTag('blockTable','blockTable',{'colWidths':"33.0,33.0,37.0,145.0,47.0,38.0,38.0,15.0,38.0,34.0,114.0,114.0,44.0,50.0",'style':'CONTENIDOTABLE_LINES_PUR', 'repeatRows':'2'}) or '']]
             <tr>
                 <para>
                 [[ validation(data['form']) and '.' or removeParentNode('blockTable')]]</para>
@@ -602,22 +583,18 @@ get_amount_untaxed_tax(data['form'],'8','nacional')[1]
         </blockTable>
     </section>
 
+
     <spacer length='5mm'/>
     <!-- ************ TOTALES ADJUSTMENT BOOK************-->
     <section>
-        <blockTable colWidths="280.0,80.0,80.0" style="CONTENIDOTABLE_TITULOS_PUR" repeatRows="2">        
+        <para>[[ repeatIn(validation(data['form']) and get_data_adjustment(data['form'])[0] or [],'to')]]</para>
+        <blockTable colWidths="280.0,80.0,80.0" style="TOTALS_TABLE" repeatRows="2">
             <tr>
                 <para>[[ validation(data['form']) and '.' or removeParentNode('blockTable')]]</para>
                 <td><para style="HEADER">CREDITOS FISCALES</para></td>
                 <td><para style="HEADER">BASE IMPONIBLE</para></td>
                 <td><para style="HEADER">CREDITO FISCAL</para></td>
             </tr>
-        </blockTable>
-    </section>
-
-    <section>
-        <para>[[ repeatIn(validation(data['form']) and get_data_adjustment(data['form'])[0] or [],'to')]]</para>
-        <blockTable colWidths="280.0,80.0,80.0" style="CONTENIDOTABLE_LINES_PUR" repeatRows="2">
             <tr>
                 <td><para style="CONTENIDOLEFT">[[ data['form']['type'] == 'purchase' and 'COMPRAS NO GRAVADAS Y/O SIN DERECHO A CREDITO FISCAL' or 'VENTAS INTERNAS NO GRAVADAS']]</para></td>
                 <td><para style="CONTENIDO">[[formatLang(to.no_grav)]]</para></td>
@@ -666,7 +643,7 @@ get_amount_untaxed_tax(data['form'],'8','nacional')[1]
         </blockTable>
     </section>
 
-    <spacer length='5mm'/>
+     <spacer length='5mm'/>
     <!-- ************ OBSERVACIONES ADJUSTMENT BOOK************-->
     <section>
         <para>[[ repeatIn(validation(data['form']) and get_data_adjustment(data['form'])[0] or [],'ob')]]</para>  
@@ -679,6 +656,7 @@ get_amount_untaxed_tax(data['form'],'8','nacional')[1]
             </tr>
         </blockTable>
     </section>
+    
 
   </story>
 </document>

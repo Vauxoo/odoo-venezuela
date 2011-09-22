@@ -68,7 +68,25 @@ class pur_sal_book(report_sxw.rml_parse):
             'get_amount_untaxed_tax': self._get_amount_untaxed_tax,
             'get_taxes': self._get_taxes,
             'get_wh_actual': self._get_wh_actual,
+            'get_id': self._get_id,
         })
+
+    def _get_id(self,form,idh,type=None):
+        x=1
+        ids =None
+        
+        if form['type']=='sale':
+            ids = self._get_data_wh(form)
+        if form['type']=='sale' and type:
+            x+=len(ids)
+        if type=='book':
+            ids = self._get_data(form)
+
+        for a in ids:
+            if a.id != idh:
+                x+=1
+            else:
+                return x
 
     def _get_book_type(self,form):
         book_type=None
