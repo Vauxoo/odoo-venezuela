@@ -429,7 +429,7 @@ get_amount_untaxed_tax(data['form'],'8','nacional')[1]
             </tr>
         </blockTable>
     </section>
-
+<nextPage/>
 
     <spacer length='5mm'/>
           <!-- ****************************************-->
