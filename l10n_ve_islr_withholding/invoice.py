@@ -597,9 +597,3 @@ account_invoice()
 
 
 
-
-
-
-
-
-
