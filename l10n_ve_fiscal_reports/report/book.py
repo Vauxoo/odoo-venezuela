@@ -148,7 +148,7 @@ class pur_sal_book(report_sxw.rml_parse):
         if tipo=='name':
             tipo ='-----'
         
-        if l.ai_id.name and :
+        if l.ai_id.name:
             if l.ai_id.name in "PAPELANULADO":
                 return 'ANULADO'
         return data
