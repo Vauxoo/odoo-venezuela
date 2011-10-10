@@ -149,7 +149,7 @@ class pur_sal_book(report_sxw.rml_parse):
         for tax in l.ai_id.tax_line:
             name=tax.name
             if name.find('SDCF')>=0:
-                amount = tax.base
+                amount = tax.base+amount
                 if l.ai_id.type in ['in_refund', 'out_refund']:
                     amount = amount * (-1)
         return (amount)
