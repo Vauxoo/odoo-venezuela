@@ -69,6 +69,7 @@ class pur_sal_book(report_sxw.rml_parse):
             'get_taxes': self._get_taxes,
             'get_wh_actual': self._get_wh_actual,
             'get_id': self._get_id,
+            'get_papel_anulado': self._get_papel_anulado,
         })
 
     def _get_id(self,form,idh,type=None):
@@ -141,6 +142,17 @@ class pur_sal_book(report_sxw.rml_parse):
         if l.ar_date_document> form['date_end']:
             return False
         return True
+
+    def _get_papel_anulado(self,data,l,tipo=None):
+        tipo='ANULADO'
+        if tipo=='name':
+            tipo ='-----'
+        
+        if l.ai_id.name and :
+            if l.ai_id.name in "PAPELANULADO":
+                return 'ANULADO'
+        return data
+
 
     def _get_v_sdcf(self,l):
         amount = 0.0
