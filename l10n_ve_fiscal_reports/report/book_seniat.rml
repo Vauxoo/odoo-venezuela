@@ -239,9 +239,9 @@
             [[ setLang(l.ai_id.company_id.partner_id.lang) ]]
             <td><para style="CONTENIDO">[[ data['form']['type'] == 'purchase' and ( l.ai_id.date_document and formatLang(l.ai_id.date_document, date=True) or '') or '' ]]</para></td>
             <td><para style="CONTENIDO">[[ time.strftime('%d/%m/%Y', time.strptime(l.ai_date_invoice, '%Y-%m-%d')) ]]</para></td>
-            <td><para style="CONTENIDO">[[ ("PAPELANULADO" not in l.ai_id.name) and l.rp_id.vat[2:] or '-----' ]]</para></td>
-            <td><para style="CONTENIDOLEFT">[[ ("PAPELANULADO" not in l.ai_id.name) and l.rp_id.name or 'ANULADO' ]]</para></td>
-            <td><para style="CONTENIDO">[[ ("PAPELANULADO" not in l.ai_id.name) and l.ai_reference or '-----' ]]</para></td>
+            <td><para style="CONTENIDO">[[ get_papel_anulado(l.rp_id.vat[2:],l)]]</para></td>
+            <td><para style="CONTENIDO">[[ get_papel_anulado(l.rp_id.name,l,'name')]]</para></td>
+            <td><para style="CONTENIDO">[[ get_papel_anulado(l.ai_reference,l)]]</para></td>
             <td><para style="CONTENIDO">[[ l.ai_id.nro_ctrl ]]</para></td>
             <td><para style="CONTENIDO">[[ formatLang((l.ai_id.type in ['in_refund', 'out_refund']) and l.ai_amount_total*(-1) or l.ai_amount_total) ]]</para></td>
             <td><para style="CONTENIDO">[[ get_doc(l.ai_id.id) ]]</para></td>
