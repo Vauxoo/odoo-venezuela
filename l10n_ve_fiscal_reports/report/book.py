@@ -197,7 +197,7 @@ class pur_sal_book(report_sxw.rml_parse):
         d1=form['date_start']
         d2=form['date_end']
         fr_obj = self.pool.get('fiscal.reports.whs')
-        fr_ids = fr_obj.search(self.cr,self.uid,[('ar_date_ret', '<=', d2), ('ar_date_ret', '>=',d1),('ai_date_inv','<=',d1)], order='ar_date_ret')
+        fr_ids = fr_obj.search(self.cr,self.uid,[('ar_date_ret', '<=', d2), ('ar_date_ret', '>=',d1),('ar_date_document','<=',d1)], order='ar_date_ret')
         data = fr_obj.browse(self.cr,self.uid, fr_ids)
         return data
 

@@ -210,6 +210,7 @@ class fiscal_reports_whp(osv.osv):
     _columns = {
     'ar_date_ret': fields.date('Date ret.', readonly=True),
     'ai_date_inv': fields.date('Date Invoice'),
+    'ar_date_document': fields.date('Date Account Retencion'),
     'rp_vat':fields.char('Vat Number', size=64, readonly=True),
     'rp_id':fields.many2one('res.partner', 'Partner', readonly=True),
     'ar_number':fields.char('Retention Number', size=64, required=False, readonly=True),
@@ -234,6 +235,7 @@ class fiscal_reports_whp(osv.osv):
                      ar."number" AS ar_number,
                      ai."reference" AS ai_reference,
                      ai."date_invoice" AS ai_date_inv,
+                     ar."date" AS ar_date_document,
                     case when ai.type='in_refund'
                     then
                         ai."amount_total"*(-1)
@@ -280,6 +282,7 @@ class fiscal_reports_whs(osv.osv):
     _columns = {
     'ar_date_ret': fields.date('Date'),
     'ai_date_inv': fields.date('Date Invoice'),
+    'ar_date_document': fields.date('Date Account Retencion'),
     'rp_vat':fields.char('Vat Number', size=64, readonly=True),
     'rp_id':fields.many2one('res.partner', 'Partner Name', readonly=True),
     'ar_number':fields.char('WH Number', size=64, readonly=True),
@@ -306,6 +309,7 @@ class fiscal_reports_whs(osv.osv):
                      ai."number" AS ai_reference,
                      ai."number" AS ai_number,
                      ai."date_invoice" AS ai_date_inv,
+                     ar."date" AS ar_date_document,
                     case when ai.type='out_refund'
                     then
                         ai."amount_total"*(-1)
