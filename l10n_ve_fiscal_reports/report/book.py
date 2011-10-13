@@ -144,15 +144,15 @@ class pur_sal_book(report_sxw.rml_parse):
         return True
 
     def _get_papel_anulado(self,data,l,tipo=None):
-        tipo='ANULADO'
-        if tipo=='name':
-            tipo ='-----'
         
         if l.ai_id.name:
-            if l.ai_id.name in "PAPELANULADO":
-                return 'ANULADO'
-        return data
-
+            if l.ai_id.name.find('PAPELANULADO')>=0: 
+                return tipo
+            else: 
+                return data
+        else:
+            return data
+        return tipo
 
     def _get_v_sdcf(self,l):
         amount = 0.0
@@ -208,6 +208,7 @@ class pur_sal_book(report_sxw.rml_parse):
         fr_obj = self.pool.get(book_type)
         
         fr_ids = fr_obj.search(self.cr,self.uid,[('ar_date_ret', '<=', form['date_end']), ('ar_date_ret', '>=', form['date_start'])])
+        
         data = fr_obj.browse(self.cr,self.uid, fr_ids)
         for wh in data:
             if wh.ai_id.type in ['in_refund', 'out_refund']:
