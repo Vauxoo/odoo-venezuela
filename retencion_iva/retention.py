@@ -90,8 +90,8 @@ class account_retention(osv.osv):
             ('done','Done'),
             ('cancel','Cancelled')
             ],'Estado', select=True, readonly=True, help="Estado del Comprobante"),
-        'date_ret': fields.date('Fecha Comprobante', readonly=True, states={'draft':[('readonly',False)]}, help="Mantener en blanco para usar la fecha actual"),
-        'date': fields.date('Fecha', readonly=True, states={'draft':[('readonly',False)]}, help="Fecha de emision"),
+        'date_ret': fields.date('Fecha Contable', readonly=True, states={'draft':[('readonly',False)]}, help="Fecha de llegada del documento y fecha que se utilizara para hacer el registro contable.Mantener en blanco para usar la fecha actual."),
+        'date': fields.date('Fecha Comprobante', readonly=True, states={'draft':[('readonly',False)]}, help="Fecha de emision del comprobante de retencion por parte del ente externo."),
         'period_id': fields.many2one('account.period', 'Periodo', domain=[('state','<>','done')], readonly=True, states={'draft':[('readonly',False)]}, help="Mantener en blanco para usar el periodo fiscal correspondiente a la fecha del comprobante"),
         'account_id': fields.many2one('account.account', 'Cuenta', required=True, readonly=True, states={'draft':[('readonly',False)]}, help="Cuenta donde se cargaran los montos retenidos del I.V.A."),
         'partner_id': fields.many2one('res.partner', 'Partner', readonly=True, required=True, states={'draft':[('readonly',False)]}, help="Proveedor o Cliente al cual se retiene o te retiene"),
