@@ -316,6 +316,7 @@ class account_invoice(osv.osv):
         'wh':dict['wh'],
         'rate_id': dict['rate_id'],
         'account_invoice_line_id': line,
+        'account_invoice_id': inv_id.id,
         'partner_id': inv_id.partner_id.id,
         })
 
