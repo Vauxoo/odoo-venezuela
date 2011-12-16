@@ -40,7 +40,7 @@ sur_fields = {
     'date': {'string':'Operation date','type':'date', 'required':'False'},
     'period':{'string': 'Force period', 'type': 'many2one',
         'relation': 'account.period', 'required': False},
-    'description':{'string':'Description', 'type':'char', 'required':'False'},
+    'description':{'string':'Description', 'type':'char', 'size': 128, 'required':'False'},
     'comment': {'string': 'Comment', 'type':'char', 'required':True},
     }
 
