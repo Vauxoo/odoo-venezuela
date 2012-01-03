@@ -143,12 +143,12 @@ class islr_xml_wh_doc(osv.osv):
             for line in xml_lines:
                 partner_vat,control_number,porcent_rete,concept_code,invoice_number,base,inv_id=line
                 detalle = SubElement(root,"DetalleRetencion")
-                SubElement(detalle, "RifRetenido").text = line.partner_vat
-                SubElement(detalle, "NumeroFactura").text = line.invoice_number
-                SubElement(detalle, "NumeroControl").text = line.control_number
-                SubElement(detalle, "CodigoConcepto").text = line.concept_code
-                SubElement(detalle, "MontoOperacion").text = str(line.base)
-                SubElement(detalle, "PorcentajeRetencion").text = str(line.porcent_rete)
+                SubElement(detalle, "RifRetenido").text = partner_vat
+                SubElement(detalle, "NumeroFactura").text = invoice_number
+                SubElement(detalle, "NumeroControl").text = control_number
+                SubElement(detalle, "CodigoConcepto").text = concept_code
+                SubElement(detalle, "MontoOperacion").text = str(base)
+                SubElement(detalle, "PorcentajeRetencion").text = str(porcent_rete)
         #~ ElementTree(root).write("/home/gabriela/openerp/Gabriela/5.0/Helados Gilda/islr_withholding/xml.xml")
         self.indent(root)
         return tostring(root,encoding="ISO-8859-1")
