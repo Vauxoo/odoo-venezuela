@@ -22,12 +22,22 @@
 #    You should have received a copy of the GNU Affero General Public License
 #    along with this program.  If not, see <http://www.gnu.org/licenses/>.
 ################################################################################
-import installer
-import invoice
-import partner
-import res_company
-import seniat_url
-import l10n_ut
-import wizard
-import account_tax
-# vim:expandtab:smartindent:tabstop=4:softtabstop=4:shiftwidth=4:
+
+from osv import fields, osv
+
+
+class account_tax(osv.osv):
+    _inherit = 'account.tax'
+    _columns = {
+        'appl_type': fields.selection(
+            [('exento', 'Exempt'), 
+            ('sdcf', 'Not entitled to tax credit'), 
+            ('general', 'General Aliquot'),
+            ('reducido', 'Reducted Aliquot'),
+            ('adicional', 'General Aliquot + Additional')], 
+        'Aliquot Type', 
+        required=False, 
+        help='Specify the aliquote type for the tax so it can be processed accrordly when the sale/purchase book is generatred'),
+   }
+
+account_tax()

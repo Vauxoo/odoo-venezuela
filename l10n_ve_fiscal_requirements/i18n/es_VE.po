@@ -843,4 +843,32 @@ msgstr "Segunda Referencia"
 msgid "Account entry reference"
 msgstr "Referencia del apunte contable"
 
+#. module: l10n_ve_fiscal_requirements
+#: selection:account.tax,appl_type:0
+msgid "Reducted Aliquot"
+msgstr "Alicuota Reducida"
 
+#. module: l10n_ve_fiscal_requirements
+#: field:account.tax,appl_type:0
+msgid "Aliquot Type"
+msgstr "Tipo de Alicuota"
+
+#. module: l10n_ve_fiscal_requirements
+#: selection:account.tax,appl_type:0
+msgid "Exempt"
+msgstr "Exento"
+
+#. module: l10n_ve_fiscal_requirements
+#: selection:account.tax,appl_type:0
+msgid "General Aliquot"
+msgstr "Alicuota General"
+
+#. module: l10n_ve_fiscal_requirements
+#: selection:account.tax,appl_type:0
+msgid "General Aliquot + Additional"
+msgstr "Alicuota General + Adicional"
+
+#. module: l10n_ve_fiscal_requirements
+#: help:account.tax,appl_type:0
+msgid "Specify the aliquote type for the tax so it can be processed accrordly when the sale/purchase book is generatred"
+msgstr "Specify the aliquote type for the tax so it can be processed accrordly when the sale/purchase book is generatred"

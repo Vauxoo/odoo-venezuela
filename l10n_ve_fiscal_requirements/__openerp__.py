@@ -44,7 +44,8 @@
   -  Add wizard to assign, modify or unlink source invoice (parent invoice) to another one.
   -  Automatically unreconciles paid invoices when making a refund of type modify or cancel.
   -  Validate automatically the withholding of debit notes.
-
+  -  Add a field on taxes configuration form for indicating the type of tax according to venezuelan laws
+  
 For damaged invoices (Free form formats), you must go to the company and, under the configuration section,
 create the corresponding journal and account.
 TODO : Include this on wizard configuration.
@@ -78,6 +79,7 @@ We now have a configuration wizard after this module install.
         'wizard/account_invoice_parent_view.xml',
         'wizard/search_info_partner_seniat.xml',
         'account_invoice_view.xml',
+        'view/account_tax_view.xml',
     ],
     'demo_xml': [
         'demo/demo_partners.xml',
