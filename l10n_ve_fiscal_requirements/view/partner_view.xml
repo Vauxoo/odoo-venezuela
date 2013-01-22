@@ -21,6 +21,7 @@
           <xpath expr='/form/group/group/field[@name="lang"]' position='after'>
               <field name="vat" on_change="vat_change_fiscal_requirements(vat)" colspan="2"/>
               <button name="update_rif" string="Update Fiscal Information" type="object" icon="gtk-execute" colspan="2"/>
+              <button name="" string="Update Name" type="object" icon="gtk-execute" colspan="2"/>
           </xpath>
         </field>
     </record>
