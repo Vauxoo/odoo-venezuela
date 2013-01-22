@@ -5,10 +5,9 @@
 #    Copyright (C) OpenERP Venezuela (<http://openerp.com.ve>).
 #    All Rights Reserved
 ###############Credits######################################################
-#    Coded by: Maria Gabriela Quilarque  <gabrielaquilarque97@gmail.com>
-#    Planified by: Nhomar Hernandez
-#    Finance by: Helados Gilda, C.A. http://heladosgilda.com.ve
-#    Audited by: Humberto Arocha humberto@openerp.com.ve
+#    Coded by: Yanina Aular <yanina.aular@vauxoo.com>           
+#    Planified by: Humberto Arocha
+#    Audited by: Vauxoo C.A.
 #############################################################################
 #    This program is free software: you can redistribute it and/or modify
 #    it under the terms of the GNU Affero General Public License as published by
@@ -22,13 +21,21 @@
 #
 #    You should have received a copy of the GNU Affero General Public License
 #    along with this program.  If not, see <http://www.gnu.org/licenses/>.
-##############################################################################
-import wizard_nro_ctrl
-import wizard_invoice_nro_ctrl
-import wizard_url_seniat
-import wizard_update_name
-import update_info_partner
-import account_invoice_refund
-import account_invoice_debit
-import account_invoice_parent
-import search_info_partner_seniat
+################################################################################
+
+from osv import osv
+from osv import fields
+from tools.translate import _
+
+class wiz_updatename(osv.osv_memory):
+    _name = 'wiz.updatename'
+    _description = "Wizard that changes the partner name"
+
+    def set_name(self, cr, uid, ids, context):
+        return {}
+
+    _columns = {
+        'name': fields.char('Name', 256, required=True),
+        'sure': fields.boolean('Are you sure?'),
+    }
+wiz_updatename()
