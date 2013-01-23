@@ -32,10 +32,19 @@ class wiz_updatename(osv.osv_memory):
     _description = "Wizard that changes the partner name"
 
     def set_name(self, cr, uid, ids, context):
+        data = self.pool.get('wiz.updatename').read(cr, uid, ids)[0]
+        if not data['sure']:
+            raise osv.except_osv(_("Error!"), _("Please confirm that you want to do this by checking the option"))
+        
+        partner_obj = self.pool.get('res.partner')
+        name_partner = data['name']
+        
+        partner_obj.write(cr, uid, context['active_id'], {'name': name_partner}, context=context)
         return {}
 
     _columns = {
         'name': fields.char('Name', 256, required=True),
         'sure': fields.boolean('Are you sure?'),
     }
+    
 wiz_updatename()
