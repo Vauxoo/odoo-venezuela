@@ -33,6 +33,7 @@ class wiz_updatename(osv.osv_memory):
 
     def set_name(self, cr, uid, ids, context):
         data = self.pool.get('wiz.updatename').read(cr, uid, ids)[0]
+        print ids
         if not data['sure']:
             raise osv.except_osv(_("Error!"), _("Please confirm that you want to do this by checking the option"))
         
@@ -45,6 +46,18 @@ class wiz_updatename(osv.osv_memory):
     _columns = {
         'name': fields.char('Name', 256, required=True),
         'sure': fields.boolean('Are you sure?'),
+    }
+
+    def _get_name(self, cr, uid, context=None):
+        if context is None:
+            context = {}
+        partner_obj = self.pool.get('res.partner')
+        partner = partner_obj.search(cr, uid, [('id', '=', context['active_id'])])
+        partner_o = partner_obj.browse(cr, uid,  partner[0])
+        return partner_o and partner_o.name or False
+
+    _defaults = {
+        'name': _get_name,
     }
     
 wiz_updatename()
