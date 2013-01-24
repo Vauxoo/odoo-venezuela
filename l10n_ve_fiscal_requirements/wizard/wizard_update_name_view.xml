@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+    <data>
+        <record model="ir.ui.view" id="wizard_name_form">
+            <field name="name">wizard.updatename.form</field>
+            <field name="model">wiz.updatename</field>
+            <field name="type">form</field>
+            <field name="arch" type="xml">
+                <form string="Changing the Name">
+                    <field name="name" colspan="4" />
+                    <separator string="Are you sure you want to do this?" colspan="4" />
+                    <field name="sure" />
+                    <button special='cancel' string="Cancel" icon="terp-gtk-stop" />
+                    <button name="set_name" string="Confirm" type="object" icon="terp-check" />
+                </form>
+            </field>
+        </record>
+    
+    <record id="action_wiz_name" model="ir.actions.act_window">
+      <field name="name">Change name</field>
+      <field name="type">ir.actions.act_window</field>
+      <field name="res_model">wiz.updatename</field>
+      <field name="view_type">form</field>
+      <field name="view_mode">form</field>
+      <field name="target">new</field>
+    </record>
+    
+    </data>
+</openerp>
