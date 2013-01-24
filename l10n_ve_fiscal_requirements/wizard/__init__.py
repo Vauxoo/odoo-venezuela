@@ -26,6 +26,7 @@
 import wizard_nro_ctrl
 import wizard_invoice_nro_ctrl
 import wizard_url_seniat
+import wizard_update_name
 import update_info_partner
 import account_invoice_refund
 import account_invoice_debit
