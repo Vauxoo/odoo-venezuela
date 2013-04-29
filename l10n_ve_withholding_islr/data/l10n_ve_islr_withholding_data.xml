@@ -821,7 +821,7 @@
             <field eval="1" name="residence"/>
             <field eval="0.33" name="minimum"/>
 			<field eval="100.00" name="base"/>
-            <field eval="5.00" name="wh_perc"/>
+            <field eval="3.00" name="wh_perc"/>
             <field eval="0" name="subtract"/>
 			<field name="concept_id" ref="islr_wh_concept_pagos_transportes_y_fletes"/>
         </record>
