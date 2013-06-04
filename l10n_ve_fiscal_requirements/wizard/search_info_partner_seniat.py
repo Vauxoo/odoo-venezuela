@@ -52,9 +52,7 @@ class search_info_partner_seniat(osv.osv_memory):
         if rp_obj.check_vat_ve(aux,context):
             context.update({'spf_info':True})
             res = su_obj._dom_giver(url1,url2,url3, aux,context)
-            if res:
-                res.update({'wh_iva_rate':su_obj._buscar_porcentaje(aux,url2)})
-            else:
+            if not res:
                 raise osv.except_osv(_('Error'),_("Does not exist the contributor requested"))
             self.write(cr,uid,vat,res)
         

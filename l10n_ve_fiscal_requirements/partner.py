@@ -32,6 +32,7 @@
 
 from osv import fields, osv
 from tools.translate import _
+import decimal_precision as dp
 import re
 
 class res_partner_address(osv.osv):
@@ -65,6 +66,11 @@ class res_partner(osv.osv):
    
     _columns = {
         'seniat_updated': fields.boolean('Seniat Updated', help="This field indicates if partner was updated using SENIAT button"),
+        'wh_iva_agent': fields.boolean('Wh. Agent', help="Indicate if the partner is a withholding vat agent"),
+        'wh_iva_rate': fields.float(
+            string='Rate',
+            digits_compute=dp.get_precision('Withhold'),
+            help="Withholding vat rate"),
     }
 
     _default = {
