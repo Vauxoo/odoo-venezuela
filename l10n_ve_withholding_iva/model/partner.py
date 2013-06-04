@@ -34,7 +34,6 @@ class res_partner(osv.osv):
     logger = netsvc.Logger()
     _columns = {
         'wh_iva_agent': fields.boolean('Wh. Agent', help="Indicate if the partner is a withholding vat agent"),
-        'wh_iva_rate': fields.float(string='Rate', digits_compute= dp.get_precision('Withhold'), help="Withholding vat rate"),
     }
     _defaults = {
         'wh_iva_rate': lambda *a: 0,
