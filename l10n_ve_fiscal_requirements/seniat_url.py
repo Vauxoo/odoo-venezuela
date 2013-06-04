@@ -83,12 +83,17 @@ class seniat_url(osv.osv):
         name = dom.childNodes[0].childNodes[0].firstChild.data
         wh_agent = dom.childNodes[0].childNodes[1].firstChild.data.upper()=='SI' and True or False
         vat_subjected = dom.childNodes[0].childNodes[2].firstChild.data.upper()=='SI' and True or False
+        wh_rate = dom.childNodes[0].childNodes[3].firstChild.data
         self.logger.notifyChannel("info", netsvc.LOG_INFO,
             "RIF: %s Found" % rif)
         if name.count('(') > 0:
             name = name[:name.index('(')].rstrip()
         if context.get('spf_info'):
-            res= {'name': name,'vat_subjected': vat_subjected,'vat':'VE'+rif_aux,'wh_iva_agent':wh_agent}  
+            res= {'name': name,
+                  'vat_subjected': vat_subjected,
+                  'vat': 'VE'+rif_aux,
+                  'wh_iva_rate': wh_rate,
+                  'wh_iva_agent': wh_agent}
         else:
             res= {'name': name,'vat_subjected': vat_subjected,'vat':'VE'+rif_aux}  
         return res
