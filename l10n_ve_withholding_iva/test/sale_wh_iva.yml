@@ -40,13 +40,13 @@
   Can not create a AWI doc with a Non-Wh Partner, need to use a Wh Partner.
   That is the reason why this test is commented.
   You need to descomment this test to run it and will raise an yaml ERROR and a server exception.
-#~ -
-    #~ !record {model: account.wh.iva, id: awi_sale_X0X, view: l10n_ve_withholding_iva.view_wh_iva_form_customer}: &awi_sale_X0X
-        #~ name: AWI SALE X0X
-        #~ partner_id: l10n_ve_fiscal_requirements.f_req_partner_7
-        #~ account_id: account.a_recv
-        #~ company_id: base.main_company
-        #~ currency_id: base.EUR
+# -
+    # !record {model: account.wh.iva, id: awi_sale_X0X, view: l10n_ve_withholding_iva.view_wh_iva_form_customer}: &awi_sale_X0X
+        # name: AWI SALE X0X
+        # partner_id: l10n_ve_fiscal_requirements.f_req_partner_7
+        # account_id: account.a_recv
+        # company_id: base.main_company
+        # currency_id: base.EUR
 -
   I create a customer withholding with a wh partner to later try to update to a Non-Wh Partner.
 -
@@ -989,25 +989,25 @@
   this line was already added to another withholding doc. This test is comment
   because it raise a sql constraint that cannot be manage with a python try.
   It works well. If you want to re test this you need to uncomment this test.
-#~ -
-  #~ !python {model: account.wh.iva}: |
-    #~ awi_id = ref('awi_sale_customer_a2')
-    #~ invoice_id = ref('awi_sale_invoice_repeat_customer_a')
-    #~ values = {}
-    #~ awi_brw = self.browse(cr, uid, awi_id)
-    #~ res = self.onchange_partner_id(
-        #~ cr, uid, [awi_id], 'out_invoice', awi_brw.partner_id.id)
-    #~ values['wh_lines'] = [
-        #~ (0, 0, {'invoice_id': invoice_id,
-                #~ 'name':'N/A',
-                #~ 'wh_iva_rate': awi_brw.partner_id.wh_iva_rate})]
-    #~ values['account_id'] = res['value']['account_id']
-    #~ try:
-        #~ self.write(cr, uid, awi_id, values)
-        #~ assert False, 'Add invoice was added first in one withholding doc so it can be added into a another withholding doc.'
-    #~ except Exception as e:
-        #~ print 'Correct peformance, the sql constraint does not permit that the invoice was added to two withholding documents'
-        #~ pass
+# -
+  # !python {model: account.wh.iva}: |
+    # awi_id = ref('awi_sale_customer_a2')
+    # invoice_id = ref('awi_sale_invoice_repeat_customer_a')
+    # values = {}
+    # awi_brw = self.browse(cr, uid, awi_id)
+    # res = self.onchange_partner_id(
+        # cr, uid, [awi_id], 'out_invoice', awi_brw.partner_id.id)
+    # values['wh_lines'] = [
+        # (0, 0, {'invoice_id': invoice_id,
+                # 'name':'N/A',
+                # 'wh_iva_rate': awi_brw.partner_id.wh_iva_rate})]
+    # values['account_id'] = res['value']['account_id']
+    # try:
+        # self.write(cr, uid, awi_id, values)
+        # assert False, 'Add invoice was added first in one withholding doc so it can be added into a another withholding doc.'
+    # except Exception as e:
+        # print 'Correct peformance, the sql constraint does not permit that the invoice was added to two withholding documents'
+        # pass
 -
   3.8 Can not add draft invoices to Customer Withholding document, only paid and open invoices.
 -

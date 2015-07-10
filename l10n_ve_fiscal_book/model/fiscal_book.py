@@ -3,7 +3,8 @@
 #    Module Writen to OpenERP, Open Source Management Solution
 #    Copyright (C) OpenERP Venezuela (<http://openerp.com.ve>).
 #    All Rights Reserved
-############# Credits #########################################################
+###############################################################################
+#    Credits:
 #    Coded by: Humberto Arocha           <hbto@vauxoo.com>
 #              Katherine Zaoral          <katherine.zaoral@vauxoo.com>
 #    Planified by: Humberto Arocha & Nhomar Hernandez
@@ -22,10 +23,11 @@
 #    You should have received a copy of the GNU Affero General Public License
 #    along with this program.  If not, see <http://www.gnu.org/licenses/>.
 ###############################################################################
-from openerp.osv import osv, orm, fields
-from openerp.tools.translate import _
-from openerp.addons import decimal_precision as dp
 import time
+
+from openerp.addons import decimal_precision as dp
+from openerp.osv import fields, orm, osv
+from openerp.tools.translate import _
 
 
 class fiscal_book(orm.Model):
@@ -63,7 +65,7 @@ class fiscal_book(orm.Model):
         context = context or {}
         rp_obj = self.pool.get('res.partner')
         res = {}.fromkeys(ids, 'NO HAY DIRECCION FISCAL DEFINIDA')
-        #~ TODO: ASK: what company, fisal.book.company_id?
+        # TODO: ASK: what company, fisal.book.company_id?
         ru_obj = self.pool.get('res.users')
         rc_brw = ru_obj.browse(cr, uid, uid, context=context).company_id
         addr = rp_obj._find_accounting_partner(rc_brw.partner_id)
@@ -83,13 +85,16 @@ class fiscal_book(orm.Model):
         @param field_name: field [get_month_year]
         """
         context = context or {}
-        months = ["Enero", "Febrero", "Marzo", "Abril", "Mayo", "Junio", "Julio",
-            "Agosto", "Septiembre", "Octubre", "Noviembre", "Diciembre"]
+        months = ["Enero", "Febrero", "Marzo", "Abril", "Mayo", "Junio",
+                  "Julio", "Agosto", "Septiembre", "Octubre", "Noviembre",
+                  "Diciembre"]
         res = {}.fromkeys(ids, '')
         for fb_brw in self.browse(cr, uid, ids, context=context):
-            month = months[time.strptime(fb_brw.period_id.date_start, "%Y-%m-%d")[1] - 1]
+            month = months[time.strptime(fb_brw.period_id.date_start,
+                                         "%Y-%m-%d")[1] - 1]
             year = time.strptime(fb_brw.period_id.date_start, "%Y-%m-%d")[0]
-            res[fb_brw.id] = "Correspodiente al Mes de " + str(month) + " del año " + str(year)
+            res[fb_brw.id] = ("Correspodiente al Mes de " + str(month) +
+                              " del año " + str(year))
         return res
 
     def _get_total_with_iva_sum(self, cr, uid, ids, field_names, arg,
@@ -115,7 +120,7 @@ class fiscal_book(orm.Model):
 
             res[fb_brw.id]['get_total_with_iva_sum'] = \
                 sum([res[fb_brw.id]["get_total_with_iva_" + optype + "_sum"]
-                for optype in op_types])
+                     for optype in op_types])
         return res
 
     def _get_vat_sdcf_sum(self, cr, uid, ids, field_name, arg, context=None):
@@ -128,7 +133,7 @@ class fiscal_book(orm.Model):
             res[fb_brw.id] = fb_brw.type == 'purchase' \
                 and (fb_brw.imex_sdcf_vat_sum + fb_brw.do_sdcf_vat_sum) \
                 or (fb_brw.imex_sdcf_vat_sum + fb_brw.tp_sdcf_vat_sum +
-                fb_brw.ntp_sdcf_vat_sum)
+                    fb_brw.ntp_sdcf_vat_sum)
         return res
 
     def _get_total_tax_credit_debit(self, cr, uid, ids, field_names, arg,
@@ -137,7 +142,7 @@ class fiscal_book(orm.Model):
         @param field_name: ['get_total_tax_credit_debit_base_sum',
                             'get_total_tax_credit_debit_tax_sum']
         """
-        #~ TODO: summations of all taxes types? only ret types?
+        # TODO: summations of all taxes types? only ret types?
         context = context or {}
         res = {}.fromkeys(ids, {}.fromkeys(field_names, 0.0))
         for fb_brw in self.browse(cr, uid, ids, context=context):
@@ -160,8 +165,8 @@ class fiscal_book(orm.Model):
         """ It returns sum of all data in the withholding summary table.
         @param field_name: ['get_total_wh_sum', 'get_previous_wh_sum',
                             'get_wh_sum']"""
-        #~ TODO: this works if its ensuring that that emmision date is always
-        #~ set and and all periods for every past dates are created.
+        # TODO: this works if its ensuring that that emmision date is always
+        # set and and all periods for every past dates are created.
         context = context or {}
         res = {}.fromkeys(ids, {}.fromkeys(field_names, 0.0))
         period_obj = self.pool.get('account.period')
@@ -216,7 +221,8 @@ class fiscal_book(orm.Model):
                                    ('confirmed', 'Approved by Manager'),
                                    ('done', 'Seniat Submitted'),
                                    ('cancel', 'Cancel')],
-                                  string='Status', required=True, readonly=True),
+                                  string='Status', required=True,
+                                  readonly=True),
         'type': fields.selection([('sale', 'Sale Book'),
                                   ('purchase', 'Purchase Book')],
                                  help="Select Sale for Customers and"
@@ -256,17 +262,20 @@ class fiscal_book(orm.Model):
             string="Article Number",
             required=True,
             help="Article number describing the fiscal book special features"
-            " according to the Venezuelan RLIVA statement for fiscal"
-            " accounting books. Options:"
-            " - Art. 75: Pruchase Book."
-            " - Art. 76: Sale Book. Reflects every individual operation detail."
-            " - Art. 77: Sale Book. Groups Non-Tax Payer operations in one "
-            " consolidated line. Only fiscal billing."
-            " - Art. 78: Sale Book. Hybrid for 76 and 77 article. Show"
-            " automatic and mechanized operations in individual way, and "
-            " groups fiscal billing operationss in one consolidated line."),
+                 " according to the Venezuelan RLIVA statement for fiscal"
+                 " accounting books. Options:"
+                 " - Art. 75: Pruchase Book."
+                 " - Art. 76: Sale Book. Reflects every individual operation"
+                 " detail."
+                 " - Art. 77: Sale Book. Groups Non-Tax Payer operations in"
+                 " one "
+                 " consolidated line. Only fiscal billing."
+                 " - Art. 78: Sale Book. Hybrid for 76 and 77 article. Show"
+                 " automatic and mechanized operations in individual way, and "
+                 " groups fiscal billing operationss in one consolidated"
+                 " line."),
 
-        #~ Withholding fields
+        # Withholding fields
         'get_wh_sum': fields.function(
             _get_wh,
             type="float", method=True, store=True, multi="get_wh",
@@ -292,7 +301,7 @@ class fiscal_book(orm.Model):
             help="Totalization row in Fiscal Book Line block at"
             " Based Tax Debit Column"),
 
-        #~ Printable report data
+        # Printable report data
         'get_partner_addr': fields.function(
             _get_partner_addr,
             type="text", method=True,
@@ -302,7 +311,7 @@ class fiscal_book(orm.Model):
             type="text", method=True,
             help='Year and Month ot the Fiscal book period'),
 
-        #~ Totalization fields for all type of transactions
+        # Totalization fields for all type of transactions
         'get_total_with_iva_sum': fields.function(
             _get_total_with_iva_sum,
             type="float", method=True, store=True,
@@ -336,7 +345,7 @@ class fiscal_book(orm.Model):
             " At Sale book represent the sum of Tax Payer and Non-Tax Payer"
             " transactions."),
 
-        #~ Totalization fields for international transactions
+        # Totalization fields for international transactions
         'get_total_with_iva_imex_sum': fields.function(
             _get_total_with_iva_sum,
             type="float", method=True, store=True,
@@ -390,7 +399,7 @@ class fiscal_book(orm.Model):
             help="Reduced VAT Taxed Imports/Exports Tax Amount. Sum of "
             " Reduced VAT Tax column for international transactions"),
 
-        #~ Totalization fields for domestic transactions
+        # Totalization fields for domestic transactions
         'get_total_with_iva_do_sum': fields.function(
             _get_total_with_iva_sum,
             type="float", method=True, store=True,
@@ -460,8 +469,8 @@ class fiscal_book(orm.Model):
             _get_do_adjustment_vat_tax_sum, method=True, type='float',
             string='Adjustment VAT Taxed Amount'),
 
-        #~ Apply only for sale book
-        #~ Totalization fields for tax payer and Non-Tax Payer transactions
+        # Apply only for sale book
+        # Totalization fields for tax payer and Non-Tax Payer transactions
         'ntp_fbl_ids': fields.one2many("fiscal.book.line", "ntp_fb_id",
                                        string="Non-Tax Payer Detail Lines",
                                        help="Non-Tax Payer Lines that are"
@@ -555,12 +564,14 @@ class fiscal_book(orm.Model):
             digits_compute=dp.get_precision('Account'),
             string="Additional VAT Taxable Amount",
             help="Additional VAT Taxed Non-Tax Payer Base Amount Totalization."
-            " Sum of Additional VAT Base column for Non-Tax Payer transactions"),
+                 " Sum of Additional VAT Base column for Non-Tax Payer"
+                 " transactions"),
         'ntp_additional_vat_tax_sum': fields.float(
             digits_compute=dp.get_precision('Account'),
             string="Additional VAT Taxed Amount",
             help="Additional VAT Taxed Non-Tax Payer Tax Amount Totalization."
-            " Sum of Additional VAT Tax column for Non-Tax Payer transactions"),
+                 " Sum of Additional VAT Tax column for Non-Tax Payer"
+                 " transactions"),
         'ntp_reduced_vat_base_sum': fields.float(
             digits_compute=dp.get_precision('Account'),
             string="Reduced VAT Taxable Amount",
@@ -585,10 +596,11 @@ class fiscal_book(orm.Model):
     _sql_constraints = [
         ('period_type_company_uniq',
          'unique (period_id,type,company_id,fortnight)',
-         _('The period, type, fortnight combination must be unique per company!')),
+         _('The period, type, fortnight combination must be unique per'
+           ' company!')),
     ]
 
-    #~ action methods
+    # action methods
 
     def onchange_field_clear_book(self, cr, uid, ids, context=None):
         """ It make clear all stuff of book. """
@@ -596,7 +608,7 @@ class fiscal_book(orm.Model):
         self.clear_book(cr, uid, ids, context=context)
         return {'value': {}}
 
-    #~ update book methods
+    # update book methods
 
     def _get_invoice_ids(self, cr, uid, fb_id, context=None):
         """
@@ -610,7 +622,7 @@ class fiscal_book(orm.Model):
             and ['out_invoice', 'out_refund'] \
             or ['in_invoice', 'in_refund']
         inv_state = ['paid', 'open']
-        #~ pull invoice data
+        # pull invoice data
         inv_ids = inv_obj.search(cr, uid,
                                  [('period_id', '=', fb_brw.period_id.id),
                                   ('company_id', '=', fb_brw.company_id.id),
@@ -659,7 +671,8 @@ class fiscal_book(orm.Model):
         for inv_id in inv_ids:
             inv_brw = inv_obj.browse(cr, uid, inv_id, context=context)
             period, fortnight = period_obj._find_fortnight(
-                cr, uid, dt=inv_brw.date_invoice, context=context)
+                cr, uid, date=inv_brw.date_invoice, context=context)
+            period = period
             if fb_fortnight == fortnight:
                 res.append(inv_id)
         return res
@@ -671,7 +684,8 @@ class fiscal_book(orm.Model):
         for fb_brw in self.browse(cr, uid, ids, context=context):
             self.clear_book(cr, uid, [fb_brw.id], context=context)
             self.update_book_invoices(cr, uid, fb_brw.id, context=context)
-            self.update_book_issue_invoices(cr, uid, fb_brw.id, context=context)
+            self.update_book_issue_invoices(cr, uid, fb_brw.id,
+                                            context=context)
             self.update_book_wh_iva_lines(cr, uid, fb_brw.id, context=context)
             self.update_book_customs_form(cr, uid, fb_brw.id, context=context)
             self.update_book_lines(cr, uid, fb_brw.id, context=context)
@@ -683,13 +697,13 @@ class fiscal_book(orm.Model):
         """
         context = context or {}
         inv_obj = self.pool.get('account.invoice')
-        #~ Relate invoices
+        # Relate invoices
         inv_ids = self._get_invoice_ids(cr, uid, fb_id, context=context)
         inv_obj.write(cr, uid, inv_ids, {'fb_id': fb_id}, context=context)
 
-        #~ TODO: move this process to the cancel process of the invoice
-        #~ Unrelate invoices (period book change, invoice now cancel/draft or
-        #~ have change its period)
+        # TODO: move this process to the cancel process of the invoice
+        # Unrelate invoices (period book change, invoice now cancel/draft or
+        # have change its period)
         all_inv_ids = inv_obj.search(cr, uid, [('fb_id', '=', fb_id)],
                                      context=context)
         for inv_id_to_check in all_inv_ids:
@@ -710,13 +724,13 @@ class fiscal_book(orm.Model):
             and ['out_invoice', 'out_refund'] \
             or ['in_invoice', 'in_refund']
         inv_state = ['paid', 'open']
-        #~ pull invoice data
+        # pull invoice data
         issue_inv_ids = inv_obj.search(
             cr, uid,
-            ['|',
-             '&', ('fb_id', '=', fb_brw.id), ('period_id', '!=', fb_brw.period_id.id),
-             '&', '&', ('period_id', '=', fb_brw.period_id.id), ('type', 'in', inv_type),
-             ('state', 'not in', inv_state)],
+            ['|', '&', ('fb_id', '=', fb_brw.id),
+             ('period_id', '!=', fb_brw.period_id.id),
+             '&', '&', ('period_id', '=', fb_brw.period_id.id),
+             ('type', 'in', inv_type), ('state', 'not in', inv_state)],
             order='date_invoice asc', context=context)
         if fb_brw.fortnight:
             issue_inv_ids = self.get_invoices_from_fortnight(
@@ -753,12 +767,12 @@ class fiscal_book(orm.Model):
         awil_type = fb_brw.type == 'sale' \
             and ['out_invoice', 'out_refund'] \
             or ['in_invoice', 'in_refund']
-        #~ pull wh iva line data
+        # pull wh iva line data
         awil_ids = []
         awi_ids = awi_obj.search(cr, uid,
                                  [('period_id', '=', fb_brw.period_id.id),
-                                 ('type', 'in', awil_type),
-                                 ('state', '=', 'done')],
+                                  ('type', 'in', awil_type),
+                                  ('state', '=', 'done')],
                                  context=context)
         if fb_brw.fortnight:
             awi_ids = self.get_awi_from_fortnight(
@@ -788,12 +802,13 @@ class fiscal_book(orm.Model):
         for awi_id in awi_ids:
             awi_brw = awi_obj.browse(cr, uid, awi_id, context=context)
             period, fortnight = period_obj._find_fortnight(
-                cr, uid, dt=awi_brw.date_ret, context=context)
+                cr, uid, date=awi_brw.date_ret, context=context)
+            period = period
             if fb_fortnight == fortnight:
                 res.append(awi_id)
         return res
 
-    #~ TODO: test this method.
+    # TODO: test this method.
     def update_book_wh_iva_lines(self, cr, uid, fb_id, context=None):
         """ It relate/unrelate the wh iva lines to the fiscal book.
         @param fb_id: fiscal book id
@@ -802,17 +817,20 @@ class fiscal_book(orm.Model):
         iwdl_obj = self.pool.get('account.wh.iva.line')
         rp_obj = self.pool.get('res.partner')
         fb_brw = self.browse(cr, uid, fb_id, context=context)
-        #~ Relate wh iva lines
+        # Relate wh iva lines
         iwdl_ids = self._get_wh_iva_line_ids(cr, uid, fb_id, context=context)
 
-        if fb_brw.type == "purchase" and iwdl_ids and not \
-                rp_obj._find_accounting_partner(fb_brw.company_id.partner_id).wh_iva_agent:
-            raise osv.except_osv(_("Error!"),
-                  _("You have withholdings registred but you are not a withholding agent"))
+        if (fb_brw.type == "purchase" and iwdl_ids and not
+                rp_obj._find_accounting_partner(
+                    fb_brw.company_id.partner_id).wh_iva_agent):
+            raise osv.except_osv(
+                _("Error!"),
+                _("You have withholdings registred but you are"
+                  " not a withholding agent"))
 
         iwdl_obj.write(cr, uid, iwdl_ids, {'fb_id': fb_id}, context=context)
-        #~ Unrelate wh iva lines (period book change, wh iva line have been
-        #~ cancel or have change its period)
+        # Unrelate wh iva lines (period book change, wh iva line have been
+        # cancel or have change its period)
         all_iwdl_ids = iwdl_obj.search(cr, uid, [('fb_id', '=', fb_id)],
                                        context=context)
         for iwdl_id_to_check in all_iwdl_ids:
@@ -847,7 +865,9 @@ class fiscal_book(orm.Model):
         """
         context = context or {}
         iwdl_obj = self.pool.get('account.wh.iva.line')
-        inv_ids = [inv_brw.id for inv_brw in self.browse(cr, uid, fb_id, context=context).invoice_ids]
+        inv_ids = [inv_brw.id
+                   for inv_brw in self.browse(
+                       cr, uid, fb_id, context=context).invoice_ids]
         inv_wh_ids = \
             [iwdl_brw.invoice_id.id for iwdl_brw in self.browse(
                 cr, uid, fb_id, context=context).iwdl_ids]
@@ -857,13 +877,13 @@ class fiscal_book(orm.Model):
             cr, uid, [('invoice_id', 'in', orphan_inv_ids)],
             context=context) or []
 
-    def get_order_criteria_adjustment(self, cr, uid, type, context=None):
-        return type == 'sale' \
+    def get_order_criteria_adjustment(self, cr, uid, book_type, context=None):
+        return book_type == 'sale' \
             and 'accounting_date asc, nro_ctrl asc' \
             or 'emission_date asc, invoice_number asc'
 
-    def get_order_criteria(self, cr, uid, type, context=None):
-        return type == 'sale' \
+    def get_order_criteria(self, cr, uid, book_type, context=None):
+        return book_type == 'sale' \
             and 'accounting_date asc, invoice_number asc' \
             or 'emission_date asc, invoice_number asc'
 
@@ -881,20 +901,25 @@ class fiscal_book(orm.Model):
         fb_brw = self.browse(cr, uid, fb_id, context=context)
         fbl_ids = [line_brw.id for line_brw in fb_brw.fbl_ids]
 
-        ajst_order_criteria = self.get_order_criteria_adjustment(cr, uid, fb_brw.type, context=context)
+        ajst_order_criteria = self.get_order_criteria_adjustment(
+            cr, uid, fb_brw.type, context=context)
         ajst_ordered_fbl_ids = \
-            fbl_obj.search(cr, uid, [('id', 'in', fbl_ids), ('doc_type', '=', 'AJST')],
-                           order=ajst_order_criteria, context=context)
+            fbl_obj.search(
+                cr, uid, [('id', 'in', fbl_ids), ('doc_type', '=', 'AJST')],
+                order=ajst_order_criteria, context=context)
 
         for rank, fbl_id in enumerate(ajst_ordered_fbl_ids, 1):
             fbl_obj.write(cr, uid, fbl_id, {'rank': rank}, context=context)
 
-        order_criteria = self.get_order_criteria(cr, uid, fb_brw.type, context=context)
+        order_criteria = self.get_order_criteria(cr, uid, fb_brw.type,
+                                                 context=context)
         ordered_fbl_ids = \
-            fbl_obj.search(cr, uid, [('id', 'in', fbl_ids), ('doc_type', '!=', 'AJST')],
-                           order=order_criteria, context=context)
+            fbl_obj.search(
+                cr, uid, [('id', 'in', fbl_ids), ('doc_type', '!=', 'AJST')],
+                order=order_criteria, context=context)
 
-        for rank, fbl_id in enumerate(ordered_fbl_ids, len(ajst_ordered_fbl_ids) + 1):
+        for rank, fbl_id in enumerate(ordered_fbl_ids,
+                                      len(ajst_ordered_fbl_ids) + 1):
             fbl_obj.write(cr, uid, fbl_id, {'rank': rank}, context=context)
 
         return True
@@ -913,8 +938,8 @@ class fiscal_book(orm.Model):
             iwdl_id = self._get_invoice_iwdl_id(cr, uid, fb_id, inv_brw.id,
                                                 context=context)
             if iwdl_id:
-                if inv_brw.date_invoice != \
-                        iwdl_obj.browse(cr, uid, iwdl_id, context=context).date_ret:
+                if inv_brw.date_invoice != iwdl_obj.browse(
+                        cr, uid, iwdl_id, context=context).date_ret:
                     res.append(iwdl_id)
         return res
 
@@ -936,9 +961,11 @@ class fiscal_book(orm.Model):
                  ('date_liq', '>=', fb_brw.period_id.date_start),
                  ('date_liq', '<=', fb_brw.period_id.date_stop)],
                 context=context)
-            add_cf_ids and self.write(
-                cr, uid, fb_brw.id, {'cf_ids': [(4, cf) for cf in add_cf_ids]},
-                context=context)
+            if add_cf_ids:
+                self.write(
+                    cr, uid, fb_brw.id,
+                    {'cf_ids': [(4, cf) for cf in add_cf_ids]},
+                    context=context)
         return True
 
     def update_book_lines(self, cr, uid, fb_id, context=None):
@@ -952,7 +979,7 @@ class fiscal_book(orm.Model):
         fb_brw = self.browse(cr, uid, fb_id, context=context)
         rp_obj = self.pool.get('res.partner')
 
-        #~ add book lines for withholding iva lines
+        # add book lines for withholding iva lines
         if fb_brw.iwdl_ids:
             orphan_iwdl_ids = self._get_orphan_iwdl_ids(cr, uid, fb_id,
                                                         context=context)
@@ -963,14 +990,17 @@ class fiscal_book(orm.Model):
             t_type = fb_brw.type == 'sale' and 'tp' or 'do'
             for iwdl_brw in iwdl_obj.browse(cr, uid, iwdl_ids,
                                             context=context):
-                rp_brw = rp_obj._find_accounting_partner(iwdl_brw.retention_id.partner_id)
+                rp_brw = rp_obj._find_accounting_partner(
+                    iwdl_brw.retention_id.partner_id)
                 values = {
                     'iwdl_id': iwdl_brw.id,
                     'type': t_type,
                     'accounting_date': iwdl_brw.date_ret or False,
-                    'emission_date': iwdl_brw.date or iwdl_brw.date_ret or False,
+                    'emission_date':
+                    iwdl_brw.date or iwdl_brw.date_ret or False,
                     'doc_type': self.get_doc_type(cr, uid, iwdl_id=iwdl_brw.id,
-                                                  fb_id=fb_id, context=context),
+                                                  fb_id=fb_id,
+                                                  context=context),
                     'wh_number': iwdl_brw.retention_id.number or False,
                     'partner_name': rp_brw.name or 'N/A',
                     'partner_vat': rp_brw.vat or 'N/A',
@@ -985,7 +1015,7 @@ class fiscal_book(orm.Model):
                 }
                 data.append((0, 0, values))
 
-        #~ add book lines for invoices
+        # add book lines for invoices
         for inv_brw in self.browse(cr, uid, fb_id,
                                    context=context).invoice_ids:
             imex_invoice = self.is_invoice_imex(cr, uid, inv_brw.id,
@@ -1002,23 +1032,28 @@ class fiscal_book(orm.Model):
 
             values = {
                 'invoice_id': inv_brw.id,
-                'emission_date': (not imex_invoice)
-                and (inv_brw.date_document or inv_brw.date_invoice)
-                or False,
-                'accounting_date': (not imex_invoice) and
-                inv_brw.date_invoice or False,
-                'imex_date': imex_invoice and inv_brw.customs_form_id.date_liq or False,
+                'emission_date':
+                (not imex_invoice) and
+                (inv_brw.date_document or inv_brw.date_invoice) or False,
+                'accounting_date':
+                (not imex_invoice) and inv_brw.date_invoice or False,
+                'imex_date':
+                imex_invoice and inv_brw.customs_form_id.date_liq or False,
                 'type': self.get_transaction_type(cr, uid, fb_id, inv_brw.id,
                                                   context=context),
-                'debit_affected': inv_brw.parent_id
+                'debit_affected':
+                inv_brw.parent_id
                 and inv_brw.parent_id.type in ['in_invoice', 'out_invoice']
                 and inv_brw.parent_id.parent_id
                 and inv_brw.parent_id.number or False,
-                'credit_affected': inv_brw.parent_id and
+                'credit_affected':
+                inv_brw.parent_id and
                 inv_brw.parent_id.type in ['in_refund', 'out_refund']
                 and inv_brw.parent_id.number or False,
-                'ctrl_number': not inv_brw.fiscal_printer and inv_brw.nro_ctrl or False,
-                'affected_invoice': (doc_type == "N/DE" or doc_type == "N/CR")
+                'ctrl_number':
+                not inv_brw.fiscal_printer and inv_brw.nro_ctrl or False,
+                'affected_invoice':
+                (doc_type == "N/DE" or doc_type == "N/CR")
                 and (inv_brw.parent_id and inv_brw.parent_id.number or False)
                 or False,
                 'partner_name': rp_brw.name or 'N/A',
@@ -1043,13 +1078,15 @@ class fiscal_book(orm.Model):
             }
             data.append((0, 0, values))
 
-        #~ add book lines for customs forms
+        # add book lines for customs forms
         for cf_brw in fb_brw.cf_ids:
 
             cf_partner_brws = \
-                list(set([rp_obj._find_accounting_partner(cfl_brw.tax_code.partner_id)
-                 for cfl_brw in cf_brw.cfl_ids
-                 if not cfl_brw.tax_code.vat_detail]))
+                list(set([
+                    rp_obj._find_accounting_partner(
+                        cfl_brw.tax_code.partner_id)
+                    for cfl_brw in cf_brw.cfl_ids
+                    if not cfl_brw.tax_code.vat_detail]))
 
             common_values = {
                 'cf_id': cf_brw.id,
@@ -1099,7 +1136,8 @@ class fiscal_book(orm.Model):
                       and not cfl_brw.tax_code.vat_detail])
         return amount
 
-    def get_grouped_consecutive_lines_ids(self, cr, uid, lines_ids, context=None):
+    def get_grouped_consecutive_lines_ids(self, cr, uid, lines_ids,
+                                          context=None):
         """ Return a list of tuples that represent every line in the book.
         If there is a group of consecutive Non-Tax Payer with fiscal printer
         billing lines, it will return a unique tuple that holds the information
@@ -1126,71 +1164,83 @@ class fiscal_book(orm.Model):
                 group_list.append(line_brw)
             else:
                 if group_list:
-                    res.append((group_list[0].invoice_number, group_list[-1].invoice_number, group_value, group_list))
+                    res.append(
+                        (group_list[0].invoice_number,
+                         group_list[-1].invoice_number, group_value,
+                         group_list))
                     group_value = line_brw.type
                     group_list = [line_brw]
                 else:
-                    res.append((line_brw.invoice_number, line_brw.invoice_number, group_value, [line_brw]))
+                    res.append((
+                        line_brw.invoice_number, line_brw.invoice_number,
+                        group_value, [line_brw]))
                     group_value = False
 
         if group_list:
-            res.append((group_list[0].invoice_number, group_list[-1].invoice_number, group_value, group_list))
+            res.append((
+                group_list[0].invoice_number, group_list[-1].invoice_number,
+                group_value, group_list))
 
         return res
 
     def update_book_ntp_lines(self, cr, uid, fb_id, context=None):
         """ It consolidate Non-Tax Payer book lines into one line considering
         the consecutiveness and next criteria: fiscal printer and z report.
-        This consolidated groups are move to another field: Non-Tax Payer Detail
-        operations. (This only applys when is a sale book)
+        This consolidated groups are move to another field: Non-Tax Payer
+        Detail operations. (This only applys when is a sale book)
         @param fb_id: fiscal book id
         """
         context = context or {}
         fbl_obj = self.pool.get('fiscal.book.line')
         fb_brw = self.browse(cr, uid, fb_id, context=context)
 
-        #~ separating groups
+        # separating groups
         lines_brws = fb_brw.fbl_ids
         order_dict = dict()
-        date_values = list(set([line_brw.emission_date for line_brw in lines_brws]))
+        date_values = list(set([line_brw.emission_date
+                                for line_brw in lines_brws]))
         date_values.sort()
         order_dict = {}.fromkeys(date_values)
         for date in date_values:
             date_records = [line_brw
                             for line_brw in lines_brws
                             if line_brw.emission_date == date]
-            printers_values = list(set([line_brw.fiscal_printer for line_brw in date_records]))
+            printers_values = list(set([line_brw.fiscal_printer
+                                        for line_brw in date_records]))
             printers_values.sort()
             order_dict[date] = {}.fromkeys(printers_values)
             for printer in printers_values:
                 printer_records = [line_brw
                                    for line_brw in date_records
                                    if line_brw.fiscal_printer == printer]
-                z_report_values = list(set([line_brw.z_report for line_brw in printer_records]))
+                z_report_values = list(set([line_brw.z_report
+                                            for line_brw in printer_records]))
                 z_report_values.sort()
                 order_dict[date][printer] = {}.fromkeys(z_report_values)
                 for z_report in z_report_values:
-                    #~ this records needs to be order by invoice number
+                    # this records needs to be order by invoice number
                     z_records = \
                         [(line_brw.invoice_number, line_brw)
                          for line_brw in printer_records
                          if line_brw.z_report == z_report]
                     z_records.sort()
                     z_records = [item[1] for item in z_records]
-                    #~ group by type of line
+                    # group by type of line
                     order_dict[date][printer][z_report] = \
                         self.get_grouped_consecutive_lines_ids(
                         cr, uid, [item.id for item in z_records],
                         context=context)
 
-        #~ import pprint
-        #~ print 'order_dict'
-        #~ pprint.pprint(order_dict)
+        # import pprint
+        # print 'order_dict'
+        # pprint.pprint(order_dict)
 
         # agruping and ranking
         rank = 1
-        #~ order_dict[date][printer][z_report] = [ ('desde', 'hasta', 'tipot', list(line_brws)) ]
-        ntp_groups_list = list()        # format [ ( rank, invoice_number, [line_brws] ) ]
+        # order_dict[date][printer][z_report] = [ ('desde', 'hasta', 'tipot',
+        #                                          list(line_brws)) ]
+        ntp_groups_list = list()
+        # format [ ( rank, invoice_number, [line_brws] ) ]
         ntp_no_group_list = list()      # format [ ( rank, [line_brws] ) ]
         order_no_group_list = list()    # format [ ( rank, line_id ) ]
 
@@ -1210,23 +1260,26 @@ class fiscal_book(orm.Model):
                                     (rank, line[3][0].id))
                             elif line[0] != line[1] and len(line[3]) > 1:
                                 ntp_groups_list.append(
-                                    (rank,
-                                     'Desde: ' + line[0] + ' ... Hasta: ' + line[1],
-                                     line[3]))
+                                    (rank, 'Desde: ' + line[0] +
+                                     ' ... Hasta: ' + line[1], line[3]))
                             else:
-                                raise osv.except_osv(_("Error!"), _("This is a no valid line. Be sure you have two or more invoices with the same invoice number"))
+                                raise osv.except_osv(
+                                    _("Error!"),
+                                    _("This is a no valid line. Be sure you"
+                                      " have two or more invoices with the"
+                                      " same invoice number"))
                         elif line[2] != 'ntp':
                             order_no_group_list.append(
                                 (rank, line[3][0].id))
                         rank += 1
 
-        #~ import pprint
-        #~ print '\n ntp_no_group_list'
-        #~ pprint.pprint(ntp_no_group_list)
-        #~ print '\n ntp_groups_list'
-        #~ pprint.pprint(ntp_groups_list)
-        #~ print '\n order_no_group_list'
-        #~ pprint.pprint(order_no_group_list)
+        # import pprint
+        # print '\n ntp_no_group_list'
+        # pprint.pprint(ntp_no_group_list)
+        # print '\n ntp_groups_list'
+        # pprint.pprint(ntp_groups_list)
+        # print '\n order_no_group_list'
+        # pprint.pprint(order_no_group_list)
 
         # ~ # rank lines that have nothing to do with ntp.
         for line in order_no_group_list:
@@ -1241,8 +1294,8 @@ class fiscal_book(orm.Model):
                  'partner_vat': False},
                 context=context)
 
-        #~ create consolidate line using ntp_groups_list list, move group lines
-        #~ to Non-Tax Payer lines detail.
+        # create consolidate line using ntp_groups_list list, move group lines
+        # to Non-Tax Payer lines detail.
         for line_tuple in ntp_groups_list:
             consolidate_line_id = \
                 self.create_consolidate_line(cr, uid, fb_id, line_tuple,
@@ -1258,7 +1311,8 @@ class fiscal_book(orm.Model):
 
         return True
 
-    def create_consolidate_line(self, cr, uid, fb_id, line_tuple, context=None):
+    def create_consolidate_line(self, cr, uid, fb_id, line_tuple,
+                                context=None):
         """ Create a new consolidate Non-Tax Payer line for a group of no tax
         payer operations.
         @param fb_id: fiscal book line id.
@@ -1326,11 +1380,15 @@ class fiscal_book(orm.Model):
                         tax_sum[fbl.type][ait.tax_id.appl_type] += \
                             ait.tax_amount * sign
                     else:
-                        raise osv.except_osv(_('Error!'), _('You must assign the Aliquot Type to: %s') % (ait.tax_id.name))
+                        raise osv.except_osv(
+                            _('Error!'),
+                            _('You must assign the Aliquot Type to: %s') % (
+                                ait.tax_id.name))
             elif fbl.cf_id:
                 if fbl.type != 'do':
-                    raise osv.except_osv(_('Programing Error!'),
-                    _("Customs form lines are domestic transactions"))
+                    raise osv.except_osv(
+                        _('Programing Error!'),
+                        _("Customs form lines are domestic transactions"))
                 base_sum['do']['sdcf'] += fbl.vat_sdcf
 
         data = [(0, 0, {'tax_type': ttype, 'op_type': optype,
@@ -1351,7 +1409,7 @@ class fiscal_book(orm.Model):
         """
         context = context or {}
         data = {}
-        #~ totalization of book tax amount and base amount fields
+        # totalization of book tax amount and base amount fields
         tax_amount = base_amount = 0.0
         for fbl_brw in self.browse(cr, uid, fb_id, context=context).fbl_ids:
             sign = 1 if fbl_brw.doc_type != 'N/CR' else -1
@@ -1368,8 +1426,8 @@ class fiscal_book(orm.Model):
         data['tax_amount'] = tax_amount
         data['base_amount'] = base_amount
 
-        #~ totalization of book taxable and taxed amount for every tax type and
-        #~ operation type
+        # totalization of book taxable and taxed amount for every tax type and
+        # operation type
         vat_fields = [
             'imex_exempt_vat_sum',
             'imex_sdcf_vat_sum',
@@ -1409,12 +1467,12 @@ class fiscal_book(orm.Model):
                 self.update_vat_fields(cr, uid, fb_id, field_name,
                                        context=context)
 
-        #~ more complex totalization amounts.
+        # more complex totalization amounts.
         fb_brw = self.browse(cr, uid, fb_id, context=context)
 
         data['do_sdcf_and_exempt_sum'] = fb_brw.type == 'sale' \
             and (data['tp_exempt_vat_sum'] + data['tp_sdcf_vat_sum'] +
-                data['ntp_exempt_vat_sum'] + data['ntp_sdcf_vat_sum'] ) \
+                 data['ntp_exempt_vat_sum'] + data['ntp_sdcf_vat_sum']) \
             or (data['do_exempt_vat_sum'] + data['do_sdcf_vat_sum'])
 
         for optype in ['imex', 'do', 'tp', 'ntp']:
@@ -1425,7 +1483,7 @@ class fiscal_book(orm.Model):
         data['imex_vat_base_sum'] += \
             data['imex_exempt_vat_sum'] + data['imex_sdcf_vat_sum']
 
-        #~ sale book domestic fields transformations (ntp and tp sums)
+        # sale book domestic fields transformations (ntp and tp sums)
         if fb_brw.type == 'sale':
 
             data["do_vat_base_sum"] = \
@@ -1433,10 +1491,9 @@ class fiscal_book(orm.Model):
 
             for ttax in ["general", "additional", "reduced"]:
                 for amttype in ["base", "tax"]:
-                    data['do_' + ttax + '_vat_' + amttype + '_sum'] =  \
-                        sum([data[optype + "_" + ttax + "_vat_" + amttype + "_sum"]
-                             for optype in ["ntp", "tp"]
-                             ])
+                    data['do_' + ttax + '_vat_' + amttype + '_sum'] = sum(
+                        [data[optype + "_" + ttax + "_vat_" + amttype + "_sum"]
+                         for optype in ["ntp", "tp"]])
             for ttax in ["exempt", "sdcf"]:
                 data['do_' + ttax + '_vat_sum'] =  \
                     sum([data[optype + "_" + ttax + "_vat_sum"]
@@ -1488,9 +1545,9 @@ class fiscal_book(orm.Model):
         """
         context = context or {}
         res = 0.0
-        #~ fbts_obj = self.pool.get('fiscal.book.taxes.summary')
+        # fbts_obj = self.pool.get('fiscal.book.taxes.summary')
 
-        #~ Identifying the field
+        # Identifying the field
         field_info = field_name[:-4].split('_')
         field_info.remove('vat')
 
@@ -1498,17 +1555,18 @@ class fiscal_book(orm.Model):
             and field_info \
             or field_info + ['base']
 
-        #~ Translation between the fb fields names and the fbts records data.
+        # Translation between the fb fields names and the fbts records data.
         tax_type = {'exempt': 'exento', 'sdcf': 'sdcf', 'reduced': 'reducido',
                     'general': 'general', 'additional': 'adicional'}
         amount_type = {'base': 'base_amount_sum', 'tax': 'tax_amount_sum'}
 
-        #~ Calculate
+        # Calculate
         fb_brw = self.browse(cr, uid, fb_id, context=context)
         if field_op == 'imex':
             field_op = fb_brw.type == 'purchase' and 'im' or 'ex'
         for fbts_brw in fb_brw.fbts_ids:
-            if fbts_brw.tax_type == tax_type[field_tax] and fbts_brw.op_type == field_op:
+            if (fbts_brw.tax_type == tax_type[field_tax] and
+                    fbts_brw.op_type == field_op):
                 res = getattr(fbts_brw, amount_type[field_amount])
         return res
 
@@ -1519,17 +1577,19 @@ class fiscal_book(orm.Model):
         context = context or {}
         fbl_obj = self.pool.get('fiscal.book.line')
         ut_obj = self.pool.get('l10n.ut')
-        #~ write book taxes
+        # write book taxes
         data = []
         for fbl in self.browse(cr, uid, fb_id, context=context).fbl_ids:
             if fbl.invoice_id:
-                f_xc = ut_obj.xc(cr, uid,
-                        fbl.invoice_id.currency_id.id,
-                        fbl.invoice_id.company_id.currency_id.id,
-                        fbl.invoice_id.date_invoice)
+                f_xc = ut_obj.sxc(
+                    cr, uid,
+                    fbl.invoice_id.currency_id.id,
+                    fbl.invoice_id.company_id.currency_id.id,
+                    fbl.invoice_id.date_invoice)
                 sign = 1 if fbl.doc_type != 'N/CR' else -1
                 amount_field_data = \
-                    {'total_with_iva': f_xc(fbl.invoice_id.amount_untaxed) * sign,
+                    {'total_with_iva':
+                     f_xc(fbl.invoice_id.amount_untaxed) * sign,
                      'vat_sdcf': 0.0, 'vat_exempt': 0.0}
                 taxes = fbl.type in ['im', 'ex'] \
                     and fbl.invoice_id.imex_tax_line \
@@ -1540,15 +1600,20 @@ class fiscal_book(orm.Model):
                         data.append((0, 0, {'fb_id': fb_id,
                                             'fbl_id': fbl.id,
                                             'ait_id': ait.id}))
-                        amount_field_data['total_with_iva'] += f_xc(ait.tax_amount) * sign
+                        amount_field_data['total_with_iva'] += \
+                            ait.tax_amount * sign
                         if ait.tax_id.appl_type == 'sdcf':
-                            amount_field_data['vat_sdcf'] += ait.base_amount * sign
+                            amount_field_data['vat_sdcf'] += \
+                                ait.base_amount * sign
                         if ait.tax_id.appl_type == 'exento':
-                            amount_field_data['vat_exempt'] += ait.base_amount * sign
+                            amount_field_data['vat_exempt'] += \
+                                ait.base_amount * sign
                     else:
-                        data.append((0, 0, {'fb_id':
-                                    fb_id, 'fbl_id': False, 'ait_id': ait.id}))
-                fbl_obj.write(cr, uid, fbl.id, amount_field_data, context=context)
+                        data.append((0, 0, {
+                            'fb_id': fb_id, 'fbl_id': False,
+                            'ait_id': ait.id}))
+                fbl_obj.write(cr, uid, fbl.id, amount_field_data,
+                              context=context)
 
         if data:
             self.write(cr, uid, fb_id, {'fbt_ids': data}, context=context)
@@ -1582,20 +1647,20 @@ class fiscal_book(orm.Model):
             fbl_obj.write(cr, uid, fbl_brw.id, data, context=context)
         return True
 
-    #~ clear book methods
+    # clear book methods
 
     def clear_book(self, cr, uid, fb_id, context=None):
         """ It delete all book data information.
         @param fb_id: fiscal book line id
         """
         context = context or {}
-        #~ clear fields
+        # clear fields
         self.clear_book_taxes_amount_fields(cr, uid, fb_id, context=context)
-        #~ delete data
+        # delete data
         self.clear_book_lines(cr, uid, fb_id, context=context)
         self.clear_book_taxes(cr, uid, fb_id, context=context)
         self.clear_book_taxes_summary(cr, uid, fb_id, context=context)
-        #~ unrelate data
+        # unrelate data
         self.clear_book_invoices(cr, uid, fb_id, context=context)
         self.clear_book_issue_invoices(cr, uid, fb_id, context=context)
         self.clear_book_iwdl_ids(cr, uid, fb_id, context=context)
@@ -1793,10 +1858,7 @@ class fiscal_book(orm.Model):
         """
         context = context or {}
         inv_obj = self.pool.get('account.invoice')
-        rp_obj = self.pool.get('res.partner')
         inv_brw = inv_obj.browse(cr, uid, inv_id, context=context)
-        rp_id = rp_obj._find_accounting_partner(inv_brw.partner_id)
-        rp_brw = rp_obj.browse(cr, uid, rp_id, context=context)
         fb_brw = self.browse(cr, uid, fb_id, context=context)
         if inv_brw.customs_form_id:
             return 'ex' if fb_brw.type == 'sale' else 'im'
@@ -1812,7 +1874,8 @@ class fiscal_book(orm.Model):
         context = context or {}
         for fb_brw in self.browse(cr, uid, ids, context=context):
             if fb_brw.state != 'cancel':
-                raise osv.except_osv("Invalid Procedure!!",
+                raise osv.except_osv(
+                    "Invalid Procedure!!",
                     "Your book needs to be in cancel state to be deleted.")
             else:
                 super(fiscal_book, self).unlink(cr, uid, ids, context=context)
@@ -1840,7 +1903,7 @@ class fiscal_book_lines(orm.Model):
         wh iva line.
         @param field_name: ['get_based_tax_debit'].
         """
-        #~ TODO: for all taxes realted? only a tax type group?
+        # TODO: for all taxes realted? only a tax type group?
         context = context or {}
         res = {}.fromkeys(ids, 0.0)
         for fbl_brw in self.browse(cr, uid, ids, context=context):
@@ -1869,23 +1932,25 @@ class fiscal_book_lines(orm.Model):
     _order = 'parent_id, rank'
     _parent_store = "True"
     _columns = {
-        'fb_id': fields.many2one('fiscal.book', 'Fiscal Book',
-                                 help='Fiscal Book that owns this book line', ondelete='cascade'),
-        'ntp_fb_id': fields.many2one("fiscal.book", "Non-Tax Payer Detail",
-                                 help="Fiscal Book that owns this book line"
-                                 " This Book is only for Non-Tax Payer lines"),
-        'fbt_ids': fields.one2many('fiscal.book.taxes', 'fbl_id',
-                                   string='Tax Lines', help="Tax Lines being"
-                                   " recorded in a Fiscal Book"),
-        'invoice_id': fields.many2one('account.invoice', 'Invoice',
-                                      help="Invoice related to this book"
-                                      " line"),
-        'iwdl_id': fields.many2one('account.wh.iva.line', 'Vat Withholding',
-                                   help="Withholding iva line related to"
-                                   " this book line"),
-        'cf_id': fields.many2one('customs.form', 'Customs Form',
-                                 help="Customs Form being recorded to this"
-                                 " book line"),
+        'fb_id': fields.many2one(
+            'fiscal.book', 'Fiscal Book',
+            help='Fiscal Book that owns this book line', ondelete='cascade'),
+        'ntp_fb_id': fields.many2one(
+            "fiscal.book", "Non-Tax Payer Detail",
+            help="Fiscal Book that owns this book line"
+                 " This Book is only for Non-Tax Payer lines"),
+        'fbt_ids': fields.one2many(
+            'fiscal.book.taxes', 'fbl_id', string='Tax Lines',
+            help="Tax Lines being recorded in a Fiscal Book"),
+        'invoice_id': fields.many2one(
+            'account.invoice', 'Invoice',
+            help="Invoice related to this book line"),
+        'iwdl_id': fields.many2one(
+            'account.wh.iva.line', 'Vat Withholding',
+            help="Withholding iva line related to this book line"),
+        'cf_id': fields.many2one(
+            'customs.form', 'Customs Form',
+            help="Customs Form being recorded to this book line"),
         'parent_id': fields.many2one(
             "fiscal.book.line",
             string="Consolidated Line",
@@ -1900,7 +1965,7 @@ class fiscal_book_lines(orm.Model):
             string="Non-Tax Payer Detail Line",
             help="Non-Tax Payer Group of book lines that this line represent"),
 
-        #~  Invoice and/or Document Data
+        #  Invoice and/or Document Data
         'rank': fields.integer("Line", required=True, help="Line Position"),
         'emission_date': fields.date(
             string='Emission Date',
@@ -1918,7 +1983,7 @@ class fiscal_book_lines(orm.Model):
             help="For an invoice line type means parent invoice for a Debit"
             " or Credit Note. For an withholding line type means the invoice"
             " number related to the withholding"),
-        #~ Apply for wh iva lines
+        # Apply for wh iva lines
         'get_wh_vat': fields.function(_get_wh_vat,
                                       type="float", method=True, store=True,
                                       string="VAT Withholding",
@@ -1936,7 +2001,7 @@ class fiscal_book_lines(orm.Model):
             help="Sum of all tax amount for the taxes realeted to the wh iva"
             " line."),
 
-        #~ Apply for invoice lines
+        # Apply for invoice lines
         'ctrl_number': fields.char(string='Invoice Control number', size=64,
                                    help=''),
         'invoice_number': fields.char(string='Invoice number', size=64,
@@ -1969,13 +2034,14 @@ class fiscal_book_lines(orm.Model):
         'z_report': fields.char(string='Report Z', size=64, help=""),
         'custom_statement': fields.char(string="Custom Statement",
                                         size=192, help=""),
-        #~ -- taxes fields
+        # -- taxes fields
         'total_with_iva': fields.float('Total with IVA', help="Sub Total of"
                                        " the invoice (untaxed amount) plus"
                                        " all tax amount of the related taxes"),
-        'vat_sdcf': fields.float("SDCF", help="Not entitled to tax credit"
-                                 " (The field name correspond to the spanih"
-                                 " acronym for 'Sin Derecho a Credito Fiscal')"),
+        'vat_sdcf': fields.float(
+            "SDCF",
+            help="Not entitled to tax credit (The field name correspond to the"
+                 " spanih acronym for 'Sin Derecho a Credito Fiscal')"),
         'vat_exempt': fields.float("Exempt", help="Exempt is a Tax with 0"
                                    " tax percentage"),
         'vat_reduced_base': fields.float("RED BASE", help="Vat Reduced Base"

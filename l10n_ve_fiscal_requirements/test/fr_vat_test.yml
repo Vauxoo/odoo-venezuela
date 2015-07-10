@@ -27,7 +27,7 @@
   5.2 I create a partner with right formatted vat for Venezuelan Standards
 -
   !python {model: res.partner}: |
-    #~ import logging
+    # import logging
     part =  {
       'name': 'Partner Unique Test Fiscal Requirements',
       'supplier': True,

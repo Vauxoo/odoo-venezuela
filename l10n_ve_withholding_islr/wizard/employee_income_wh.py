@@ -9,19 +9,33 @@
 #                 sale order
 #
 ##############################################################################
-#~ from datetime import datetime
-from osv import fields, osv
-from tools.translate import _
-#~ import pooler
-#~ import decimal_precision as dp
-#~ import time
-#~ import netsvc
-#~ import csv
+# from datetime import datetime
 import base64
-import libxml2
 import functools
+import logging
 
-##---------------------------------------------------------- employee_income_wh
+import libxml2
+from openerp.osv import fields, osv
+from openerp.tools.translate import _
+
+from StringIO import StringIO
+
+# import pooler
+# import decimal_precision as dp
+import time
+# import netsvc
+import csv
+
+FIELDNAMES = [
+    'RifRetenido',
+    'NumeroFactura',
+    'NumeroControl',
+    'FechaOperacion',
+    'CodigoConcepto',
+    'MontoOperacion',
+    'PorcentajeRetencion']
+
+# ---------------------------------------------------------- employee_income_wh
 
 
 class employee_income_wh(osv.osv_memory):
@@ -30,9 +44,29 @@ class employee_income_wh(osv.osv_memory):
 
     _description = ''
 
+    logger = logging.getLogger('employee.income.wh')
+
     # -------------------------------------------------------------------------
 
     # ------------------------------------------------------- _internal methods
+
+    def _parse_csv_employee_income_wh(self, cr, uid, csv_file, context=None):
+        '''
+        Method to parse CSV File
+        '''
+        stream = StringIO(csv_file)
+        csv_file = csv.DictReader(stream)
+
+        if set(csv_file.fieldnames) < set(FIELDNAMES):
+            msg = _('Missing Fields in CSV File.\n'
+                    'File shall bear following fields:\n')
+            for fn in FIELDNAMES:
+                msg += '{field},\n'.format(field=fn)
+            raise osv.except_osv(_('Error!'), msg)
+        res = []
+        for item in csv_file:
+            res.append(item)
+        return res
 
     def _parse_xml_employee_income_wh(self, cr, uid, xml_file, context=None):
         res = []
@@ -40,6 +74,8 @@ class employee_income_wh(osv.osv_memory):
             context = context or {}
             xmldoc = libxml2.parseDoc(xml_file)
             cntx = xmldoc.xpathNewContext()
+            # TODO: Code in wizard needs to be improved this context is
+            # cheating on xml test as there is not strong test on data in XML
             xpath = '/RelacionRetencionesISLR[@RifAgente="%s" ' \
                 'and @Periodo="%s"]' \
                 % (context.get('company_vat'), context.get('period_code'))
@@ -48,21 +84,15 @@ class employee_income_wh(osv.osv_memory):
                 return res
             xpath = '/RelacionRetencionesISLR/DetalleRetencion'
             varlist = cntx.xpathEval(xpath)
-            xml_keys = ['RifRetenido',
-                        'NumeroFactura',
-                        'NumeroControl',
-                        'CodigoConcepto',
-                        'MontoOperacion',
-                        'PorcentajeRetencion',
-                        ]
             for item in varlist:
                 values = {}
-                for k in xml_keys:
+                for k in FIELDNAMES:
                     attr = item.xpathEval(k) or []
                     values.update({k: attr and attr[0].get_content() or False})
                 res.append(values)
-        except:
-            pass
+        except libxml2.parserError:
+            log_msg = 'ERROR: the file is not a XML'
+            self.logger.warning(log_msg)
         return res
 
     def _clear_xml_employee_income_wh(self, cr, uid, context=None):
@@ -115,6 +145,7 @@ class employee_income_wh(osv.osv_memory):
                      'NumeroFactura': 'invoice_number',
                      'NumeroControl': 'control_number',
                      'CodigoConcepto': 'concept_code',
+                     'FechaOperacion': 'date_ret',
                      'MontoOperacion': 'base',
                      'PorcentajeRetencion': 'porcent_rete',
                      }
@@ -136,9 +167,14 @@ class employee_income_wh(osv.osv_memory):
                 irt_brw = obj_irt.browse(cr, uid, irt_id, context=context)
                 data.update({'concept_id': irt_brw.concept_id.id,
                              'rate_id': irt_id})
+
+            date_ret = time.strptime(data['date_ret'], '%d/%m/%Y')
+            date_ret = time.strftime('%Y-%m-%d', date_ret)
+
             data.update({
                 'wh': float(data['base']) * float(data['porcent_rete']) / 100,
                 'period_id': context.get('default_period_id'),
+                'date_ret': date_ret,
                 'islr_xml_wh_doc': context.get('islr_xml_wh_doc_id'),
                 'type': 'employee',
             })
@@ -153,12 +189,16 @@ class employee_income_wh(osv.osv_memory):
 
     _columns = {
         'name': fields.char('File name', size=128, readonly=True),
+        'type': fields.selection(
+            [('csv', 'CSV File'), ('xml', 'XML File')], 'File Type',
+            required=True),
         'obj_file': fields.binary('XML file', required=True, filters='*.xml',
                                   help=("XML file name with employee income "
                                         "withholding data")),
     }
 
     _defaults = {
+        'type': lambda *a: 'csv',
     }
 
     _sql_constraints = [
@@ -168,21 +208,26 @@ class employee_income_wh(osv.osv_memory):
 
     # ---------------------------------------------------------- public methods
 
-    ##-------------------------------------------------------- buttons (object)
+    # -------------------------------------------------------- buttons (object)
 
     def process_employee_income_wh(self, cr, uid, ids, context=None):
         ids = isinstance(ids, (int, long)) and [ids] or ids
         eiw_brw = self.browse(cr, uid, ids, context={})[0]
-        file = eiw_brw.obj_file
-        xml_file = base64.decodestring(file)
-        try:
-            unicode(xml_file, 'utf8')
-        except Exception:  # If we can not convert to UTF-8 maybe the file
-                           # is codified in ISO-8859-15: We convert it.
-            xml_file = unicode(xml_file, 'iso-8859-15').encode('utf-8')
+        eiw_file = eiw_brw.obj_file
         invalid = []
-        values = self._parse_xml_employee_income_wh(
-            cr, uid, xml_file, context=context)
+        xml_file = base64.decodestring(eiw_file)
+        if eiw_brw.type == 'xml':
+            try:
+                unicode(xml_file, 'utf8')
+            except UnicodeDecodeError:
+                # If we can not convert to UTF-8 maybe the file
+                # is codified in ISO-8859-15: We convert it.
+                xml_file = unicode(xml_file, 'iso-8859-15').encode('utf-8')
+            values = self._parse_xml_employee_income_wh(
+                cr, uid, xml_file, context=context)
+        elif eiw_brw.type == 'csv':
+            values = self._parse_csv_employee_income_wh(
+                cr, uid, xml_file, context=context)
         obj_ixwl = self.pool.get('islr.xml.wh.line')
         if values:
             self._clear_xml_employee_income_wh(cr, uid, context=context)
@@ -204,7 +249,7 @@ class employee_income_wh(osv.osv_memory):
 
     # ----------------------------------------------------- create write unlink
 
-    ##---------------------------------------------------------------- Workflow
+    # ---------------------------------------------------------------- Workflow
 
 employee_income_wh()
 

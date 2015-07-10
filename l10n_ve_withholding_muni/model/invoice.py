@@ -3,7 +3,8 @@
 #    Module Writen to OpenERP, Open Source Management Solution
 #    Copyright (C) OpenERP Venezuela (<http://openerp.com.ve>).
 #    All Rights Reserved
-###############Credits######################################################
+###############################################################################
+#    Credits:
 #    Coded by: Javier Duran <jduran@corvus.com.ve>
 #    Planified by: Nhomar Hernandez
 #    Audited by: Vauxoo C.A.
@@ -29,14 +30,17 @@ from openerp.tools.translate import _
 class account_invoice(osv.osv):
     _inherit = 'account.invoice'
 
-    def copy(self, cr, uid, id, default=None, context=None):
+    def copy(self, cr, uid, ids, default=None, context=None):
         """ Initialized fields to the copy a register
         """
+        # NOTE: use ids argument instead of id for fix the pylint error W0622.
+        # Redefining built-in 'id'
         context = context or {}
         default = default or {}
         default = default.copy()
         default.update({'wh_local': False, 'wh_muni_id': False})
-        return super(account_invoice, self).copy(cr, uid, id, default, context)
+        return super(account_invoice, self).copy(cr, uid, ids, default,
+                                                 context)
 
     def _get_move_lines(self, cr, uid, ids, to_wh, period_id,
                         pay_journal_id, writeoff_acc_id,
@@ -54,13 +58,14 @@ class account_invoice(osv.osv):
         """
 
         context = context or {}
-        res = super(account_invoice, self)._get_move_lines(cr, uid, ids, to_wh,
-                            period_id, pay_journal_id, writeoff_acc_id,
-                            writeoff_period_id, writeoff_journal_id, date,
-                            name, context=context)
+        res = super(account_invoice, self)._get_move_lines(
+            cr, uid, ids, to_wh, period_id, pay_journal_id, writeoff_acc_id,
+            writeoff_period_id, writeoff_journal_id, date, name,
+            context=context)
         if context.get('muni_wh', False):
             rp_obj = self.pool.get('res.partner')
-            acc_part_brw = rp_obj._find_accounting_partner(to_wh.invoice_id.partner_id)
+            acc_part_brw = rp_obj._find_accounting_partner(
+                to_wh.invoice_id.partner_id)
             invoice = self.browse(cr, uid, ids[0])
             types = {
                 'out_invoice': -1,
@@ -70,11 +75,16 @@ class account_invoice(osv.osv):
             }
             direction = types[invoice.type]
             if to_wh.retention_id.type == 'in_invoice':
-                acc = acc_part_brw.property_wh_munici_payable and acc_part_brw.property_wh_munici_payable.id or False
+                acc = acc_part_brw.property_wh_munici_payable and \
+                    acc_part_brw.property_wh_munici_payable.id or False
             else:
-                acc = acc_part_brw.property_wh_munici_receivable and acc_part_brw.property_wh_munici_receivable.id or False
+                acc = acc_part_brw.property_wh_munici_receivable and \
+                    acc_part_brw.property_wh_munici_receivable.id or False
             if not acc:
-                raise osv.except_osv(_('Missing Local Account in Partner!'), _("Partner [%s] has missing Local account. Please, fill the missing field") % (acc_part_brw.name,))
+                raise osv.except_osv(
+                    _('Missing Local Account in Partner!'),
+                    _("Partner [%s] has missing Local account. Please, fill"
+                      " the missing field") % (acc_part_brw.name,))
             res.append((0, 0, {
                 'debit': direction * to_wh.amount < 0 and
                 - direction * to_wh.amount,
@@ -94,8 +104,8 @@ class account_invoice(osv.osv):
         """
         context = context or {}
         res = {}
-        for id in ids:
-            res[id] = self.test_retenida_muni(cr, uid, [id], 'retmun')
+        for inv_id in ids:
+            res[inv_id] = self.test_retenida_muni(cr, uid, [inv_id], 'retmun')
         return res
 
     def test_retenida_muni(self, cr, uid, ids, *args):
@@ -112,12 +122,12 @@ class account_invoice(osv.osv):
             return False
         ok = True
 
-        cr.execute('select \
-                l.id \
-            from account_move_line l \
-                inner join account_journal j on (j.id=l.journal_id) \
-            where l.id in (' + ','.join(map(str, res)) + ') and j.type=' +
-            '\'' + type_journal + '\'')
+        cr.execute('select l.id'
+                   ' from account_move_line l'
+                   ' inner join account_journal j on (j.id=l.journal_id)'
+                   ' where l.id in (' + ','.join(
+                       [str(item) for item in res]) + ') and j.type=' +
+                   '\'' + type_journal + '\'')
         ok = ok and bool(cr.fetchone())
         return ok
 
@@ -136,8 +146,8 @@ class account_invoice(osv.osv):
                     move[line2.move_id.id] = True
         invoice_ids = []
         if move:
-            invoice_ids = self.pool.get('account.invoice').search(cr, uid,
-                         [('move_id', 'in', move.keys())], context=context)
+            invoice_ids = self.pool.get('account.invoice').search(
+                cr, uid, [('move_id', 'in', move.keys())], context=context)
         return invoice_ids
 
     def _get_inv_munici_from_reconcile(self, cr, uid, ids, context=None):
@@ -145,17 +155,17 @@ class account_invoice(osv.osv):
         """
         context = context or {}
         move = {}
-        amr_brw = self.pool.get('account.move.reconcile').browse(cr, uid, ids)
-        for r in amr_brw:
-            for line in r.line_partial_ids:
+        amr_brws = self.pool.get('account.move.reconcile').browse(cr, uid, ids)
+        for amr_brw in amr_brws:
+            for line in amr_brw.line_partial_ids:
                 move[line.move_id.id] = True
-            for line in r.line_id:
+            for line in amr_brw.line_id:
                 move[line.move_id.id] = True
 
         invoice_ids = []
         if move:
-            invoice_ids = self.pool.get('account.invoice').search(cr, uid,
-                          [('move_id', 'in', move.keys())], context=context)
+            invoice_ids = self.pool.get('account.invoice').search(
+                cr, uid, [('move_id', 'in', move.keys())], context=context)
         return invoice_ids
 
     def action_cancel(self, cr, uid, ids, context=None):
@@ -167,15 +177,17 @@ class account_invoice(osv.osv):
                 super(account_invoice, self).action_cancel(cr, uid, ids,
                                                            context=context)
             else:
-                raise osv.except_osv(_("Error!"),
-                _("You can't cancel an invoice that have non cancel"
-                  " Local Withholding Document. Needs first cancel the invoice"
-                  " Local Withholding Document and then you can cancel this"
-                  " invoice."))
+                raise osv.except_osv(
+                    _("Error!"),
+                    _("You can't cancel an invoice that have non cancel"
+                      " Local Withholding Document. Needs first cancel the"
+                      " invoice Local Withholding Document and then you can"
+                      " cancel this invoice."))
         return True
 
     _columns = {
-        'wh_local': fields.function(_retenida_munici, method=True,
+        'wh_local': fields.function(
+            _retenida_munici, method=True,
             string='Local Withholding', type='boolean',
             store={
                 'account.invoice':
@@ -186,7 +198,8 @@ class account_invoice(osv.osv):
             },
             help="The account moves of the invoice have been withheld with \
             account moves of the payment(s)."),
-        'wh_muni_id': fields.many2one('account.wh.munici', 'Wh. Municipality',
+        'wh_muni_id': fields.many2one(
+            'account.wh.munici', 'Wh. Municipality',
             readonly=True, help="Withholding muni."),
 
     }

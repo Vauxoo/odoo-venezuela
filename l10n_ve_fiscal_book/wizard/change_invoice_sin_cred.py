@@ -3,7 +3,8 @@
 #    Module Writen to OpenERP, Open Source Management Solution
 #    Copyright (C) OpenERP Venezuela (<http://www.vauxoo.com>).
 #    All Rights Reserved
-############# Credits #########################################################
+###############################################################################
+#    Credits:
 #    Coded by: Katherine Zaoral <kathy@vauxoo.com>
 #    Planified by: Humberto Arocha <hbto@vauxoo.com>
 #    Audited by: Humberto Arocha <hbto@vauxoo.com>
@@ -22,7 +23,7 @@
 #    along with this program.  If not, see <http://www.gnu.org/licenses/>.
 ###############################################################################
 
-from openerp.osv import osv, fields
+from openerp.osv import fields, osv
 from openerp.tools.translate import _
 
 
@@ -53,7 +54,8 @@ class change_invoice_sin_credwizard(osv.TransientModel):
         inv_ids = context.get('active_ids', [])
         data = self.browse(cr, uid, ids[0], context=context)
         if not data.sure:
-            raise osv.except_osv(_("Error!"),
+            raise osv.except_osv(
+                _("Error!"),
                 _("Please confirm that you want to do this by checking the"
                   " option"))
         if inv_ids:

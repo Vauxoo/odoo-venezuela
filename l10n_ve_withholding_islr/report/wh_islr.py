@@ -3,7 +3,8 @@
 #    Module Writen to OpenERP, Open Source Management Solution
 #    Copyright (C) OpenERP Venezuela (<http://openerp.com.ve>).
 #    All Rights Reserved
-###############Credits######################################################
+###############################################################################
+#    Credits:
 #    Coded by: Maria Gabriela Quilarque  <gabriela@openerp.com.ve>
 #    Planified by: Nhomar Hernandez
 #    Finance by: Helados Gilda, C.A. http://heladosgilda.com.ve
@@ -30,7 +31,8 @@ from openerp.tools.translate import _
 class rep_comprobante_islr(report_sxw.rml_parse):
 
     def __init__(self, cr, uid, name, context):
-        super(rep_comprobante_islr, self).__init__(cr, uid, name, context=context)
+        super(rep_comprobante_islr, self).__init__(cr, uid, name,
+                                                   context=context)
         self.localcontext.update({
             'get_partner_addr': self._get_partner_addr,
         })
@@ -46,12 +48,16 @@ class rep_comprobante_islr(report_sxw.rml_parse):
         addr_inv = {}
         if idp:
             addr = addr_obj.browse(self.cr, self.uid, idp)
-            addr_inv = (addr.street and ('%s, ' % addr.street.title()) or '')    + \
-                (addr.zip and ('Codigo Postal: %s, ' % addr.zip) or '')        +\
-                (addr.city and ('%s, ' % addr.city.title()) or '') + \
-                (addr.state_id and ('%s, ' % addr.state_id.name.title()) or '') + \
-                (addr.country_id and ('%s ' % addr.country_id.name.title()) or '') or _('NO INVOICE ADDRESS DEFINED')
-            #~ addr_inv = (addr.street or '')+' '+(addr.street2 or '')+' '+(addr.zip or '')+ ' '+(addr.city or '')+ ' '+ (addr.country_id and addr.country_id.name or '')+ ', TELF.:'+(addr.phone or '')
+            addr_inv = (
+                (addr.street and ('%s, ' % addr.street.title()) or '') +
+                (addr.zip and ('Codigo Postal: %s, ' % addr.zip) or '') +
+                (addr.city and ('%s, ' % addr.city.title()) or '') +
+                (addr.state_id and ('%s, ' % addr.state_id.name.title()) or '')
+                + (addr.country_id and ('%s ' % addr.country_id.name.title())
+                   or '') or _('NO INVOICE ADDRESS DEFINED'))
+            # addr_inv = (addr.street or '')+' '+(addr.street2 or '')+'
+            # '+(addr.zip or '')+ ' '+(addr.city or '')+ ' '+ (addr.country_id
+            # and addr.country_id.name or '')+ ', TELF.:'+(addr.phone or '')
         return addr_inv
 
 

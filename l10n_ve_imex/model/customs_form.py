@@ -3,7 +3,8 @@
 #    Module Writen to OpenERP, Open Source Management Solution
 #    Copyright (c) 2013 Vauxoo C.A. (http://openerp.com.ve/)
 #    All Rights Reserved
-############# Credits #########################################################
+###############################################################################
+#    Credits:
 #    Coded by:  Juan Marzquez (Tecvemar, c.a.) <jmarquez@tecvemar.com.ve>
 #               Katherine Zaoral               <katherine.zaoral@vauxoo.com>
 #    Planified by:
@@ -24,10 +25,11 @@
 #    You should have received a copy of the GNU Affero General Public License
 #    along with this program.  If not, see <http://www.gnu.org/licenses/>.
 ###############################################################################
+import time
+
+from openerp.addons.decimal_precision import decimal_precision as dp
 from openerp.osv import fields, osv
 from openerp.tools.translate import _
-import openerp.addons.decimal_precision as dp
-import time
 
 
 class customs_form(osv.osv):
@@ -35,7 +37,7 @@ class customs_form(osv.osv):
     _name = 'customs.form'
     _description = ''
 
-    def name_get(self, cr, uid, ids, context):
+    def name_get(self, cr, uid, ids, context=None):
         if not len(ids):
             return []
         res = []
@@ -59,9 +61,9 @@ class customs_form(osv.osv):
         obj_ct = self.pool.get('customs.duty')
         ct_ids = obj_ct.search(cr, uid, [], context=context)
         res = []
-        for id in ct_ids:
-            vat = obj_ct.browse(cr, uid, id, context=context)
-            res.append({'tax_code': id,
+        for cd_id in ct_ids:
+            vat = obj_ct.browse(cr, uid, cd_id, context=context)
+            res.append({'tax_code': cd_id,
                         'amount': 0.0, 'vat_detail': vat.vat_detail})
         return res
 
@@ -149,10 +151,11 @@ class customs_form(osv.osv):
         company_id = context.get('f86_company_id')
         rp_obj = self.pool.get('res.partner')
 
-        #~ expenses
+        # expenses
         for line in f86.cfl_ids:
             debits = []
-            acc_part_brw = rp_obj._find_accounting_partner(line.tax_code.partner_id)
+            acc_part_brw = rp_obj._find_accounting_partner(
+                line.tax_code.partner_id)
             if line.tax_code.vat_detail:
                 for vat in line.imex_tax_line:
                     if vat.tax_amount:
@@ -220,14 +223,16 @@ class customs_form(osv.osv):
                 'narration': _('Form 86 # %s\n\tReference: %s\n\tBroker: %s')
                 % (f86.name, f86.ref or '', f86.broker_id.name or ''),
             }
-            lines = self.create_account_move_lines(cr, uid, f86, context=context)
+            lines = self.create_account_move_lines(
+                cr, uid, f86, context=context)
             if lines:
                 move.update({'line_id': lines})
                 move_id = obj_move.create(cr, uid, move, context=context)
                 obj_move.post(cr, uid, [move_id], context=context)
                 if move_id:
                     move_ids.append(move_id)
-                    self.write(cr, uid, f86.id, {'move_id': move_id}, context=context)
+                    self.write(cr, uid, f86.id, {'move_id': move_id},
+                               context=context)
         return move_ids
 
     def button_draft(self, cr, uid, ids, context=None):
@@ -289,7 +294,7 @@ class customs_form(osv.osv):
                 _('Error!'),
                 _('Multiple operations not allowed'))
         for f86 in self.browse(cr, uid, ids, context=None):
-            #~ Validate account_move.state != draft
+            # Validate account_move.state != draft
             if f86.move_id and f86.move_id.state != 'draft':
                 raise osv.except_osv(
                     _('Error!'),

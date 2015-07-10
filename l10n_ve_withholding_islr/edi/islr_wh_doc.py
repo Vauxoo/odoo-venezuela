@@ -3,14 +3,15 @@
 #    Module Writen to OpenERP, Open Source Management Solution
 #    Copyright (C) OpenERP Venezuela (<http://openerp.com.ve>).
 #    All Rights Reserved
-###############Credits######################################################
+###############################################################################
+#    Credits:
 #    Coded by: Humberto Arocha <hbto@vauxoo.com>
 #    Planified by: Rafael Silva <rsilvam@vauxoo.com>
 #    Audited by: Nhomar Hernandez <nhomar@vauxoo.com>
 #############################################################################
 #    This program is free software: you can redistribute it and/or modify
-#    it under the terms of the GNU Affero General Public License as published by
-#    the Free Software Foundation, either version 3 of the License, or
+#    it under the terms of the GNU Affero General Public License as published
+#    by the Free Software Foundation, either version 3 of the License, or
 #    (at your option) any later version.
 #
 #    This program is distributed in the hope that it will be useful,
@@ -20,11 +21,12 @@
 #
 #    You should have received a copy of the GNU Affero General Public License
 #    along with this program.  If not, see <http://www.gnu.org/licenses/>.
-################################################################################
+###############################################################################
 
 
 from openerp.osv import osv
-from edi import EDIMixin
+
+from openerp.addons.edi import EDIMixin
 
 ISLR_WH_DOC_LINE_EDI_STRUCT = {
     'sequence': True,
@@ -57,7 +59,7 @@ ISLR_WH_DOC_EDI_STRUCT = {
     # custom: 'partner_ref'
     # custom: 'partner_address'
     # custom: 'notes'
-    #~ 'order_line': ISLR_WH_DOC_LINE_EDI_STRUCT,
+    # 'order_line': ISLR_WH_DOC_LINE_EDI_STRUCT,
 
 }
 
@@ -71,9 +73,12 @@ class islr_wh_doc(osv.osv, EDIMixin):
         edi_doc_list = []
         for order in records:
             # generate the main report
-            self._edi_generate_report_attachment(cr, uid, order, context=context)
+            self._edi_generate_report_attachment(cr, uid, order,
+                                                 context=context)
 
-            # Get EDI doc based on struct. The result will also contain all metadata fields and attachments.
-            edi_doc = super(islr_wh_doc, self).edi_export(cr, uid, [order], edi_struct, context)[0]
+            # Get EDI doc based on struct. The result will also contain all
+            # metadata fields and attachments.
+            edi_doc = super(islr_wh_doc, self).edi_export(
+                cr, uid, [order], edi_struct, context)[0]
             edi_doc_list.append(edi_doc)
         return edi_doc_list

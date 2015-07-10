@@ -3,7 +3,8 @@
 #    Module Writen to OpenERP, Open Source Management Solution
 #    Copyright (C) OpenERP Venezuela (<http://openerp.com.ve>).
 #    All Rights Reserved
-###############Credits######################################################
+###############################################################################
+#    Credits:
 #    Coded by: Maria Gabriela Quilarque  <gabriela@openerp.com.ve>
 #              Nhomar Hernandez          <nhomar@vauxoo.com>
 #    Planified by: Nhomar Hernandez
@@ -25,6 +26,7 @@
 ##############################################################################
 
 import time
+
 from openerp.report import report_sxw
 from openerp.tools.translate import _
 
@@ -37,7 +39,7 @@ class rep_comprobante(report_sxw.rml_parse):
     ttbase = 0
     ttiva = 0
 
-    #---------------------------------------------------------------------
+    # ---------------------------------------------------------------------
 
     def __init__(self, cr, uid, name, context):
         super(rep_comprobante, self).__init__(cr, uid, name, context)
@@ -72,12 +74,18 @@ class rep_comprobante(report_sxw.rml_parse):
         addr_inv = {}
         if idp:
             addr = addr_obj.browse(self.cr, self.uid, idp)
-            addr_inv = addr.type == 'invoice' and (addr.street and ('%s, ' % addr.street.title()) or '')    + \
-                (addr.zip and ('Codigo Postal: %s, ' % addr.zip) or '')        +\
-                (addr.state_id and ('%s, ' % addr.state_id.name.title()) or '') + \
+            addr_inv = addr.type == 'invoice' and \
+                (addr.street and ('%s, ' % addr.street.title()) or '') + \
+                (addr.zip and ('Codigo Postal: %s, ' % addr.zip) or '') +\
+                (addr.state_id and
+                 ('%s, ' % addr.state_id.name.title()) or '') + \
                 (addr.city and ('%s, ' % addr.city.title()) or '') + \
-                (addr.country_id and ('%s ' % addr.country_id.name.title()) or '') or _('NO INVOICE ADDRESS DEFINED')
-            #~ addr_inv = (addr.street or '')+' '+(addr.street2 or '')+' '+(addr.zip or '')+ ' '+(addr.city or '')+ ' '+ (addr.country_id and addr.country_id.name or '')+ ', TELF.:'+(addr.phone or '')
+                (addr.country_id and
+                 ('%s ' % addr.country_id.name.title()) or '') \
+                or _('NO INVOICE ADDRESS DEFINED')
+            # addr_inv = (addr.street or '')+' '+(addr.street2 or '')+'
+            # '+(addr.zip or '')+ ' '+(addr.city or '')+ ' '+ (addr.country_id
+            # and addr.country_id.name or '')+ ', TELF.:'+(addr.phone or '')
         return addr_inv
 
     def _get_tipo_doc(self, tipo=None):
@@ -86,7 +94,8 @@ class rep_comprobante(report_sxw.rml_parse):
         if not tipo:
             return []
 
-        types = {'out_invoice': '1', 'in_invoice': '1', 'out_refund': '2', 'in_refund': '2'}
+        types = {'out_invoice': '1', 'in_invoice': '1', 'out_refund': '2',
+                 'in_refund': '2'}
 
         return types[tipo]
 
@@ -96,7 +105,10 @@ class rep_comprobante(report_sxw.rml_parse):
         if not comp_id:
             return []
 
-        types = {'out_invoice': 's', 'in_invoice': 's', 'out_refund': 'r', 'in_refund': 'r'}
+        types = {'out_invoice': 's',
+                 'in_invoice': 's',
+                 'out_refund': 'r',
+                 'in_refund': 'r'}
         tot_comp = {}
         tot_comp_sdc = {}
         tot_base_imp = {}
@@ -115,31 +127,39 @@ class rep_comprobante(report_sxw.rml_parse):
             no_fac_afe = rl.invoice_id.origin or ''
             if rl.invoice_id.type in ['in_refund', 'out_refund']:
                 k = -1
-                no_fac_afe = rl.invoice_id.parent_id and rl.invoice_id.parent_id.supplier_invoice_number or ''
+                no_fac_afe = rl.invoice_id.parent_id and \
+                    rl.invoice_id.parent_id.supplier_invoice_number or ''
 
-            #~ Code to meet the changes in the new use field ret,
-            #~ and the new relation in account.invoice.tax
+            # Code to meet the changes in the new use field ret,
+            # and the new relation in account.invoice.tax
 
             for txl in rl.invoice_id.tax_line:
-                #~ Here being reviewed the taxes they are
-                #~ in the invoice only in order to obtain
-                #~ only taxes that are not subject to withholding
+                # Here being reviewed the taxes they are
+                # in the invoice only in order to obtain
+                # only taxes that are not subject to withholding
 
-                a = (txl.name and txl.name.find('SDCF') != -1)
-                b = (txl.tax_id and not txl.tax_id.ret)
-                if not any([a, b]):
+                aaa = (txl.name and txl.name.find('SDCF') != -1)
+                bbb = (txl.tax_id and not txl.tax_id.ret)
+                if not any([aaa, bbb]):
                     continue
 
                 sdcf = False
-                tot_base_imp[types[rl.invoice_id.type]] = tot_base_imp.get(types[rl.invoice_id.type], 0.0) + txl.base
-                tot_imp_iva[types[rl.invoice_id.type]] = tot_imp_iva.get(types[rl.invoice_id.type], 0.0) + txl.amount
-                tot_iva_ret[types[rl.invoice_id.type]] = tot_iva_ret.get(types[rl.invoice_id.type], 0.0) + txl.amount_ret
+                tot_base_imp[types[rl.invoice_id.type]] = tot_base_imp.get(
+                    types[rl.invoice_id.type], 0.0) + txl.base
+                tot_imp_iva[types[rl.invoice_id.type]] = tot_imp_iva.get(
+                    types[rl.invoice_id.type], 0.0) + txl.amount
+                tot_iva_ret[types[rl.invoice_id.type]] = tot_iva_ret.get(
+                    types[rl.invoice_id.type], 0.0) + txl.amount_ret
 
-                if any([a, b]):
-                    tot_comp_sdc[types[rl.invoice_id.type]] = tot_comp_sdc.get(types[rl.invoice_id.type], 0.0) + (txl.base + txl.amount)
+                if any([aaa, bbb]):
+                    tot_comp_sdc[types[rl.invoice_id.type]] = tot_comp_sdc.get(
+                        types[rl.invoice_id.type], 0.0) + (
+                            txl.base + txl.amount)
                     sdcf = True
                 else:
-                    tot_comp[types[rl.invoice_id.type]] = tot_comp.get(types[rl.invoice_id.type], 0.0) + (txl.base + txl.amount)
+                    tot_comp[types[rl.invoice_id.type]] = tot_comp.get(
+                        types[rl.invoice_id.type], 0.0) + (
+                            txl.base + txl.amount)
 
                 d1 = {
                     'fecha': rl.invoice_id.date_document,
@@ -148,13 +168,16 @@ class rep_comprobante(report_sxw.rml_parse):
                     'nro_ctrl': rl.invoice_id.nro_ctrl,
                     'nro_ncre': rl.invoice_id.supplier_invoice_number,
                     'nro_ndeb': rl.invoice_id.supplier_invoice_number,
-                    'porcenta': rp_obj._find_accounting_partner(rl.invoice_id.partner_id).wh_iva_rate,
+                    'porcenta': rp_obj._find_accounting_partner(
+                        rl.invoice_id.partner_id).wh_iva_rate,
                     'tip_tran': self._get_tipo_doc(rl.invoice_id.type),
                     'nro_fafe': no_fac_afe,
-                    'tot_civa': not sdcf and k * (txl.base + txl.amount) or 0.0,
+                    'tot_civa':
+                        not sdcf and k * (txl.base + txl.amount) or 0.0,
                     'cmp_sdcr': sdcf and k * (txl.base + txl.amount) or 0.0,
                     'bas_impo': k * txl.base,
-                    'alic': txl.tax_id.amount and txl.tax_id.amount * 100.0 or 0.0,
+                    'alic':
+                        txl.tax_id.amount and txl.tax_id.amount * 100.0 or 0.0,
                     'iva': k * txl.amount,
                     'iva_ret': k * txl.amount_ret,
                     'inv_type': rl.invoice_id.type
@@ -163,24 +186,31 @@ class rep_comprobante(report_sxw.rml_parse):
                 dic_inv[rl.invoice_id.id] = lst_tmp
 
             for txl in rl.tax_line:
-                a = (txl.name and txl.name.find('SDCF') != -1)
-                b = (txl.tax_id and not txl.tax_id.ret)
-                if any([a, b]):
+                aaa = (txl.name and txl.name.find('SDCF') != -1)
+                bbb = (txl.tax_id and not txl.tax_id.ret)
+                if any([aaa, bbb]):
                     continue
                 sdcf = False
-                tot_base_imp[types[rl.invoice_id.type]] = tot_base_imp.get(types[rl.invoice_id.type], 0.0) + txl.base
-                tot_imp_iva[types[rl.invoice_id.type]] = tot_imp_iva.get(types[rl.invoice_id.type], 0.0) + txl.amount
-                tot_iva_ret[types[rl.invoice_id.type]] = tot_iva_ret.get(types[rl.invoice_id.type], 0.0) + txl.amount_ret
+                tot_base_imp[types[rl.invoice_id.type]] = tot_base_imp.get(
+                    types[rl.invoice_id.type], 0.0) + txl.base
+                tot_imp_iva[types[rl.invoice_id.type]] = tot_imp_iva.get(
+                    types[rl.invoice_id.type], 0.0) + txl.amount
+                tot_iva_ret[types[rl.invoice_id.type]] = tot_iva_ret.get(
+                    types[rl.invoice_id.type], 0.0) + txl.amount_ret
 
-                #~ TODO: THIS MUST BE SOLVED THROUGH THE USE OF THE FIELD RET
-                #~ IN THE MODEL ACCOUNT.TAX, SO THAT APPEARS IF THE TAX
-                #~ WITH VALUE FALSE, AND BECAUSE NOW WE HAVE A TAX_ID IN ACCOUNT.INVOICE.TAX
-                #~ CAN DO TRACKING TO ACCOUNT.TAX
+                # TODO: THIS MUST BE SOLVED THROUGH THE USE OF THE FIELD RET IN
+                # THE MODEL ACCOUNT.TAX, SO THAT APPEARS IF THE TAX WITH VALUE
+                # FALSE, AND BECAUSE NOW WE HAVE A TAX_ID IN
+                # ACCOUNT.INVOICE.TAX CAN DO TRACKING TO ACCOUNT.TAX
                 if txl.name.find('SDCF') != -1:
-                    tot_comp_sdc[types[rl.invoice_id.type]] = tot_comp_sdc.get(types[rl.invoice_id.type], 0.0) + (txl.base + txl.amount)
+                    tot_comp_sdc[types[rl.invoice_id.type]] = tot_comp_sdc.get(
+                        types[rl.invoice_id.type], 0.0) + (
+                            txl.base + txl.amount)
                     sdcf = True
                 else:
-                    tot_comp[types[rl.invoice_id.type]] = tot_comp.get(types[rl.invoice_id.type], 0.0) + (txl.base + txl.amount)
+                    tot_comp[types[rl.invoice_id.type]] = tot_comp.get(
+                        types[rl.invoice_id.type], 0.0) + (
+                            txl.base + txl.amount)
 
                 d1 = {
                     'fecha': rl.invoice_id.date_document,
@@ -189,13 +219,16 @@ class rep_comprobante(report_sxw.rml_parse):
                     'nro_ctrl': rl.invoice_id.nro_ctrl,
                     'nro_ncre': rl.invoice_id.supplier_invoice_number,
                     'nro_ndeb': rl.invoice_id.supplier_invoice_number,
-                    'porcenta': rp_obj._find_accounting_partner(rl.invoice_id.partner_id).wh_iva_rate,
+                    'porcenta': rp_obj._find_accounting_partner(
+                        rl.invoice_id.partner_id).wh_iva_rate,
                     'tip_tran': self._get_tipo_doc(rl.invoice_id.type),
                     'nro_fafe': no_fac_afe,
-                    'tot_civa': not sdcf and k * (txl.base + txl.amount) or 0.0,
+                    'tot_civa':
+                    not sdcf and k * (txl.base + txl.amount) or 0.0,
                     'cmp_sdcr': sdcf and k * (txl.base + txl.amount) or 0.0,
                     'bas_impo': k * txl.base,
-                    'alic': txl.tax_id.amount and txl.tax_id.amount * 100.0 or 0.0,
+                    'alic':
+                        txl.tax_id.amount and txl.tax_id.amount * 100.0 or 0.0,
                     'iva': k * txl.amount,
                     'iva_ret': k * txl.amount_ret,
                     'inv_type': rl.invoice_id.type
@@ -224,10 +257,12 @@ class rep_comprobante(report_sxw.rml_parse):
             lst_comp += dic_inv[inv_id]
 
         self.ttcompra = tot_comp.get('s', 0.0) - tot_comp.get('r', 0.0)
-        self.ttcompra_sdcf = tot_comp_sdc.get('s', 0.0) - tot_comp_sdc.get('r', 0.0)
+        self.ttcompra_sdcf = \
+            tot_comp_sdc.get('s', 0.0) - tot_comp_sdc.get('r', 0.0)
         self.ttbase = tot_base_imp.get('s', 0.0) - tot_base_imp.get('r', 0.0)
         self.ttiva = tot_imp_iva.get('s', 0.0) - tot_imp_iva.get('r', 0.0)
-        self.ttretencion = tot_iva_ret.get('s', 0.0) - tot_iva_ret.get('r', 0.0)
+        self.ttretencion = \
+            tot_iva_ret.get('s', 0.0) - tot_iva_ret.get('r', 0.0)
         return lst_comp
 
     def _get_tot_gral_compra(self):

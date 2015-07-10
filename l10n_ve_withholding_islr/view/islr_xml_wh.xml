@@ -2,7 +2,7 @@
 <openerp>
     <data>
 
-    <!-- 
+    <!--
     =====================================================
     XML GENERATE
     =====================================================
@@ -34,10 +34,10 @@
                         <separator string="Supplier to Withhold" colspan="6"/>
                     <newline/>
                     <group col="4" colspan="4">
-                        <field 
-                            name="partner_id" 
+                        <field
+                            name="partner_id"
                             domain="[('parent_id','=',False)]"
-                            colspan="4" 
+                            colspan="4"
                             on_change="onchange_partner_vat(partner_id)"/>
                         <field name="partner_vat"/>
                     </group>
@@ -46,17 +46,18 @@
                     <newline/>
                     <group col="4" colspan="4">
                         <field name="concept_id" colspan="4"/>
-                        <field name="rate_id" colspan="4" on_change="onchange_code_perc(rate_id)"/>
+                        <field name="rate_id" colspan="4" on_change="onchange_code_perc(rate_id)" required='1'/>
                         <field name="porcent_rete"/>
                         <field name="concept_code"/>
                     </group>
                     <newline/>
-                    <group col="4" colspan="4" attrs="{'invisible':[('type','!=','invoice')]}">
-                        <separator string="Invoice" colspan="4"/>
+                    <group col="4" colspan="4">
+                        <separator string="Invoice" colspan="4" attrs="{'invisible':[('type','!=','invoice')]}"/>
                         <newline/>
                         <group col="4" colspan="4">
-                            <field name="account_invoice_line_id" colspan="4"/>
-                            <field name="period_id" colspan="4"/>
+                            <field name="account_invoice_line_id" colspan="4" attrs="{'invisible':[('type','!=','invoice')]}"/>
+                            <field name="date_ret" colspan="2" required='1'/>
+                            <field name="period_id" colspan="2" required='1'/>
                             <field name="invoice_number" />
                             <field name="control_number" />
                         </group>
@@ -98,10 +99,15 @@
                         <field name="state" widget="statusbar" statusbar_visible="draft,confirmed,done" statusbar_colors="{&quot;confirmed&quot;:&quot;blue&quot;}"/>
                     </header>
                     <field name="name"/>
-                    <field name="period_id" widget="selection" domain="[('state','=','draft')]"/>
+                    <field name="period_id" widget="selection"/>
                     <notebook colspan="4">
-                        <page string="Lines Withholding">
-                            <field name="xml_ids" nolabel="1" colspan="4" widget="many2many" domain="[('period_id','=',period_id), ('islr_xml_wh_doc','=',False)]">
+                        <page string="Invoice Withholding Lines">
+                            <field
+                                name="invoice_xml_ids"
+                                nolabel="1"
+                                colspan='4'
+                                widget="many2many"
+                                domain="[('period_id','=',period_id), ('islr_xml_wh_doc','=',False), ('type', '=', 'invoice')]">
                                 <tree string="Detail of the XML">
                                     <field name="partner_vat"/>
                                     <field name="partner_id" domain="[('parent_id','=',False)]"/>
@@ -116,6 +122,32 @@
                                 <field name="amount_total_ret"/>
                                 <field name="amount_total_base"/>
                              </group>
+                         </page>
+                         <page string="Employee Withholding Lines">
+                             <button
+                                 name="import_xml_employee"
+                                 string="Import XML employee"
+                                 icon="terp-hr"
+                                 type="object"
+                                 colspan="1"
+                                 states="draft"/>
+                            <field
+                                 name="employee_xml_ids"
+                                 nolabel="1"
+                                 colspan='4'
+                                 widget="many2many"
+                                 domain="[('period_id','=',period_id), ('islr_xml_wh_doc','=',False), ('type', '=', 'employee')]">
+                                <tree string="Detail of the XML">
+                                    <field name="partner_vat"/>
+                                    <field name="partner_id" domain="[('parent_id','=',False)]"/>
+                                    <field name="invoice_number"/>
+                                    <field name="concept_code"/>
+                                    <field name="base"/>
+                                    <field name="porcent_rete"/>
+                                    <field name="wh"/>
+                                </tree>
+                            </field>
+
                          </page>
                          <page string="Other information">
                              <field name="company_id"/>

@@ -3,14 +3,15 @@
 #    Module Writen to OpenERP, Open Source Management Solution
 #    Copyright (C) OpenERP Venezuela (<http://openerp.com.ve>).
 #    All Rights Reserved
-###############Credits######################################################
+###############################################################################
+#    Credits:
 #    Coded by: Javier Duran <javier@vauxoo.com>
 #    Planified by: Nhomar Hernandez
 #    Audited by: Vauxoo C.A.
 #############################################################################
 #    This program is free software: you can redistribute it and/or modify
-#    it under the terms of the GNU Affero General Public License as published by
-#    the Free Software Foundation, either version 3 of the License, or
+#    it under the terms of the GNU Affero General Public License as published
+#    by the Free Software Foundation, either version 3 of the License, or
 #    (at your option) any later version.
 #
 #    This program is distributed in the hope that it will be useful,
@@ -20,9 +21,10 @@
 #
 #    You should have received a copy of the GNU Affero General Public License
 #    along with this program.  If not, see <http://www.gnu.org/licenses/>.
-################################################################################
+###############################################################################
 
 import time
+
 from openerp.report import report_sxw
 from openerp.tools.translate import _
 
@@ -47,7 +49,12 @@ class wh_muni_report(report_sxw.rml_parse):
         addr_inv = _('NO INVOICE ADDRESS DEFINED')
         if idp:
             addr = addr_obj.browse(self.cr, self.uid, idp)
-            addr_inv = addr.type == 'invoice' and (addr.street or '') + ' ' + (addr.street2 or '') + ' ' + (addr.zip or '') + ' ' + (addr.city or '') + ' ' + (addr.country_id and addr.country_id.name or '') + ', TELF.:' + (addr.phone or '') or _('NO INVOICE ADDRESS DEFINED')
+            addr_inv = (addr.type == 'invoice' and (addr.street or '') + ' ' +
+                        (addr.street2 or '') + ' ' + (addr.zip or '') + ' ' +
+                        (addr.city or '') + ' ' +
+                        (addr.country_id and addr.country_id.name or '') +
+                        ', TELF.:' + (addr.phone or '') or
+                        _('NO INVOICE ADDRESS DEFINED'))
         return addr_inv
 
     def _get_rif(self, vat=''):

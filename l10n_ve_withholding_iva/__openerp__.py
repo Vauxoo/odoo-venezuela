@@ -3,7 +3,8 @@
 #    Module Writen to OpenERP, Open Source Management Solution
 #    Copyright (C) OpenERP Venezuela (<http://openerp.com.ve>).
 #    All Rights Reserved
-###############Credits######################################################
+###############################################################################
+#    Credits:
 #    Coded by:  Javier Duran              <javier@nvauxoo.com>
 #               Maria Gabriela Quilarque  <gabriela@openerp.com.ve>
 #               Nhomar Hernandez          <nhomar@vauxoo.com>
@@ -26,27 +27,30 @@
 #    along with this program.  If not, see <http://www.gnu.org/licenses/>.
 ##############################################################################
 {
-    "name" : "Management withholding vat based in the Venezuelan tax laws",
-    "version" : "1.1",
-    "author" : "Vauxoo",
-    "website" : "http://vauxoo.com",
+    "name": "Management withholding vat based in the Venezuelan tax laws",
+    "version": "1.1",
+    "author": "Vauxoo",
+    "website": "http://vauxoo.com",
     "category": 'Generic Modules/Accounting',
-    "description": """Management withholding vat based in the Venezuelan tax laws.
+    "description": """
+Management withholding vat based in the Venezuelan tax laws.
 
  - Create from invoice voucher withholding vat, to validate invoice.
- - Generate new tag in the view of partner for  add information basic of withholdings vat.
- - Generate file .txt required by Venezuelan law, based in the withholdings vat made during period
-   defined for users.
+ - Generate new tag in the view of partner for  add information basic of
+   withholdings vat.
+ - Generate file .txt required by Venezuelan law, based in the withholdings vat
+   made during period defined for users.
  - Generate voucher of withholding vat based in the Venezuelan tax laws.
 
 **Recommendations:**
 
- - If you want to be able to print the vat withholding report correctly, It is recomended to define
-   the size of the logo of the company in 886 x 236 pixeles.
+ - If you want to be able to print the vat withholding report correctly, It is
+   recomended to define the size of the logo of the company in 886 x 236
+   pixeles.
 """,
-    "depends" : [
+    "depends": [
                 "l10n_ve_withholding"
-                ],
+    ],
     'data': [
         'security/wh_iva_security.xml',
         'security/ir.model.access.csv',
@@ -65,22 +69,22 @@
         "workflow/wh_action_server.xml",
     ],
     'demo': [
-            "demo/l10n_ve_withholding_iva_sequences_demo.xml",
-            "demo/demo_partners.xml",
-            "demo/l10n_ve_withholding_iva_demo.xml",
-            "demo/demo_taxes.xml",
-            "demo/demo_invoices.xml",
-            ],
+        "demo/l10n_ve_withholding_iva_sequences_demo.xml",
+        "demo/demo_partners.xml",
+        "demo/l10n_ve_withholding_iva_demo.xml",
+        "demo/demo_taxes.xml",
+        "demo/demo_invoices.xml",
+    ],
 
     'test': [
-             #'test/purchase_invoice_wh_iva.yml',
-             #'test/sale_invoice_wh_iva.yml',
-             #'test/sale_wh_iva.yml',
-             #'test/purchase_wh_iva.yml',
-             #'test/purchase_wh_iva_sequence.yml',
-             #'test/sale_wh_iva_sequence.yml',
-             #'test/purchase_wh_iva_txt.yml',
-        ],
+        # test/purchase_invoice_wh_iva.yml',
+        # test/sale_invoice_wh_iva.yml',
+        # test/sale_wh_iva.yml',
+        # test/purchase_wh_iva.yml',
+        # test/purchase_wh_iva_sequence.yml',
+        # test/sale_wh_iva_sequence.yml',
+        # test/purchase_wh_iva_txt.yml',
+    ],
     'installable': True,
     'active': False,
 }

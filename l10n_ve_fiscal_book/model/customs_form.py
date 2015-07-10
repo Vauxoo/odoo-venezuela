@@ -3,7 +3,8 @@
 #    Module Writen to OpenERP, Open Source Management Solution
 #    Copyright (c) 2013 Vauxoo C.A. (http://openerp.com.ve/)
 #    All Rights Reserved
-############# Credits #########################################################
+###############################################################################
+#    Credits:
 #    Coded by:   Katherine Zaoral              <katherine.zaoral@vauxoo.com>
 #    Planified by:
 #                Juan Marquez                  <jmarquez@tecvemar.com.ve>

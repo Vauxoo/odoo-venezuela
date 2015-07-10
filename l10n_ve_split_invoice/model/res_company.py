@@ -3,15 +3,16 @@
 #    Module Writen to OpenERP, Open Source Management Solution
 #    Copyright (C) OpenERP Venezuela (<http://openerp.com.ve>).
 #    All Rights Reserved
-###############Credits######################################################
+###############################################################################
+#    Credits:
 #    Coded by: nhomar@openerp.com.ve,
 #    Planified by: Nhomar Hernandez
 #    Finance by: Helados Gilda, C.A. http://heladosgilda.com.ve
 #    Audited by: Humberto Arocha humberto@openerp.com.ve
 #############################################################################
 #    This program is free software: you can redistribute it and/or modify
-#    it under the terms of the GNU Affero General Public License as published by
-#    the Free Software Foundation, either version 3 of the License, or
+#    it under the terms of the GNU Affero General Public License as published
+#    by the Free Software Foundation, either version 3 of the License, or
 #    (at your option) any later version.
 #
 #    This program is distributed in the hope that it will be useful,
@@ -22,14 +23,16 @@
 #    You should have received a copy of the GNU Affero General Public License
 #    along with this program.  If not, see <http://www.gnu.org/licenses/>.
 ##############################################################################
-from openerp.osv import osv, fields
+from openerp.osv import fields, osv
 
 
 class res_company(osv.osv):
     _inherit = 'res.company'
 
     _columns = {
-        'lines_invoice': fields.integer('Invoice Lines', required=False, help="Number of lines per invoice"),
+        'lines_invoice': fields.integer(
+            'Invoice Lines', required=False,
+            help="Number of lines per invoice"),
     }
 
     _defaults = {

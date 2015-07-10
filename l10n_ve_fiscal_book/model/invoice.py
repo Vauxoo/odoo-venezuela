@@ -3,7 +3,8 @@
 #    Module Writen to OpenERP, Open Source Management Solution
 #    Copyright (C) OpenERP Venezuela (<http://openerp.com.ve>).
 #    All Rights Reserved
-################ Credits ######################################################
+###############################################################################
+#    Credits:
 #    Coded by:       Luis Escobar <luis@vauxoo.com>
 #                    Tulio Ruiz <tulio@vauxoo.com>
 #                    Katherine Zsoral <katherine.zaoral@vauxoo.com>
@@ -22,7 +23,7 @@
 #    You should have received a copy of the GNU General Public License
 #    along with this program.  If not, see <http://www.gnu.org/licenses/>.
 ###############################################################################
-from openerp.osv import osv, fields
+from openerp.osv import fields, osv
 from openerp.tools.translate import _
 
 
@@ -43,29 +44,34 @@ class account_invoice(osv.osv):
         the state of the book is in cancel. """
         context = context or {}
         for inv_brw in self.browse(cr, uid, ids, context=context):
-            if not inv_brw.fb_id or (inv_brw.fb_id and inv_brw.fb_id.state == 'cancel'):
+            if (not inv_brw.fb_id or
+                    (inv_brw.fb_id and inv_brw.fb_id.state == 'cancel')):
                 super(account_invoice, self).action_cancel(cr, uid, ids,
                                                            context=context)
             else:
-                raise osv.except_osv(_("Error!"),
-                _("You can't cancel an invoice that is loaded in a processed "
-                  "Fiscal Book (%s). You need to go to Fiscal Book and set "
-                  "the book to Cancel. Then you could be able to cancel the "
-                  "invoice." % (inv_brw.fb_id.state,)))
+                raise osv.except_osv(
+                    _("Error!"),
+                    _("You can't cancel an invoice that is loaded in a"
+                      " processed Fiscal Book (%s). You need to go to"
+                      " Fiscal Book and set the book to Cancel. Then you"
+                      " could be able to cancel the invoice." % (
+                          inv_brw.fb_id.state,)))
         return True
 
-    def copy(self, cur, uid, id, default=None, context=None):
+    def copy(self, cur, uid, ids, default=None, context=None):
         """
         Overwrite the copy orm method to blank the fiscal book field when
         a invoice is copy. Also if a invoice have benn remove from a fiscal
         book the issue_fb_id is add, if a duplicate this invoice that info os
         issue will be garbage so I clean it too.
         """
+        # NOTE: Use as parameter 'ids' instead of 'id' for fix pylint W0622
+        # Redefining built-in 'id'.
         context = context or {}
         default = default or {}
         default.update(fb_id=False)
         if default.get('issue_fb_id', False):
             default.update(issue_fb_id=False)
         res = super(account_invoice, self).copy(
-            cur, uid, id, default=default, context=context)
+            cur, uid, ids, default=default, context=context)
         return res

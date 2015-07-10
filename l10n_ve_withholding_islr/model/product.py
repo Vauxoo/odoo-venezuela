@@ -3,7 +3,8 @@
 #    Module Writen to OpenERP, Open Source Management Solution
 #    Copyright (C) OpenERP Venezuela (<http://openerp.com.ve>).
 #    All Rights Reserved
-###############Credits######################################################
+###############################################################################
+#    Credits:
 #    Coded by: Humberto Arocha           <humberto@openerp.com.ve>
 #              Maria Gabriela Quilarque  <gabrielaquilarque97@gmail.com>
 #              Javier Duran              <javier@vauxoo.com>
@@ -12,8 +13,8 @@
 #    Audited by: Humberto Arocha humberto@openerp.com.ve
 #############################################################################
 #    This program is free software: you can redistribute it and/or modify
-#    it under the terms of the GNU Affero General Public License as published by
-#    the Free Software Foundation, either version 3 of the License, or
+#    it under the terms of the GNU Affero General Public License as published
+#    by the Free Software Foundation, either version 3 of the License, or
 #    (at your option) any later version.
 #
 #    This program is distributed in the hope that it will be useful,
@@ -25,7 +26,7 @@
 #    along with this program.  If not, see <http://www.gnu.org/licenses/>.
 ##############################################################################
 
-from openerp.osv import osv, fields
+from openerp.osv import fields, osv
 from openerp.tools.translate import _
 
 
@@ -34,7 +35,9 @@ class product_template(osv.osv):
     _inherit = "product.template"
 
     _columns = {
-        'concept_id': fields.many2one('islr.wh.concept', 'Withhold  Concept', help="Concept Income Withholding to apply to the service", required=False),
+        'concept_id': fields.many2one(
+            'islr.wh.concept', 'Withhold  Concept', required=False,
+            help="Concept Income Withholding to apply to the service"),
     }
 
 
@@ -53,9 +56,12 @@ class product_product(osv.osv):
         if prd_type != 'service':
             concept_obj = self.pool.get('islr.wh.concept')
 
-            concept_id = concept_obj.search(cr, uid, [('withholdable', '=', False)])
+            concept_id = concept_obj.search(cr, uid,
+                                            [('withholdable', '=', False)])
             concept_id = concept_id and concept_id[0] or False
             if not concept_id:
-                raise osv.except_osv(_('Invalid action !'), _("Must create the concept of income withholding"))
+                raise osv.except_osv(
+                    _('Invalid action !'),
+                    _("Must create the concept of income withholding"))
 
         return {'value': {'concept_id': concept_id or False}}

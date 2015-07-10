@@ -22,12 +22,13 @@
 #    along with this program.  If not, see <http://www.gnu.org/licenses/>.
 ##########################################################################
 
-from openerp.osv import fields, osv
-from openerp.tools.translate import _
+import logging
+import re
 import urllib
 from xml.dom.minidom import parseString
-import re
-import logging
+
+from openerp.osv import fields, osv
+from openerp.tools.translate import _
 
 
 class seniat_url(osv.osv):
@@ -38,15 +39,18 @@ class seniat_url(osv.osv):
     _description = "Seniat config needed to run auto-config partner"
     logger = logging.getLogger('res.partner')
     _columns = {
-        'name': fields.char('URL Seniat for Partner Information', size=255,
+        'name': fields.char(
+            'URL Seniat for Partner Information', size=255,
             required=True, readonly=False,
             help='''In this field enter the URL from Seniat for search the
             fiscal information from partner'''),
-        'url_seniat': fields.char('URL Seniat for Retention Rate',
+        'url_seniat': fields.char(
+            'URL Seniat for Retention Rate',
             size=255, required=True, readonly=False,
             help='''In this field enter the URL from Seniat for search the
             retention rate from partner (RIF)'''),
-        'url_seniat2': fields.char('URL Seniat for Retention Rate',
+        'url_seniat2': fields.char(
+            'URL Seniat for Retention Rate',
             size=255, required=True, readonly=False, help='''In this field enter
             the URL from Seniat for search the retention rate from partner
             (CI or Passport)'''),
@@ -66,11 +70,11 @@ class seniat_url(osv.osv):
 
         vat_type = vat_type.get(vat[0].upper())
         if vat_type:
-            sum = vat_type * 4
+            sum_vat = vat_type * 4
             for i in range(8):
-                sum += int(vat[i + 1]) * mapper[i + 1]
+                sum_vat += int(vat[i + 1]) * mapper[i + 1]
 
-            valid_digit = divisor - sum % divisor
+            valid_digit = divisor - sum_vat % divisor
             if valid_digit >= 10:
                 valid_digit = 0
         return valid_digit
@@ -88,8 +92,7 @@ class seniat_url(osv.osv):
             vat = vat[2:]
 
         if re.search(r'^[VJEGP][0-9]{9}$', vat):
-            valid_digit = self._get_valid_digit(cr, uid, vat,
-                    context=context)
+            valid_digit = self._get_valid_digit(cr, uid, vat, context=context)
             if valid_digit is None:
                 return False
             if int(vat[9]) == valid_digit:
@@ -98,8 +101,7 @@ class seniat_url(osv.osv):
                 self._print_error(_('Vat Error !'), _('Invalid VAT!'))
         elif re.search(r'^([VE][0-9]{1,8})$', vat):
             vat = vat[0] + vat[1:].rjust(8, '0')
-            valid_digit = self._get_valid_digit(cr, uid, vat,
-                    context=context)
+            valid_digit = self._get_valid_digit(cr, uid, vat, context=context)
             vat += str(valid_digit)
             return vat
         return False
@@ -110,20 +112,29 @@ class seniat_url(osv.osv):
         str_error = '404 Not Found'
         while retries > 0:
             try:
-                s = urllib.urlopen(url)
-                r = s.read()
-                ok = not('404 Not Found' in r)
+                url_obj = urllib.urlopen(url)
+                url_str = url_obj.read()
+                ok = '404 Not Found' not in url_str
                 if ok:
-                    self.logger.info("Url Loaded correctly %s" % url)
-                    return r
-            except:
-                self.logger.warning("Url could not be loaded %s" % str_error)
+                    log_msg = "Url Loaded correctly %s" % url
+                    self.logger.info(log_msg)
+                    return url_str
+            except IOError, e:
+                if e.errno == 101:
+                    log_msg = "Url could not be loaded %s" % str_error
+                    self.logger.warning(log_msg)
+                else:
+                    log_msg = "This is a unspected error %s" % str_error
+                    self.logger.warning(log_msg)
             retries -= 1
         return str_error
 
-    def _parse_dom(self, cr, uid, dom, rif, url_seniat, context={}):
-        """ This function extracts the information partner of the string and returns
+    def _parse_dom(self, cr, uid, dom, rif, url_seniat, context=None):
         """
+        This function extracts the information partner of the string and
+        returns
+        """
+        context = context or {}
         rif_aux = dom.childNodes[0].getAttribute('rif:numeroRif')
         name = dom.childNodes[0].childNodes[0].firstChild.data
         wh_agent = dom.childNodes[0].childNodes[
@@ -131,7 +142,8 @@ class seniat_url(osv.osv):
         vat_subjected = dom.childNodes[0].childNodes[
             2].firstChild.data.upper() == 'SI' and True or False
         wh_rate = dom.childNodes[0].childNodes[3].firstChild.data
-        self.logger.info("RIF: %s Found" % rif)
+        log_msg = "rif: %s found" % rif
+        self.logger.info(log_msg)
         if name.count('(') > 0:
             name = name[:name.index('(')].rstrip()
         return {'name': name,
@@ -145,12 +157,11 @@ class seniat_url(osv.osv):
         """
         raise osv.except_osv(error, msg)
 
-    def _eval_seniat_data(self, xml_data, vat, context={}):
+    def _eval_seniat_data(self, xml_data, vat, context=None):
         """ Returns false when there was no error in the query in url SENIAT and
         return true when there was error in the query.
         """
-        if context is None:
-            context = {}
+        context = context or {}
         if not context.get('all_rif'):
             if xml_data.find('450') >= 0 and not vat.find('450') >= 0:
                 self._print_error(_('Vat Error !'), _('Invalid VAT!'))
@@ -162,7 +173,8 @@ class seniat_url(osv.osv):
             else:
                 return False
         else:
-            if xml_data.find('450') >= 0 or xml_data.find('452') >= 0 or xml_data.find("404") >= 0:
+            if (xml_data.find('450') >= 0 or xml_data.find('452') >= 0
+                    or xml_data.find("404") >= 0):
                 return True
             else:
                 return False
@@ -199,15 +211,18 @@ class seniat_url(osv.osv):
         else:
             return False
 
-    def _update_partner(self, cr, uid, id, context=None):
+    def _update_partner(self, cr, uid, ids, context=None):
         """ Indicates that the partner was updated with information provided by seniat
         """
+        # NOTE: use ids argument instead of id for fix the pylint error W0622.
+        # Redefining built-in 'id'
         rp_obj = self.pool.get('res.partner')
-        rp_obj.write(cr, uid, id, {'seniat_updated': True})
+        rp_obj.write(cr, uid, ids, {'seniat_updated': True})
 
-    def update_rif(self, cr, uid, ids, context={}):
+    def update_rif(self, cr, uid, ids, context=None):
         """ Updates the partner info if it have a vat
         """
+        context = context or {}
         rp_obj = self.pool.get('res.partner')
         if context.get('exec_wizard'):
             res = self._dom_giver(cr, uid, context['vat'], context=context)
@@ -222,7 +237,8 @@ class seniat_url(osv.osv):
             rp_obj.write(cr, uid, partner.id, {'seniat_updated': False})
 
             try:
-                res = self._dom_giver(cr, uid, partner.vat[2:], context=context)
+                res = self._dom_giver(cr, uid, partner.vat[2:],
+                                      context=context)
             except osv.except_osv:
                 continue
 
@@ -234,10 +250,11 @@ class seniat_url(osv.osv):
                     return False
         return True
 
-    def connect_seniat(self, cr, uid, ids, context={}, all_rif=False):
+    def connect_seniat(self, cr, uid, ids, context=None, all_rif=False):
         """ Adds true value to the field all_rif to denote that rif was charged with
         SENIAT database
         """
+        context = context or {}
         ctx = context.copy()
         if all_rif:
             ctx.update({'all_rif': True})

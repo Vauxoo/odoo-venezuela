@@ -3,7 +3,8 @@
 #    Module Writen to OpenERP, Open Source Management Solution
 #    Copyright (C) OpenERP Venezuela (<http://openerp.com.ve>).
 #    All Rights Reserved
-###############Credits######################################################
+###############################################################################
+#    Credits:
 #    Coded by: Humberto Arocha           <humberto@openerp.com.ve>
 #              Maria Gabriela Quilarque  <gabrielaquilarque97@gmail.com>
 #              Javier Duran              <javier@vauxoo.com>
@@ -12,8 +13,8 @@
 #    Audited by: Humberto Arocha humberto@openerp.com.ve
 #############################################################################
 #    This program is free software: you can redistribute it and/or modify
-#    it under the terms of the GNU Affero General Public License as published by
-#    the Free Software Foundation, either version 3 of the License, or
+#    it under the terms of the GNU Affero General Public License as published
+#    by the Free Software Foundation, either version 3 of the License, or
 #    (at your option) any later version.
 #
 #    This program is distributed in the hope that it will be useful,
@@ -24,8 +25,8 @@
 #    You should have received a copy of the GNU Affero General Public License
 #    along with this program.  If not, see <http://www.gnu.org/licenses/>.
 ##############################################################################
-from openerp.osv import osv, fields
 from openerp.addons import decimal_precision as dp
+from openerp.osv import fields, osv
 
 
 class islr_rates(osv.osv):
@@ -49,20 +50,48 @@ class islr_rates(osv.osv):
                 if rate.residence:
                     name = 'Persona' + ' ' + 'Juridica' + ' ' + 'Domiciliada'
                 else:
-                    name = 'Persona' + ' ' + 'Juridica' + ' ' + 'No Domiciliada'
+                    name = 'Persona' + ' ' + 'Juridica' + ' ' + \
+                        'No Domiciliada'
             res[rate.id] = name
         return res
 
     _columns = {
-        'name': fields.function(_get_name, method=True, type='char', string='Rate', size=256, help="Name retention rate of withhold concept"),
-        'code': fields.char('Concept Code', size=3, required=True, help="Concept code"),
-        'base': fields.float('Without Tax Amount', required=True, help="Percentage of the amount on which to apply the withholding", digits_compute=dp.get_precision('Withhold ISLR')),
-        'minimum': fields.float('Min. Amount', required=True, help="Minimum amount, from which it will determine whether you withholded", digits_compute=dp.get_precision('Withhold ISLR')),
-        'wh_perc': fields.float('Percentage Amount', required=True, help="The percentage to apply to taxable withold income  throw the amount to withhold", digits_compute=dp.get_precision('Withhold ISLR')),
-        'subtract': fields.float('Subtrahend in Tax Units', required=True, help="Amount to subtract from the total amount to withhold, Amount Percentage withhold ..... This subtrahend only applied the first time you perform withhold ", digits_compute=dp.get_precision('Withhold ISLR')),
-        'residence': fields.boolean('Residence', help="Indicates whether a person is resident, compared with the direction of the Company"),
-        'nature': fields.boolean('Nature', help="Indicates whether a person is nature or legal"),
-        'concept_id': fields.many2one('islr.wh.concept', 'Withhold  Concept', help="Withhold concept associated with this rate", required=False, ondelete='cascade'),
-        'rate2': fields.boolean('Rate 2', help='Rate Used for Foreign Entities'),
+        'name': fields.function(
+            _get_name, method=True, type='char', string='Rate', size=256,
+            help="Name retention rate of withhold concept"),
+        'code': fields.char(
+            'Concept Code', size=3, required=True, help="Concept code"),
+        'base': fields.float(
+            'Without Tax Amount', required=True,
+            help="Percentage of the amount on which to apply the withholding",
+            digits_compute=dp.get_precision('Withhold ISLR')),
+        'minimum': fields.float(
+            'Min. Amount', required=True,
+            digits_compute=dp.get_precision('Withhold ISLR'),
+            help="Minimum amount, from which it will determine whether you"
+                 " withholded"),
+        'wh_perc': fields.float(
+            'Percentage Amount', required=True,
+            digits_compute=dp.get_precision('Withhold ISLR'),
+            help="The percentage to apply to taxable withold income throw the"
+                 " amount to withhold"),
+        'subtract': fields.float(
+            'Subtrahend in Tax Units', required=True,
+            digits_compute=dp.get_precision('Withhold ISLR'),
+            help="Amount to subtract from the total amount to withhold,"
+                 " Amount Percentage withhold ..... This subtrahend only"
+                 " applied the first time you perform withhold"),
+        'residence': fields.boolean(
+            'Residence',
+            help="Indicates whether a person is resident, compared with the"
+                 " direction of the Company"),
+        'nature': fields.boolean(
+            'Nature', help="Indicates whether a person is nature or legal"),
+        'concept_id': fields.many2one(
+            'islr.wh.concept', 'Withhold  Concept', required=False,
+            ondelete='cascade',
+            help="Withhold concept associated with this rate"),
+        'rate2': fields.boolean(
+            'Rate 2', help='Rate Used for Foreign Entities'),
     }
 islr_rates()

@@ -3,7 +3,8 @@
 #    Module Writen to OpenERP, Open Source Management Solution
 #    Copyright (C) OpenERP Venezuela (<http://openerp.com.ve>).
 #    All Rights Reserved
-###############Credits######################################################
+###############################################################################
+#    Credits:
 #    Coded by: Humberto Arocha           <humberto@vauxoo.com>
 #              María Gabriela Quilarque  <gabriela@vauxoo.com>
 #              Nhomar Hernandez          <nhomar@vauxoo.com>
@@ -12,8 +13,8 @@
 #    Audited by: Humberto Arocha humberto@openerp.com.ve
 #############################################################################
 #    This program is free software: you can redistribute it and/or modify
-#    it under the terms of the GNU Affero General Public License as published by
-#    the Free Software Foundation, either version 3 of the License, or
+#    it under the terms of the GNU Affero General Public License as published
+#    by the Free Software Foundation, either version 3 of the License, or
 #    (at your option) any later version.
 #
 #    This program is distributed in the hope that it will be useful,
@@ -48,6 +49,7 @@ class res_users(osv.osv):
         """
         context = context or {}
         context.update({'create_company': True})
-        return super(res_users, self).write(cr, uid, ids, values, context=context)
+        return super(res_users, self).write(cr, uid, ids, values,
+                                            context=context)
 
 res_users()

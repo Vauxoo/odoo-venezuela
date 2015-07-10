@@ -3,15 +3,16 @@
 #    Module Writen to OpenERP, Open Source Management Solution
 #    Copyright (C) OpenERP Venezuela (<http://openerp.com.ve>).
 #    All Rights Reserved
-###############Credits######################################################
+###############################################################################
+#    Credits:
 #    Coded by: Maria Gabriela Quilarque  <gabrielaquilarque97@gmail.com>
 #    Planified by: Nhomar Hernandez
 #    Finance by: Helados Gilda, C.A. http://heladosgilda.com.ve
 #    Audited by: Humberto Arocha humberto@openerp.com.ve
 #############################################################################
 #    This program is free software: you can redistribute it and/or modify
-#    it under the terms of the GNU Affero General Public License as published by
-#    the Free Software Foundation, either version 3 of the License, or
+#    it under the terms of the GNU Affero General Public License as published
+#    by the Free Software Foundation, either version 3 of the License, or
 #    (at your option) any later version.
 #
 #    This program is distributed in the hope that it will be useful,
@@ -23,20 +24,25 @@
 #    along with this program.  If not, see <http://www.gnu.org/licenses/>.
 ##############################################################################
 
-from osv import osv
-from osv import fields
-from tools.translate import _
+
+from openerp.osv import fields, osv
+from openerp.tools.translate import _
 
 
 class wizard_change_number_wh_iva(osv.osv_memory):
     _name = 'wizard.change.number.wh.iva'
     _description = "Wizard that changes the withholding number"
 
-    def default_get(self, cr, uid, fields, context=None):
+    def default_get(self, cr, uid, field_list, context=None):
+        # NOTE: use field_list argument instead of fields for fix the pylint
+        # error W0621 Redefining name 'fields' from outer scope
         context = context or {}
-        data = super(wizard_change_number_wh_iva, self).default_get(cr, uid, fields, context)
-        if context.get('active_model') == 'account.wh.iva' and context.get('active_id'):
-            wh_iva = self.pool.get('account.wh.iva').browse(cr, uid, context['active_id'], context=context)
+        data = super(wizard_change_number_wh_iva, self).default_get(
+            cr, uid, field_list, context)
+        if (context.get('active_model') == 'account.wh.iva' and
+                context.get('active_id')):
+            wh_iva = self.pool.get('account.wh.iva').browse(
+                cr, uid, context['active_id'], context=context)
             if wh_iva.number:
                 nro = wh_iva.number.split('-')
                 per = wh_iva.period_id.code.split('-')
@@ -45,17 +51,24 @@ class wizard_change_number_wh_iva(osv.osv_memory):
         return data
 
     def set_number(self, cr, uid, ids, context):
-        data = self.pool.get('wizard.change.number.wh.iva').read(cr, uid, ids)[0]
+        data = self.pool.get('wizard.change.number.wh.iva').read(
+            cr, uid, ids)[0]
         if not data['sure']:
-            raise osv.except_osv(_("Error!"), _("Please confirm that you want to do this by checking the option"))
+            raise osv.except_osv(
+                _("Error!"),
+                _("Please confirm that you want to do this by checking the"
+                  " option"))
         wh_obj = self.pool.get('account.wh.iva')
         number = data['name']
 
         wh_iva = wh_obj.browse(cr, uid, context['active_id'])
         if wh_iva.state != 'done':
-            raise osv.except_osv(_("Error!"), _('You can\'t change the number when state <> "Done"'))
+            raise osv.except_osv(
+                _("Error!"),
+                _('You can\'t change the number when state <> "Done"'))
 
-        wh_obj.write(cr, uid, context['active_id'], {'number': number}, context=context)
+        wh_obj.write(cr, uid, context['active_id'], {'number': number},
+                     context=context)
         return {}
 
     _columns = {

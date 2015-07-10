@@ -78,6 +78,7 @@
     partner_id: l10n_ve_fiscal_requirements.f_req_partner_1 
     number: '0102030405'
     wh_amount: 690.0 
+    date: !eval time.strftime('%Y-%m-%d')
     line_ids:
       - name: 'Test src wh line'
         invoice_id: account_invoice_customer0

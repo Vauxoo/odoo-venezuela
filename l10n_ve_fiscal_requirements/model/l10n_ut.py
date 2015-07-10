@@ -23,9 +23,10 @@
 #    You should have received a copy of the GNU Affero General Public License
 #    along with this program.  If not, see <http://www.gnu.org/licenses/>.
 ##############################################################################
-from openerp.osv import osv, fields
 import time
+
 from openerp.addons import decimal_precision as dp
+from openerp.osv import fields, osv
 
 
 class l10n_ut(osv.osv):
@@ -34,16 +35,18 @@ class l10n_ut(osv.osv):
     _description = 'Tax Unit'
     _order = 'date desc'
     _columns = {
-        'name': fields.char('Reference number',
-        size=64, required=True, readonly=False,
-        help="Reference number under the law"),
-        'date': fields.date('Date', required=True,
-        help="Date on which goes into effect the new Unit Tax Unit"),
-        'amount': fields.float('Amount',
-        digits_compute=dp.get_precision('Amount Bs per UT'),
-        help="Amount of the tax unit in bs", required=True),
-        'user_id': fields.many2one('res.users', 'Salesman',
-        readonly=True, states={'draft': [('readonly', False)]},
+        'name': fields.char(
+            'Reference number', size=64, required=True, readonly=False,
+            help="Reference number under the law"),
+        'date': fields.date(
+            'Date', required=True,
+            help="Date on which goes into effect the new Unit Tax Unit"),
+        'amount': fields.float(
+            'Amount', digits_compute=dp.get_precision('Amount Bs per UT'),
+            help="Amount of the tax unit in bs", required=True),
+        'user_id': fields.many2one(
+            'res.users', 'Salesman',
+            readonly=True, states={'draft': [('readonly', False)]},
             help="Vendor user"),
     }
     _defaults = {
@@ -89,18 +92,26 @@ class l10n_ut(osv.osv):
             money = amount_ut * ut
         return money
 
-    def exchange(self, cr, uid, from_amount, from_currency_id, to_currency_id, exchange_date, context=None):
+    def exchange(self, cr, uid, from_amount, from_currency_id, to_currency_id,
+                 exchange_date, context=None):
         context = context or {}
         if from_currency_id == to_currency_id:
             return from_amount
         rc_obj = self.pool.get('res.currency')
         context['date'] = exchange_date
-        return rc_obj.compute(cr, uid, from_currency_id, to_currency_id, from_amount, context=context)
+        return rc_obj.compute(cr, uid, from_currency_id, to_currency_id,
+                              from_amount, context=context)
 
-    def xc(self, cr, uid, from_currency_id, to_currency_id, exchange_date, context=None):
+    def sxc(self, cr, uid, from_currency_id, to_currency_id, exchange_date,
+            context=None):
         '''
-        This is a clousure that allow to use the exchange rate conversion in a short way
+        This is a clousure that allow to use the exchange rate conversion in a
+        short way
         '''
+        context = context or {}
+
         def _xc(from_amount):
-            return self.exchange(cr, uid, from_amount, from_currency_id, to_currency_id, exchange_date, context=context)
+            return self.exchange(cr, uid, from_amount, from_currency_id,
+                                 to_currency_id, exchange_date,
+                                 context=context)
         return _xc

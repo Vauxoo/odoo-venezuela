@@ -6,7 +6,8 @@
 #    $Id$
 #
 #    OpenERP, Open Source Management Solution
-#    Copyright (C) 2004-2008 Netquatro, C.A. (<http://openerp.netquatro.com>). All Rights Reserved
+#    Copyright (C) 2004-2008 Netquatro, C.A. (<http://openerp.netquatro.com>).
+#    All Rights Reserved
 #    $Id$
 #    This program is free software: you can redistribute it and/or modify
 #    it under the terms of the GNU General Public License as published by
@@ -23,24 +24,24 @@
 #
 ##############################################################################
 {
-    "name" : "Venezuela - Generic Test",
-    "version" : "1.0",
-    "author" : ['OpenERP SA', "Vauxoo"],
-    "category" : "Localization/Account Charts",
+    "name": "Venezuela - Generic Test",
+    "version": "1.0",
+    "author": ['OpenERP SA', "Vauxoo"],
+    "category": "Localization/Account Charts",
     "description":
-'''
+    '''
 This is the module to manage the accounting chart for Venezuela in OpenERP.
 ===========================================================================
 
 Este módulo es para manejar un catálogo de cuentas ejemplo para Venezuela.
 ''',
-    "depends" : ["account", "base_vat", "account_chart"],
-    "demo_xml" : [],
-    "update_xml" : ['account_tax_code.xml',"account_chart.xml",
-                    'account_tax.xml','l10n_chart_ve_wizard.xml'],
+    "depends": ["account", "base_vat", "account_chart"],
+    "demo_xml": [],
+    "update_xml": ['account_tax_code.xml', "account_chart.xml",
+                   'account_tax.xml', 'l10n_chart_ve_wizard.xml'],
     "auto_install": False,
     "installable": True,
-    'images': ['images/config_chart_l10n_ve.jpeg','images/l10n_ve_chart.jpeg'],
+    'images': ['images/config_chart_l10n_ve.jpeg',
+               'images/l10n_ve_chart.jpeg'],
 }
 # vim:expandtab:smartindent:tabstop=4:softtabstop=4:shiftwidth=4:
-
