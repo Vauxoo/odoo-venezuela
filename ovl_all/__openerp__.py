@@ -30,7 +30,7 @@
         "l10n_bo",
         "l10n_pe",
         "pad_project",
-        "project_mrp",
+        "sale_service",
         "account_accountant",
         "auth_signup",
         "event_moodle",
