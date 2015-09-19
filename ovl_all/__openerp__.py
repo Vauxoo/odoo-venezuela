@@ -67,7 +67,7 @@
         "purchase_requisition",
         "account_asset",
         "base_import",
-        "google_docs",
+        "google_drive",
         "l10n_co",
         "l10n_th",
         "report_intrastat",
