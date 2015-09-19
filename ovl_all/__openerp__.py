@@ -140,7 +140,6 @@
         "hr_timesheet",
         "l10n_gt",
         "marketing_campaign",
-        "process",
         "sale_stock",
         "account_voucher",
         "hr_timesheet_invoice",
