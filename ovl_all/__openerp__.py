@@ -173,7 +173,7 @@
         "delivery",
         "l10n_ar",
         "l10n_it",
-        "mrp_jit",
+        "procurement_jit",
         "product_margin",
         "stock_no_autopicking",
         "association",
