@@ -33,7 +33,6 @@
         "sale_service",
         "account_accountant",
         "auth_signup",
-        "event_moodle",
         "l10n_br",
         "l10n_pl",
         "plugin",  # https://github.com/odoo/odoo-extra.git
