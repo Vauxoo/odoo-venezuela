@@ -45,7 +45,7 @@
         "plugin_outlook",  # https://github.com/odoo/odoo-extra.git
         "purchase",
         "account_analytic_default",
-        "base_calendar",
+        "calendar",
         "fetchmail",
         "l10n_ch",
         "l10n_ro",
