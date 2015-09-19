@@ -60,7 +60,7 @@
         "purchase_double_validation",
         "account_anglo_saxon",
         "base_iban",
-        "google_base_account",
+        "google_account",
         "l10n_cn",
         "l10n_syscohada",
         "portal",
