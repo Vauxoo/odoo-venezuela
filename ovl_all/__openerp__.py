@@ -190,7 +190,7 @@
         "l10n_be_coda",
         "l10n_multilang",
         "multi_company",
-        "project_gtd",
+        "note",
         "warning",
         # "auth_ldap", # No test
         "document_webdav",
