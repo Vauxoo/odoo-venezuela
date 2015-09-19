@@ -36,21 +36,21 @@
         "event_moodle",
         "l10n_br",
         "l10n_pl",
-        "plugin",
+        "plugin",  # https://github.com/odoo/odoo-extra.git
         "project_timesheet",
         "account_analytic_analysis",
         "base_action_rule",
         "event_sale",
         "l10n_ca",
         "l10n_pt",
-        "plugin_outlook",
+        "plugin_outlook",  # https://github.com/odoo/odoo-extra.git
         "purchase",
         "account_analytic_default",
         "base_calendar",
         "fetchmail",
         "l10n_ch",
         "l10n_ro",
-        "plugin_thunderbird",
+        "plugin_thunderbird",  # https://github.com/odoo/odoo-extra.git
         # "purchase_analytic_plans",# Error to fix
         # "account_analytic_plans",# Error to fix
         "base_gengo",
