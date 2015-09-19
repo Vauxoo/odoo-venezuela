@@ -70,7 +70,6 @@
         "google_docs",
         "l10n_co",
         "l10n_th",
-        "portal_anonymous",
         "report_intrastat",
         "account_bank_statement_extensions",
         "base_report_designer",
