@@ -185,7 +185,6 @@
         "project",
         "survey",
         "auth_crypt",
-        "document_page",
         "l10n_be_coda",
         "l10n_multilang",
         "multi_company",
