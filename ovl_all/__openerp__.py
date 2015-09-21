@@ -198,7 +198,6 @@
         "l10n_be_invoice_bba",
         "l10n_pa",
         "pad",
-        "project_long_term",
         # End list of all oficial modules
     ],
     "author": "Vauxoo",
