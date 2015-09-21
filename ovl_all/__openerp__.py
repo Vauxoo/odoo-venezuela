@@ -153,7 +153,6 @@
         "product",
         "stock",
         "analytic_contract_hr_expense",
-        "crm_todo",
         "l10n_in",
         "mrp",
         "product_expiry",
