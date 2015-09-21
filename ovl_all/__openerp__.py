@@ -181,7 +181,6 @@
         "note",
         "warning",
         # "auth_ldap", # No test
-        "document_webdav",
         "l10n_be_hr_payroll",
         "l10n_mx",
         "note",
