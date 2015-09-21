@@ -159,7 +159,6 @@
         "l10n_it",
         "procurement_jit",
         "product_margin",
-        "stock_no_autopicking",
         "association",
         "document",
         "l10n_at",
