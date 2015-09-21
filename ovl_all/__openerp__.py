@@ -83,7 +83,6 @@
         "l10n_uk",
         "resource",
         "account_cancel",
-        "base_status",
         "hr_contract",
         "l10n_ec",
         "l10n_us",
@@ -181,6 +180,7 @@
         "note",
         "warning",
         # "auth_ldap", # No test
+        "document_fs",
         "l10n_be_hr_payroll",
         "l10n_mx",
         "note",
