@@ -110,7 +110,6 @@
         "l10n_fr_hr_payroll",
         "lunch",
         "sale_margin",
-        "account_report_company",
         "crm",
         "hr_payroll_account",
         "l10n_fr_rib",
