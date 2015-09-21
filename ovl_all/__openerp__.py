@@ -150,7 +150,6 @@
         "knowledge",
         "l10n_in_hr_payroll",
         "mrp_byproduct",
-        "product_manufacturer",
         # "stock_location", # Error to fix
         "anonymization",
         "delivery",
