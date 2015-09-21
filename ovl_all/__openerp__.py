@@ -190,7 +190,6 @@
         "note_pad",
         "project_issue_sheet",
         "web_linkedin",
-        "auth_oauth_signup",
         "email_template",
         "l10n_be_invoice_bba",
         "l10n_pa",
