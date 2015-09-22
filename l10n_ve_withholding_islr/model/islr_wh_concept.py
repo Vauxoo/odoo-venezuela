@@ -45,7 +45,6 @@ class islr_wh_concept(osv.osv):
             'Withhold',
             help="Check if the concept  withholding is withheld or not."),
         'property_retencion_islr_payable': fields.property(
-            'account.account',
             type='many2one',
             relation='account.account',
             string="Purchase account withhold income",
@@ -57,7 +56,6 @@ class islr_wh_concept(osv.osv):
                  " amounts shall be charged in full (Purchase) of income tax"
                  " for this concept"),
         'property_retencion_islr_receivable': fields.property(
-            'account.account',
             type='many2one',
             relation='account.account',
             string="Sale account withhold income",
