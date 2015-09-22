@@ -42,14 +42,14 @@
         "event_sale",
         "l10n_ca",
         "l10n_pt",
-        "plugin_outlook",  # https://github.com/odoo/odoo-extra.git
+        # "plugin_outlook",  # https://github.com/odoo/odoo-extra.git
         "purchase",
         "account_analytic_default",
         "calendar",
         "fetchmail",
         "l10n_ch",
         "l10n_ro",
-        "plugin_thunderbird",  # https://github.com/odoo/odoo-extra.git
+        # "plugin_thunderbird",  # https://github.com/odoo/odoo-extra.git
         # "purchase_analytic_plans",# Error to fix
         # "account_analytic_plans",# Error to fix
         "base_gengo",
