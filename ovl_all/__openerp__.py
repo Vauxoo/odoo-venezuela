@@ -164,7 +164,6 @@
         "mrp_operations",
         "product_visible_discount",
         "subscription",
-        "audittrail",
         "l10n_be",
         "l10n_ma",
         "mrp_repair",
