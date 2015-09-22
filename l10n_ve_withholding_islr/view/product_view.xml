@@ -5,7 +5,7 @@
         <record model="ir.ui.view" id="view_product_product_islr">
             <field name="name">product.product.form.islr</field>
             <field name="model">product.product</field>
-            <field name="inherit_id" ref="account.product_normal_form_view"/>
+            <field name="inherit_id" ref="account.product_template_form_view"/>
             <field name="arch" type="xml">
                 <xpath expr="//group[@name='properties']" position="after">
                     <newline/>
@@ -20,11 +20,11 @@
         </record>
 
 
-	<!-- 
+	<!--
 	=====================================================
 	Products Extension
 	=====================================================
-	-->  
+	-->
 
         <record id="product_normal_form_view_type" model="ir.ui.view">
             <field name="name">product.normal.form.type</field>
