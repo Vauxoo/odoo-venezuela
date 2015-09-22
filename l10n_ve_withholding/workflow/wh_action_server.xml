@@ -5,7 +5,7 @@
         <record id="multiact_wh_srv_act" model="ir.actions.server">
             <field name="name">Multi-Actions Withholding Server Action</field>
             <field name="model_id" ref="model_account_invoice"/>
-            <field name="state">other</field>
+            <field name="state">code</field>
             <field name="condition">True</field>
             <field eval="6" name="sequence"/>
             <field name="type">ir.actions.server</field>
