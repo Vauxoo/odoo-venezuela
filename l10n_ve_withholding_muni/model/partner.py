@@ -35,7 +35,6 @@ class res_partner(osv.osv):
             relation='account.account',
             string="Purchase local withholding account",
             method=True,
-            view_load=True,
             domain="[('type', '=', 'other')]",
             help="This account will be used debit local withholding amount"),
         'property_wh_munici_receivable': fields.property(
@@ -43,7 +42,6 @@ class res_partner(osv.osv):
             relation='account.account',
             string="Sale local withholding account",
             method=True,
-            view_load=True,
             domain="[('type', '=', 'other')]",
             help="This account will be used credit local withholding amount"),
 

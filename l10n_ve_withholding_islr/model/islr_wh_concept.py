@@ -49,7 +49,6 @@ class islr_wh_concept(osv.osv):
             relation='account.account',
             string="Purchase account withhold income",
             method=True,
-            view_load=True,
             required=False,
             domain="[('type', '=', 'other')]",
             help="This account will be used as the account where the withheld"
@@ -60,7 +59,6 @@ class islr_wh_concept(osv.osv):
             relation='account.account',
             string="Sale account withhold income",
             method=True,
-            view_load=True,
             required=False,
             domain="[('type', '=', 'other')]",
             help="This account will be used as the account where the withheld"

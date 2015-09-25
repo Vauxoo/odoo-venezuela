@@ -8,7 +8,7 @@
     """,
     "website": "http://openerp.com.ve",
     "category": "Generic Modules/Accounting",
-    "update_xml": [
+    "data": [
         "report/l10n_ve_vat_write_off_report.xml",
         "view/l10n_ve_vat_write_off.xml",
     ],

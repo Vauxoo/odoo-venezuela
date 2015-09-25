@@ -33,23 +33,16 @@
     """,
     'init_xml': [],
     "depends": ["l10n_ve_withholding"],
-    'update_xml': [
+    'data': [
         'security/wh_muni_security.xml',
         'security/ir.model.access.csv',
+        'data/wh_muni_sequence.xml',
         'view/account_invoice_view.xml',
         'view/partner_view.xml',
         'view/wh_muni_view.xml',
         'data/wh_muni_sequence.xml',
         'report/wh_muni_report.xml',
         'workflow/l10n_ve_wh_muni_wf.xml',
-    ],
-    'data': [
-        'data/wh_muni_sequence.xml',
-    ],
-    'demo_xml': [
-        'demo/demo_accounts.xml',
-        'demo/demo_partners.xml',
-        'demo/demo_journal.xml',
     ],
     'test': [
         'test/awm_supplier.yml',

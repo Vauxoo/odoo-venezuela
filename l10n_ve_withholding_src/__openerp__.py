@@ -58,21 +58,15 @@ Oficial Nº 39.181 del 19 de mayo de 2009) Decreto Nº 6.708.
     los contratos a ser suscritos.
 ''',
     "depends": [
-                "base",
-                "account",
-                "l10n_ve_withholding",
-    ],
-    "init_xml": [],
-    "demo_xml": [
-        'demo/demo_journals.xml',
-        'demo/demo_accounts.xml',
-        'demo/demo_company.xml',
+        "base",
+        "account",
+        "l10n_ve_withholding",
     ],
     "test": [
         'test/aws_customer.yml',
         'test/aws_supplier.yml',
     ],
-    "update_xml": [
+    "data": [
         'security/wh_src_security.xml',
         'security/ir.model.access.csv',
         'wizard/wizard_retention_view.xml',

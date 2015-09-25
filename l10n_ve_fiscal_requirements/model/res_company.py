@@ -58,7 +58,7 @@ class res_company(osv.osv):
         adds a Boolean field to true
         indicates that the partner is a company
         """
-        context = context or {}
+        context = dict(context or {})
         context.update({'create_company': True})
         return super(res_company, self).write(cr, uid, ids, values,
                                               context=context)

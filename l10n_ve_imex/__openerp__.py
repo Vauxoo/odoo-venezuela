@@ -44,9 +44,7 @@ import declaration SENIAT Official FORM (Forma 99086).
 """,
     "website": "http://vauxoo.com",
     "category": "Generic Modules/Accounting",
-    "init_xml": [],
-    "demo_xml": [],
-    "update_xml": [
+    "data": [
         'security/ir.model.access.csv',
         'security/ir_rule.xml',
         'view/customs_form_config.xml',

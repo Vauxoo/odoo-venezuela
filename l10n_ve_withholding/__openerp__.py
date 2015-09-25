@@ -42,16 +42,14 @@
 TODO:
 -
     """,
-    'init_xml': [],
     "depends": ["l10n_ve_fiscal_requirements"],
-    'update_xml': [
+    'data': [
         'security/withholding_security.xml',
         'security/ir.model.access.csv',
         'data/l10n_ve_withholding_data.xml',
         'view/l10n_ve_withholding_view.xml',
         'workflow/wh_action_server.xml',
     ],
-    'demo_xml': [],
     'test': [
         'test/account_supplier_invoice.yml',
         'test/wh_pay_invoice.yml',

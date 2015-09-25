@@ -36,9 +36,10 @@ This is the module to manage the accounting chart for Venezuela in OpenERP.
 Este módulo es para manejar un catálogo de cuentas ejemplo para Venezuela.
 ''',
     "depends": ["account", "base_vat", "account_chart"],
-    "demo_xml": [],
-    "update_xml": ['account_tax_code.xml', "account_chart.xml",
-                   'account_tax.xml', 'l10n_chart_ve_wizard.xml'],
+    "init": ['account_tax_code.xml',
+             "account_chart.xml",
+             'account_tax.xml',
+             'l10n_chart_ve_wizard.xml'],
     "auto_install": False,
     "installable": True,
     'images': ['images/config_chart_l10n_ve.jpeg',

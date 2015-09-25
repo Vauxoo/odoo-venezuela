@@ -53,11 +53,7 @@ you specified
 """,
     "website": "http://vauxoo.com",
     "category": "Localization",
-    "init_xml": [
-    ],
-    "demo_xml": [
-    ],
-    "update_xml": [
+    "data": [
         #        "view/installer_view.xml",
         "view/company_view.xml",
     ],

@@ -36,7 +36,6 @@ class res_company(osv.osv):
             relation='account.account',
             string="Collected Withholding SRC Account",
             method=True,
-            view_load=True,
             domain="[('type', '=', 'other')]",
             help="This account will be used when applying a withhold to"
                  " an Supplier"),
@@ -46,7 +45,6 @@ class res_company(osv.osv):
             relation='account.account',
             string="Paid Withholding SRC Account",
             method=True,
-            view_load=True,
             domain="[('type', '=', 'other')]",
             help="This account will be used when applying a withhold to a"
                  " Customer"),

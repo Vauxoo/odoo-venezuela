@@ -38,7 +38,6 @@ class account_tax(osv.osv):
             relation='account.account',
             string="Invoice VAT Withholding Account",
             method=True,
-            view_load=True,
             domain="[('type', '=', 'other')]",
             help="This account will be used when applying a withhold to an"
                  " Invoice"),
@@ -48,7 +47,6 @@ class account_tax(osv.osv):
             relation='account.account',
             string="Refund VAT Withholding Account",
             method=True,
-            view_load=True,
             domain="[('type', '=', 'other')]",
             help="This account will be used when applying a withhold to a"
                  " Refund"),

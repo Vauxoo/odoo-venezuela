@@ -41,13 +41,12 @@ invoice. This also works the same way for purchase orders.
     'category': '',
     'website': 'http://openerp.com',
     'depends': ['sale', 'purchase', 'stock', 'l10n_ve_withholding_islr'],
-    'update_xml': [
+    'data': [
         'view/product_view.xml',
         'view/stock_view.xml',
         'view/purchase_view.xml',
         'view/sale_order_view.xml',
     ],
-    'demo': [],
     'active': False,
     'installable': True,
     'test': [
