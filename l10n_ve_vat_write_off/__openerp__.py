@@ -5,6 +5,7 @@
     "depends": ["l10n_ve_fiscal_book",
                 "report_webkit"],
     "author": "Vauxoo",
+    "license": "AGPL-3",
     "website": "http://openerp.com.ve",
     "category": "Generic Modules/Accounting",
     "data": [

@@ -26,6 +26,7 @@
     'name': 'ISLR Sale and Purchase Functionalities',
     'version': '0.3',
     'author': 'Vauxoo',
+    "license": "AGPL-3",
     'category': '',
     'website': 'http://openerp.com',
     'depends': ['sale', 'purchase', 'stock', 'l10n_ve_withholding_islr'],

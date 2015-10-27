@@ -30,6 +30,7 @@
     "name": "Management withholding vat based in the Venezuelan tax laws",
     "version": "1.1",
     "author": "Vauxoo",
+    "license": "AGPL-3",
     "website": "http://vauxoo.com",
     "category": 'Generic Modules/Accounting',
     "depends": [

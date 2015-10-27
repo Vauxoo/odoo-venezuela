@@ -19,7 +19,8 @@
 #    along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #
 ##############################################################################
-{"name": "OpenERP Venezuelan Localization",
+{
+    "name": "OpenERP Venezuelan Localization",
     "version": "4.0",
     "depends": [
         # Level Zero of Modules
@@ -46,6 +47,7 @@
         # "l10n_ve_vat_write_off",
     ],
     "author": "Vauxoo",
+    "license": "AGPL-3",
     "website": "http://www.vauxoo.com",
     "category": "Localization/Application",
     "init_xml": [],

@@ -26,6 +26,7 @@
     "name": "Local Withholding Venezuelan laws",
     "version": "0.2",
     "author": "Vauxoo",
+    "license": "AGPL-3",
     "website": "http://vauxoo.com",
     "category": 'Generic Modules/Accounting',
     'init_xml': [],

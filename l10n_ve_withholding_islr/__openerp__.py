@@ -30,6 +30,7 @@
     "name": "Automatically Calculation Income Withholding",
     "version": "0.3",
     "author": "Vauxoo",
+    "license": "AGPL-3",
     "category": "General",
     "website": "http://wiki.openerp.org.ve/",
     "depends": [

@@ -26,6 +26,7 @@
     "name": "Management withholdings Venezuelan laws",
     "version": "0.2",
     "author": "Vauxoo",
+    "license": "AGPL-3",
     "website": "http://vauxoo.com",
     "category": 'Generic Modules/Accounting',
     "depends": ["l10n_ve_fiscal_requirements"],

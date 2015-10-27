@@ -27,6 +27,7 @@
     "name": "Compromiso de Responsabilidad Social",
     "version": "0.3",
     "author": "Vauxoo",
+    "license": "AGPL-3",
     "category": "Generic Modules",
     "website": "http://wiki.openerp.org.ve/",
     "depends": [

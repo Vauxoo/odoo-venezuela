@@ -29,6 +29,7 @@
     "version": "0.2",
     "depends": ["account"],
     "author": "Vauxoo",
+    "license": "AGPL-3",
     "website": "http://vauxoo.com",
     "category": "Localization",
     "data": [

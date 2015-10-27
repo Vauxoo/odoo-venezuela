@@ -34,7 +34,8 @@
                 "decimal_precision",
                 "l10n_ve_fiscal_requirements"
                 ],
-    "author": "Tecvemar/Vauxoo",
+    "author": "Tecvemar,Vauxoo",
+    "license": "AGPL-3",
     "website": "http://vauxoo.com",
     "category": "Generic Modules/Accounting",
     "data": [

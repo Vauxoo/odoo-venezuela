@@ -35,6 +35,7 @@
     "depends": ["account", "l10n_ve_withholding_iva",
                 "l10n_ve_fiscal_requirements", "l10n_ve_imex"],
     "author": "Vauxoo",
+    "license": "AGPL-3",
     "website": "http://openerp.com.ve",
     "category": "Generic Modules/Accounting",
     "data": [

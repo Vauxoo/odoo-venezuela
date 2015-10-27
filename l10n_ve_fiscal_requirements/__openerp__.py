@@ -26,6 +26,7 @@
     "name": "Venezuelan Fiscal Requirements",
     "version": "1.0",
     "author": "Vauxoo",
+    "license": "AGPL-3",
     "website": "http://vauxoo.com",
     "category": 'Localization',
     "depends": [
