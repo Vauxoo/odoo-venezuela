@@ -1,4 +1,4 @@
-# -*- encoding: utf-8 -*-
+# coding: utf-8
 ##############################################################################
 #
 #    OpenERP, Open Source Management Solution
@@ -22,7 +22,7 @@
 from openerp.osv import osv
 
 
-class update_info_partner(osv.osv_memory):
+class UpdateInfoPartner(osv.osv_memory):
     _name = 'update.info.partner'
 
     def update_info(self, cr, uid, ids, context=None):
@@ -38,4 +38,4 @@ class update_info_partner(osv.osv_memory):
         return{}
 
 
-update_info_partner()
+UpdateInfoPartner()

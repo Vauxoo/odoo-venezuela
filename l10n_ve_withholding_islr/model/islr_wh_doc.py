@@ -1,5 +1,4 @@
-#!/usr/bin/python
-# -*- encoding: utf-8 -*-
+# coding: utf-8
 ###########################################################################
 #    Module Writen to OpenERP, Open Source Management Solution
 #    Copyright (C) OpenERP Venezuela (<http://openerp.com.ve>).
@@ -33,7 +32,7 @@ from openerp.osv import fields, osv
 from openerp.tools.translate import _
 
 
-class islr_wh_doc(osv.osv):
+class IslrWhDoc(osv.osv):
 
     def name_get(self, cr, uid, ids, context=None):
         if not len(ids):
@@ -449,7 +448,7 @@ class islr_wh_doc(osv.osv):
             context = {}
         code = self.pool.get('ir.sequence').get(cr, uid, 'islr.wh.doc')
         vals['code'] = code
-        return super(islr_wh_doc, self).create(cr, uid, vals, context)
+        return super(IslrWhDoc, self).create(cr, uid, vals, context)
 
     def action_confirm(self, cr, uid, ids, context=None):
         """ This checking if the provider allows retention is
@@ -728,7 +727,7 @@ class islr_wh_doc(osv.osv):
                     _("The withholding document needs to be in cancel state"
                       " to be deleted."))
             else:
-                super(islr_wh_doc, self).unlink(cr, uid, islr_brw.id,
+                super(IslrWhDoc, self).unlink(cr, uid, islr_brw.id,
                                                 context=context)
         return True
 
@@ -776,7 +775,7 @@ class islr_wh_doc(osv.osv):
         return True
 
 
-class account_invoice(osv.osv):
+class AccountInvoice(osv.osv):
     _inherit = 'account.invoice'
 
     def _get_inv_from_iwdi(self, cr, uid, ids, context=None):
@@ -840,11 +839,11 @@ class account_invoice(osv.osv):
         default = default.copy()
         default.update({'islr_wh_doc_id': 0})
 
-        return super(account_invoice, self).copy(cr, uid, ids, default,
+        return super(AccountInvoice, self).copy(cr, uid, ids, default,
                                                  context)
 
 
-class islr_wh_doc_invoices(osv.osv):
+class IslrWhDocInvoices(osv.osv):
     _name = "islr.wh.doc.invoices"
     _description = 'Document and Invoice Withheld Income'
 
@@ -1406,7 +1405,7 @@ class islr_wh_doc_invoices(osv.osv):
         }
 
 
-class islr_wh_doc_line(osv.osv):
+class IslrWhDocLine(osv.osv):
     _name = "islr.wh.doc.line"
     _description = 'Lines of Document Income Withholding'
 
@@ -1510,7 +1509,7 @@ class islr_wh_doc_line(osv.osv):
     }
 
 
-class islr_wh_historical_data(osv.osv):
+class IslrWhHistoricalData(osv.osv):
     _name = "islr.wh.historical.data"
     _description = 'Lines of Document Income Withholding'
     _columns = {

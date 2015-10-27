@@ -1,5 +1,4 @@
-#!/usr/bin/python
-# -*- encoding: utf-8 -*-
+# coding: utf-8
 ###############################################################################
 #    Module Writen to OpenERP, Open Source Management Solution
 #    Copyright (C) OpenERP Venezuela (<http://openerp.com.ve>).
@@ -28,7 +27,7 @@ from openerp.osv import fields, osv
 from openerp.tools.translate import _
 
 
-class account_invoice(osv.osv):
+class AccountInvoice(osv.osv):
     _inherit = "account.invoice"
 
     _columns = {
@@ -47,7 +46,7 @@ class account_invoice(osv.osv):
         for inv_brw in self.browse(cr, uid, ids, context=context):
             if (not inv_brw.fb_id or
                     (inv_brw.fb_id and inv_brw.fb_id.state == 'cancel')):
-                super(account_invoice, self).action_cancel(cr, uid, ids,
+                super(AccountInvoice, self).action_cancel(cr, uid, ids,
                                                            context=context)
             else:
                 raise osv.except_osv(
@@ -73,6 +72,6 @@ class account_invoice(osv.osv):
         default.update(fb_id=False)
         if default.get('issue_fb_id', False):
             default.update(issue_fb_id=False)
-        res = super(account_invoice, self).copy(
+        res = super(AccountInvoice, self).copy(
             cur, uid, ids, default=default, context=context)
         return res

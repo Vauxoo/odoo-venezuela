@@ -1,5 +1,4 @@
-#!/usr/bin/python
-# -*- encoding: utf-8 -*-
+# coding: utf-8
 ##############################################################################
 #
 #    OpenERP, Open Source Management Solution
@@ -23,7 +22,7 @@ from openerp.osv import fields, osv
 from openerp.tools.translate import _
 
 
-class search_info_partner_seniat(osv.osv_memory):
+class SearchInfoPartnerSeniat(osv.osv_memory):
 
     _name = "search.info.partner.seniat"
     _columns = {
@@ -73,4 +72,4 @@ class search_info_partner_seniat(osv.osv_memory):
             'views': [(False, 'form')],
             'target': 'new',
         }
-search_info_partner_seniat()
+SearchInfoPartnerSeniat()

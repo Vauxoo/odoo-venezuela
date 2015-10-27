@@ -1,5 +1,4 @@
-#!/usr/bin/python
-# -*- encoding: utf-8 -*-
+# coding: utf-8
 ###########################################################################
 #    Module Writen to OpenERP, Open Source Management Solution
 #    Copyright (C) OpenERP Venezuela (<http://openerp.com.ve>).
@@ -30,7 +29,7 @@ from openerp.osv import fields, osv
 from openerp.tools.translate import _
 
 
-class account_wh_munici(osv.osv):
+class AccountWhMunici(osv.osv):
 
     def _get_type(self, cr, uid, context=None):
         """ Return invoice type
@@ -345,7 +344,7 @@ class account_wh_munici(osv.osv):
         """
         context = context or {}
         ids = isinstance(ids, (int, long)) and [ids] or ids
-        res = super(account_wh_munici, self).write(cr, uid, ids, vals,
+        res = super(AccountWhMunici, self).write(cr, uid, ids, vals,
                                                    context=context)
         self._update_check(cr, uid, ids, context=context)
         return res
@@ -354,7 +353,7 @@ class account_wh_munici(osv.osv):
         """ Validate before create record
         """
         context = context or {}
-        new_id = super(account_wh_munici, self).create(cr, uid, vals,
+        new_id = super(AccountWhMunici, self).create(cr, uid, vals,
                                                        context=context)
         self._update_check(cr, uid, new_id, context=context)
         return new_id
@@ -370,7 +369,7 @@ class account_wh_munici(osv.osv):
                     _("The withholding document needs to be in cancel state"
                       " to be deleted."))
             else:
-                super(account_wh_munici, self).unlink(cr, uid, ids,
+                super(AccountWhMunici, self).unlink(cr, uid, ids,
                                                       context=context)
         return True
 
@@ -397,7 +396,7 @@ class account_wh_munici(osv.osv):
         return True
 
 
-class account_wh_munici_line(osv.osv):
+class AccountWhMuniciLine(osv.osv):
 
     def default_get(self, cr, uid, field_list, context=None):
         """ Default for munici_context field
@@ -406,7 +405,7 @@ class account_wh_munici_line(osv.osv):
         # error W0621 Redefining name 'fields' from outer scope
         if context is None:
             context = {}
-        data = super(account_wh_munici_line, self).default_get(cr, uid,
+        data = super(AccountWhMuniciLine, self).default_get(cr, uid,
                                                                field_list,
                                                                context)
         self.munici_context = context

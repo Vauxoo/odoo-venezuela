@@ -1,4 +1,4 @@
-# -*- encoding: utf-8 -*-
+# coding: utf-8
 ###############################################################################
 #    Module Writen to OpenERP, Open Source Management Solution
 #    Copyright (c) 2013 Vauxoo C.A. (http://openerp.com.ve/)
@@ -29,7 +29,7 @@
 from openerp.osv import fields, osv
 
 
-class customs_form_config(osv.osv):
+class CustomsFormConfig(osv.osv):
 
     '''
     Stores common config parameters for form_86 data
@@ -58,7 +58,7 @@ class customs_form_config(osv.osv):
     ]
 
 
-class customs_facility(osv.osv):
+class CustomsFacility(osv.osv):
 
     '''
     Stores a list with Venezuela's customs
@@ -79,7 +79,7 @@ class customs_facility(osv.osv):
     def name_search(self, cr, user, name='', args=None, operator='ilike',
                     context=None, limit=100):
         # Based on account.account.name_search...
-        res = super(customs_facility, self).name_search(
+        res = super(CustomsFacility, self).name_search(
             cr, user, name, args, operator, context, limit)
         if not res and name:
             ids = self.search(cr, user, [(
@@ -101,7 +101,7 @@ class customs_facility(osv.osv):
     ]
 
 
-class customs_duty(osv.osv):
+class CustomsDuty(osv.osv):
 
     '''
     A list of the concepts for taxes in form_86

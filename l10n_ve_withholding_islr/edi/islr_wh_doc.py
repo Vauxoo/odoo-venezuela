@@ -1,5 +1,4 @@
-#!/usr/bin/python
-# -*- encoding: utf-8 -*-
+# coding: utf-8
 ###########################################################################
 #    Module Writen to OpenERP, Open Source Management Solution
 #    Copyright (C) OpenERP Venezuela (<http://openerp.com.ve>).
@@ -65,7 +64,7 @@ ISLR_WH_DOC_EDI_STRUCT = {
 }
 
 
-class islr_wh_doc(osv.osv, EDIMixin):
+class IslrWhDoc(osv.osv, EDIMixin):
     _inherit = 'islr.wh.doc'
 
     def edi_export(self, cr, uid, records, edi_struct=None, context=None):
@@ -79,7 +78,7 @@ class islr_wh_doc(osv.osv, EDIMixin):
 
             # Get EDI doc based on struct. The result will also contain all
             # metadata fields and attachments.
-            edi_doc = super(islr_wh_doc, self).edi_export(
+            edi_doc = super(IslrWhDoc, self).edi_export(
                 cr, uid, [order], edi_struct, context)[0]
             edi_doc_list.append(edi_doc)
         return edi_doc_list

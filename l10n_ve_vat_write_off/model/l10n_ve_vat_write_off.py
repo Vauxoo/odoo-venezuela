@@ -1,7 +1,8 @@
+# coding: utf-8
 from openerp.osv import fields, osv
 
 
-class vat_write_off(osv.osv):
+class VatWriteOff(osv.osv):
     _description = ''
     _name = 'vat.write.off'
     _columns = {

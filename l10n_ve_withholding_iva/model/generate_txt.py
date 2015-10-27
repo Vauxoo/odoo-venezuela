@@ -1,5 +1,4 @@
-#!/usr/bin/python
-# -*- encoding: utf-8 -*-
+# coding: utf-8
 ###########################################################################
 #    Module Writen to OpenERP, Open Source Management Solution
 #    Copyright (C) OpenERP Venezuela (<http://openerp.com.ve>).
@@ -33,7 +32,7 @@ from openerp.osv import fields, osv
 from openerp.tools.translate import _
 
 
-class txt_iva(osv.osv):
+class TxtIva(osv.osv):
     _name = "txt.iva"
     _inherit = ['mail.thread']
 
@@ -411,10 +410,10 @@ class txt_iva(osv.osv):
         self.message_post(cr, uid, ids[0], _('File Created'),
                           _("File TXT %s generated.") % name)
 
-txt_iva()
+TxtIva()
 
 
-class txt_iva_line(osv.osv):
+class TxtIvaLine(osv.osv):
     _name = "txt.iva.line"
 
     _columns = {
@@ -440,4 +439,4 @@ class txt_iva_line(osv.osv):
     }
     _rec_name = 'partner_id'
 
-txt_iva_line()
+TxtIvaLine()

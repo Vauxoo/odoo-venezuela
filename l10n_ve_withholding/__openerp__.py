@@ -1,5 +1,4 @@
-#!/usr/bin/python
-# -*- encoding: utf-8 -*-
+# coding: utf-8
 ###########################################################################
 #    Module Writen to OpenERP, Open Source Management Solution
 #    Copyright (C) OpenERP Venezuela (<http://openerp.com.ve>).
@@ -29,19 +28,6 @@
     "author": "Vauxoo",
     "website": "http://vauxoo.com",
     "category": 'Generic Modules/Accounting',
-    "description": """
-- General Method for account move for Venezuela withholding process.
-- Add relation between account invoice tax and account tax, to avoid loss
-  historical relation.
-- Add account journals types or withholding VAT and Income.
-- Make relation between account move and withholding documents with a method.
-- Add common menus for withholdin process.
-- Add common tabs on views where they will be used to add information for other
-  modules related to Venezuela. localization.
-
-TODO:
--
-    """,
     "depends": ["l10n_ve_fiscal_requirements"],
     'data': [
         'security/withholding_security.xml',
@@ -55,8 +41,4 @@ TODO:
         'test/wh_pay_invoice.yml',
     ],
     'installable': True,
-    'active': False,
 }
-
-
-# vim:expandtab:smartindent:tabstop=4:softtabstop=4:shiftwidth=4:

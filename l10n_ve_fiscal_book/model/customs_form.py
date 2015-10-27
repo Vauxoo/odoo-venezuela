@@ -1,4 +1,4 @@
-# -*- encoding: utf-8 -*-
+# coding: utf-8
 ###############################################################################
 #    Module Writen to OpenERP, Open Source Management Solution
 #    Copyright (c) 2013 Vauxoo C.A. (http://openerp.com.ve/)
@@ -27,7 +27,7 @@
 from openerp.osv import fields, osv
 
 
-class customs_form(osv.osv):
+class CustomsForm(osv.osv):
     _inherit = 'customs.form'
     _columns = {
         'fb_id': fields.many2one('fiscal.book', 'Fiscal Book',

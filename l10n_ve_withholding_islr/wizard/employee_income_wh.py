@@ -1,4 +1,4 @@
-# -*- encoding: utf-8 -*-
+# coding: utf-8
 ##############################################################################
 #    Company: Tecvemar, c.a.
 #    Author: Juan V. Márquez L.
@@ -37,7 +37,7 @@ FIELDNAMES = [
 # ---------------------------------------------------------- employee_income_wh
 
 
-class employee_income_wh(osv.osv_memory):
+class EmployeeIncomeWh(osv.osv_memory):
 
     _name = 'employee.income.wh'
 
@@ -250,6 +250,4 @@ class employee_income_wh(osv.osv_memory):
 
     # ---------------------------------------------------------------- Workflow
 
-employee_income_wh()
-
-# vim:expandtab:smartindent:tabstop=4:softtabstop=4:shiftwidth=4:
+EmployeeIncomeWh()

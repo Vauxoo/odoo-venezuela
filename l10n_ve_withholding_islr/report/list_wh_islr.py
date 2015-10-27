@@ -1,5 +1,4 @@
-#!/usr/bin/python
-# -*- encoding: utf-8 -*-
+# coding: utf-8
 ###########################################################################
 #    Module Writen to OpenERP, Open Source Management Solution
 #    Copyright (C) OpenERP Venezuela (<http://openerp.com.ve>).
@@ -28,16 +27,16 @@
 from openerp.report import report_sxw
 
 
-class list_wh_islr(report_sxw.rml_parse):
+class ListWhIslr(report_sxw.rml_parse):
 
     def __init__(self, cr, uid, name, context):
-        super(list_wh_islr, self).__init__(cr, uid, name, context=context)
+        super(ListWhIslr, self).__init__(cr, uid, name, context=context)
 
 
 report_sxw.report_sxw(
     'report.islr.xml.wh.doc',
     'islr.xml.wh.doc',
     rml='l10n_ve_withholding_islr/report/list_wh_islr_report.rml',
-    parser=list_wh_islr,
+    parser=ListWhIslr,
     header=False
 )

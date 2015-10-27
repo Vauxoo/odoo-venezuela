@@ -1,4 +1,4 @@
-# -*- encoding: utf-8 -*-
+# coding: utf-8
 ##############################################################################
 #
 #    OpenERP, Open Source Management Solution
@@ -28,13 +28,6 @@
     "version": "1.0",
     "author": ['OpenERP SA', "Vauxoo"],
     "category": "Localization/Account Charts",
-    "description":
-    '''
-This is the module to manage the accounting chart for Venezuela in OpenERP.
-===========================================================================
-
-Este módulo es para manejar un catálogo de cuentas ejemplo para Venezuela.
-''',
     "depends": ["account", "base_vat", "account_chart"],
     "init": ['account_tax_code.xml',
              "account_chart.xml",
@@ -45,4 +38,3 @@ Este módulo es para manejar un catálogo de cuentas ejemplo para Venezuela.
     'images': ['images/config_chart_l10n_ve.jpeg',
                'images/l10n_ve_chart.jpeg'],
 }
-# vim:expandtab:smartindent:tabstop=4:softtabstop=4:shiftwidth=4:

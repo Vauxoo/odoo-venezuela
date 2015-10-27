@@ -1,4 +1,4 @@
-# -*- encoding: utf-8 -*-
+# coding: utf-8
 ##############################################################################
 #    Company: Tecvemar, c.a.
 #    Author: Juan V. Márquez L.
@@ -14,7 +14,7 @@ from openerp.osv import fields, osv
 from openerp.tools.translate import _
 
 
-class islr_wh_change_concept(osv.osv_memory):
+class IslrWhChangeConcept(osv.osv_memory):
 
     _name = 'islr.wh.change.concept'
     _columns = {
@@ -56,4 +56,3 @@ class islr_wh_change_concept(osv.osv_memory):
                 inv_brw._create_islr_wh_doc()
 
         return {'type': 'ir.actions.act_window_close'}
-# vim:expandtab:smartindent:tabstop=4:softtabstop=4:shiftwidth=4:

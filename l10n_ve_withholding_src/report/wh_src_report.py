@@ -1,12 +1,12 @@
-# ~ # -*- coding: utf-8 -*-
+# coding: utf-8
 from openerp.report import report_sxw
 
 
-class wh_src_report(report_sxw.rml_parse):
+class WhSrcReport(report_sxw.rml_parse):
 
     def __init__(self, cr, uid, name, context):
 
-        super(wh_src_report, self).__init__(cr, uid, name, context)
+        super(WhSrcReport, self).__init__(cr, uid, name, context)
         self.localcontext.update(
             {
                 'get_empresa': self.get_empresa,
@@ -35,7 +35,7 @@ class wh_src_report(report_sxw.rml_parse):
 report_sxw.report_sxw(
     'report.wh.src.report',
     'account.wh.src',
-    parser=wh_src_report,
+    parser=WhSrcReport,
     # header= 'internal',
     rml='l10n_ve_withholding_src/report/wh_src_report.rml'
 )

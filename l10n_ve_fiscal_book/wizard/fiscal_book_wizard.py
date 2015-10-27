@@ -1,4 +1,4 @@
-# -*- encoding: utf-8 -*-
+# coding: utf-8
 ##############################################################################
 # Copyright (c) 2011 OpenERP Venezuela (http://openerp.com.ve)
 # All Rights Reserved.
@@ -31,7 +31,7 @@ from openerp.osv import fields, osv
 from openerp.tools.translate import _
 
 
-class fiscal_book_wizard(osv.osv_memory):
+class FiscalBookWizard(osv.osv_memory):
 
     """
     Sales book wizard implemented using the osv_memory wizard system
@@ -161,7 +161,7 @@ class fiscal_book_wizard(osv.osv_memory):
         fiscal_book_o = fiscal_book_obj.search(
             cr, uid, [('id', '=', context['active_id'])])
         fiscal_book_o = fiscal_book_obj.browse(cr, uid, fiscal_book_o[0])
-        res = super(fiscal_book_wizard, self).default_get(cr, uid, field_list,
+        res = super(FiscalBookWizard, self).default_get(cr, uid, field_list,
                                                           context=context)
         res.update({'type': fiscal_book_o.type})
         res.update({'date_start':
@@ -220,4 +220,4 @@ class fiscal_book_wizard(osv.osv_memory):
         # 'type': lambda *a: 'sale',
     }
 
-fiscal_book_wizard()
+FiscalBookWizard()

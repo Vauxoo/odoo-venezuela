@@ -1,5 +1,4 @@
-#!/usr/bin/python
-# -*- encoding: utf-8 -*-
+# coding: utf-8
 ###########################################################################
 #    Module Writen to OpenERP, Open Source Management Solution
 #    Copyright (C) OpenERP Venezuela (<http://openerp.com.ve>).
@@ -32,7 +31,7 @@ from openerp.osv import fields, osv
 from openerp.tools.translate import _
 
 
-class account_wh_src(osv.osv):
+class AccountWhSrc(osv.osv):
 
     def name_get(self, cursor, user, ids, context=None):
         """ To generate a name for src record
@@ -91,7 +90,7 @@ class account_wh_src(osv.osv):
         # NOTE: use field_list argument instead of fields for fix the pylint
         # error W0621 Redefining name 'fields' from outer scope
         context = context or {}
-        res = super(account_wh_src, self).default_get(
+        res = super(AccountWhSrc, self).default_get(
             cr, uid, field_list, context=context)
         res.update({'uid_wh_agent': self._get_uid_wh_agent(
             cr, uid, context=context)})
@@ -413,7 +412,7 @@ class account_wh_src(osv.osv):
                     _("The withholding document needs to be in cancel state to"
                       " be deleted."))
             else:
-                super(account_wh_src, self).unlink(
+                super(AccountWhSrc, self).unlink(
                     cr, uid, ids, context=context)
         return True
 
@@ -518,7 +517,7 @@ class account_wh_src(osv.osv):
         return True
 
 
-class account_wh_src_line(osv.osv):
+class AccountWhSrcLine(osv.osv):
 
     _name = "account.wh.src.line"
     _description = "Social Responsibility Commitment Withholding Line"

@@ -1,5 +1,4 @@
-#!/usr/bin/python
-# -*- encoding: utf-8 -*-
+# coding: utf-8
 ###########################################################################
 #    Module Writen to OpenERP, Open Source Management Solution
 #    Copyright (C) OpenERP Venezuela (<http://openerp.com.ve>).
@@ -30,7 +29,7 @@ from openerp.osv import fields, osv
 from openerp.tools.translate import _
 
 
-class split_invoice_config(osv.osv_memory):
+class SplitInvoiceConfig(osv.osv_memory):
 
     """ Fiscal Requirements installer wizard
     """
@@ -41,7 +40,7 @@ class split_invoice_config(osv.osv_memory):
     def default_get(self, cr, uid, fields_list=None, context=None):
         """ Default value to the config_logo field
         """
-        defaults = super(split_invoice_config, self).default_get(
+        defaults = super(SplitInvoiceConfig, self).default_get(
             cr, uid, fields_list=fields_list, context=context)
         logo = open(addons.get_module_resource(
             'l10n_ve_split_invoice', 'images', 'puente-maracaibo.jpg'), 'rb')
@@ -73,4 +72,4 @@ class split_invoice_config(osv.osv_memory):
     _defaults = {
         'name': 50,
     }
-split_invoice_config()
+SplitInvoiceConfig()

@@ -1,4 +1,4 @@
-# -*- encoding: utf-8 -*-
+# coding: utf-8
 ##############################################################################
 # Copyright (c) 2011 OpenERP Venezuela (http://openerp.com.ve)
 # All Rights Reserved.
@@ -32,7 +32,7 @@ from openerp.osv import fields, osv
 from openerp.tools.translate import _
 
 
-class wh_islr_config(osv.osv_memory):
+class WhIslrConfig(osv.osv_memory):
     _name = 'wh.islr.config'
     _inherit = 'res.config'
     _description = __doc__
@@ -40,7 +40,7 @@ class wh_islr_config(osv.osv_memory):
     def default_get(self, cr, uid, fields_list=None, context=None):
         """ Default value config_logo field
         """
-        defaults = super(wh_islr_config, self).default_get(
+        defaults = super(WhIslrConfig, self).default_get(
             cr, uid, fields_list=fields_list, context=context)
         logo = open(addons.get_module_resource(
             'l10n_ve_withholding_islr', 'images', 'playa-medina.jpg'), 'rb')
@@ -123,4 +123,4 @@ class wh_islr_config(osv.osv_memory):
         'journal_sale': _("Journal Income Withholding Sale"),
     }
 
-wh_islr_config()
+WhIslrConfig()
