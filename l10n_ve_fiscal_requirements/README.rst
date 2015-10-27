@@ -27,9 +27,9 @@ Venezuelan Fiscal Requirements
        according to venezuelan laws
 
 For damaged invoices (Free form formats), you must go to the company and, under
+the configuration section, create the corresponding journal and account.
 
-    the configuration section, create the corresponding journal and account.
-TODO : Include this on wizard configuration.
+TODO Include this on wizard configuration.
 
 If you install this module with invoice data on the database, the concept_id
 will be Empty for all those invoices, so, when you try to modify them you

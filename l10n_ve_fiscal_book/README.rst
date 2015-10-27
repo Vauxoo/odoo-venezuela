@@ -15,5 +15,5 @@ de Ventas del mismo modo que se establece respecto de los comprobantes que
 se emiten a no contibuyentes, indicando el número de registro de la máquina.
 
 .. note::
-    * *El libro de ventas no contempla la sección de Ventas por cuenta de
-       Terceros.*
+    El libro de ventas no contempla la sección de Ventas por cuenta de
+    Terceros.

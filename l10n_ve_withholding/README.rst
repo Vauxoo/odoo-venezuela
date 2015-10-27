@@ -10,6 +10,3 @@ Management withholdings Venezuelan laws
 - Add common menus for withholdin process.
 - Add common tabs on views where they will be used to add information for other
   modules related to Venezuela. localization.
-
-TODO:
--
