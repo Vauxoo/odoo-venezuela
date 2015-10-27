@@ -20,12 +20,12 @@
   3.2 Validate stock picking
 -
   !python {model: stock.picking}: |
-    from openerp import netsvc
+    from openerp import workflow
     po_obj=self.pool.get('purchase.order')
     po = po_obj.browse(cr, uid, ref("purchase_order01"))
     sp_ids = self.search(cr, uid, [('origin', '=', po.invoice_ids[0].name) ])
     assert sp_ids, 'Stock picking not created'
-    wf_service = netsvc.LocalService("workflow")
+    wf_service = workflow
     wf_service.trg_validate(uid, 'stock.picking',sp_ids[0],'button_done', cr)
     sp_brw = self.browse(cr, uid, sp_ids[0])
     assert sp_brw.state=='done', 'Workflow didn\'t work properly'

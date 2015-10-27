@@ -128,9 +128,9 @@
         inv_id = ref( 'supplier_txt_invoice_1' )
         inv_brw = self.browse(cr, uid, inv_id)
         awi_id = inv_brw.wh_iva_id.id
-        import netsvc
+        import workflow
         from openerp.osv import osv
-        wf_service = netsvc.LocalService( 'workflow' )
+        wf_service = workflow
         wf_service.trg_validate(uid, 'account.wh.iva', awi_id, 'wh_iva_confirmed', cr)
 -
   I check that the withholding document was confirm.
@@ -158,9 +158,9 @@
         inv_id = ref( 'supplier_txt_invoice_1' )
         inv_brw = self.browse(cr, uid, inv_id)
         awi_id = inv_brw.wh_iva_id.id
-        import netsvc
+        import workflow
         from openerp.osv import osv
-        wf_service = netsvc.LocalService( 'workflow' )
+        wf_service = workflow
         wf_service.trg_validate(uid, 'account.wh.iva', awi_id, 'wh_iva_done', cr)
 -
   I check that the withholding document was set to done.

@@ -284,9 +284,9 @@
         inv_id = ref( 'islr_acctg_parnter_supplier_invoice' )
         iwd_id = self.pool.get( 'account.invoice' ).browse(
             cr, uid, inv_id).islr_wh_doc_id.id
-        import netsvc
+        import workflow
         from openerp.osv import osv
-        wf_service = netsvc.LocalService( 'workflow' )
+        wf_service = workflow
         wf_service.trg_validate(uid, 'islr.wh.doc', iwd_id, 'act_confirm', cr)
 -
   I check that the withholding document was confirmed and have no moves.
@@ -301,9 +301,9 @@
         inv_id = ref( 'islr_acctg_parnter_supplier_invoice' )
         iwd_id = self.pool.get( 'account.invoice' ).browse(
             cr, uid, inv_id).islr_wh_doc_id.id
-        import netsvc
+        import workflow
         from openerp.osv import osv
-        wf_service = netsvc.LocalService( 'workflow' )
+        wf_service = workflow
         wf_service.trg_validate(uid, 'islr.wh.doc', iwd_id, 'act_done', cr)
 -
   I check that the withholding document is done and it generate a move.
@@ -851,11 +851,11 @@
   I cancel the automatic created withholding document.
 -
     !python {model: account.invoice}: |
-        import netsvc
+        import workflow
         from openerp.osv import osv
         inv_brw = self.browse(cr, uid, ref( 'islr_manual_supplier_invoice' ))
         iwd_id = inv_brw.islr_wh_doc_id.id
-        wf_service = netsvc.LocalService( 'workflow' )
+        wf_service = workflow
         wf_service.trg_validate(uid, 'islr.wh.doc', iwd_id, 'act_cancel', cr)
         iwd_obj = self.pool.get( 'islr.wh.doc' )
         iwd_brw = iwd_obj.browse(cr, uid, iwd_id)
@@ -906,9 +906,9 @@
 -
     !python {model: islr.wh.doc}: | 
         iwd_id = ref( 'islr_manual_supplier_wh_doc' )
-        import netsvc
+        import workflow
         from openerp.osv import osv
-        wf_service = netsvc.LocalService( 'workflow' )
+        wf_service = workflow
         wf_service.trg_validate(uid, 'islr.wh.doc', iwd_id, 'act_confirm', cr)
         iwd_obj = self.pool.get( 'islr.wh.doc' )
         iwd_brw = iwd_obj.browse(cr, uid, iwd_id)

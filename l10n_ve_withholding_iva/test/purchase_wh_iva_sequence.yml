@@ -111,9 +111,9 @@
         cr_date = time.strftime('%Y-%m-%d')
         awi_brw.write( {}.fromkeys(['date', 'date_ret'], cr_date))
 
-        import netsvc
+        import workflow
         from openerp.osv import osv
-        wf_service = netsvc.LocalService( 'workflow' )
+        wf_service = workflow
         wf_service.trg_validate(uid, 'account.wh.iva', awi_id, 'wh_iva_confirmed', cr)
 -
   I check the withholding is confirm and that the wh number is not set.
@@ -128,9 +128,9 @@
         inv_id = ref( 'supplier_seq_invoice_1' )
         inv_brw = self.browse(cr, uid, inv_id)
         awi_id = inv_brw.wh_iva_id.id
-        import netsvc
+        import workflow
         from openerp.osv import osv
-        wf_service = netsvc.LocalService( 'workflow' )
+        wf_service = workflow
         wf_service.trg_validate(uid, 'account.wh.iva', awi_id, 'wh_iva_done', cr)
 -
   I check the withholding is done and that the wh number is set.
@@ -192,9 +192,9 @@
         cr_date = time.strftime('%Y-%m-%d')
         awi_brw.write( {}.fromkeys(['date', 'date_ret'], cr_date))
 
-        import netsvc
+        import workflow
         from openerp.osv import osv
-        wf_service = netsvc.LocalService( 'workflow' )
+        wf_service = workflow
         wf_service.trg_validate(uid, 'account.wh.iva', awi_id, 'wh_iva_confirmed', cr)
 -
   I check the withholding is confirm and that the wh number is not set.
@@ -209,9 +209,9 @@
         inv_id = ref( 'supplier_seq_invoice_2' )
         inv_brw = self.browse(cr, uid, inv_id)
         awi_id = inv_brw.wh_iva_id.id
-        import netsvc
+        import workflow
         from openerp.osv import osv
-        wf_service = netsvc.LocalService( 'workflow' )
+        wf_service = workflow
         wf_service.trg_validate(uid, 'account.wh.iva', awi_id, 'wh_iva_done', cr)
 -
   I check the withholding is done and that the wh number is set.
@@ -287,9 +287,9 @@
         cr_date = time.strftime('%Y-%m-%d')
         awi_brw.write( {}.fromkeys(['date', 'date_ret'], cr_date))
 
-        import netsvc
+        import workflow
         from openerp.osv import osv
-        wf_service = netsvc.LocalService( 'workflow' )
+        wf_service = workflow
         wf_service.trg_validate(uid, 'account.wh.iva', awi_id, 'wh_iva_confirmed', cr)
 -
   I check the withholding is confirm and that the wh number is not set.
@@ -304,9 +304,9 @@
         inv_id = ref( 'supplier_seq_invoice_3' )
         inv_brw = self.browse(cr, uid, inv_id)
         awi_id = inv_brw.wh_iva_id.id
-        import netsvc
+        import workflow
         from openerp.osv import osv
-        wf_service = netsvc.LocalService( 'workflow' )
+        wf_service = workflow
         wf_service.trg_validate(uid, 'account.wh.iva', awi_id, 'wh_iva_done', cr)
 -
   I check the withholding is done and that the wh number is set.
@@ -329,9 +329,9 @@
         inv_id = ref( 'supplier_seq_invoice_3')
         inv_brw = self.browse(cr, uid, inv_id)
         awi_id = inv_brw.wh_iva_id.id
-        import netsvc
+        import workflow
         from openerp.osv import osv
-        wf_service = netsvc.LocalService( 'workflow' )
+        wf_service = workflow
         wf_service.trg_validate(uid, 'account.wh.iva', awi_id, 'cancel', cr)
         awi_obj = self.pool.get('account.wh.iva')
         awi_brw = awi_obj.browse(cr, uid, awi_id)
@@ -341,9 +341,9 @@
   and add two invoices.
 -
     !python {model: account.wh.iva}: |
-        import netsvc
+        import workflow
         from openerp.osv import osv
-        wf_service = netsvc.LocalService( 'workflow' )
+        wf_service = workflow
         period_obj = self.pool.get('account.period')
         invoice_obj = self.pool.get('account.invoice')
 
@@ -406,9 +406,9 @@
         cr_date = time.strftime('%Y-%m-%d')
         awi_brw.write( {}.fromkeys(['date', 'date_ret'], cr_date))
 
-        import netsvc
+        import workflow
         from openerp.osv import osv
-        wf_service = netsvc.LocalService( 'workflow' )
+        wf_service = workflow
         wf_service.trg_validate(uid, 'account.wh.iva', awi_id, 'wh_iva_confirmed', cr)
 -
   I check the withholding is confirm and that the wh number is set.
@@ -430,9 +430,9 @@
         inv_id = ref( 'supplier_seq_invoice_2' )
         inv_brw = self.browse(cr, uid, inv_id)
         awi_id = inv_brw.wh_iva_id.id
-        import netsvc
+        import workflow
         from openerp.osv import osv
-        wf_service = netsvc.LocalService( 'workflow' )
+        wf_service = workflow
         wf_service.trg_validate(uid, 'account.wh.iva', awi_id, 'wh_iva_done', cr)
 -
   I check the withholding is done and that the wh number is set.

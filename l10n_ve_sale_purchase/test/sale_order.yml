@@ -52,10 +52,10 @@
   Execute workflow for opening the invoice
 -
   !python {model: sale.order}: |
-    from openerp import netsvc
+    from openerp import workflow
     po = self.browse(cr, uid, ref("sp_sale_order01"))
     ai_obj=self.pool.get('account.invoice')
-    wf_service = netsvc.LocalService("workflow")
+    wf_service = workflow
     wf_service.trg_validate(uid, 'account.invoice',po.invoice_ids[0].id,'invoice_open', cr)
     po = self.browse(cr, uid, ref("sp_sale_order01"))
     assert po.invoice_ids[0].state == 'open', 'Invoice must be in open state'
