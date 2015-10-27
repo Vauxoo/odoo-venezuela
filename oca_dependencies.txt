@@ -1,0 +1,1 @@
+addons-vauxoo https://github.com/Vauxoo/addons-vauxoo.git

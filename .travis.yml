@@ -1,26 +1,57 @@
 language: python
 
-build_image: vauxoo/odoo-80-image-shippable-auto
-commit_container: cowardvassal/vauxoo-dev
+sudo: false
+cache:
+  apt: true
+  directories:
+    - $HOME/.pip-cache/
+
+addons:
+  apt:
+    sources:
+      - pov-wkhtmltopdf
+    packages:
+      - expect-dev
+      - python-lxml
+      - python-simplejson
+      - python-yaml
+      - wkhtmltopdf
+      - swig  # Required for m2crypto
+      - python-m2crypto
+      - xmlstarlet
+      - xsltproc
+      - xmlstarlet
+      - openssl
+      - poppler-utils
+      - antiword
+      - python-libxml2
+
+# set up an X server to run wkhtmltopdf.
+before_install:
+  - "export DISPLAY=:99.0"
+  - "sh -e /etc/init.d/xvfb start"
 
 python:
   - "2.7"
-
 env:
-  - VERSION="7.0" ODOO_REPO="odoo/odoo" INCLUDE="ovl_all"
+  global:
+  - TEST_OTHER_PROJECTS=${HOME}/addons-vauxoo LINT_CHECK=0 TESTS="0" VERSION="7.0" ODOO_REPO="vauxoo/odoo" INCLUDE="ovl_all"
+
+  matrix:
+  - LINT_CHECK=1
+  - TESTS="1"
 
 virtualenv:
   system_site_packages: true
 
 install:
-  - git clone https://github.com/vauxoo/maintainer-quality-tools.git -b master ${HOME}/maintainer-quality-tools
+  - git clone --single-branch --depth=1 https://github.com/vauxoo/maintainer-quality-tools.git -b master ${HOME}/maintainer-quality-tools
   - export PATH=${HOME}/maintainer-quality-tools/travis:${PATH}
   - travis_install_nightly
   - ${TRAVIS_BUILD_DIR}/travis/travis_install_ve_nightly ${VERSION}
-  - git clone --single-branch --depth=1 https://github.com/Vauxoo/addons-vauxoo.git -b ${VERSION} ${HOME}/addons-vauxoo
 
 script:
-  - travis_run_tests
+  - travis_wait travis_run_tests
 
 after_success:
-  coveralls
+  - travis_after_tests_success
