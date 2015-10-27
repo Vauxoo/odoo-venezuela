@@ -1,5 +1,4 @@
-#!/usr/bin/python
-# -*- encoding: utf-8 -*-
+# coding: utf-8
 ###########################################################################
 #    Module Writen to OpenERP, Open Source Management Solution
 #    Copyright (C) OpenERP Venezuela (<http://openerp.com.ve>).
@@ -29,10 +28,10 @@ from openerp.report import report_sxw
 from openerp.tools.translate import _
 
 
-class rep_comprobante_islr(report_sxw.rml_parse):
+class RepComprobanteIslr(report_sxw.rml_parse):
 
     def __init__(self, cr, uid, name, context):
-        super(rep_comprobante_islr, self).__init__(cr, uid, name,
+        super(RepComprobanteIslr, self).__init__(cr, uid, name,
                                                    context=context)
         self.localcontext.update({
             'get_partner_addr': self._get_partner_addr,
@@ -66,6 +65,6 @@ report_sxw.report_sxw(
     'report.islr.wh.doc',
     'islr.wh.doc',
     rml='l10n_ve_withholding_islr/report/wh_islr_report.rml',
-    parser=rep_comprobante_islr,
+    parser=RepComprobanteIslr,
     header=False
 )

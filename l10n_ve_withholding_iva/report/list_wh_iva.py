@@ -1,5 +1,4 @@
-#!/usr/bin/python
-# -*- encoding: utf-8 -*-
+# coding: utf-8
 ###########################################################################
 #    Module Writen to OpenERP, Open Source Management Solution
 #    Copyright (C) OpenERP Venezuela (<http://openerp.com.ve>).
@@ -30,13 +29,13 @@
 from openerp.report import report_sxw
 
 
-class list_wh_iva(report_sxw.rml_parse):
+class ListWhIva(report_sxw.rml_parse):
 
     total_amount_exempt = 0
     total_amount_untaxed = 0
 
     def __init__(self, cr, uid, name, context):
-        super(list_wh_iva, self).__init__(cr, uid, name, context=context)
+        super(ListWhIva, self).__init__(cr, uid, name, context=context)
         self.localcontext.update({
             'get_type_doc': self._get_type_document,
             'get_doc_number': self._get_document_number,
@@ -123,6 +122,6 @@ report_sxw.report_sxw(
     'report.list_report_wh_vat2',
     'txt.iva',
     'addons/l10n_ve_withholding_iva/report/list_wh_iva_report.rml',
-    parser=list_wh_iva,
+    parser=ListWhIva,
     header=False
 )

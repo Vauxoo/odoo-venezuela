@@ -1,4 +1,4 @@
-# -*- coding: utf-8 -*-
+# coding: utf-8
 ##############################################################################
 #
 #    OpenERP, Open Source Management Solution
@@ -28,7 +28,7 @@ from openerp.osv import fields, osv
 from openerp.tools.translate import _
 
 
-class account_invoice_refund(osv.osv_memory):
+class AccountInvoiceRefund(osv.osv_memory):
 
     """Refunds invoice"""
 
@@ -42,7 +42,7 @@ class account_invoice_refund(osv.osv_memory):
         # error W0621 Redefining name 'fields' from outer scope
         if context is None:
             context = {}
-        res = super(account_invoice_refund, self).default_get(
+        res = super(AccountInvoiceRefund, self).default_get(
             cr, uid, field_list, context=context)
         if context.get('active_id'):
             code = datetime.datetime.today().strftime('%m/%Y')
@@ -102,7 +102,7 @@ class account_invoice_refund(osv.osv_memory):
             context = {}
 
         journal_obj = self.pool.get('account.journal')
-        res = super(account_invoice_refund, self).fields_view_get(
+        res = super(AccountInvoiceRefund, self).fields_view_get(
             cr, uid, view_id=view_id, view_type=view_type, context=context,
             toolbar=toolbar, submenu=submenu)
         journal_type = context.get('journal_type', 'sale_refund')
@@ -499,6 +499,4 @@ class account_invoice_refund(osv.osv_memory):
             cr, uid, ids, context=context)[0].filter_refund
         return self.compute_refund(cr, uid, ids, data_refund, context=context)
 
-account_invoice_refund()
-
-# vim:expandtab:smartindent:tabstop=4:softtabstop=4:shiftwidth=4:
+AccountInvoiceRefund()

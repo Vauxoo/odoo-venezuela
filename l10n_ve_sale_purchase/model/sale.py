@@ -1,5 +1,4 @@
-#!/usr/bin/python
-# -*- encoding: utf-8 -*-
+# coding: utf-8
 ###########################################################################
 #    Module Writen to OpenERP, Open Source Management Solution
 #    Copyright (C) OpenERP Venezuela (<http://openerp.com.ve>).
@@ -29,7 +28,7 @@
 from openerp.osv import fields, osv
 
 
-class sale_order_line(osv.osv):
+class SaleOrderLine(osv.osv):
     _inherit = "sale.order.line"
 
     _columns = {
@@ -67,7 +66,7 @@ class sale_order_line(osv.osv):
         """ Assing concept_id to the invoice lines
         """
         context = context or {}
-        create_ids = super(sale_order_line, self).invoice_line_create(
+        create_ids = super(SaleOrderLine, self).invoice_line_create(
             cr, uid, ids, context)
         invoice_line_brws = self.pool.get('account.invoice.line').browse(
             cr, uid, create_ids)

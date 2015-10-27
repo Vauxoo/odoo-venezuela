@@ -1,5 +1,4 @@
-#!/usr/bin/python
-# -*- encoding: utf-8 -*-
+# coding: utf-8
 ###########################################################################
 #    Module Writen to OpenERP, Open Source Management Solution
 #    Copyright (C) OpenERP Venezuela (<http://openerp.com.ve>).
@@ -31,24 +30,9 @@
     "name": "Management withholding vat based in the Venezuelan tax laws",
     "version": "1.1",
     "author": "Vauxoo",
+    "license": "AGPL-3",
     "website": "http://vauxoo.com",
     "category": 'Generic Modules/Accounting',
-    "description": """
-Management withholding vat based in the Venezuelan tax laws.
-
- - Create from invoice voucher withholding vat, to validate invoice.
- - Generate new tag in the view of partner for  add information basic of
-   withholdings vat.
- - Generate file .txt required by Venezuelan law, based in the withholdings vat
-   made during period defined for users.
- - Generate voucher of withholding vat based in the Venezuelan tax laws.
-
-**Recommendations:**
-
- - If you want to be able to print the vat withholding report correctly, It is
-   recomended to define the size of the logo of the company in 886 x 236
-   pixeles.
-""",
     "depends": [
                 "l10n_ve_withholding"
     ],
@@ -87,8 +71,4 @@ Management withholding vat based in the Venezuelan tax laws.
         # test/purchase_wh_iva_txt.yml',
     ],
     'installable': True,
-    'active': False,
 }
-
-
-# vim:expandtab:smartindent:tabstop=4:softtabstop=4:shiftwidth=4:

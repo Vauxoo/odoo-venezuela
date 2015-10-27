@@ -1,4 +1,4 @@
-# -*- encoding: utf-8 -*-
+# coding: utf-8
 ###############################################################################
 #    Module Writen to OpenERP, Open Source Management Solution
 #    Copyright (c) 2013 Vauxoo C.A. (http://openerp.com.ve/)
@@ -30,7 +30,7 @@ from openerp.osv import fields, osv
 from openerp.tools.translate import _
 
 
-class account_invoice(osv.osv):
+class AccountInvoice(osv.osv):
 
     _inherit = "account.invoice"
 
@@ -94,10 +94,10 @@ class account_invoice(osv.osv):
                     'Can\'t validate a invoice while the form 86 state\'s is \
                     cancel or draft (%s).\nPlease validate the form 86 first.')
                     % item.customs_form_id.name)
-        return super(account_invoice, self).test_open(cr, uid, ids, args)
+        return super(AccountInvoice, self).test_open(cr, uid, ids, args)
 
 
-class account_invoice_tax(osv.osv):
+class AccountInvoiceTax(osv.osv):
 
     _inherit = 'account.invoice.tax'
 

@@ -1,4 +1,4 @@
-# -*- encoding: utf-8 -*-
+# coding: utf-8
 ###########################################################################
 #    Module Writen to OpenERP, Open Source Management Solution
 #    Copyright (C) OpenERP Venezuela (<http://openerp.com.ve>).
@@ -31,7 +31,7 @@ from openerp.osv import fields, osv
 from openerp.tools.translate import _
 
 
-class seniat_url(osv.osv):
+class SeniatUrl(osv.osv):
 
     """ OpenERP Model : seniat_url
     """

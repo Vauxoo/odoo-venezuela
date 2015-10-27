@@ -1,5 +1,4 @@
-#!/usr/bin/python
-# -*- encoding: utf-8 -*-
+# coding: utf-8
 ###########################################################################
 #    Module Writen to OpenERP, Open Source Management Solution
 #    Copyright (C) OpenERP Venezuela (<http://openerp.com.ve>).
@@ -32,7 +31,7 @@ from openerp.report import report_sxw
 from openerp.tools.translate import _
 
 
-class rep_comprobante(report_sxw.rml_parse):
+class RepComprobante(report_sxw.rml_parse):
     # Variables Globales----------------------------------------------------
     ttcompra = 0
     ttcompra_sdcf = 0
@@ -43,7 +42,7 @@ class rep_comprobante(report_sxw.rml_parse):
     # ---------------------------------------------------------------------
 
     def __init__(self, cr, uid, name, context):
-        super(rep_comprobante, self).__init__(cr, uid, name, context)
+        super(RepComprobante, self).__init__(cr, uid, name, context)
         self.localcontext.update({
             'time': time,
             'get_partner_addr2': self._get_partner_addr2,
@@ -308,6 +307,6 @@ report_sxw.report_sxw(
     'report.account.wh.iva',
     'account.wh.iva',
     'addons/l10n_ve_withholding_iva/report/withholding_vat_report.rml',
-    parser=rep_comprobante,
+    parser=RepComprobante,
     header=False
 )

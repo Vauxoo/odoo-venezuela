@@ -1,5 +1,4 @@
-#!/usr/bin/python
-# -*- encoding: utf-8 -*-
+# coding: utf-8
 ###########################################################################
 #    Module Writen to OpenERP, Open Source Management Solution
 #    Copyright (C) OpenERP Venezuela (<http://openerp.com.ve>).
@@ -28,7 +27,7 @@ from openerp.osv import fields, osv
 from openerp.tools.translate import _
 
 
-class wiz_retention(osv.osv_memory):
+class WizRetention(osv.osv_memory):
     _name = 'wiz.retention'
     _description = "Wizard that changes the retention value"
 
@@ -60,4 +59,4 @@ class wiz_retention(osv.osv_memory):
         'sure': fields.boolean('Are you sure?'),
     }
 
-wiz_retention()
+WizRetention()

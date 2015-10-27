@@ -1,5 +1,4 @@
-#!/usr/bin/python
-# -*- encoding: utf-8 -*-
+# coding: utf-8
 ###########################################################################
 #    Module Writen to OpenERP, Open Source Management Solution
 #    Copyright (C) OpenERP Venezuela (<http://openerp.com.ve>).
@@ -30,7 +29,7 @@ from openerp.osv import fields, osv
 from openerp.tools.translate import _
 
 
-class wh_vat_installer(osv.osv_memory):
+class WhVatInstaller(osv.osv_memory):
 
     """ wh_vat_installer
     """
@@ -43,7 +42,7 @@ class wh_vat_installer(osv.osv_memory):
         """
         # NOTE: use field_list argument instead of fields for fix the pylint
         # error W0621 Redefining name 'fields' from outer scope
-        data = super(wh_vat_installer, self).default_get(cr, uid, field_list,
+        data = super(WhVatInstaller, self).default_get(cr, uid, field_list,
                                                          context=context)
         gaceta = open(addons.get_module_resource(
             'l10n_ve_withholding_iva', 'files',
@@ -72,10 +71,10 @@ class wh_vat_installer(osv.osv_memory):
         SENIAT and update all your partners information.
         """
     }
-wh_vat_installer()
+WhVatInstaller()
 
 
-class wh_iva_config(osv.osv_memory):
+class WhIvaConfig(osv.osv_memory):
     _name = 'wh_iva.config'
     _inherit = 'res.config'
 
@@ -107,7 +106,7 @@ class wh_iva_config(osv.osv_memory):
         """ Get default company if any, and the various other fields
         from the company's fields
         """
-        defaults = super(wh_iva_config, self)\
+        defaults = super(WhIvaConfig, self)\
             .default_get(cr, uid, fields_list=fields_list, context=context)
         # Set Vauxoo logo on config Window.
         logo = open(addons.get_module_resource(
@@ -160,4 +159,4 @@ class wh_iva_config(osv.osv_memory):
             p_obj.write(cr, uid, [partner_id], {'wh_iva_agent': 0,
                                                 'wh_iva_rate': 75.00})
 
-wh_iva_config()
+WhIvaConfig()

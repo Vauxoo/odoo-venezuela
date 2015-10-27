@@ -1,4 +1,4 @@
-# -*- encoding: utf-8 -*-
+# coding: utf-8
 ###########################################################################
 #    Module Writen to OpenERP, Open Source Management Solution
 #    Copyright (C) OpenERP Venezuela (<http://openerp.com.ve>).
@@ -27,7 +27,7 @@ from openerp.osv import fields, osv
 from openerp.tools.translate import _
 
 
-class account_invoice_line(osv.osv):
+class AccountInvoiceLine(osv.osv):
 
     """ It adds a field that determines if a line has been retained or not
     """
@@ -97,7 +97,7 @@ class account_invoice_line(osv.osv):
         """
         context = context or {}
         data = super(
-            account_invoice_line, self).product_id_change(cr, uid, ids,
+            AccountInvoiceLine, self).product_id_change(cr, uid, ids,
                                                           product, uom,
                                                           qty, name,
                                                           type, partner_id,
@@ -121,11 +121,11 @@ class account_invoice_line(osv.osv):
             vals.update({'wh_xml_id': False,
                          'apply_wh': False,
                          })
-        return super(account_invoice_line, self).create(cr, uid, vals,
+        return super(AccountInvoiceLine, self).create(cr, uid, vals,
                                                         context=context)
 
 
-class account_invoice(osv.osv):
+class AccountInvoice(osv.osv):
     _inherit = 'account.invoice'
     _columns = {
         'status': fields.selection([
@@ -247,13 +247,13 @@ class account_invoice(osv.osv):
                         'status': 'no_pro',
                         })
         context.update({'new_key': True})
-        return super(account_invoice, self).copy(cr, uid, ids, default,
+        return super(AccountInvoice, self).copy(cr, uid, ids, default,
                                                  context)
 
     def _refund_cleanup_lines(self, cr, uid, lines, context=None):
         """ Initializes the fields of the lines of a refund invoice
         """
-        data = super(account_invoice, self)._refund_cleanup_lines(
+        data = super(AccountInvoice, self)._refund_cleanup_lines(
             cr, uid, lines, context=context)
         res = []
         for xres, yres, res in data:
@@ -305,7 +305,7 @@ class account_invoice(osv.osv):
         context = context or {}
         rp_obj = self.pool.get('res.partner')
         ids = isinstance(ids, (int, long)) and [ids] or ids
-        res = super(account_invoice, self)._get_move_lines(
+        res = super(AccountInvoice, self)._get_move_lines(
             cr, uid, ids, to_wh, period_id, pay_journal_id, writeoff_acc_id,
             writeoff_period_id, writeoff_journal_id, date, name,
             context=context)

@@ -1,5 +1,4 @@
-#!/usr/bin/python
-# -*- encoding: utf-8 -*-
+# coding: utf-8
 ###########################################################################
 #    Module Writen to OpenERP, Open Source Management Solution
 #    Copyright (C) OpenERP Venezuela (<http://openerp.com.ve>).
@@ -29,7 +28,7 @@
 from openerp.osv import fields, osv
 
 
-class islr_wh_concept(osv.osv):
+class IslrWhConcept(osv.osv):
 
     """ Model to create the withholding concepts
     """
@@ -74,4 +73,4 @@ class islr_wh_concept(osv.osv):
         'withholdable': lambda *a: True,
         'user_id': lambda s, cr, u, c: u,
     }
-islr_wh_concept()
+IslrWhConcept()

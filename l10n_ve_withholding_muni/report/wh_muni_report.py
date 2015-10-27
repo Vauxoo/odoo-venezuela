@@ -1,5 +1,4 @@
-#!/usr/bin/python
-# -*- encoding: utf-8 -*-
+# coding: utf-8
 ###########################################################################
 #    Module Writen to OpenERP, Open Source Management Solution
 #    Copyright (C) OpenERP Venezuela (<http://openerp.com.ve>).
@@ -30,10 +29,10 @@ from openerp.report import report_sxw
 from openerp.tools.translate import _
 
 
-class wh_muni_report(report_sxw.rml_parse):
+class WhMuniReport(report_sxw.rml_parse):
 
     def __init__(self, cr, uid, name, context):
-        super(wh_muni_report, self).__init__(cr, uid, name, context)
+        super(WhMuniReport, self).__init__(cr, uid, name, context)
         self.localcontext.update({
             'time': time,
             'get_partner_addr': self._get_partner_addr,
@@ -70,6 +69,6 @@ report_sxw.report_sxw(
     'report.wh.muni.report',
     'account.wh.munici',
     rml='l10n_ve_withholding_muni/report/wh_muni_report.rml',
-    parser=wh_muni_report,
+    parser=WhMuniReport,
     header=False
 )

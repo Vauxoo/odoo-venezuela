@@ -1,4 +1,4 @@
-# -*- encoding: utf-8 -*-
+# coding: utf-8
 ###############################################################################
 #    Module Writen to OpenERP, Open Source Management Solution
 #    Copyright (c) 2013 Vauxoo C.A. (http://openerp.com.ve/)
@@ -34,14 +34,8 @@
                 "decimal_precision",
                 "l10n_ve_fiscal_requirements"
                 ],
-    "author": "Tecvemar/Vauxoo",
-    "description": """
-Imex
-===============================================================
-This modules handles the openerp venezuela localization import
-and export transactions. It specify the customs form model for
-import declaration SENIAT Official FORM (Forma 99086).
-""",
+    "author": "Tecvemar,Vauxoo",
+    "license": "AGPL-3",
     "website": "http://vauxoo.com",
     "category": "Generic Modules/Accounting",
     "data": [
@@ -53,6 +47,5 @@ import declaration SENIAT Official FORM (Forma 99086).
         'view/invoice.xml',
         'workflow/customs_form.xml',
     ],
-    "active": False,
     "installable": True,
 }

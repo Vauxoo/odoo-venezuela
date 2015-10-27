@@ -1,4 +1,4 @@
-# -*- encoding: utf-8 -*-
+# coding: utf-8
 ###########################################################################
 #    Module Writen to OpenERP, Open Source Management Solution
 #    Copyright (C) OpenERP Venezuela (<http://openerp.com.ve>).
@@ -27,7 +27,7 @@ from openerp.osv import osv
 from openerp.tools.translate import _
 
 
-class account_invoice(osv.osv):
+class AccountInvoice(osv.osv):
     _inherit = 'account.invoice'
 
     def split_invoice(self, cr, uid, ids):
@@ -92,8 +92,8 @@ class account_invoice(osv.osv):
     def action_date_assign(self, cr, uid, ids, *args):
         """ Return assigned dat
         """
-        super(account_invoice, self).action_date_assign(cr, uid, ids, *args)
+        super(AccountInvoice, self).action_date_assign(cr, uid, ids, *args)
         self.split_invoice(cr, uid, ids)
         return True
 
-account_invoice()
+AccountInvoice()

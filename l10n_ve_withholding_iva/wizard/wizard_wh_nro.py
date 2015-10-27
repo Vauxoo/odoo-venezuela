@@ -1,5 +1,4 @@
-#!/usr/bin/python
-# -*- encoding: utf-8 -*-
+# coding: utf-8
 ###########################################################################
 #    Module Writen to OpenERP, Open Source Management Solution
 #    Copyright (C) OpenERP Venezuela (<http://openerp.com.ve>).
@@ -30,7 +29,7 @@ from openerp.osv import fields, osv
 from openerp.tools.translate import _
 
 
-class wizard_change_number_wh_iva(osv.osv_memory):
+class WizardChangeNumberWhIva(osv.osv_memory):
     _name = 'wizard.change.number.wh.iva'
     _description = "Wizard that changes the withholding number"
 
@@ -38,7 +37,7 @@ class wizard_change_number_wh_iva(osv.osv_memory):
         # NOTE: use field_list argument instead of fields for fix the pylint
         # error W0621 Redefining name 'fields' from outer scope
         context = context or {}
-        data = super(wizard_change_number_wh_iva, self).default_get(
+        data = super(WizardChangeNumberWhIva, self).default_get(
             cr, uid, field_list, context)
         if (context.get('active_model') == 'account.wh.iva' and
                 context.get('active_id')):
@@ -76,7 +75,4 @@ class wizard_change_number_wh_iva(osv.osv_memory):
         'name': fields.char('Withholding number', 32, required=True),
         'sure': fields.boolean('Are you sure?'),
     }
-wizard_change_number_wh_iva()
-
-
-# vim:expandtab:smartindent:tabstop=4:softtabstop=4:shiftwidth=4:
+WizardChangeNumberWhIva()

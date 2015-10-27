@@ -1,5 +1,4 @@
-#!/usr/bin/python
-# -*- encoding: utf-8 -*-
+# coding: utf-8
 ###########################################################################
 #    Module Writen to OpenERP, Open Source Management Solution
 #    Copyright (C) OpenERP Venezuela (<http://openerp.com.ve>).
@@ -29,7 +28,7 @@
 from openerp.osv import fields, osv
 
 
-class purchase_order_line(osv.osv):
+class PurchaseOrderLine(osv.osv):
 
     _inherit = "purchase.order.line"
 
@@ -50,7 +49,7 @@ class purchase_order_line(osv.osv):
             concept_id = concept_obj.search(cr, uid,
                                             [('withholdable', '=', False)])
             return concept_id and concept_id[0] or False
-        res = super(purchase_order_line, self).product_id_change(
+        res = super(PurchaseOrderLine, self).product_id_change(
             cr, uid, ids, pricelist, product, qty, uom, partner_id, date_order,
             fiscal_position, date_planned, name, price_unit, notes)
         if not product:
@@ -64,13 +63,13 @@ class purchase_order_line(osv.osv):
         return res
 
 
-class purchase_order(osv.osv):
+class PurchaseOrder(osv.osv):
     _inherit = 'purchase.order'
 
     def _prepare_inv_line(self, cr, uid, account_id, order_line, context=None):
         """ Update concept_id field to the prepare line
         """
-        data = super(purchase_order, self)._prepare_inv_line(
+        data = super(PurchaseOrder, self)._prepare_inv_line(
             cr, uid, account_id, order_line, context=context)
         data.update(
             {'concept_id':

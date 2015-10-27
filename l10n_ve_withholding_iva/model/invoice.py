@@ -1,5 +1,4 @@
-#!/usr/bin/python
-# -*- encoding: utf-8 -*-
+# coding: utf-8
 ###########################################################################
 #    Module Writen to OpenERP, Open Source Management Solution
 #    Copyright (C) OpenERP Venezuela (<http://openerp.com.ve>).
@@ -31,7 +30,7 @@ from openerp.osv import fields, osv
 from openerp.tools.translate import _
 
 
-class account_invoice(osv.osv):
+class AccountInvoice(osv.osv):
 
     _inherit = 'account.invoice'
 
@@ -199,7 +198,7 @@ class account_invoice(osv.osv):
         # TODO: PROPERLY CALL THE WH_IVA_RATE
         default.update({'wh_iva': False, 'wh_iva_id': False,
                         'vat_apply': False})
-        return super(account_invoice, self).copy(cr, uid, ids, default,
+        return super(AccountInvoice, self).copy(cr, uid, ids, default,
                                                  context)
 
     def wh_iva_line_create(self, cr, uid, ids, context=None):
@@ -360,7 +359,7 @@ class account_invoice(osv.osv):
         """ It makes two function calls related taxes reset
         """
         context = context or {}
-        super(account_invoice, self).button_reset_taxes(cr, uid, ids, context)
+        super(AccountInvoice, self).button_reset_taxes(cr, uid, ids, context)
         self.button_reset_taxes_ret(cr, uid, ids, context)
 
         return True
@@ -441,7 +440,7 @@ class account_invoice(osv.osv):
         """
         if context is None:
             context = {}
-        res = super(account_invoice, self)._get_move_lines(
+        res = super(AccountInvoice, self)._get_move_lines(
             cr, uid, ids, to_wh, period_id, pay_journal_id, writeoff_acc_id,
             writeoff_period_id, writeoff_journal_id, date, name,
             context=context)
@@ -540,7 +539,7 @@ class account_invoice(osv.osv):
             if ((not inv_brw.wh_iva_id) or (
                     inv_brw.wh_iva_id and
                     inv_brw.wh_iva_id.state == 'cancel')):
-                super(account_invoice, self).action_cancel(cr, uid, ids,
+                super(AccountInvoice, self).action_cancel(cr, uid, ids,
                                                            context=context)
             else:
                 raise osv.except_osv(
@@ -552,7 +551,7 @@ class account_invoice(osv.osv):
         return True
 
 
-class account_invoice_tax(osv.osv):
+class AccountInvoiceTax(osv.osv):
     _inherit = 'account.invoice.tax'
     _columns = {
         'amount_ret': fields.float(

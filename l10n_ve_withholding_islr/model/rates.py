@@ -1,5 +1,4 @@
-#!/usr/bin/python
-# -*- encoding: utf-8 -*-
+# coding: utf-8
 ###########################################################################
 #    Module Writen to OpenERP, Open Source Management Solution
 #    Copyright (C) OpenERP Venezuela (<http://openerp.com.ve>).
@@ -30,7 +29,7 @@ from openerp.addons import decimal_precision as dp
 from openerp.osv import fields, osv
 
 
-class islr_rates(osv.osv):
+class IslrRates(osv.osv):
 
     """ The module to create the rates of the withholding concepts
     """
@@ -95,4 +94,4 @@ class islr_rates(osv.osv):
         'rate2': fields.boolean(
             'Rate 2', help='Rate Used for Foreign Entities'),
     }
-islr_rates()
+IslrRates()
