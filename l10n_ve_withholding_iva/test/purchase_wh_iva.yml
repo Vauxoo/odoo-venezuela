@@ -78,11 +78,11 @@
   I cancel the automatic created withholding document.
 -
     !python {model: account.invoice}: |
-        import netsvc
+        from openerp import workflow
         from openerp.osv import osv
         inv_brw = self.browse(cr, uid, ref('wh_manual_purchase_awi_invoice'))
         awi_id = inv_brw.wh_iva_id.id
-        wf_service = netsvc.LocalService("workflow")
+        wf_service = workflow
         wf_service.trg_validate(uid, 'account.wh.iva', awi_id, 'cancel', cr)
         awi_obj = self.pool.get('account.wh.iva')
         awi_brw = awi_obj.browse(cr, uid, awi_id)
@@ -156,9 +156,9 @@
 -
     !python {model: account.wh.iva}: |
         awi_id = ref('whc_awi_manual_purchase')
-        import netsvc
+        from openerp import workflow
         from openerp.osv import osv
-        wf_service = netsvc.LocalService("workflow")
+        wf_service = workflow
         wf_service.trg_validate(uid, 'account.wh.iva', awi_id, 'wh_iva_confirmed', cr)
         awi_brw = self.browse(cr, uid, awi_id)
         assert awi_brw.state == 'confirmed', 'The withholding document is not in confirmed state'

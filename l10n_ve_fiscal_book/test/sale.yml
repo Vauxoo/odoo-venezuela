@@ -346,10 +346,10 @@
     !python {model: account.invoice}: |
         inv_id = ref( 'account_invoice_6' )
         flag = True
-        import netsvc
+        from openerp import workflow
         from openerp.osv import osv
         from tools.misc import mute_logger
-        wf_service = netsvc.LocalService( 'workflow' )
+        wf_service = workflow
         try:
             cr.execute('SAVEPOINT fiscal_book_test_db')
             with mute_logger('openerp.tools.safe_eval'):
@@ -376,9 +376,9 @@
         from tools.misc import mute_logger
         inv_id = ref( 'account_invoice_6' )
         flag = True
-        import netsvc
+        from openerp import workflow
         from openerp.osv import osv
-        wf_service = netsvc.LocalService( 'workflow' )
+        wf_service = workflow
         try:
             cr.execute('SAVEPOINT fiscal_book_test_db')
             with mute_logger('openerp.tools.safe_eval'):
@@ -404,10 +404,10 @@
     !python {model: account.invoice}: |
         inv_id = ref( 'account_invoice_6' )
         flag = True
-        import netsvc
+        from openerp import workflow
         from openerp.osv import osv
         from tools.misc import mute_logger
-        wf_service = netsvc.LocalService( 'workflow' )
+        wf_service = workflow
         try:
             with mute_logger('openerp.tools.safe_eval'):
                 wf_service.trg_validate(uid, 'account.invoice', inv_id, 'invoice_cancel', cr)
@@ -420,12 +420,12 @@
   I set the book to draft state
 -
     !python {model: fiscal.book}: |
-        import netsvc
+        from openerp import workflow
         from openerp.osv import osv
         fb_id = ref( 'fiscal_book_sale_test' )
         fb_brw = self.browse(cr, uid, fb_id)
         if fb_brw.state == 'cancel':
-            wf_service = netsvc.LocalService( 'workflow' )
+            wf_service = workflow
             wf_service.trg_validate(uid, 'fiscal.book', fb_id, 'act_draft', cr)
             fb_brw = self.browse(cr, uid, fb_id)
         assert fb_brw.state == 'draft', 'The book remains in cancel state.' 
@@ -465,12 +465,12 @@
 #  I set the book to draft state.
 #-
 #    !python {model: fiscal.book}: |
-#        import netsvc
+#        from openerp import workflow
 #        from openerp.osv import osv
 #        fb_id = ref( 'fiscal_book_sale_test' )
 #        fb_brw = self.browse(cr, uid, fb_id)
 #        if fb_brw.state == 'cancel':
-#            wf_service = netsvc.LocalService( 'workflow' )
+#            wf_service = workflow
 #            wf_service.trg_validate(uid, 'fiscal.book', fb_id, 'act_draft', cr)
 #            fb_brw = self.browse(cr, uid, fb_id)
 #        assert fb_brw.state == 'draft', 'The book remains in cancel state.' 

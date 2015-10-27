@@ -132,9 +132,9 @@
 -
     !python {model: islr.wh.doc}: | 
         iwd_id = ref( 'islr_customer_wh_doc' ) 
-        import netsvc
+        from openerp import workflow
         from openerp.osv import osv
-        wf_service = netsvc.LocalService( 'workflow' )
+        wf_service = workflow
         wf_service.trg_validate(uid, 'islr.wh.doc', iwd_id, 'act_confirm', cr)
 -
   I check that the withholding document is confirmed.
