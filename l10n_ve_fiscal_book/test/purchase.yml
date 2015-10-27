@@ -329,9 +329,9 @@
         from tools.misc import mute_logger
         inv_id = ref( 'account_invoice_2' )
         flag = True
-        import workflow
+        import netsvc
         from openerp.osv import osv
-        wf_service = workflow
+        wf_service = netsvc.LocalService( 'workflow' )
         try:
             cr.execute('SAVEPOINT fiscal_book_test_db')
             with mute_logger('openerp.tools.safe_eval'):
@@ -362,10 +362,10 @@
     !python {model: account.invoice}: |
         inv_id = ref( 'account_invoice_2' )
         flag = True
-        import workflow
+        import netsvc
         from openerp.osv import osv
         from tools.misc import mute_logger
-        wf_service = workflow
+        wf_service = netsvc.LocalService( 'workflow' )
         try:
             cr.execute('SAVEPOINT fiscal_book_test_db')
             with mute_logger('openerp.tools.safe_eval'):
@@ -392,9 +392,9 @@
         from tools.misc import mute_logger
         inv_id = ref( 'account_invoice_2' )
         flag = True
-        import workflow
+        import netsvc
         from openerp.osv import osv
-        wf_service = workflow
+        wf_service = netsvc.LocalService( 'workflow' )
         try:
             with mute_logger('openerp.tools.safe_eval'):
                 wf_service.trg_validate(uid, 'account.invoice', inv_id, 'invoice_cancel', cr)

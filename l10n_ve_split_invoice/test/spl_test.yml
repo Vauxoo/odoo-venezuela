@@ -117,8 +117,8 @@
   1.8 I create invoice by clicking on Create button
 -
   !python {model: account.invoice}: |
-    import workflow
-    wf_service = workflow
+    import netsvc
+    wf_service = netsvc.LocalService("workflow")
     wf_service.trg_validate(uid, 'account.invoice', ref("spl_test01"), 'invoice_open', cr)
 -
   1.9 I check that Initially customer invoice is in the "Draft" state
