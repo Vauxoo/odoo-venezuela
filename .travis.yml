@@ -35,7 +35,7 @@ python:
   - "2.7"
 env:
   global:
-  - TEST_OTHER_PROJECTS=${HOME}/addons-vauxoo LINT_CHECK=0 TESTS="0" VERSION="7.0" ODOO_REPO="vauxoo/odoo" INCLUDE="ovl_all"
+  - TEST_OTHER_PROJECTS=${HOME}/addons-vauxoo LINT_CHECK=0 TESTS="0" VERSION="8.0" ODOO_REPO="vauxoo/odoo" INCLUDE="ovl"
 
   matrix:
   - LINT_CHECK=1

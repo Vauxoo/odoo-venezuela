@@ -23,7 +23,7 @@ import ast
 import datetime
 import time
 
-from openerp import netsvc
+from openerp import workflow
 from openerp.osv import fields, osv
 from openerp.tools.translate import _
 
@@ -153,7 +153,7 @@ class account_invoice_refund(osv.osv_memory):
 
         awi_obj = self.pool.get('account.wh.iva')
         iwd_obj = self.pool.get('islr.wh.doc')
-        wf_service = netsvc.LocalService("workflow")
+        wf_service = workflow
 
         if ret_iva_id:
             awi_obj.compute_amount_wh(cr, uid, [ret_iva_id], context=context)
@@ -179,7 +179,7 @@ class account_invoice_refund(osv.osv_memory):
         account_m_line_obj = self.pool.get('account.move.line')
         mod_obj = self.pool.get('ir.model.data')
         act_obj = self.pool.get('ir.actions.act_window')
-        wf_service = netsvc.LocalService('workflow')
+        wf_service = workflow
         inv_tax_obj = self.pool.get('account.invoice.tax')
         inv_line_obj = self.pool.get('account.invoice.line')
         res_users_obj = self.pool.get('res.users')

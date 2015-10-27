@@ -20,10 +20,9 @@ from openerp.tools.translate import _
 
 from StringIO import StringIO
 
-# import pooler
-# import decimal_precision as dp
+# from openerp.addons.decimal_precision import decimal_precision as dp
 import time
-# import netsvc
+# import workflow
 import csv
 
 FIELDNAMES = [
