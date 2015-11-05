@@ -11,22 +11,22 @@
             <field eval="0" name="withholdable"/>
             <field eval="'NO APLICA RETENCION'" name="name"/>
         </record>
-        
+
         <record id="islr_wh_concept_hprof_no_mercantiles" model="islr.wh.concept">
             <field eval="1" name="withholdable"/>
             <field eval="'Honorarios Profesionales No Mercantiles'" name="name"/>
         </record>
-        
+
         <record id="islr_wh_concept_cualquie_cosa_menos_sueldos" model="islr.wh.concept">
             <field eval="1" name="withholdable"/>
             <field eval="'Cualquier otra Comisión distintas a Remuneraciones accesorias de los sueldos, salarios y demás remuneraciones similares'" name="name"/>
         </record>
-        
+
         <record id="islr_wh_concept_pago_contratistas" model="islr.wh.concept">
             <field eval="1" name="withholdable"/>
             <field eval="'Pagos a Empresas Contratistas o Subcontratistas domiciliadas o no en el país, por la ejecución de obras o de la prestación de servicios en base a valuaciones y ordenes de pago'" name="name"/>
         </record>
-        
+
         <record id="islr_wh_concept_pagos_transportes_y_fletes" model="islr.wh.concept">
             <field eval="1" name="withholdable"/>
             <field eval="'Pagos por Gastos de Transporte conformados por Fletes'" name="name"/>
@@ -317,111 +317,111 @@
         <record id="islr_rates_061" model="islr.rates">
             <field eval="'061'" name="code"/>
             <field eval="1" name="nature"/>
-            <field eval="1" name="residence"/>  
-            <field eval="83.33" name="minimum"/>                
-            <field eval="100.00" name="base"/>                               
-            <field eval="3.00" name="wh_perc"/>                                        
-            <field eval="2.50" name="subtract"/>    
+            <field eval="1" name="residence"/>
+            <field eval="83.33" name="minimum"/>
+            <field eval="100.00" name="base"/>
+            <field eval="3.00" name="wh_perc"/>
+            <field eval="2.50" name="subtract"/>
             <field name="concept_id" ref="islr_wh_concept_canon_arrendamiento_bienes_en_el_pais"/>
         </record>
         <record id="islr_rates_062" model="islr.rates">
             <field eval="'062'" name="code"/>
             <field eval="1" name="nature"/>
-            <field eval="0" name="residence"/>  
-            <field eval="0.00" name="minimum"/>                
-            <field eval="100.00" name="base"/>                               
-            <field eval="34.00" name="wh_perc"/>                                        
-            <field eval="0.00" name="subtract"/>    
+            <field eval="0" name="residence"/>
+            <field eval="0.00" name="minimum"/>
+            <field eval="100.00" name="base"/>
+            <field eval="34.00" name="wh_perc"/>
+            <field eval="0.00" name="subtract"/>
             <field name="concept_id" ref="islr_wh_concept_canon_arrendamiento_bienes_en_el_pais"/>
         </record>
         <record id="islr_rates_063" model="islr.rates">
             <field eval="'063'" name="code"/>
             <field eval="0" name="nature"/>
-            <field eval="1" name="residence"/>  
-            <field eval="0.33" name="minimum"/>                
-            <field eval="100.00" name="base"/>                               
-            <field eval="5.00" name="wh_perc"/>                                        
-            <field eval="0.00" name="subtract"/>    
+            <field eval="1" name="residence"/>
+            <field eval="0.33" name="minimum"/>
+            <field eval="100.00" name="base"/>
+            <field eval="5.00" name="wh_perc"/>
+            <field eval="0.00" name="subtract"/>
             <field name="concept_id" ref="islr_wh_concept_canon_arrendamiento_bienes_en_el_pais"/>
         </record>
         <record id="islr_rates_064" model="islr.rates">
             <field eval="'064'" name="code"/>
             <field eval="0" name="nature"/>
-            <field eval="0" name="residence"/>  
-            <field eval="0.00" name="minimum"/>                
-            <field eval="100.00" name="base"/>                               
-            <field eval="5.00" name="wh_perc"/>                                        
-            <field eval="0.00" name="subtract"/>    
+            <field eval="0" name="residence"/>
+            <field eval="0.00" name="minimum"/>
+            <field eval="100.00" name="base"/>
+            <field eval="5.00" name="wh_perc"/>
+            <field eval="0.00" name="subtract"/>
             <field name="concept_id" ref="islr_wh_concept_canon_arrendamiento_bienes_en_el_pais"/>
         </record>
         <record id="islr_rates_057" model="islr.rates">
             <field eval="'057'" name="code"/>
             <field eval="1" name="nature"/>
-            <field eval="1" name="residence"/>  
-            <field eval="83.33" name="minimum"/>                
-            <field eval="100.00" name="base"/>                               
-            <field eval="3.00" name="wh_perc"/>     
-            <field eval="2.50" name="subtract"/>    
+            <field eval="1" name="residence"/>
+            <field eval="83.33" name="minimum"/>
+            <field eval="100.00" name="base"/>
+            <field eval="3.00" name="wh_perc"/>
+            <field eval="2.50" name="subtract"/>
             <field name="concept_id" ref="islr_wh_concept_pago_arrendadores_en_el_pais"/>
         </record>
         <record id="islr_rates_058" model="islr.rates">
             <field eval="'058'" name="code"/>
             <field eval="1" name="nature"/>
-            <field eval="0" name="residence"/> 
-            <field eval="0.00" name="minimum"/>           
-            <field eval="100.00" name="base"/>                         
-            <field eval="34.00" name="wh_perc"/>                                    
-            <field eval="0.00" name="subtract"/>                                               
+            <field eval="0" name="residence"/>
+            <field eval="0.00" name="minimum"/>
+            <field eval="100.00" name="base"/>
+            <field eval="34.00" name="wh_perc"/>
+            <field eval="0.00" name="subtract"/>
             <field name="concept_id" ref="islr_wh_concept_pago_arrendadores_en_el_pais"/>
         </record>
         <record id="islr_rates_059" model="islr.rates">
             <field eval="'059'" name="code"/>
             <field eval="0" name="nature"/>
-            <field eval="1" name="residence"/>  
-            <field eval="0.33" name="minimum"/>                
-            <field eval="100.00" name="base"/>                               
-            <field eval="5.00" name="wh_perc"/>                                        
-            <field eval="0.00" name="subtract"/>    
+            <field eval="1" name="residence"/>
+            <field eval="0.33" name="minimum"/>
+            <field eval="100.00" name="base"/>
+            <field eval="5.00" name="wh_perc"/>
+            <field eval="0.00" name="subtract"/>
             <field name="concept_id" ref="islr_wh_concept_pago_arrendadores_en_el_pais"/>
         </record>
         <record id="islr_rates_049" model="islr.rates">
             <field eval="'049'" name="code"/>
             <field eval="1" name="nature"/>
-            <field eval="1" name="residence"/>  
-            <field eval="83.33" name="minimum"/>            
-            <field eval="100.00" name="base"/>                         
-            <field eval="3.00" name="wh_perc"/>                                   
-            <field eval="2.50" name="subtract"/>                                               
-            <field name="concept_id" ref="islr_wh_concept_pagos_propietarios_animales_carrera_premios"/>                         
+            <field eval="1" name="residence"/>
+            <field eval="83.33" name="minimum"/>
+            <field eval="100.00" name="base"/>
+            <field eval="3.00" name="wh_perc"/>
+            <field eval="2.50" name="subtract"/>
+            <field name="concept_id" ref="islr_wh_concept_pagos_propietarios_animales_carrera_premios"/>
         </record>
         <record id="islr_rates_050" model="islr.rates">
             <field eval="'050'" name="code"/>
             <field eval="1" name="nature"/>
-            <field eval="0" name="residence"/>  
-            <field eval="0.00" name="minimum"/>                
-            <field eval="100.00" name="base"/>                               
-            <field eval="34.00" name="wh_perc"/>     
-            <field eval="0.00" name="subtract"/>    
+            <field eval="0" name="residence"/>
+            <field eval="0.00" name="minimum"/>
+            <field eval="100.00" name="base"/>
+            <field eval="34.00" name="wh_perc"/>
+            <field eval="0.00" name="subtract"/>
             <field name="concept_id" ref="islr_wh_concept_pagos_propietarios_animales_carrera_premios"/>
         </record>
         <record id="islr_rates_051" model="islr.rates">
             <field eval="'051'" name="code"/>
             <field eval="0" name="nature"/>
-            <field eval="1" name="residence"/>  
-            <field eval="0.32" name="minimum"/>                
-            <field eval="100.00" name="base"/>                               
-            <field eval="5.00" name="wh_perc"/>     
-            <field eval="0.00" name="subtract"/>    
+            <field eval="1" name="residence"/>
+            <field eval="0.32" name="minimum"/>
+            <field eval="100.00" name="base"/>
+            <field eval="5.00" name="wh_perc"/>
+            <field eval="0.00" name="subtract"/>
             <field name="concept_id" ref="islr_wh_concept_pagos_propietarios_animales_carrera_premios"/>
         </record>
         <record id="islr_rates_052" model="islr.rates">
             <field eval="'052'" name="code"/>
             <field eval="0" name="nature"/>
-            <field eval="0" name="residence"/>  
-            <field eval="0.00" name="minimum"/>                
-            <field eval="100.00" name="base"/>                               
-            <field eval="5.00" name="wh_perc"/>     
-            <field eval="0.00" name="subtract"/>    
+            <field eval="0" name="residence"/>
+            <field eval="0.00" name="minimum"/>
+            <field eval="100.00" name="base"/>
+            <field eval="5.00" name="wh_perc"/>
+            <field eval="0.00" name="subtract"/>
             <field name="concept_id" ref="islr_wh_concept_pagos_propietarios_animales_carrera_premios"/>
         </record>
         <record id="islr_rates_045" model="islr.rates">
@@ -437,32 +437,32 @@
         <record id="islr_rates_046" model="islr.rates">
             <field eval="'046'" name="code"/>
             <field eval="1" name="nature"/>
-            <field eval="0" name="residence"/>  
-            <field eval="0.00" name="minimum"/>            
-            <field eval="100.00" name="base"/>                         
-            <field eval="16.00" name="wh_perc"/>                                   
-            <field eval="0.00" name="subtract"/>                                               
-            <field name="concept_id" ref="islr_wh_concept_loterias_e_hipodromos"/>                         
+            <field eval="0" name="residence"/>
+            <field eval="0.00" name="minimum"/>
+            <field eval="100.00" name="base"/>
+            <field eval="16.00" name="wh_perc"/>
+            <field eval="0.00" name="subtract"/>
+            <field name="concept_id" ref="islr_wh_concept_loterias_e_hipodromos"/>
         </record>
         <record id="islr_rates_047" model="islr.rates">
             <field eval="'047'" name="code"/>
             <field eval="0" name="nature"/>
-            <field eval="1" name="residence"/>  
-            <field eval="0.00" name="minimum"/>            
-            <field eval="100.00" name="base"/>                         
-            <field eval="16.00" name="wh_perc"/>                                   
-            <field eval="0.00" name="subtract"/>                                               
-            <field name="concept_id" ref="islr_wh_concept_loterias_e_hipodromos"/>                         
+            <field eval="1" name="residence"/>
+            <field eval="0.00" name="minimum"/>
+            <field eval="100.00" name="base"/>
+            <field eval="16.00" name="wh_perc"/>
+            <field eval="0.00" name="subtract"/>
+            <field name="concept_id" ref="islr_wh_concept_loterias_e_hipodromos"/>
         </record>
         <record id="islr_rates_048" model="islr.rates">
             <field eval="'048'" name="code"/>
             <field eval="0" name="nature"/>
-            <field eval="0" name="residence"/>  
-            <field eval="0.00" name="minimum"/>            
-            <field eval="100.00" name="base"/>                         
-            <field eval="16.00" name="wh_perc"/>                                   
-            <field eval="0.00" name="subtract"/>                                               
-            <field name="concept_id" ref="islr_wh_concept_loterias_e_hipodromos"/>                         
+            <field eval="0" name="residence"/>
+            <field eval="0.00" name="minimum"/>
+            <field eval="100.00" name="base"/>
+            <field eval="16.00" name="wh_perc"/>
+            <field eval="0.00" name="subtract"/>
+            <field name="concept_id" ref="islr_wh_concept_loterias_e_hipodromos"/>
         </record>
         <record id="islr_rates_041" model="islr.rates">
             <field eval="'041'" name="code"/>
@@ -534,7 +534,7 @@
             <field eval="0.00" name="subtract"/>
             <field name="concept_id" ref="islr_wh_concept_asistencia_tecnica"/>
         </record>
-        
+
         <record id="islr_rates_034" model="islr.rates">
             <field eval="'034'" name="code"/>
             <field eval="1" name="nature"/>
@@ -855,7 +855,7 @@
             <field eval="0.00" name="subtract"/>
             <field name="concept_id" ref="islr_wh_concept_pagos_de_servicios_publicitarios"/>
         </record>
-		<record id="islr_rates_059" model="islr.rates">
+		<record id="islr_rates_059_duplicated" model="islr.rates">
 			<field eval="'059'" name="code"/>
 			<field eval="0" name="nature"/>
             <field eval="1" name="residence"/>

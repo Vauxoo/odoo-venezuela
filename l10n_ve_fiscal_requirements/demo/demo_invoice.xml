@@ -14,7 +14,7 @@
             <field name="account_id" ref="account.a_pay"/>
             <field name="partner_id" ref="l10n_ve_fiscal_requirements.f_req_partner_2"/>
         </record>
-        
+
         <record id="account_invoice_line_2" model="account.invoice.line">
             <field name="account_id" ref="account.a_expense"/>
             <field name="invoice_id" ref="demo_fr_invoice_2"/>
@@ -34,8 +34,8 @@
             <field name="account_id" ref="account.a_recv"/>
             <field name="partner_id" ref="l10n_ve_fiscal_requirements.f_req_partner_2"/>
         </record>
-        
-        <record id="account_invoice_line_2" model="account.invoice.line">
+
+        <record id="account_invoice_line_3" model="account.invoice.line">
             <field name="account_id" ref="account.a_sale"/>
             <field name="invoice_id" ref="demo_fr_invoice_3"/>
             <field eval="30.0" name="price_unit"/>

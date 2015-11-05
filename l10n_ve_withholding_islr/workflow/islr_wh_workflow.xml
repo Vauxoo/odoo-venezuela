@@ -8,12 +8,6 @@
             <field name="on_create">True</field>
         </record>
 
-        <record id="act_draft" model="workflow.activity">
-            <field name="wkf_id" ref="wh_islr_order"/>
-            <field name="flow_start">True</field>
-            <field name="name">draft</field>
-        </record>
-        
         <record id="act_confirmed" model="workflow.activity">
             <field name="wkf_id" ref="wh_islr_order"/>
             <field name="action">action_confirm()</field>
@@ -27,7 +21,7 @@
             <field name="name">done</field>
             <field name="action">action_done()</field>
         </record>
-        
+
         <record id="act_draft" model="workflow.activity">
             <field name="wkf_id" ref="wh_islr_order"/>
             <field name="kind">function</field>
@@ -56,7 +50,7 @@ write({'state':'cancel'})</field>
             <field name="condition">check_income_wh()</field>
             <field name="signal">act_confirm</field>
         </record>
-        
+
         <record id="trans_draft_confirmed_2" model="workflow.transition">
             <field name="act_from" ref="act_draft"/>
             <field name="act_to" ref="act_confirmed"/>
@@ -68,7 +62,7 @@ write({'state':'cancel'})</field>
             <field name="act_to" ref="act_done"/>
             <field name="condition">check_auto_wh()</field>
         </record>
-        
+
         <record id="trans_confirmed_cancel" model="workflow.transition">
             <field name="act_from" ref="act_confirmed"/>
             <field name="act_to" ref="act_cancel"/>

@@ -20,7 +20,7 @@
             <field name="type">other</field>
             <field name="user_type" ref="account.data_account_type_asset"/>
         </record>
-        
+
         <record id="islr_pay" model="account.account">
             <field name="code">XX1114</field>
             <field name="name">Impuestos sobre la Renta por Pagar(ISLR)</field>
@@ -29,14 +29,16 @@
             <field name="user_type" ref="account.data_account_type_liability"/>
         </record>
 
-        <!--Concepts 
-            Just adding accounts to concepts to be able to execute the withholding     
+        <!-- TODO: Remove 'islr.wh.concept' records once have been made a functional check -->
+        <!--Concepts
+            Just adding accounts to concepts to be able to execute the withholding
         -->
+        <!--
         <record id="islr_wh_concept_hprof_no_mercantiles" model="islr.wh.concept">
             <field name="property_retencion_islr_payable" ref="islr_pay"/>
             <field name="property_retencion_islr_receivable" ref="islr_rec"/>
         </record>
-        
+
         <record id="islr_wh_concept_pago_contratistas" model="islr.wh.concept">
             <field name="property_retencion_islr_payable" ref="islr_pay"/>
             <field name="property_retencion_islr_receivable" ref="islr_rec"/>
@@ -191,7 +193,7 @@
             <field name="property_retencion_islr_payable" ref="islr_pay"/>
             <field name="property_retencion_islr_receivable" ref="islr_rec"/>
         </record>
-
+        -->
         <!--Sequence-->
         <record id="seq_wh_islr_purchase_type" model="ir.sequence.type">
             <field name="name">Retencion de ISLR Compra</field>
@@ -237,7 +239,7 @@
             <field name="type">islr_purchase</field>
             <field name="sequence_id" ref="seq_wh_islr_purchase_journal"/>
         </record>
-        
+
         <record id="withholding_sale_journal" model="account.journal">
             <field name="name">DIARIO DE ISLR VENTA</field>
             <field name="code">ISLR2</field>
@@ -250,7 +252,7 @@
         -->
         <!--
         Invoices Suppliers:
-        Testing invoice without product_id and a withholding concept with an amount higher 
+        Testing invoice without product_id and a withholding concept with an amount higher
         to the minimal to be computed.
         -->
 
@@ -262,7 +264,7 @@
             <field name="account_id" ref="account.a_pay"/>
             <field name="partner_id" ref="l10n_ve_fiscal_requirements.f_req_partner_1"/>
         </record>
-        
+
         <record id="account_invoice_line_0" model="account.invoice.line">
             <field name="account_id" ref="account.a_expense"/>
             <field name="invoice_id" ref="demo_islr_invoice_0"/>
@@ -273,7 +275,7 @@
         </record>
         <!--
         Invoices Suppliers:
-        Testing invoice without product_id and a withholding concept with an amount lower 
+        Testing invoice without product_id and a withholding concept with an amount lower
         to the minimal to be computed.
         -->
         <record id="demo_islr_invoice_1" model="account.invoice">
@@ -284,7 +286,7 @@
             <field name="account_id" ref="account.a_pay"/>
             <field name="partner_id" ref="l10n_ve_fiscal_requirements.f_req_partner_2"/>
         </record>
-        
+
         <record id="account_invoice_line_1" model="account.invoice.line">
             <field name="account_id" ref="account.a_expense"/>
             <field name="invoice_id" ref="demo_islr_invoice_1"/>
@@ -296,7 +298,7 @@
 
         <!--
         Invoices Suppliers:
-        Testing invoice without product_id and a withholding concept with an amount lower 
+        Testing invoice without product_id and a withholding concept with an amount lower
         to the minimal without compute by UT to be computed with a concept with only 1 criteria for whi
         it should return an WH income with 0.
         -->
@@ -308,7 +310,7 @@
             <field name="account_id" ref="account.a_pay"/>
             <field name="partner_id" ref="l10n_ve_fiscal_requirements.f_req_partner_2"/>
         </record>
-        
+
         <record id="account_invoice_line_2" model="account.invoice.line">
             <field name="account_id" ref="account.a_expense"/>
             <field name="invoice_id" ref="demo_islr_invoice_2"/>
@@ -330,7 +332,7 @@
             <field name="account_id" ref="account.a_pay"/>
             <field name="partner_id" ref="l10n_ve_fiscal_requirements.f_req_partner_9"/>
         </record>
-        
+
         <record id="account_invoice_line_3" model="account.invoice.line">
             <field name="account_id" ref="account.a_expense"/>
             <field name="invoice_id" ref="demo_islr_invoice_3"/>
@@ -358,7 +360,7 @@
             <field eval="1182000.1" name="amount_total"/>
             <field name="partner_id" ref="l10n_ve_withholding_islr.res_partner_gutierrezrrohgere0"/>
         </record>
-        
+
         <record id="account_invoice_line_facturapersonanaturalresidenciada1" model="account.invoice.line">
             <field eval="0" name="apply_wh"/>
             <field name="account_id" ref="l10n_ve_withholding_islr.a_islr"/>
@@ -391,7 +393,7 @@
             <field eval="2424000.0" name="amount_total"/>
             <field name="partner_id" ref="l10n_ve_withholding_islr.res_partner_viajesmirandaca0"/>
         </record>
-        
+
         <record id="account_invoice_line_facturapersonajuridicanodomiciliada0" model="account.invoice.line">
             <field eval="0" name="apply_wh"/>
             <field name="account_id" ref="l10n_ve_withholding_islr.a_islr"/>
@@ -424,7 +426,7 @@
             <field eval="1568000.0" name="amount_total"/>
             <field name="partner_id" ref="l10n_ve_withholding_islr.res_partner_nhomarhernandez0"/>
         </record>
-        
+
         <record id="account_invoice_line_facturapersonanaturalnoresidente0" model="account.invoice.line">
             <field eval="0" name="apply_wh"/>
             <field name="account_id" ref="l10n_ve_withholding_islr.a_islr"/>
@@ -437,7 +439,7 @@
             <field name="concept_id" ref="l10n_ve_withholding_islr.islr_wh_concept_pago_contratistas"/>
             <field name="name">Factura 3. Persona Natural no Residente</field>
         </record>
-        
+
 
 
         <record id="account_invoice_5" model="account.invoice">
@@ -498,7 +500,7 @@
             <field name="concept_id" ref="l10n_ve_withholding_islr.islr_wh_concept_pago_contratistas"/>
             <field name="name">Fact3 CUS. Persona Juridica Domiciliada</field>
         </record>
-              
+
         <record id="account_invoice_7" model="account.invoice">
             <field name="currency_id" ref="base.VEF"/>
             <field name="journal_id" ref="account.sales_journal"/>

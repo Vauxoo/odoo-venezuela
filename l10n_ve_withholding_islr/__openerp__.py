@@ -39,7 +39,6 @@
         "l10n_ve_fiscal_requirements",
         "product",
         "report_webkit",
-        # ,"edi"],
     ],
     "data": [
         "view/installer.xml",
@@ -59,7 +58,6 @@
         "view/islr_xml_wh.xml",
         "workflow/islr_wh_workflow.xml",
         "workflow/wh_action_server.xml",
-        # "edi/islr_wh_doc_action_data.xml",
         "wizard/partner_income_wh_print_view.xml",
         "wizard/employee_income_wh.xml",
         "data/partner_income_wh_report_data.xml",
