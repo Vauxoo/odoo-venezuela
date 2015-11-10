@@ -24,20 +24,14 @@
 ###############################################################################
 import logging
 
-from openerp.osv import fields, osv
+from openerp import models, fields
 
 
-class ResPartner(osv.osv):
+class ResPartner(models.Model):
     _inherit = 'res.partner'
     logger = logging.getLogger('res.partner')
 
-    _columns = {
-        'consolidate_vat_wh': fields.boolean(
-            'Fortnight Consolidate Wh. VAT',
-            help='If set then the withholdings vat generate in a same'
-            ' fornight will be grouped in one withholding receipt.'),
-    }
-
-    _defaults = {
-        'wh_iva_rate': lambda *a: 100.0,
-    }
+    consolidate_vat_wh = fields.Boolean(
+        string='Fortnight Consolidate Wh. VAT',
+        help='If set then the withholdings vat generate in a same'
+        ' fornight will be grouped in one withholding receipt.')
