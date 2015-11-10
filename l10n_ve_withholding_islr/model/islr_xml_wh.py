@@ -127,7 +127,7 @@ class IslrXmlWhDoc(osv.osv):
         })
 
         return super(IslrXmlWhDoc, self).copy(cr, uid, ids, default,
-                                                 context)
+                                              context)
 
     def period_return(self, cr, uid, context=None):
         """ Return current period

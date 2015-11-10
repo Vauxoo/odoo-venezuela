@@ -728,7 +728,7 @@ class IslrWhDoc(osv.osv):
                       " to be deleted."))
             else:
                 super(IslrWhDoc, self).unlink(cr, uid, islr_brw.id,
-                                                context=context)
+                                              context=context)
         return True
 
     def _dummy_cancel_check(self, cr, uid, ids, context=None):
@@ -840,7 +840,7 @@ class AccountInvoice(osv.osv):
         default.update({'islr_wh_doc_id': 0})
 
         return super(AccountInvoice, self).copy(cr, uid, ids, default,
-                                                 context)
+                                                context)
 
 
 class IslrWhDocInvoices(osv.osv):
@@ -1255,8 +1255,8 @@ class IslrWhDocInvoices(osv.osv):
                           ('residence', '=', residence), ]
         order = 'minimum desc'
 
-        date_ret = (inv_brw and inv_brw.islr_wh_doc_id.date_uid
-                    or time.strftime('%Y-%m-%d'))
+        date_ret = inv_brw and inv_brw.islr_wh_doc_id.date_uid or \
+            time.strftime('%Y-%m-%d')
 
         concept_brw = self.pool.get('islr.wh.concept').browse(cr, uid,
                                                               concept_id)

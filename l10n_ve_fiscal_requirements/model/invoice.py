@@ -37,7 +37,7 @@ class AccountInvoice(osv.osv):
 
         context = context or {}
         res = super(AccountInvoice, self)._get_journal(cr, uid,
-                                                        context=context)
+                                                       context=context)
         if res:
             return res
         type_inv = context.get('type', 'sale')
@@ -68,14 +68,15 @@ class AccountInvoice(osv.osv):
                 inv.nro_ctrl is not '' and inv.nro_ctrl is not False and
                 inv.supplier_invoice_number is not False and
                 self.search(cr, uid, [
-                    '|', ('nro_ctrl', '=', inv.nro_ctrl and
-                          inv.nro_ctrl.strip()),
-                    ('supplier_invoice_number', '=',
-                     inv.supplier_invoice_number
-                     and inv.supplier_invoice_number.strip()),
-                    ('type', '=', inv.type),
-                    ('partner_id', '=', inv.partner_id.id)], context=context)
-                or [])
+                        '|',
+                        ('nro_ctrl', '=', inv.nro_ctrl and
+                            inv.nro_ctrl.strip()),
+                        ('supplier_invoice_number', '=',
+                            inv.supplier_invoice_number and
+                            inv.supplier_invoice_number.strip()),
+                        ('type', '=', inv.type),
+                        ('partner_id', '=', inv.partner_id.id)
+                ], context=context) or [])
             if [True for i in inv_ids if i not in ids_ivo] and inv_ids:
                 return False
         return True
@@ -91,8 +92,8 @@ class AccountInvoice(osv.osv):
         rc_obj = self.pool.get('res.company')
         rc_brw = rc_obj.browse(cr, uid, ru_brw.company_id.id, context=context)
 
-        if (rc_brw.country_id and rc_brw.country_id.code == 'VE'
-                and rc_brw.printer_fiscal):
+        if rc_brw.country_id and rc_brw.country_id.code == 'VE' and \
+                rc_brw.printer_fiscal:
             res = False
         return res
 
@@ -164,7 +165,7 @@ class AccountInvoice(osv.osv):
             'z_report': '',
         })
         return super(AccountInvoice, self).copy(cr, uid, ids, default,
-                                                 context)
+                                                context)
 
     def write(self, cr, uid, ids, vals, context=None):
         context = context or {}
@@ -172,7 +173,7 @@ class AccountInvoice(osv.osv):
                 vals.get('date_invoice') and not vals.get('date_document'):
             vals['date_document'] = vals['date_invoice']
         return super(AccountInvoice, self).write(cr, uid, ids, vals,
-                                                  context=context)
+                                                 context=context)
 
 
 class AccountInvoiceTax(osv.osv):

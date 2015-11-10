@@ -162,7 +162,7 @@ class FiscalBookWizard(osv.osv_memory):
             cr, uid, [('id', '=', context['active_id'])])
         fiscal_book_o = fiscal_book_obj.browse(cr, uid, fiscal_book_o[0])
         res = super(FiscalBookWizard, self).default_get(cr, uid, field_list,
-                                                          context=context)
+                                                        context=context)
         res.update({'type': fiscal_book_o.type})
         res.update({'date_start':
                     fiscal_book_o.period_id and

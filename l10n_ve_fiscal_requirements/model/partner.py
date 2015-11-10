@@ -60,7 +60,7 @@ class ResPartner(osv.osv):
         # error W0621 Redefining name 'fields' from outer scope
         context = context or {}
         res = super(ResPartner, self).default_get(cr, uid, field_list,
-                                                   context=context)
+                                                  context=context)
         res.update({'uid_country': self._get_country_code(cr, uid,
                                                           context=context)})
         return res
@@ -93,6 +93,7 @@ class ResPartner(osv.osv):
 
     _default = {
         'seniat_updated': False,
+        'wh_iva_rate': lambda *a: 100.0,
     }
 
     def name_search(
@@ -119,8 +120,8 @@ class ResPartner(osv.osv):
         """
         context = context or {}
         partner_obj = self.browse(cr, uid, ids[0])
-        if (partner_obj.vat and partner_obj.vat[:2].upper() == 'VE'
-                and not partner_obj.parent_id):
+        if partner_obj.vat and partner_obj.vat[:2].upper() == 'VE' and \
+                not partner_obj.parent_id:
             res = partner_obj.type == 'invoice'
             if res:
                 return True
@@ -146,8 +147,8 @@ class ResPartner(osv.osv):
 
         for rp_brw in self.browse(cr, uid, ids):
             acc_part_brw = self._find_accounting_partner(rp_brw)
-            if (acc_part_brw.country_id
-                    and acc_part_brw.country_id.code != 'VE'):
+            if acc_part_brw.country_id and \
+                    acc_part_brw.country_id.code != 'VE':
                 continue
             elif not acc_part_brw.country_id:
                 continue
@@ -262,7 +263,7 @@ class ResPartner(osv.osv):
             context = {}
         if not value:
             return super(ResPartner, self).vat_change(cr, uid, ids, value,
-                                                       context=context)
+                                                      context=context)
         res = self.search(cr, uid, [('vat', 'ilike', value)])
         if res:
             rp = self.browse(cr, uid, res[0], context=context)
@@ -275,7 +276,7 @@ class ResPartner(osv.osv):
             }
         else:
             return super(ResPartner, self).vat_change(cr, uid, ids, value,
-                                                       context=context)
+                                                      context=context)
 
     def check_vat_ve(self, vat, context=None):
         """ Check Venezuelan VAT number, locally called RIF.

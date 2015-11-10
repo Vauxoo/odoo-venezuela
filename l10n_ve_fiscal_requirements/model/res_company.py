@@ -61,7 +61,7 @@ class ResCompany(osv.osv):
         context = dict(context or {})
         context.update({'create_company': True})
         return super(ResCompany, self).write(cr, uid, ids, values,
-                                              context=context)
+                                             context=context)
 
 
 ResCompany()

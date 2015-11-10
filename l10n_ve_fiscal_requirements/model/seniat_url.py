@@ -173,8 +173,8 @@ class SeniatUrl(osv.osv):
             else:
                 return False
         else:
-            if (xml_data.find('450') >= 0 or xml_data.find('452') >= 0
-                    or xml_data.find("404") >= 0):
+            if xml_data.find('450') >= 0 or xml_data.find('452') >= 0 or \
+                    xml_data.find("404") >= 0:
                 return True
             else:
                 return False

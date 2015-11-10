@@ -126,16 +126,14 @@ class AccountInvoice(osv.osv):
             direction = types[invoice.type]
 
             for tax_brw in to_wh:
+                acc = False
                 if types[invoice.type] == 1:
-                    acc = (
-                        tax_brw.wh_id.company_id.wh_src_collected_account_id
-                        and
-                        tax_brw.wh_id.company_id.wh_src_collected_account_id.id
-                        or False)
+                    coll = tax_brw.wh_id.company_id.wh_src_collected_account_id
+                    paid = tax_brw.wh_id.company_id.wh_src_paid_account_id
+                    acc = coll and coll.id or False
                 else:
-                    acc = (tax_brw.wh_id.company_id.wh_src_paid_account_id and
-                           tax_brw.wh_id.company_id.wh_src_paid_account_id.id
-                           or False)
+                    acc = paid and paid.id or False
+
                 if not acc:
                     raise osv.except_osv(
                         _('Missing Account in Company!'),
@@ -145,7 +143,7 @@ class AccountInvoice(osv.osv):
                 res.append((0, 0, {
                     'debit':
                     direction * tax_brw.wh_amount < 0 and
-                    - direction * tax_brw.wh_amount,
+                    (-direction * tax_brw.wh_amount),
                     'credit':
                     direction * tax_brw.wh_amount > 0 and
                     direction * tax_brw.wh_amount,
@@ -165,7 +163,7 @@ class AccountInvoice(osv.osv):
         for inv_brw in self.browse(cr, uid, ids, context=context):
             if not inv_brw.wh_src_id:
                 super(AccountInvoice, self).action_cancel(cr, uid, ids,
-                                                           context=context)
+                                                          context=context)
             else:
                 raise osv.except_osv(
                     _("Error!"),

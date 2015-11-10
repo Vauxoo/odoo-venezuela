@@ -75,8 +75,9 @@ class PartnerIncomeWhPrintwizard(osv.TransientModel):
             (addr.zip and ('Codigo Postal: %s, ' % addr.zip) or '') +\
             (addr.city and ('%s, ' % addr.city.title()) or '') + \
             (addr.state_id and ('%s, ' % addr.state_id.name.title()) or '') + \
-            (addr.country_id and ('%s ' % addr.country_id.name.title()) or '') \
-            or _('NO INVOICE ADDRESS DEFINED')
+            (addr.country_id and
+             ('%s ' % addr.country_id.name.title()) or
+             '') or _('NO INVOICE ADDRESS DEFINED')
         return addr_inv
 
     def print_report(self, cr, uid, ids, context=None):

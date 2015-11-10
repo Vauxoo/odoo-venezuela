@@ -47,7 +47,7 @@ class AccountInvoice(osv.osv):
             if (not inv_brw.fb_id or
                     (inv_brw.fb_id and inv_brw.fb_id.state == 'cancel')):
                 super(AccountInvoice, self).action_cancel(cr, uid, ids,
-                                                           context=context)
+                                                          context=context)
             else:
                 raise osv.except_osv(
                     _("Error!"),

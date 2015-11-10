@@ -345,7 +345,7 @@ class AccountWhMunici(osv.osv):
         context = context or {}
         ids = isinstance(ids, (int, long)) and [ids] or ids
         res = super(AccountWhMunici, self).write(cr, uid, ids, vals,
-                                                   context=context)
+                                                 context=context)
         self._update_check(cr, uid, ids, context=context)
         return res
 
@@ -354,7 +354,7 @@ class AccountWhMunici(osv.osv):
         """
         context = context or {}
         new_id = super(AccountWhMunici, self).create(cr, uid, vals,
-                                                       context=context)
+                                                     context=context)
         self._update_check(cr, uid, new_id, context=context)
         return new_id
 
@@ -370,7 +370,7 @@ class AccountWhMunici(osv.osv):
                       " to be deleted."))
             else:
                 super(AccountWhMunici, self).unlink(cr, uid, ids,
-                                                      context=context)
+                                                    context=context)
         return True
 
     def confirm_check(self, cr, uid, ids, context=None):
@@ -406,8 +406,8 @@ class AccountWhMuniciLine(osv.osv):
         if context is None:
             context = {}
         data = super(AccountWhMuniciLine, self).default_get(cr, uid,
-                                                               field_list,
-                                                               context)
+                                                            field_list,
+                                                            context)
         self.munici_context = context
         return data
 

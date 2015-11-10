@@ -115,8 +115,8 @@ class FiscalBook(orm.Model):
                 if fbl_brw.invoice_id or fbl_brw.cf_id:
                     fbl_op_type = fbl_brw.type in ['im', 'ex'] and 'imex' \
                         or fbl_brw.type
-                    res[fb_brw.id]["get_total_with_iva_" + fbl_op_type + "_sum"] += \
-                        fbl_brw.total_with_iva
+                    fbl_index = "get_total_with_iva_" + fbl_op_type + "_sum"
+                    res[fb_brw.id][fbl_index] += fbl_brw.total_with_iva
 
             res[fb_brw.id]['get_total_with_iva_sum'] = \
                 sum([res[fb_brw.id]["get_total_with_iva_" + optype + "_sum"]
@@ -997,20 +997,22 @@ class FiscalBook(orm.Model):
                     'type': t_type,
                     'accounting_date': iwdl_brw.date_ret or False,
                     'emission_date':
-                    iwdl_brw.date or iwdl_brw.date_ret or False,
+                        iwdl_brw.date or iwdl_brw.date_ret or False,
                     'doc_type': self.get_doc_type(cr, uid, iwdl_id=iwdl_brw.id,
                                                   fb_id=fb_id,
                                                   context=context),
                     'wh_number': iwdl_brw.retention_id.number or False,
                     'partner_name': rp_brw.name or 'N/A',
                     'partner_vat': rp_brw.vat or 'N/A',
-                    'affected_invoice': iwdl_brw.invoice_id.fiscal_printer
-                    and iwdl_brw.invoice_id.invoice_printer
-                    or (fb_brw.type == 'sale'
-                        and iwdl_brw.invoice_id.number
-                        or iwdl_brw.invoice_id.supplier_invoice_number),
-                    'affected_invoice_date': iwdl_brw.invoice_id.date_document
-                    or iwdl_brw.invoice_id.date_invoice,
+                    'affected_invoice':
+                        iwdl_brw.invoice_id.fiscal_printer and
+                        iwdl_brw.invoice_id.invoice_printer or
+                        (fb_brw.type == 'sale' and
+                         iwdl_brw.invoice_id.number or
+                         iwdl_brw.invoice_id.supplier_invoice_number),
+                    'affected_invoice_date':
+                        iwdl_brw.invoice_id.date_document or
+                        iwdl_brw.invoice_id.date_invoice,
                     'wh_rate': iwdl_brw.wh_iva_rate,
                 }
                 data.append((0, 0, values))
@@ -1033,42 +1035,57 @@ class FiscalBook(orm.Model):
             values = {
                 'invoice_id': inv_brw.id,
                 'emission_date':
-                (not imex_invoice) and
-                (inv_brw.date_document or inv_brw.date_invoice) or False,
+                    (not imex_invoice) and
+                    (inv_brw.date_document or inv_brw.date_invoice) or
+                    False,
                 'accounting_date':
-                (not imex_invoice) and inv_brw.date_invoice or False,
+                    (not imex_invoice) and
+                    inv_brw.date_invoice or
+                    False,
                 'imex_date':
-                imex_invoice and inv_brw.customs_form_id.date_liq or False,
-                'type': self.get_transaction_type(cr, uid, fb_id, inv_brw.id,
-                                                  context=context),
+                    imex_invoice and
+                    inv_brw.customs_form_id.date_liq or
+                    False,
+                'type': self.get_transaction_type(
+                    cr, uid, fb_id, inv_brw.id, context=context),
                 'debit_affected':
-                inv_brw.parent_id
-                and inv_brw.parent_id.type in ['in_invoice', 'out_invoice']
-                and inv_brw.parent_id.parent_id
-                and inv_brw.parent_id.number or False,
+                    inv_brw.parent_id and
+                    inv_brw.parent_id.type in
+                    ['in_invoice', 'out_invoice'] and
+                    inv_brw.parent_id.parent_id and
+                    inv_brw.parent_id.number or
+                False,
                 'credit_affected':
-                inv_brw.parent_id and
-                inv_brw.parent_id.type in ['in_refund', 'out_refund']
-                and inv_brw.parent_id.number or False,
+                    inv_brw.parent_id and
+                    inv_brw.parent_id.type in
+                    ['in_refund', 'out_refund'] and
+                    inv_brw.parent_id.number or
+                    False,
                 'ctrl_number':
-                not inv_brw.fiscal_printer and inv_brw.nro_ctrl or False,
+                    not inv_brw.fiscal_printer and
+                    inv_brw.nro_ctrl or
+                    False,
                 'affected_invoice':
-                (doc_type == "N/DE" or doc_type == "N/CR")
-                and (inv_brw.parent_id and inv_brw.parent_id.number or False)
-                or False,
+                    (doc_type == "N/DE" or doc_type == "N/CR") and (
+                        inv_brw.parent_id and
+                        inv_brw.parent_id.number or
+                        False) or
+                    False,
                 'partner_name': rp_brw.name or 'N/A',
-                'partner_vat': rp_brw.vat
-                and rp_brw.vat[2:] or 'N/A',
-                'invoice_number': inv_brw.fiscal_printer
-                and inv_brw.invoice_printer
-                or (fb_brw.type == 'sale'
-                    and inv_brw.number
-                    or inv_brw.supplier_invoice_number),
+                'partner_vat': rp_brw.vat and rp_brw.vat[2:] or 'N/A',
+                'invoice_number':
+                    inv_brw.fiscal_printer and
+                    inv_brw.invoice_printer or(
+                        fb_brw.type == 'sale' and
+                        inv_brw.number or
+                        inv_brw.supplier_invoice_number),
                 'doc_type': doc_type,
-                'void_form': inv_brw.name and
-                (inv_brw.name.find('PAPELANULADO') >= 0
-                 and '03-ANU' or '01-REG')
-                or '01-REG',
+                'void_form':
+                    inv_brw.name and (
+                        inv_brw.name.find('PAPELANULADO') >= 0 and
+                        '03-ANU' or
+                        '01-REG') or
+                    '01-REG',
                 'fiscal_printer': inv_brw.fiscal_printer or False,
                 'z_report': inv_brw.z_report or False,
                 'custom_statement': inv_brw.customs_form_id.name or False,
@@ -1132,8 +1149,8 @@ class FiscalBook(orm.Model):
         cfl_brws = cf_obj.browse(cr, uid, cf_id, context=context).cfl_ids
         amount = sum([cfl_brw.amount
                       for cfl_brw in cfl_brws
-                      if cfl_brw.tax_code.partner_id.id == partner_id
-                      and not cfl_brw.tax_code.vat_detail])
+                      if cfl_brw.tax_code.partner_id.id == partner_id and
+                      not cfl_brw.tax_code.vat_detail])
         return amount
 
     def get_grouped_consecutive_lines_ids(self, cr, uid, lines_ids,

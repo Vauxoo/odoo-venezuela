@@ -98,14 +98,14 @@ class AccountInvoiceLine(osv.osv):
         context = context or {}
         data = super(
             AccountInvoiceLine, self).product_id_change(cr, uid, ids,
-                                                          product, uom,
-                                                          qty, name,
-                                                          type, partner_id,
-                                                          fposition_id,
-                                                          price_unit,
-                                                          currency_id,
-                                                          context,
-                                                          company_id)
+                                                        product, uom,
+                                                        qty, name,
+                                                        type, partner_id,
+                                                        fposition_id,
+                                                        price_unit,
+                                                        currency_id,
+                                                        context,
+                                                        company_id)
         if product:
             pro = self.pool.get('product.product').browse(
                 cr, uid, product, context=context)
@@ -122,7 +122,7 @@ class AccountInvoiceLine(osv.osv):
                          'apply_wh': False,
                          })
         return super(AccountInvoiceLine, self).create(cr, uid, vals,
-                                                        context=context)
+                                                      context=context)
 
 
 class AccountInvoice(osv.osv):
@@ -248,7 +248,7 @@ class AccountInvoice(osv.osv):
                         })
         context.update({'new_key': True})
         return super(AccountInvoice, self).copy(cr, uid, ids, default,
-                                                 context)
+                                                context)
 
     def _refund_cleanup_lines(self, cr, uid, lines, context=None):
         """ Initializes the fields of the lines of a refund invoice
@@ -322,14 +322,11 @@ class AccountInvoice(osv.osv):
 
         for iwdl_brw in to_wh:
             if inv_brw.type in ('out_invoice', 'out_refund'):
-                acc = (
-                    iwdl_brw.concept_id.property_retencion_islr_receivable and
-                    iwdl_brw.concept_id.property_retencion_islr_receivable.id
-                    or False)
+                rec = iwdl_brw.concept_id.property_retencion_islr_receivable
+                pay = iwdl_brw.concept_id.property_retencion_islr_payable
+                acc = rec and rec.id or False
             else:
-                acc = (iwdl_brw.concept_id.property_retencion_islr_payable and
-                       iwdl_brw.concept_id.property_retencion_islr_payable.id
-                       or False)
+                acc = pay and pay.id or False
             if not acc:
                 raise osv.except_osv(_('Missing Account in Tax!'),
                                      _("Tax [%s] has missing account. "

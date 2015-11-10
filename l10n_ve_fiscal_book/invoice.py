@@ -182,11 +182,11 @@ class InheritedInvoice(osv.osv):
             ret.update({i: ''})
         if invs:
             for inv in invs:
-                if ((inv.type == "in_invoice" or inv.type == "out_invoice")
-                        and inv.parent_id):
+                if (inv.type == "in_invoice" or
+                        inv.type == "out_invoice") and inv.parent_id:
                     doc_type = "ND"
-                elif ((inv.type == "in_invoice" or inv.type == "in_refund")
-                      and inv.expedient):
+                elif (inv.type == "in_invoice" or
+                        inv.type == "in_refund") and inv.expedient:
                     doc_type = "E"
                 elif inv.type == 'in_refund' or inv.type == 'out_refund':
                     doc_type = "NC"
@@ -206,11 +206,11 @@ class InheritedInvoice(osv.osv):
             ret.update({i: ''})
         if invs:
             for inv in invs:
-                if ((inv.type == "in_invoice" or inv.type == "out_invoice")
-                        and inv.parent_id):
+                if (inv.type == "in_invoice" or
+                        inv.type == "out_invoice") and inv.parent_id:
                     doc_type = "N/DE"
-                elif ((inv.type == "in_invoice" or inv.type == "in_refund")
-                      and inv.expedient):
+                elif (inv.type == "in_invoice" or
+                        inv.type == "in_refund") and inv.expedient:
                     doc_type = "E"
                 elif inv.type == 'in_refund' or inv.type == 'out_refund':
                     doc_type = "N/CR"
@@ -299,11 +299,11 @@ class InheritedInvoice(osv.osv):
             data = tax_obj.browse(cr, uid, tax_ids)
 
             for tax in data:
-                if ('SDCF' in tax.name and tax.tax_id.amount == 0.00
-                        and tam >= 2):
+                if 'SDCF' in tax.name and tax.tax_id.amount == 0.00 and \
+                        tam >= 2:
                     tax_ids.remove(tax.id)
-                elif ('EXENTO' in tax.name and tax.tax_id.amount == 0.00
-                      and tam >= 2):
+                elif 'EXENTO' in tax.name and tax.tax_id.amount == 0.00 and \
+                        tam >= 2:
                     tax_ids.remove(tax.id)
                 elif tax.tax_id.amount == 0.00 and tam >= 2:
                     tax_ids.remove(tax.id)
@@ -390,9 +390,10 @@ class InheritedInvoice(osv.osv):
         res = self.browse(cr, uid, ids)
         ret = {}
         for inv_brw in res:
-            if (inv_brw.parent_id and
-                    inv_brw.parent_id.type in ['in_invoice', 'out_invoice']
-                    and inv_brw.parent_id.parent_id):
+            if inv_brw.parent_id and \
+                    inv_brw.parent_id.type in \
+                    ['in_invoice', 'out_invoice'] and \
+                    inv_brw.parent_id.parent_id:
                 ret.update({inv_brw.id: inv_brw.parent_id.number})
             else:
                 ret.update({inv_brw.id: ''})
@@ -405,8 +406,8 @@ class InheritedInvoice(osv.osv):
         res = self.browse(cr, uid, ids)
         ret = {}
         for inv_brw in res:
-            if (inv_brw.parent_id
-                    and inv_brw.parent_id.type in ['in_refund', 'out_refund']):
+            if inv_brw.parent_id and \
+                    inv_brw.parent_id.type in ['in_refund', 'out_refund']:
                 ret.update({inv_brw.id: inv_brw.parent_id.number})
             else:
                 ret.update({inv_brw.id: ''})

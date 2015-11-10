@@ -40,7 +40,7 @@ class AccountInvoice(osv.osv):
         default = default.copy()
         default.update({'wh_local': False, 'wh_muni_id': False})
         return super(AccountInvoice, self).copy(cr, uid, ids, default,
-                                                 context)
+                                                context)
 
     def _get_move_lines(self, cr, uid, ids, to_wh, period_id,
                         pay_journal_id, writeoff_acc_id,
@@ -87,7 +87,7 @@ class AccountInvoice(osv.osv):
                       " the missing field") % (acc_part_brw.name,))
             res.append((0, 0, {
                 'debit': direction * to_wh.amount < 0 and
-                - direction * to_wh.amount,
+                (-direction * to_wh.amount),
                 'credit': direction * to_wh.amount > 0 and
                 direction * to_wh.amount,
                 'partner_id': acc_part_brw.id,
@@ -175,7 +175,7 @@ class AccountInvoice(osv.osv):
         for inv_brw in self.browse(cr, uid, ids, context=context):
             if not inv_brw.wh_muni_id:
                 super(AccountInvoice, self).action_cancel(cr, uid, ids,
-                                                           context=context)
+                                                          context=context)
             else:
                 raise osv.except_osv(
                     _("Error!"),

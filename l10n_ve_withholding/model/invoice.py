@@ -49,8 +49,8 @@ class AccountInvoice(osv.osv):
                    'from account_move_line l '
                    'inner join account_journal j on (j.id=l.journal_id)'
                    ' where l.id in (' + ','.join(
-                       [str(item) for item in res]) + ') and j.type=' + '\''
-                   + type_journal + '\'')
+                       [str(item) for item in res]) + ') and j.type=' +
+                   '\'' + type_journal + '\'')
         ok = ok and bool(cr.fetchone())
         return ok
 
@@ -125,8 +125,8 @@ class AccountInvoice(osv.osv):
         cr.execute(
             'select id'
             ' from account_move_line'
-            ' where move_id in (' + str(move_id) + ','
-            + str(invoice.move_id.id) + ')')
+            ' where move_id in (' + str(move_id) + ',' +
+            str(invoice.move_id.id) + ')')
         lines = line.browse(cr, uid, [item[0] for item in cr.fetchall()])
         for aml_brw in lines + invoice.payment_ids:
             if aml_brw.account_id.id == src_account_id:
@@ -278,8 +278,8 @@ class AccountInvoiceTax(osv.osv):
                         cr, uid, inv.currency_id.id, company_currency,
                         val['amount'] * tax['ref_tax_sign'],
                         context={'date':
-                                 inv.date_invoice
-                                 or time.strftime('%Y-%m-%d')},
+                                 inv.date_invoice or
+                                 time.strftime('%Y-%m-%d')},
                         round=False)
                     val['account_id'] = tax['account_paid_id'] or \
                         line.account_id.id
