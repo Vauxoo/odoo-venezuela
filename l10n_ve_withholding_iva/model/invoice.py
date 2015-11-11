@@ -37,7 +37,7 @@ class AccountInvoice(models.Model):
     def _compute_wh_iva_id(self):
         for record in self:
             lines = self.env['account.wh.iva.line'].search([
-                    ('invoice_id', '=', record.id)])
+                ('invoice_id', '=', record.id)])
             record.wh_iva_id = lines and lines[0].retention_id.id or False
 
     @api.multi
@@ -49,7 +49,10 @@ class AccountInvoice(models.Model):
         """ Verify whether withholding was applied to the invoice
         """
         for record in self:
-            record.wh_iva = record.test_retenida()
+            try:
+                record.wh_iva = record.test_retenida()
+            except:
+                record.wh_iva = False
 
     @api.multi
     def check_document_date(self):

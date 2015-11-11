@@ -81,10 +81,10 @@ class TxtIva(models.Model):
         states={'draft': [('readonly', False)]}, help='Company',
         default=lambda self: self.env['res.company']._company_default_get())
     state = fields.Selection([
-            ('draft', 'Draft'),
-            ('confirmed', 'Confirmed'),
-            ('done', 'Done'),
-            ('cancel', 'Cancelled')
+        ('draft', 'Draft'),
+        ('confirmed', 'Confirmed'),
+        ('done', 'Done'),
+        ('cancel', 'Cancelled')
         ], string='Estado', select=True, readonly=True, default='draft',
         help="proof status")
     period_id = fields.Many2one(
