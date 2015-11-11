@@ -33,7 +33,7 @@ class ResPartner(osv.osv):
 
     _columns = {
         'islr_withholding_agent': fields.boolean(
-            'Income Withholding Agent?',
+            'Income Withholding Agent?', default=True,
             help="Check if the partner is an agent for income withholding"),
         'spn': fields.boolean(
             'Is it a society of natural persons?',
@@ -44,10 +44,6 @@ class ResPartner(osv.osv):
         'islr_wh_historical_data_ids': fields.one2many(
             'islr.wh.historical.data', 'partner_id', 'ISLR Historical Data',
             help='Values to be used when computing Rate 2'),
-    }
-
-    _defaults = {
-        'islr_withholding_agent': lambda *a: True,
     }
 
     def copy(self, cr, uid, ids, default=None, context=None):

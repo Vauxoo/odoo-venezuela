@@ -60,20 +60,29 @@ class IslrXmlWhDoc(osv.osv):
                 res[xml.id] += line.base
         return res
 
+    def _get_company(self, cr, uid, context=None):
+        user = self.pool.get('res.users').browse(cr, uid, uid)
+        return user.company_id.id
+
     _columns = {
         'name': fields.char(
-            'Description', 128, required=True, select=True,
+            string='Description', size=128, required=True, select=True,
+            default='Income Withholding ' + time.strftime('%m/%Y'),
             help="Description about statement of income withholding"),
         'company_id': fields.many2one(
-            'res.company', 'Company', required=True, help="Company"),
+            'res.company', string='Company', required=True,
+            default=lambda s: s._get_company(),
+            help="Company"),
         'state': fields.selection([
             ('draft', 'Draft'),
             ('confirmed', 'Confirmed'),
             ('done', 'Done'),
             ('cancel', 'Cancelled')
-        ], 'State', readonly=True, help="Voucher state"),
+            ], string='State', readonly=True, default='draft',
+            help="Voucher state"),
         'period_id': fields.many2one(
-            'account.period', 'Period', required=True,
+            'account.period', string='Period', required=True,
+            default=lambda s: s.period_return(),
             help="Period when the accounts entries were done"),
         'amount_total_ret': fields.function(
             _get_amount_total, method=True, digits=(16, 2), readonly=True,
@@ -97,21 +106,10 @@ class IslrXmlWhDoc(osv.osv):
             help='XML withhold employee line id',
             domain=[('type', '=', 'employee')]),
         'user_id': fields.many2one(
-            'res.users', 'User', readonly=True,
+            'res.users', string='User', readonly=True,
             states={'draft': [('readonly', False)]},
+            default=lambda s: s._uid,
             help='User Creating Document'),
-    }
-    _defaults = {
-        'state': lambda *a: 'draft',
-        'company_id': lambda self, cr, uid, context:
-        self.pool.get('res.users').browse(
-            cr, uid, uid, context=context).company_id.id,
-        'user_id': lambda s, cr, u, c: u,
-
-        'period_id': lambda self, cr, uid, context: self.period_return(
-            cr, uid, context),
-        'name': (lambda self, cr, uid, context:
-                 'Income Withholding ' + time.strftime('%m/%Y'))
     }
 
     def copy(self, cr, uid, ids, default=None, context=None):
@@ -330,9 +328,12 @@ class IslrXmlWhLine(osv.osv):
             'VAT', size=10, required=True, help="Partner VAT"),
         'invoice_number': fields.char(
             'Invoice Number', size=10, required=True,
+            default='0',
             help="Number of invoice"),
         'control_number': fields.char(
-            'Control Number', size=8, required=True, help="Reference"),
+            'Control Number', size=8, required=True,
+            default='NA',
+            help="Reference"),
         'concept_code': fields.char(
             'Concept Code', size=10, required=True, help="Concept code"),
         'base': fields.float(
@@ -379,15 +380,10 @@ class IslrXmlWhLine(osv.osv):
         'date_ret': fields.date('Operation Date'),
         'type': fields.selection(
             ISLR_XML_WH_LINE_TYPES,
-            string='Type', required=True, readonly=False),
+            string='Type', required=True, readonly=False,
+            default='invoice'),
     }
     _rec_name = 'partner_id'
-
-    _defaults = {
-        'invoice_number': lambda *a: '0',
-        'control_number': lambda *a: 'NA',
-        'type': lambda *a: 'invoice',
-    }
 
     def onchange_partner_vat(self, cr, uid, ids, partner_id, context=None):
         """ Changing the partner, the partner_vat field is updated.
@@ -416,9 +412,8 @@ class AccountInvoiceLine(osv.osv):
 
     _columns = {
         'wh_xml_id': fields.many2one(
-            'islr.xml.wh.line', 'XML Id', help="XML withhold line id"),
+            'islr.xml.wh.line', string='XML Id', default=0,
+            help="XML withhold line id"),
     }
-    _defaults = {
-        'wh_xml_id': lambda *a: 0,
-    }
+
 AccountInvoiceLine()

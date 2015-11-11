@@ -32,6 +32,9 @@ class PartnerIncomeWhPrintwizard(osv.TransientModel):
     """
     This wizard will print the islr reports for a given partner.
     """
+    def _get_company(self, cr, uid, context=None):
+        user = self.pool.get('res.users').browse(cr, uid, uid)
+        return user.company_id.id
 
     _name = 'partner.income.wh.print'
     _description = 'Partner Income Withholding Print'
@@ -50,6 +53,7 @@ class PartnerIncomeWhPrintwizard(osv.TransientModel):
             'res.company',
             string='Company',
             required=True,
+            default=lambda s: s._get_company(),
             help='Company'),
         'iwdl_ids': fields.many2many(
             'islr.wh.doc.line',
@@ -58,12 +62,6 @@ class PartnerIncomeWhPrintwizard(osv.TransientModel):
             'iwdl_ids',
             string='ISLR WH Doc Line',
             help='ISLR WH Doc Line'),
-    }
-
-    _defaults = {
-        'company_id': lambda self, cr, uid, context:
-        self.pool.get('res.users').browse(cr, uid, uid,
-                                          context=context).company_id.id,
     }
 
     def get_partner_address(self, cr, uid, ids, idp, context=None):

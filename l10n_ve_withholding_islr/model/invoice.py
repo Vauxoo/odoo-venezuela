@@ -23,6 +23,7 @@
 #    You should have received a copy of the GNU Affero General Public License
 #    along with this program.  If not, see <http://www.gnu.org/licenses/>.
 ##############################################################################
+from openerp import api
 from openerp.osv import fields, osv
 from openerp.tools.translate import _
 
@@ -34,7 +35,7 @@ class AccountInvoiceLine(osv.osv):
     _inherit = "account.invoice.line"
     _columns = {
         'apply_wh': fields.boolean(
-            'Withheld',
+            string='Withheld', default=False,
             help="Indicates whether a line has been retained or not, to"
                  " accumulate the amount to withhold next month, according"
                  " to the lines that have not been retained."),
@@ -45,9 +46,6 @@ class AccountInvoiceLine(osv.osv):
             required=False),
         'state': fields.related('invoice_id', 'state', string='Current Status',
                                 type='char', required=True, readonly=True),
-    }
-    _defaults = {
-        'apply_wh': lambda *a: False,
     }
 
     def islr_wh_change_concept(self, cr, uid, ids, context=None):
@@ -78,11 +76,11 @@ class AccountInvoiceLine(osv.osv):
             'target': 'new',
         }
 
-    def product_id_change(self, cr, uid, ids, product, uom, qty=0, name='',
-                          type='out_invoice',  # pylint: disable=W0622
-                          partner_id=False, fposition_id=False,
-                          price_unit=False, currency_id=False, context=None,
-                          company_id=None):
+    @api.multi
+    def product_id_change(
+            self, product, uom, qty=0, name='', type='out_invoice',
+            partner_id=False, fposition_id=False, price_unit=False,
+            currency_id=False, company_id=None):
         """ Onchange information of the product invoice line
         at once in the line of the bill
         @param product: new product for the invoice line
@@ -95,20 +93,11 @@ class AccountInvoiceLine(osv.osv):
         @param price_unit: new Unit Price for the invoice line
         @param currency_id:
         """
-        context = context or {}
-        data = super(
-            AccountInvoiceLine, self).product_id_change(cr, uid, ids,
-                                                        product, uom,
-                                                        qty, name,
-                                                        type, partner_id,
-                                                        fposition_id,
-                                                        price_unit,
-                                                        currency_id,
-                                                        context,
-                                                        company_id)
+        data = super(AccountInvoiceLine, self).product_id_change(
+            product, uom, qty, name, type, partner_id, fposition_id,
+            price_unit, currency_id, company_id)
         if product:
-            pro = self.pool.get('product.product').browse(
-                cr, uid, product, context=context)
+            pro = self.env['product.product'].browse(product)
             data[data.keys()[1]]['concept_id'] = pro.concept_id.id
         return data
 
@@ -132,7 +121,7 @@ class AccountInvoice(osv.osv):
             ('pro', 'Processed withholding, xml Line generated'),
             ('no_pro', 'Withholding no processed'),
             ('tasa', 'Not exceed the rate,xml Line generated'),
-        ], 'Status', readonly=True,
+            ], string='Status', readonly=True, default='no_pro',
             help=''' * The \'Processed withholding, xml Line generated\' state
             is used when a user is a withhold income is processed.
             * The 'Withholding no processed\' state is when user create a
@@ -141,9 +130,7 @@ class AccountInvoice(osv.osv):
             used when user create invoice,a invoice no exceed the
             minimun rate.'''),
     }
-    _defaults = {
-        'status': lambda *a: "no_pro",
-    }
+
 # BEGIN OF REWRITING ISLR
 
     def check_invoice_type(self, cr, uid, ids, context=None):

@@ -41,7 +41,7 @@ class IslrWhConcept(osv.osv):
             help="Name of Withholding Concept, Example: Honorarios"
                  " Profesionales, Comisiones a..."),
         'withholdable': fields.boolean(
-            'Withhold',
+            string='Withhold', default=True,
             help="Check if the concept  withholding is withheld or not."),
         'property_retencion_islr_payable': fields.property(
             type='many2one',
@@ -66,11 +66,10 @@ class IslrWhConcept(osv.osv):
             'islr.rates', 'concept_id', 'Rate',
             help="Withholding Concept rate", required=False),
         'user_id': fields.many2one(
-            'res.users', 'Salesman', readonly=True,
-            states={'draft': [('readonly', False)]}, help="Vendor user"),
+            'res.users', string='Salesman', readonly=True,
+            states={'draft': [('readonly', False)]},
+            default=lambda s: s._uid,
+            help="Vendor user"),
     }
-    _defaults = {
-        'withholdable': lambda *a: True,
-        'user_id': lambda s, cr, u, c: u,
-    }
+
 IslrWhConcept()

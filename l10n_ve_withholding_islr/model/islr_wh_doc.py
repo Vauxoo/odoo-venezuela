@@ -95,6 +95,26 @@ class IslrWhDoc(osv.osv):
                 res[rete.id] += line.amount
         return res
 
+    def _get_company(self, cr, uid, context=None):
+        user = self.pool.get('res.users').browse(cr, uid, uid)
+        return user.company_id.id
+
+    def retencion_seq_get(self, cr, uid, context=None):
+        """ Determinate the next sequence for islr withhold and returns.
+        """
+        pool_seq = self.pool.get('ir.sequence')
+        cr.execute(
+            "select id,number_next,number_increment,prefix,suffix,padding"
+            " from ir_sequence where code='islr.wh.doc' and active=True")
+        res = cr.dictfetchone()
+        if res:
+            if res['number_next']:
+                return pool_seq._next(cr, uid, [res['id']])
+            else:
+                return pool_seq._process(res['prefix']) + pool_seq._process(
+                    res['suffix'])
+        return False
+
     _name = "islr.wh.doc"
     _order = 'date_ret desc, number desc'
     _description = 'Document Income Withholding'
@@ -104,8 +124,10 @@ class IslrWhDoc(osv.osv):
             states={'draft': [('readonly', False)]}, required=True,
             help="Voucher description"),
         'code': fields.char(
-            'Code', size=32, readonly=True,
-            states={'draft': [('readonly', False)]}, help="Voucher reference"),
+            string='Code', size=32, readonly=True,
+            states={'draft': [('readonly', False)]},
+            default=lambda s: s.retencion_seq_get(),
+            help="Voucher reference"),
         'number': fields.char(
             'Withhold Number', size=32, readonly=True,
             states={'draft': [('readonly', False)]}, help="Voucher reference"),
@@ -114,13 +136,16 @@ class IslrWhDoc(osv.osv):
             ('in_invoice', 'Supplier Invoice'),
             ('in_refund', 'Supplier Invoice Refund'),
             ('out_refund', 'Customer Invoice Refund'),
-        ], 'Type', readonly=True, help="Voucher type"),
+            ], string='Type', readonly=True,
+            default=lambda s: s._get_type(),
+            help="Voucher type"),
         'state': fields.selection([
             ('draft', 'Draft'),
             ('confirmed', 'Confirmed'),
             ('done', 'Done'),
             ('cancel', 'Cancelled')
-        ], 'State', readonly=True, help="Voucher state"),
+            ], string='State', readonly=True, default='draft',
+            help="Voucher state"),
         'date_ret': fields.date(
             'Accounting Date', readonly=True,
             states={'draft': [('readonly', False)]},
@@ -143,13 +168,16 @@ class IslrWhDoc(osv.osv):
         'currency_id': fields.many2one(
             'res.currency', 'Currency', required=True, readonly=True,
             states={'draft': [('readonly', False)]},
+            default=lambda s: s._get_currency(),
             help="Currency in which the transaction takes place"),
         'journal_id': fields.many2one(
             'account.journal', 'Journal', required=True, readonly=True,
             states={'draft': [('readonly', False)]},
+            default=lambda s: s._get_journal(),
             help="Journal where accounting entries are recorded"),
         'company_id': fields.many2one(
             'res.company', 'Company', required=True, readonly=True,
+            default=lambda s: s._get_company(),
             help="Company"),
         'amount_total_ret': fields.function(
             _get_amount_total, method=True, string='Amount Total',
@@ -170,26 +198,14 @@ class IslrWhDoc(osv.osv):
                  ' the bill'),
         'user_id': fields.many2one(
             'res.users', 'Salesman', readonly=True,
-            states={'draft': [('readonly', False)]}, help="Vendor user"),
+            states={'draft': [('readonly', False)]},
+            default=lambda s: s._uid,
+            help="Vendor user"),
         'automatic_income_wh': fields.boolean(
-            'Automatic Income Withhold',
+            string='Automatic Income Withhold',
+            default=False,
             help='When the whole process will be check automatically, '
                  'and if everything is Ok, will be set to done'),
-    }
-
-    _defaults = {
-        'code': (lambda obj, cr, uid, context:
-                 obj.pool.get('islr.wh.doc').retencion_seq_get(
-                     cr, uid, context)),
-        'type': _get_type,
-        'state': 'draft',
-        'journal_id': _get_journal,
-        'currency_id': _get_currency,
-        'company_id': lambda self, cr, uid, context:
-        self.pool.get('res.users').browse(cr, uid, uid,
-                                          context=context).company_id.id,
-        'user_id': lambda s, cr, u, c: u,
-        'automatic_income_wh': False,
     }
 
     def _check_partner(self, cr, uid, ids, context=None):
@@ -356,22 +372,6 @@ class IslrWhDoc(osv.osv):
         inv_line_obj.write(cr, uid, inv_line_list, {'apply_wh': False})
 
         return True
-
-    def retencion_seq_get(self, cr, uid, context=None):
-        """ Determinate the next sequence for islr withhold and returns.
-        """
-        pool_seq = self.pool.get('ir.sequence')
-        cr.execute(
-            "select id,number_next,number_increment,prefix,suffix,padding"
-            " from ir_sequence where code='islr.wh.doc' and active=True")
-        res = cr.dictfetchone()
-        if res:
-            if res['number_next']:
-                return pool_seq._next(cr, uid, [res['id']])
-            else:
-                return pool_seq._process(res['prefix']) + pool_seq._process(
-                    res['suffix'])
-        return False
 
     def onchange_partner_id(self, cr, uid, ids, inv_type, partner_id,
                             context=None):
