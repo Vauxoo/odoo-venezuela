@@ -25,6 +25,7 @@
 
 import time
 
+from openerp import api
 from openerp.osv import fields, osv
 from openerp.tools.translate import _
 
@@ -217,22 +218,22 @@ class AccountInvoiceTax(osv.osv):
                  " data from invoices."),
     }
 
-    def compute(self, cr, uid, invoice_id, context=None):
+    @api.model
+    def compute(self, invoice):
         """ Calculate the amount, base, tax amount,
         base amount of the invoice
         """
 
         tax_grouped = {}
-        tax_obj = self.pool.get('account.tax')
-        cur_obj = self.pool.get('res.currency')
-        inv = self.pool.get('account.invoice').browse(
-            cr, uid, invoice_id, context=context)
-        cur = inv.currency_id
-        company_currency = inv.company_id.currency_id.id
-
+        if isinstance(invoice, (int, long)):
+            inv = self.env['account.invoice'].browse(invoice)
+        else:
+            inv = invoice
+        currency = inv.currency_id.with_context(
+            date=inv.date_invoice or time.strftime('%Y-%m-%d'))
+        company_currency = inv.company_id.currency_id
         for line in inv.invoice_line:
-            for tax in tax_obj.compute_all(
-                    cr, uid, line.invoice_line_tax_id,
+            for tax in line.invoice_line_tax_id.compute_all(
                     (line.price_unit * (1 - (line.discount or 0.0) / 100.0)),
                     line.quantity, line.product_id, inv.partner_id)['taxes']:
                 val = {}
@@ -248,38 +249,22 @@ class AccountInvoiceTax(osv.osv):
                 if inv.type in ('out_invoice', 'in_invoice'):
                     val['base_code_id'] = tax['base_code_id']
                     val['tax_code_id'] = tax['tax_code_id']
-                    val['base_amount'] = cur_obj.compute(
-                        cr, uid, inv.currency_id.id, company_currency,
-                        val['base'] * tax['base_sign'],
-                        context={'date':
-                                 inv.date_invoice or
-                                 time.strftime('%Y-%m-%d')},
+                    val['base_amount'] = currency.compute(
+                        val['base'] * tax['base_sign'], company_currency,
                         round=False)
-                    val['tax_amount'] = cur_obj.compute(
-                        cr, uid, inv.currency_id.id, company_currency,
-                        val['amount'] * tax['tax_sign'],
-                        context={'date':
-                                 inv.date_invoice or
-                                 time.strftime('%Y-%m-%d')},
+                    val['tax_amount'] = currency.compute(
+                        val['amount'] * tax['tax_sign'], company_currency,
                         round=False)
                     val['account_id'] = tax['account_collected_id'] or \
                         line.account_id.id
                 else:
                     val['base_code_id'] = tax['ref_base_code_id']
                     val['tax_code_id'] = tax['ref_tax_code_id']
-                    val['base_amount'] = cur_obj.compute(
-                        cr, uid, inv.currency_id.id, company_currency,
-                        val['base'] * tax['ref_base_sign'],
-                        context={'date':
-                                 inv.date_invoice or
-                                 time.strftime('%Y-%m-%d')},
+                    val['base_amount'] = currency.compute(
+                        val['base'] * tax['ref_base_sign'], company_currency,
                         round=False)
-                    val['tax_amount'] = cur_obj.compute(
-                        cr, uid, inv.currency_id.id, company_currency,
-                        val['amount'] * tax['ref_tax_sign'],
-                        context={'date':
-                                 inv.date_invoice or
-                                 time.strftime('%Y-%m-%d')},
+                    val['tax_amount'] = currency.compute(
+                        val['amount'] * tax['ref_tax_sign'], company_currency,
                         round=False)
                     val['account_id'] = tax['account_paid_id'] or \
                         line.account_id.id
@@ -297,9 +282,8 @@ class AccountInvoiceTax(osv.osv):
                     tax_grouped[key]['tax_amount'] += val['tax_amount']
 
         for tax in tax_grouped.values():
-            tax['base'] = cur_obj.round(cr, uid, cur, tax['base'])
-            tax['amount'] = cur_obj.round(cr, uid, cur, tax['amount'])
-            tax['base_amount'] = cur_obj.round(
-                cr, uid, cur, tax['base_amount'])
-            tax['tax_amount'] = cur_obj.round(cr, uid, cur, tax['tax_amount'])
+            tax['base'] = currency.round(tax['base'])
+            tax['amount'] = currency.round(tax['amount'])
+            tax['base_amount'] = currency.round(tax['base_amount'])
+            tax['tax_amount'] = currency.round(tax['tax_amount'])
         return tax_grouped
