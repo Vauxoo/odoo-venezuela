@@ -32,26 +32,6 @@ class AccountInvoiceDebit(osv.osv_memory):
 
     _name = "account.invoice.debit"
     _description = "Invoice Debit Note"
-    _columns = {
-        'date': fields.date(
-            'Operation date',
-            help='This date will be used as the invoice date for Refund'
-                 ' Invoice and Period will be chosen accordingly!'),
-        'period': fields.many2one(
-            'account.period', 'Force period',
-            help='Fiscal period to assign to the invoice. Keep empty to use'
-                 ' the period of the current date.'),
-        'journal_id': fields.many2one(
-            'account.journal', 'Debits Journal',
-            help='You can select here the journal to use for the debit note'
-                 ' that will be created. If you leave that field empty, it'
-                 ' will use the same journal as the current invoice.'),
-        'description': fields.char(
-            'Description', size=128, required=True,
-            help='Name or reference of the invoice'),
-        'comment': fields.text(
-            'Comment', required=True, help='Additional Information'),
-    }
 
     def _get_journal(self, cr, uid, context=None):
         """ Return partner journal depending of the invoice type
@@ -76,10 +56,26 @@ class AccountInvoiceDebit(osv.osv_memory):
                 _('No Debit Journal !'), _("You must define a debit journal"))
         return journal[0]
 
-    _defaults = {
-        'date': lambda *a: time.strftime('%Y-%m-%d'),
-        'journal_id': _get_journal,
-        # filter_refund': 'modify',
+    _columns = {
+        'date': fields.date(
+            'Operation date', default=time.strftime('%Y-%m-%d'),
+            help='This date will be used as the invoice date for Refund'
+                 ' Invoice and Period will be chosen accordingly!'),
+        'period': fields.many2one(
+            'account.period', 'Force period',
+            help='Fiscal period to assign to the invoice. Keep empty to use'
+                 ' the period of the current date.'),
+        'journal_id': fields.many2one(
+            'account.journal', string='Debits Journal',
+            default=lambda s: s._get_journal(),
+            help='You can select here the journal to use for the debit note'
+                 ' that will be created. If you leave that field empty, it'
+                 ' will use the same journal as the current invoice.'),
+        'description': fields.char(
+            'Description', size=128, required=True,
+            help='Name or reference of the invoice'),
+        'comment': fields.text(
+            'Comment', required=True, help='Additional Information'),
     }
 
     def fields_view_get(self, cr, uid, view_id=None, view_type=False,

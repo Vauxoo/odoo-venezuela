@@ -37,6 +37,7 @@ class L10nUt(osv.osv):
     _columns = {
         'name': fields.char(
             'Reference number', size=64, required=True, readonly=False,
+            default=None,
             help="Reference number under the law"),
         'date': fields.date(
             'Date', required=True,
@@ -45,13 +46,10 @@ class L10nUt(osv.osv):
             'Amount', digits_compute=dp.get_precision('Amount Bs per UT'),
             help="Amount of the tax unit in bs", required=True),
         'user_id': fields.many2one(
-            'res.users', 'Salesman',
-            readonly=True, states={'draft': [('readonly', False)]},
+            'res.users', string='Salesman', readonly=True,
+            states={'draft': [('readonly', False)]},
+            default=lambda s: s._uid,
             help="Vendor user"),
-    }
-    _defaults = {
-        'name': lambda *a: None,
-        'user_id': lambda s, cr, u, c: u,
     }
 
     def get_amount_ut(self, cr, uid, date=False, *args):

@@ -58,21 +58,20 @@ class WizardUrlSeniat(osv.osv_memory):
     _name = "wizard.seniat.url"
     _columns = {
         'url1': fields.char(
-            'URL1', 255, required=True, readonly=False, help='In this field'
-            ' enter the URL from Seniat for search the fiscal information from'
-            ' partner'),
+            string='URL1', size=255, required=True, readonly=False,
+            default=lambda s: s._get_url1(),
+            help='In this field enter the URL from Seniat for search the'
+            ' fiscal information from partner'),
         'url2': fields.char(
-            'URL2', 255, required=True, readonly=False, help='In this field'
-            ' enter the URL from Seniat for search the retention rate from'
-            ' partner (RIF)'),
+            string='URL2', size=255, required=True, readonly=False,
+            default=lambda s: s._get_url2(),
+            help='In this field enter the URL from Seniat for search the'
+            ' retention rate from partner (RIF)'),
         'url3': fields.char(
-            'URL3', 255, required=True, readonly=False, help='In this field'
-            ' enter the URL from Seniat for search the retention rate from'
-            ' partner (CI or Passport)'),
+            string='URL3', size=255, required=True, readonly=False,
+            default=lambda s: s._get_url3(),
+            help='In this field enter the URL from Seniat for search the'
+            ' retention rate from partner (CI or Passport)'),
     }
-    _defaults = {
-        'url1': _get_url1,
-        'url2': _get_url2,
-        'url3': _get_url3,
-    }
+
 WizardUrlSeniat()

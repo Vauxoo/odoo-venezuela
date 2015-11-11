@@ -48,11 +48,6 @@ class WizUpdatename(osv.osv_memory):
                           {'name': name_partner}, context=context)
         return {}
 
-    _columns = {
-        'name': fields.char('Name', 256, required=True),
-        'sure': fields.boolean('Are you sure?'),
-    }
-
     def _get_name(self, cr, uid, context=None):
         """ Get name field value
         """
@@ -64,8 +59,11 @@ class WizUpdatename(osv.osv_memory):
         partner_o = partner_obj.browse(cr, uid, partner[0])
         return partner_o and partner_o.name or False
 
-    _defaults = {
-        'name': _get_name,
+    _columns = {
+        'name': fields.char(
+            string='Name', size=256, required=True,
+            default=lambda s: s._get_name()),
+        'sure': fields.boolean('Are you sure?'),
     }
 
 WizUpdatename()

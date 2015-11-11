@@ -68,15 +68,15 @@ class AccountInvoice(osv.osv):
                 inv.nro_ctrl is not '' and inv.nro_ctrl is not False and
                 inv.supplier_invoice_number is not False and
                 self.search(cr, uid, [
-                        '|',
-                        ('nro_ctrl', '=', inv.nro_ctrl and
-                            inv.nro_ctrl.strip()),
-                        ('supplier_invoice_number', '=',
-                            inv.supplier_invoice_number and
-                            inv.supplier_invoice_number.strip()),
-                        ('type', '=', inv.type),
-                        ('partner_id', '=', inv.partner_id.id)
-                ], context=context) or [])
+                    '|',
+                    ('nro_ctrl', '=', inv.nro_ctrl and
+                     inv.nro_ctrl.strip()),
+                    ('supplier_invoice_number', '=',
+                     inv.supplier_invoice_number and
+                     inv.supplier_invoice_number.strip()),
+                    ('type', '=', inv.type),
+                    ('partner_id', '=', inv.partner_id.id)
+                    ], context=context) or [])
             if [True for i in inv_ids if i not in ids_ivo] and inv_ids:
                 return False
         return True
@@ -124,13 +124,10 @@ class AccountInvoice(osv.osv):
             help="Fiscal printer number, generally is the id number of the"
                  " printer."),
         'loc_req': fields.boolean(
-            'Required by Localization',
+            string='Required by Localization',
+            default=lambda s: s._get_loc_req(),
             help='This fields is for technical use'),
         'z_report': fields.char(string='Report Z', size=64, help=""),
-    }
-
-    _defaults = {
-        'loc_req': _get_loc_req
     }
 
     _constraints = [

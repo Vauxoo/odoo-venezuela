@@ -73,12 +73,9 @@ class AccountInvoiceRefund(osv.osv_memory):
             'Control Number', size=32,
             help="Code used for intern invoice control"),
         'loc_req': fields.boolean(
-            'Required by Localization',
+            string='Required by Localization',
+            default=lambda s: s._get_loc_req(),
             help='This fields is for technical use'),
-    }
-
-    _defaults = {
-        'loc_req': _get_loc_req
     }
 
     def _get_journal(self, cr, uid, context=None):
