@@ -200,6 +200,10 @@ class FiscalBook(orm.Model):
             res[fb_brw.id] = avts
         return res
 
+    def _get_company(self, cr, uid, context=None):
+        user = self.pool.get('res.users').browse(cr, uid, uid, context)
+        return user.company_id.id
+
     _description = "Venezuela's Sale & Purchase Fiscal Books"
     _name = 'fiscal.book'
     _inherit = ['mail.thread']
@@ -215,19 +219,20 @@ class FiscalBook(orm.Model):
             " regular periods, i.e. not opening/closing periods."),
         'fortnight': fields.selection(
             [('first', "First Fortnight"), ('second', "Second Fortnight")],
-            string="Fortnight",
+            string="Fortnight", default=None,
             help="Fortnight that applies to the current book."),
         'state': fields.selection([('draft', 'Getting Ready'),
                                    ('confirmed', 'Approved by Manager'),
                                    ('done', 'Seniat Submitted'),
                                    ('cancel', 'Cancel')],
                                   string='Status', required=True,
-                                  readonly=True),
+                                  readonly=True, default='draft'),
         'type': fields.selection([('sale', 'Sale Book'),
                                   ('purchase', 'Purchase Book')],
                                  help="Select Sale for Customers and"
                                  "  Purchase for Suppliers",
-                                 string='Book Type', required=True),
+                                 string='Book Type', required=True,
+                                 default=lambda s: s._get_type()),
         'base_amount': fields.float('Taxable Amount',
                                     help='Amount used as Taxing Base'),
         'tax_amount': fields.float('Taxed Amount',
@@ -261,6 +266,7 @@ class FiscalBook(orm.Model):
             _get_article_number_types,
             string="Article Number",
             required=True,
+            default=lambda s: s._get_article_number(),
             help="Article number describing the fiscal book special features"
                  " according to the Venezuelan RLIVA statement for fiscal"
                  " accounting books. Options:"
@@ -582,15 +588,6 @@ class FiscalBook(orm.Model):
             string="Reduced VAT Taxed Amount",
             help="Reduced VAT Taxed Non-Tax Payer Tax Amount Totalization."
             " Sum of Reduced VAT Tax column for Non-Tax Payer transactions"),
-    }
-
-    _defaults = {
-        'state': 'draft',
-        'type': _get_type,
-        'company_id': lambda s, c, u, ctx:
-        s.pool.get('res.users').browse(c, u, u, context=ctx).company_id.id,
-        'article_number': _get_article_number,
-        'fortnight': None,
     }
 
     _sql_constraints = [
@@ -1983,7 +1980,9 @@ class FiscalBookLines(orm.Model):
             help="Non-Tax Payer Group of book lines that this line represent"),
 
         #  Invoice and/or Document Data
-        'rank': fields.integer("Line", required=True, help="Line Position"),
+        'rank': fields.integer(
+            "Line", required=True, default=0,
+            help="Line Position"),
         'emission_date': fields.date(
             string='Emission Date',
             help='Invoice Document Date / Wh IVA Line Voucher Date'),
@@ -2085,10 +2084,6 @@ class FiscalBookLines(orm.Model):
             _compute_vat_rates, method=True, type='float',
             string='Additional rate', multi='all',
             help="Vat plus additional tax rate "),
-    }
-
-    _defaults = {
-        'rank': 0,
     }
 
 

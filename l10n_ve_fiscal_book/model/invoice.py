@@ -23,6 +23,7 @@
 #    You should have received a copy of the GNU General Public License
 #    along with this program.  If not, see <http://www.gnu.org/licenses/>.
 ###############################################################################
+from openerp import api
 from openerp.osv import fields, osv
 from openerp.tools.translate import _
 
@@ -58,7 +59,8 @@ class AccountInvoice(osv.osv):
                           inv_brw.fb_id.state,)))
         return True
 
-    def copy(self, cur, uid, ids, default=None, context=None):
+    @api.multi
+    def copy(self, default=None):
         """
         Overwrite the copy orm method to blank the fiscal book field when
         a invoice is copy. Also if a invoice have benn remove from a fiscal
@@ -67,11 +69,10 @@ class AccountInvoice(osv.osv):
         """
         # NOTE: Use as parameter 'ids' instead of 'id' for fix pylint W0622
         # Redefining built-in 'id'.
-        context = context or {}
-        default = default or {}
-        default.update(fb_id=False)
+        if default is None:
+            default = {}
+        default = default.copy()
+        default.update({'fb_id': False})
         if default.get('issue_fb_id', False):
-            default.update(issue_fb_id=False)
-        res = super(AccountInvoice, self).copy(
-            cur, uid, ids, default=default, context=context)
-        return res
+            default.update({'issue_fb_id': False})
+        return super(AccountInvoice, self).copy(default)
