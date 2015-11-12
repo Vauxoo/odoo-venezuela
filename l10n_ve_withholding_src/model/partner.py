@@ -36,8 +36,6 @@ class ResPartner(osv.osv):
             help="Indicate if the partner is a SRC withholding agent"),
         'wh_src_rate': fields.float(
             string='SRC Rate', digits_compute=dp.get_precision('Withhold'),
+            default=0,
             help="SRC Withholding rate"),
-    }
-    _defaults = {
-        'wh_src_rate': lambda *a: 0,
     }

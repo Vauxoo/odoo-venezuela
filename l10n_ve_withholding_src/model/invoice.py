@@ -77,7 +77,7 @@ class AccountInvoice(osv.osv):
 
     _columns = {
         'wh_src': fields.boolean(
-            'Social Responsibility Commitment Withheld',
+            'Social Responsibility Commitment Withheld', default=True,
             help='if the commitment to social responsibility has been'
                  ' retained'),
         'wh_src_rate': fields.float(
@@ -87,9 +87,6 @@ class AccountInvoice(osv.osv):
         'wh_src_id': fields.many2one(
             'account.wh.src', 'Wh. SRC Doc.', readonly=True,
             help="Social Responsibility Commitment Withholding Document"),
-    }
-    _defaults = {
-        'wh_src': False,
     }
 
     _constraints = [
@@ -127,13 +124,12 @@ class AccountInvoice(osv.osv):
 
             for tax_brw in to_wh:
                 acc = False
+                coll = tax_brw.wh_id.company_id.wh_src_collected_account_id
+                paid = tax_brw.wh_id.company_id.wh_src_paid_account_id
                 if types[invoice.type] == 1:
-                    coll = tax_brw.wh_id.company_id.wh_src_collected_account_id
-                    paid = tax_brw.wh_id.company_id.wh_src_paid_account_id
                     acc = coll and coll.id or False
                 else:
                     acc = paid and paid.id or False
-
                 if not acc:
                     raise osv.except_osv(
                         _('Missing Account in Company!'),
