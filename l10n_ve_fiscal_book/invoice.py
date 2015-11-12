@@ -182,15 +182,13 @@ class InheritedInvoice(osv.osv):
             ret.update({i: ''})
         if invs:
             for inv in invs:
-                if (inv.type == "in_invoice" or
-                        inv.type == "out_invoice") and inv.parent_id:
+                if inv.type in ['in_invoice', 'out_invoice'] and inv.parent_id:
                     doc_type = "ND"
-                elif (inv.type == "in_invoice" or
-                        inv.type == "in_refund") and inv.expedient:
+                elif inv.type in ['in_invoice', 'in_refund'] and inv.expedient:
                     doc_type = "E"
-                elif inv.type == 'in_refund' or inv.type == 'out_refund':
+                elif inv.type in ['in_refund', 'out_refund']:
                     doc_type = "NC"
-                elif inv.type == "in_invoice" or inv.type == "out_invoice":
+                elif inv.type in ['in_invoice', 'out_invoice']:
                     doc_type = "F"
                 ret.update({inv.id: doc_type})
         return ret

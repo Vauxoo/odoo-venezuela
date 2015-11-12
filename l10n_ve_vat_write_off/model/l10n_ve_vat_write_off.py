@@ -5,9 +5,15 @@ from openerp.osv import fields, osv
 class VatWriteOff(osv.osv):
     _description = ''
     _name = 'vat.write.off'
+
+    def _get_company(self, cr, uid, context=None):
+        user = self.pool.get('res.users').browse(cr, uid, uid)
+        return user.company_id.id
+
     _columns = {
         'company_id': fields.many2one(
             'res.company', 'Company',
+            default=lambda s: s._get_company(),
             help='Company', required=True),
         'period_id': fields.many2one(
             'account.period', 'Period',
@@ -104,7 +110,8 @@ class VatWriteOff(osv.osv):
         's_tax_amount': fields.related(
             'sale_fb_id', 'tax_amount', type="float", readonly=True,
             store=True),
-        'start_date': fields.date(string='Start date'),
+        'start_date': fields.date(string='Start date',
+                                  default=fields.date.today),
 
         'vat': fields.related('company_id',
                               'partner_id',
@@ -113,12 +120,4 @@ class VatWriteOff(osv.osv):
                               string='TIN',
                               readonly=True,
                               store=True),
-
-
-    }
-    _defaults = {
-        'state': 'draft',
-        'company_id': lambda s, c, u, ctx:
-        s.pool.get('res.users').browse(c, u, u, context=ctx).company_id.id,
-        'start_date': fields.date.today,
     }

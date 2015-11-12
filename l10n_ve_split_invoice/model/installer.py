@@ -65,11 +65,9 @@ class SplitInvoiceConfig(osv.osv_memory):
 
     _columns = {
         'name': fields.integer(
-            'Max Invoice Lines', required=True,
+            'Max Invoice Lines', required=True, default=50,
             help='Select the maximum number of lines in your customer'
                  ' invoices'),
     }
-    _defaults = {
-        'name': 50,
-    }
+
 SplitInvoiceConfig()

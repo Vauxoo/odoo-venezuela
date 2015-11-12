@@ -31,12 +31,8 @@ class ResCompany(osv.osv):
 
     _columns = {
         'lines_invoice': fields.integer(
-            'Invoice Lines', required=False,
+            'Invoice Lines', required=False, default=50,
             help="Number of lines per invoice"),
-    }
-
-    _defaults = {
-        'lines_invoice': 50,
     }
 
 ResCompany()

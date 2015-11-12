@@ -49,7 +49,7 @@ class CustomsFormConfig(osv.osv):
             'res.company', string='Company', required=True, readonly=True,
             default=lambda s: s._get_company(), ondelete='restrict'),
         'journal_id': fields.many2one(
-            'account.journal', 'Journal',required=True,
+            'account.journal', 'Journal', required=True,
             ondelete='restrict'),
     }
 
@@ -120,7 +120,6 @@ class CustomsDuty(osv.osv):
                 item.code, item.ref, item.name)))
         return res
 
-
     def _get_company(self, cr, uid, context=None):
         company_obj = self.pool.get('res.company')
         return company_obj._company_default_get(
@@ -145,6 +144,7 @@ class CustomsDuty(osv.osv):
             'res.company', string='Company', required=True, readonly=True,
             ondelete='restrict',
             default=lambda s: s._get_company()),
+    }
 
     _sql_constraints = [
         ('code_uniq', 'UNIQUE(code,company_id)',

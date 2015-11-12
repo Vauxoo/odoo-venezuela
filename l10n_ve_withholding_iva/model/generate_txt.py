@@ -106,8 +106,8 @@ class TxtIva(models.Model):
     txt_ids = fields.One2many(
         'txt.iva.line', 'txt_id', readonly=True,
         states={'draft': [('readonly', False)]},
-        help=_('Txt field lines of ar required by SENIAT for'
-               ' VAT withholding'))
+        help='Txt field lines of ar required by SENIAT for'
+        ' VAT withholding')
     amount_total_ret = fields.Float(
         string='Withholding total amount', digits=dp.get_precision('Account'),
         compute=_get_amount_total, readonly=True,
