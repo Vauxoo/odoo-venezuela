@@ -107,6 +107,8 @@ class AccountInvoice(osv.osv):
             writeoff_period_id, writeoff_journal_id, date,
             name, context=context)
 
+        # TODO: check the method _get_move_lines that is forced to return []
+        # and that makes that aws_customer.yml test cause a error
         if not l2:
             raise osv.except_osv(
                 _('Warning !'),

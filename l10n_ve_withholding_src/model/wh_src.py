@@ -433,7 +433,7 @@ class AccountWhSrc(osv.osv):
         if context is None:
             context = {}
 
-        context.update({'wh_src': True})
+        dict(context).update({'wh_src': True})
 
         ret = self.browse(cr, uid, ids[0], context)
 
