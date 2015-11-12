@@ -29,6 +29,8 @@ from openerp import api
 from openerp.osv import fields, osv
 from openerp.tools.translate import _
 
+from openerp.tools import float_compare
+
 
 class AccountInvoice(osv.osv):
     _inherit = 'account.invoice'
@@ -175,38 +177,49 @@ class AccountInvoice(osv.osv):
             lines += [item for item in lines if item not in src]
         return lines
 
-    def check_tax_lines(self, cr, uid, inv, compute_taxes, ait_obj):
+    @api.multi
+    def check_tax_lines(self, compute_taxes):
         """ Check if no tax lines are created. If
         existing tax lines, there are checks on the invoice
         and match the tax base.
         """
-        if not inv.tax_line:
+        assert len(self) == 1, "Can only check one invoice at a time."
+        account_invoice_tax = self.env['account.invoice.tax']
+        company_currency = self.company_id.currency_id
+        if not self.tax_line:
             for tax in compute_taxes.values():
-                ait_obj.create(cr, uid, tax)
+                account_invoice_tax.create(tax)
         else:
             tax_key = []
-            for tax in inv.tax_line:
+            precision = self.env['decimal.precision'].precision_get('Account')
+            for tax in self.tax_line:
                 if tax.manual:
                     continue
-#                key = (tax.tax_code_id.id, tax.base_code_id.id,
-#                       tax.account_id.id)
-                # group by tax id #
+                # Comment the following line from original method
+                # key = (tax.tax_code_id.id, tax.base_code_id.id,
+                # tax.account_id.id)
+
+                # Group by tax id (now use this key)
                 key = (tax.tax_id.id)
                 tax_key.append(key)
                 if key not in compute_taxes:
                     raise osv.except_osv(
-                        _('Warning !'),
-                        _('Global taxes defined, but are not in invoice'
+                        _('Warning!'),
+                        _('Global taxes defined, but they are not in invoice'
                           ' lines !'))
                 base = compute_taxes[key]['base']
-                if abs(base - tax.base) > inv.company_id.currency_id.rounding:
+                if float_compare(abs(base - tax.base),
+                                 company_currency.rounding,
+                                 precision_digits=precision) == 1:
                     raise osv.except_osv(
-                        _('Warning !'),
-                        _('Tax base different !\nClick on compute to update'
-                          ' tax base'))
-            for key in compute_taxes:
-                if key not in tax_key:
-                    raise osv.except_osv(_('Warning !'), _('Taxes missing !'))
+                        _('Warning!'),
+                        _('Tax base different!\nClick on compute to update'
+                          ' the tax base.'))
+                for key in compute_taxes:
+                    if key not in tax_key:
+                        raise osv.except_osv(
+                            _('Warning!'),
+                            _('Taxes are missing!\nClick on compute button.'))
 
 
 class AccountInvoiceTax(osv.osv):
