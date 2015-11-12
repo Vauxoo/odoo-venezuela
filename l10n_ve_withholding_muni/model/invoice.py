@@ -23,6 +23,7 @@
 #    along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #############################################################################
 
+from openerp import api
 from openerp.osv import fields, osv
 from openerp.tools.translate import _
 
@@ -30,17 +31,16 @@ from openerp.tools.translate import _
 class AccountInvoice(osv.osv):
     _inherit = 'account.invoice'
 
-    def copy(self, cr, uid, ids, default=None, context=None):
+    @api.multi
+    def copy(self, default=None):
         """ Initialized fields to the copy a register
         """
         # NOTE: use ids argument instead of id for fix the pylint error W0622.
         # Redefining built-in 'id'
-        context = context or {}
         default = default or {}
         default = default.copy()
         default.update({'wh_local': False, 'wh_muni_id': False})
-        return super(AccountInvoice, self).copy(cr, uid, ids, default,
-                                                context)
+        return super(AccountInvoice, self).copy(default)
 
     def _get_move_lines(self, cr, uid, ids, to_wh, period_id,
                         pay_journal_id, writeoff_acc_id,
