@@ -25,6 +25,7 @@
 #    You should have received a copy of the GNU Affero General Public License
 #    along with this program.  If not, see <http://www.gnu.org/licenses/>.
 ##############################################################################
+from openerp import api
 from openerp.osv import fields, osv
 
 
@@ -46,7 +47,8 @@ class ResPartner(osv.osv):
             help='Values to be used when computing Rate 2'),
     }
 
-    def copy(self, cr, uid, ids, default=None, context=None):
+    @api.multi
+    def copy(self, default=None):
         """ Initialized id by duplicating
         """
         # NOTE: use ids argument instead of id for fix the pylint error W0622.
@@ -61,4 +63,4 @@ class ResPartner(osv.osv):
             'islr_wh_historical_data_ids': [],
         })
 
-        return super(ResPartner, self).copy(cr, uid, ids, default, context)
+        return super(ResPartner, self).copy(default)

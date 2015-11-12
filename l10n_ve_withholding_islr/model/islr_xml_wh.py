@@ -29,6 +29,7 @@ import base64
 import time
 from xml.etree.ElementTree import Element, SubElement, tostring
 
+from openerp import api
 from openerp.addons import decimal_precision as dp
 from openerp.osv import fields, osv
 from openerp.tools.translate import _
@@ -112,7 +113,8 @@ class IslrXmlWhDoc(osv.osv):
             help='User Creating Document'),
     }
 
-    def copy(self, cr, uid, ids, default=None, context=None):
+    @api.multi
+    def copy(self, default=None):
         """ Initialized id by duplicating
         """
         if default is None:
@@ -124,8 +126,7 @@ class IslrXmlWhDoc(osv.osv):
             'employee_xml_ids': [],
         })
 
-        return super(IslrXmlWhDoc, self).copy(cr, uid, ids, default,
-                                              context)
+        return super(IslrXmlWhDoc, self).copy(default)
 
     def period_return(self, cr, uid, context=None):
         """ Return current period

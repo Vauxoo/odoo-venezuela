@@ -27,6 +27,7 @@
 ##############################################################################
 import time
 
+from openerp import api
 from openerp.addons import decimal_precision as dp
 from openerp.osv import fields, osv
 from openerp.tools.translate import _
@@ -829,7 +830,8 @@ class AccountInvoice(osv.osv):
                  " Invoice"),
     }
 
-    def copy(self, cr, uid, ids, default=None, context=None):
+    @api.multi
+    def copy(self, default=None):
         """ Initialized id by duplicating
         """
         # NOTE: use ids argument instead of id for fix the pylint error W0622.
@@ -839,8 +841,7 @@ class AccountInvoice(osv.osv):
         default = default.copy()
         default.update({'islr_wh_doc_id': 0})
 
-        return super(AccountInvoice, self).copy(cr, uid, ids, default,
-                                                context)
+        return super(AccountInvoice, self).copy(default)
 
 
 class IslrWhDocInvoices(osv.osv):

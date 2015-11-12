@@ -221,21 +221,20 @@ class AccountInvoice(osv.osv):
 
         return islr_wh_doc_id
 
-    def copy(self, cr, uid, ids, default=None, context=None):
+    @api.multi
+    def copy(self, default=None):
         """ Inicializes the fields islr_wh_doc and status
         when the line is duplicated
         """
         # NOTE: use ids argument instead of id for fix the pylint error W0622.
         # Redefining built-in 'id'
         default = default or {}
-        context = context or {}
         default = default.copy()
         default.update({'islr_wh_doc': 0,
                         'status': 'no_pro',
                         })
-        context.update({'new_key': True})
-        return super(AccountInvoice, self).copy(cr, uid, ids, default,
-                                                context)
+        self = self.with_context(new_key=True)
+        return super(AccountInvoice, self).copy(default)
 
     def _refund_cleanup_lines(self, cr, uid, lines, context=None):
         """ Initializes the fields of the lines of a refund invoice
