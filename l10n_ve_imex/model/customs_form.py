@@ -80,6 +80,11 @@ class CustomsForm(osv.osv):
                 'reconcile': False,
                 })
 
+    def _get_company(self, cr, uid, context=None):
+        company_obj = self.pool.get('res.company')
+        return company_obj._company_default_get(
+            cr, uid, 'customs.form', context=context)
+
     _columns = {
         'name': fields.char('Form #', size=16, required=True, readonly=True,
                             states={'draft': [('readonly', False)]}),
@@ -87,9 +92,11 @@ class CustomsForm(osv.osv):
                            states={'draft': [('readonly', False)]}),
         'date': fields.date('Date', required=True, readonly=True,
                             states={'draft': [('readonly', False)]},
-                            select=True),
+                            select=True, default=time.strftime('%Y-%m-%d')),
         'company_id': fields.many2one('res.company', 'Company', required=True,
-                                      readonly=True, ondelete='restrict'),
+                                      readonly=True,
+                                      default=lambda s: s._get_company(),
+                                      ondelete='restrict'),
         'broker_id': fields.many2one('res.partner', 'Broker',
                                      change_default=True, readonly=True,
                                      states={'draft': [('readonly', False)]},
@@ -112,7 +119,8 @@ class CustomsForm(osv.osv):
             ondelete='restrict'),
         'cfl_ids': fields.one2many('customs.form.line', 'customs_form_id',
                                    'Tax lines', readonly=True,
-                                   states={'draft': [('readonly', False)]}),
+                                   states={'draft': [('readonly', False)]},
+                                   default=lambda s: s._default_cfl_ids()),
         'amount_total': fields.function(_amount_total, method=True,
                                         type='float', string='Amount total',
                                         store=False),
@@ -124,17 +132,7 @@ class CustomsForm(osv.osv):
         'state': fields.selection([('draft', 'Draft'), ('open', 'Open'),
                                    ('done', 'Done'), ('cancel', 'Cancelled')],
                                   string='State', required=True,
-                                  readonly=True),
-    }
-
-    _defaults = {
-        'date': lambda *a: time.strftime('%Y-%m-%d'),
-        'company_id': lambda self, cr, uid, c:
-        self.pool.get('res.company')._company_default_get(cr, uid,
-                                                          'customs.form',
-                                                          context=c),
-        'cfl_ids': _default_cfl_ids,
-        'state': lambda *a: 'draft',
+                                  readonly=True, default='draft'),
     }
 
     _sql_constraints = [
@@ -324,9 +322,6 @@ class CustomsFormLine(osv.osv):
         'vat_detail': fields.related('tax_code', 'vat_detail', type='boolean',
                                      string='Tax detail', store=False,
                                      readonly=True)
-    }
-
-    _defaults = {
     }
 
     _sql_constraints = [
