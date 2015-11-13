@@ -23,77 +23,60 @@
 #    You should have received a copy of the GNU Affero General Public License
 #    along with this program.  If not, see <http://www.gnu.org/licenses/>.
 ##############################################################################
-from openerp.osv import osv
-from openerp.tools.translate import _
+
+from openerp import models, api, exceptions, _
 
 
-class AccountInvoice(osv.osv):
+class AccountInvoice(models.Model):
     _inherit = 'account.invoice'
 
-    def split_invoice(self, cr, uid, ids):
+    @api.multi
+    def split_invoice(self):
         """
         Split the invoice when the lines exceed the maximum set for the company
         """
-        for inv in self.browse(cr, uid, ids):
-            inv_id = False
+        for inv in self:
             if inv.company_id.lines_invoice < 1:
-                raise osv.except_osv(
+                raise exceptions.except_orm(
                     _('Error !'),
                     _('Please set an invoice lines value in:\n'
                       'Administration->Company->Configuration->Invoice lines'))
             if inv.type in ["out_invoice", "out_refund"]:
                 if len(inv.invoice_line) > inv.company_id.lines_invoice:
-                    lst = []
-                    invoice = self.read(
-                        cr, uid, inv.id,
-                        ['name', 'type', 'number', 'supplier_invoice_number',
-                         'comment', 'date_due', 'partner_id',
-                         'partner_contact', 'partner_insite', 'partner_ref',
-                         'payment_term', 'account_id', 'currency_id',
-                         'invoice_line', 'tax_line', 'journal_id', 'period_id',
-                         "user_id"])
+                    invoice = {}
+                    for field in [
+                            'name', 'type', 'comment', 'account_id',
+                            'supplier_invoice_number', 'date_due',
+                            'period_id', 'partner_id', 'payment_term',
+                            'currency_id', 'journal_id', 'user_id']:
+                        if inv._fields[field].type == 'many2one':
+                            invoice[field] = inv[field].id
+                        else:
+                            invoice[field] = inv[field] or False
                     invoice.update({
                         'state': 'draft',
                         'number': False,
                         'invoice_line': [],
                         'tax_line': [],
                     })
-                    # take the id part of the tuple returned for many2one
-                    # fields
-                    invoice.pop('id', None)
-                    for field in ('partner_id', 'account_id', 'currency_id',
-                                  'payment_term', 'journal_id', 'period_id',
-                                  'user_id'):
-                        invoice[field] = invoice[field] and invoice[field][0]
-
-                    #  if hasattr(inv,'sale_ids'):
-                        #  if self.browse(cr,uid,inv.id,context={}).sale_ids:
-                        #  invoice.update({
-                        #  'sale_ids':[(6,0,[i.id for i in self.browse(
-                        #       cr,uid,inv.id,context={}).sale_ids])]
-                        #  })
-
-                    inv_id = self.create(cr, uid, invoice)
+                    new_inv = self.create(invoice)
                     cont = 0
                     lst = inv.invoice_line
                     while cont < inv.company_id.lines_invoice:
-                        lst.pop(0)
+                        lst -= inv.invoice_line[cont]
                         cont += 1
                     for il in lst:
-                        self.pool.get('account.invoice.line').write(
-                            cr, uid, il.id, {'invoice_id': inv_id})
-                    self.button_compute(cr, uid, [inv.id], set_total=True)
-            if inv_id:
-                self.button_compute(cr, uid, [inv_id], set_total=True)
+                        il.write({'invoice_id': new_inv.id})
+                    inv.button_compute(set_total=True)
+                    new_inv.button_compute(set_total=True)
 #                wf_service.trg_validate(uid, 'account.invoice', inv_id,
 #                                        'invoice_open', cr)
         return True
 
-    def action_date_assign(self, cr, uid, ids, *args):
+    @api.multi
+    def action_date_assign(self):
         """ Return assigned dat
         """
-        super(AccountInvoice, self).action_date_assign(cr, uid, ids, *args)
-        self.split_invoice(cr, uid, ids)
+        super(AccountInvoice, self).action_date_assign()
+        self.split_invoice()
         return True
-
-AccountInvoice()
