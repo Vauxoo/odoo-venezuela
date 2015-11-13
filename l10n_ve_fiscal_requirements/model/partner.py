@@ -196,7 +196,11 @@ class ResPartner(osv.osv):
             return True
 
         for rp_brw in self.browse(cr, uid, ids):
-            acc_part_brw = self._find_accounting_partner(rp_brw)
+            # not use find_accounting_partner function at this point
+            # because return false. Theorically can't be false
+            acc_part_brw = rp_brw
+            while not acc_part_brw.is_company and acc_part_brw.parent_id:
+                acc_part_brw = acc_part_brw.parent_id
             if (acc_part_brw.country_id and
                     acc_part_brw.country_id.code != 'VE'):
                 continue

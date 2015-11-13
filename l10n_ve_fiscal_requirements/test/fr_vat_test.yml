@@ -41,7 +41,7 @@
       }
     part_id = self.create(cr, uid, part)
     assert part_id, 'Partner should be created'
--
+#-
 #  5.3 I create a partner with the same vat and different name than 5.2 previous and this should fail
 #-
 #  !python {model: res.partner}: |
@@ -65,7 +65,7 @@
 #    except orm.except_orm:
 #      pass
 #    assert not part_id, 'Another Partner with the same VAT number than other should not be created'
-#-
+-
   5.4 I create a partner with no VAT number this should fail
 -
   !python {model: res.partner}: |
