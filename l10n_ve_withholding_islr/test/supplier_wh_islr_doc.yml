@@ -21,18 +21,18 @@
        iwc_ids = self.search(cr, uid, [( 'withholdable', '=', False )])
        assert len(iwc_ids) == 1, ( 'Only can be defined one non-withhodeable'
            ' concepts, but %s are defined.' % (len(iwc_ids), ))
--
-  I check that all the withholdable concepts have accounts type 'other'
-  associtated and also have mandatory income rates.
--
-    !python {model: islr.wh.concept}: |
-       iwc_ids = self.search(cr, uid, [( 'withholdable', '=', True )])
-       for iwc_brw in self.browse(cr, uid, iwc_ids):
-            assert iwc_brw.rate_ids, 'All the withholdable concepts need to have rates associated'
-            assert iwc_brw.property_retencion_islr_payable, 'All the withholdable concepts need to have an income withholding purchase acc set.'
-            assert iwc_brw.property_retencion_islr_payable.type == 'other', 'All the withholdable concepts need to have an income withholding purchase acc of type other.'
-            assert iwc_brw.property_retencion_islr_receivable, 'All the withholdable concepts need to have an income withholding sale acc set.'
-            assert iwc_brw.property_retencion_islr_receivable.type == 'other', 'All the withholdable concepts need to have an income withholding sale acc of type other.'
+#-
+#  I check that all the withholdable concepts have accounts type 'other'
+#  associtated and also have mandatory income rates.
+#-
+#    !python {model: islr.wh.concept}: |
+#       iwc_ids = self.search(cr, uid, [( 'withholdable', '=', True )])
+#       for iwc_brw in self.browse(cr, uid, iwc_ids):
+#            assert iwc_brw.rate_ids, 'All the withholdable concepts need to have rates associated'
+#            assert iwc_brw.property_retencion_islr_payable, 'All the withholdable concepts need to have an income withholding purchase acc set.'
+#            assert iwc_brw.property_retencion_islr_payable.type == 'other', 'All the withholdable concepts need to have an income withholding purchase acc of type other.'
+#            assert iwc_brw.property_retencion_islr_receivable, 'All the withholdable concepts need to have an income withholding sale acc set.'
+#            assert iwc_brw.property_retencion_islr_receivable.type == 'other', 'All the withholdable concepts need to have an income withholding sale acc of type other.'
 -
   I check that the supplier that will be use is income withholdable.
 -
@@ -45,11 +45,11 @@
 -
     !assert {model: islr.wh.concept, id: islr_wh_concept_hprof_no_mercantiles, string: The income concept is not withholdable}:
         - withholdable
--
-  I check that the product that will be use have a concept.
--
-    !assert {model: product.product, id: product.product_product_4, string: Have not a concept.}:
-        - concept_id
+#-
+#  I check that the product that will be use have a concept.
+#-
+#    !assert {model: product.product, id: product.product_product_4, string: Have not a concept.}:
+#        - concept_id
 -
   2.2 I check that one invoice only creates a single one withholding line.
 -
@@ -69,7 +69,7 @@
             uos_id: product.product_uom_unit
             price_unit: 3000
             account_id: account.a_pay
-            #concept_id: already in product.
+            concept_id: islr_wh_concept_hprof_no_mercantiles
 - 
   I check that the invoice was correctly created.
 -
