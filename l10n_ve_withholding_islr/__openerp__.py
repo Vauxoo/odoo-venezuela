@@ -40,6 +40,9 @@
         "product",
         "report_webkit",
     ],
+    'demo': [
+        'demo/l10n_ve_islr_withholding_demo.xml',
+    ],
     "data": [
         "view/installer.xml",
         "security/wh_islr_security.xml",

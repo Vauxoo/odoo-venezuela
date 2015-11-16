@@ -29,11 +29,9 @@
             <field name="user_type" ref="account.data_account_type_liability"/>
         </record>
 
-        <!-- TODO: Remove 'islr.wh.concept' records once have been made a functional check -->
         <!--Concepts
             Just adding accounts to concepts to be able to execute the withholding
         -->
-        <!--
         <record id="islr_wh_concept_hprof_no_mercantiles" model="islr.wh.concept">
             <field name="property_retencion_islr_payable" ref="islr_pay"/>
             <field name="property_retencion_islr_receivable" ref="islr_rec"/>
@@ -193,8 +191,8 @@
             <field name="property_retencion_islr_payable" ref="islr_pay"/>
             <field name="property_retencion_islr_receivable" ref="islr_rec"/>
         </record>
-        -->
-        <!--Sequence-->
+
+        <!-- Sequence -->
         <record id="seq_wh_islr_purchase_type" model="ir.sequence.type">
             <field name="name">Retencion de ISLR Compra</field>
             <field name="code">account.journal.islr.purchase</field>
