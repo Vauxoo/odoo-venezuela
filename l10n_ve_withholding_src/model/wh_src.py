@@ -430,13 +430,9 @@ class AccountWhSrc(osv.osv):
         """ Build account moves related to withholding invoice
         """
         inv_obj = self.pool.get('account.invoice')
-        if context is None:
-            context = {}
-
-        dict(context).update({'wh_src': True})
-
+        context = dict(context or {})
+        context.update({'wh_src': True})
         ret = self.browse(cr, uid, ids[0], context)
-
         for line in ret.line_ids:
             if line.move_id:
                 raise osv.except_osv(

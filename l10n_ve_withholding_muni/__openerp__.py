@@ -35,7 +35,7 @@
         'test/awm_customer.yml',
         'test/awm_supplier.yml',
     ],
-   'data': [
+    'data': [
         'security/wh_muni_security.xml',
         'security/ir.model.access.csv',
         'data/wh_muni_sequence.xml',

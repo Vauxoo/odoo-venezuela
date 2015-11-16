@@ -121,7 +121,6 @@ class AccountInvoice(osv.osv):
                 'in_invoice': 1,
                 'out_refund': 1, 'in_refund': -1}
             direction = types[invoice.type]
-
             for tax_brw in to_wh:
                 acc = False
                 coll = tax_brw.wh_id.company_id.wh_src_collected_account_id
