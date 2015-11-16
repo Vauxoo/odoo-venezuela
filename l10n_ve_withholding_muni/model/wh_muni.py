@@ -239,9 +239,8 @@ class AccountWhMunici(osv.osv):
     def action_move_create(self, cr, uid, ids, context=None):
         """ Create movements associated with retention and reconcile
         """
-        if context is None:
-            context = {}
         inv_obj = self.pool.get('account.invoice')
+        context = dict(context or {})
         context.update({'muni_wh': True})
         for ret in self.browse(cr, uid, ids):
             for line in ret.munici_line_ids:

@@ -62,11 +62,11 @@ class AccountInvoice(osv.osv):
             cr, uid, ids, to_wh, period_id, pay_journal_id, writeoff_acc_id,
             writeoff_period_id, writeoff_journal_id, date, name,
             context=context)
+        rp_obj = self.pool.get('res.partner')
         if context.get('muni_wh', False):
-            rp_obj = self.pool.get('res.partner')
+            invoice = self.browse(cr, uid, ids[0])
             acc_part_brw = rp_obj._find_accounting_partner(
                 to_wh.invoice_id.partner_id)
-            invoice = self.browse(cr, uid, ids[0])
             types = {
                 'out_invoice': -1,
                 'in_invoice': 1,
@@ -74,6 +74,8 @@ class AccountInvoice(osv.osv):
                 'in_refund': -1
             }
             direction = types[invoice.type]
+            print '====================== payable', acc_part_brw.property_wh_munici_payable
+            print ' ===================== receiva', acc_part_brw.property_wh_munici_receivable
             if to_wh.retention_id.type == 'in_invoice':
                 acc = acc_part_brw.property_wh_munici_payable and \
                     acc_part_brw.property_wh_munici_payable.id or False
