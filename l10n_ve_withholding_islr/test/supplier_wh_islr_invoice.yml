@@ -26,16 +26,27 @@
        assert len(iwc_ids) == 1, ( 'Only can be defined one non-withhodeable'
            ' concepts, but %s are defined.' % (len(iwc_ids), ))
 -
-  I check that all the withholdable concepts have accounts type 'other' associtated and also have mandatory income rates.
+  I set accounts for concept 'Honorarios Profesionales No Mercantiles'
 -
     !python {model: islr.wh.concept}: |
-       iwc_ids = self.search(cr, uid, [( 'withholdable', '=', True )])
-       for iwc_brw in self.browse(cr, uid, iwc_ids):
-            assert iwc_brw.rate_ids, 'All the withholdable concepts need to have rates associated'
-            assert iwc_brw.property_retencion_islr_payable, 'All the withholdable concepts need to have an income withholding purchase acc set.'
-            assert iwc_brw.property_retencion_islr_payable.type == 'other', 'All the withholdable concepts need to have an income withholding purchase acc of type other.'
-            assert iwc_brw.property_retencion_islr_receivable, 'All the withholdable concepts need to have an income withholding sale acc set.'
-            assert iwc_brw.property_retencion_islr_receivable.type == 'other', 'All the withholdable concepts need to have an income withholding sale acc of type other.'
+        concept_id = ref( 'islr_wh_concept_hprof_no_mercantiles' )
+        islr_pay_id = ref( 'islr_pay' )
+        islr_rec_id = ref( 'islr_rec' )
+        self.write(cr, uid, concept_id, {
+            'property_retencion_islr_payable': islr_pay_id,
+            'property_retencion_islr_receivable': islr_rec_id,
+        })
+-
+  I set accounts for concept 'NO APLICA RETENCION'
+-
+    !python {model: islr.wh.concept}: |
+        concept_id = ref( 'islr_wh_concept_no_apply_withholding' )
+        islr_pay_id = ref( 'islr_pay' )
+        islr_rec_id = ref( 'islr_rec' )
+        self.write(cr, uid, concept_id, {
+            'property_retencion_islr_payable': islr_pay_id,
+            'property_retencion_islr_receivable': islr_rec_id,
+        })
 -
   I check that the supplier that will be use exist and is correctly set for this test.
 -
@@ -43,15 +54,28 @@
        - country_id.code == 'VE'
        - vat
 -
-  I check that the concept that will be use is withhodable.
+  I check that the concept 'Honorarios Profesionales No Mercantiles' is properly configured.
 -
-    !assert {model: islr.wh.concept, id: islr_wh_concept_hprof_no_mercantiles, string: The income concept is not withholdable}:
+    !assert {model: islr.wh.concept, id: islr_wh_concept_hprof_no_mercantiles, string: The income concept is not properly configured}:
         - withholdable
+        - rate_ids
+        - property_retencion_islr_payable
+        - property_retencion_islr_payable.type == 'other'
+        - property_retencion_islr_receivable
+        - property_retencion_islr_receivable.type == 'other'
+-
+  I check that the concept 'NO APLICA RETENCION' is properly configured.
+-
+    !assert {model: islr.wh.concept, id: islr_wh_concept_no_apply_withholding, string: The income concept is not properly configured}:
+        - property_retencion_islr_payable
+        - property_retencion_islr_payable.type == 'other'
+        - property_retencion_islr_receivable
+        - property_retencion_islr_receivable.type == 'other'
+        - withholdable == False
 -
   I check that the product that will be use have the withholdable concept.
 -
-    !assert {model: product.product, id: product.product_product_4, string: Have not a concept.}:
-        - concept_id
+    !assert {model: product.product, id: product.product_product_4, string: The product not have a concept}:
         - concept_id.id == ref( 'islr_wh_concept_hprof_no_mercantiles' )
 -
   1.2 I check that a withholding document is created when the invoice have a withholdable concept (at the invoice line product).
@@ -73,7 +97,7 @@
             price_unit: 30000
             account_id: account.a_pay
 #            concept_id: islr_wh_concept_hprof_no_mercantiles # (already in product)
-- 
+-
   I check that the invoice was correctly created.
 -
     !assert {model: account.invoice, id: islr_withholdable_supplier_invoice, string: The invoice was not correctly created}:

@@ -32,6 +32,7 @@
         <!--Concepts
             Just adding accounts to concepts to be able to execute the withholding
         -->
+        <!--
         <record id="islr_wh_concept_hprof_no_mercantiles" model="islr.wh.concept">
             <field name="property_retencion_islr_payable" ref="islr_pay"/>
             <field name="property_retencion_islr_receivable" ref="islr_rec"/>
@@ -191,7 +192,7 @@
             <field name="property_retencion_islr_payable" ref="islr_pay"/>
             <field name="property_retencion_islr_receivable" ref="islr_rec"/>
         </record>
-
+        -->
         <!-- Sequence -->
         <record id="seq_wh_islr_purchase_type" model="ir.sequence.type">
             <field name="name">Retencion de ISLR Compra</field>
@@ -218,11 +219,10 @@
             <field name="padding">6</field>
             <field name="number_increment">1</field>
         </record>
-        _
+
         <!--
         Product
         -->
-
         <record id="product.product_product_4" model="product.product">
             <field name="concept_id" ref="islr_wh_concept_hprof_no_mercantiles"/>
         </record>
@@ -230,7 +230,6 @@
         <!--
         Journal
         -->
-
         <record id="withholding_purchase_journal" model="account.journal">
             <field name="name">DIARIO DE ISLR COMPRA</field>
             <field name="code">ISLR1</field>

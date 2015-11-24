@@ -252,7 +252,8 @@ class ResPartner(osv.osv):
 
     _constraints = [
         (_check_vat_mandatory,
-         _("Error ! VAT is mandatory in the Accounting Partner"), []),
+         _("Error ! VAT is mandatory in the Accounting Partner"),
+         ['country_id', 'vat']),
         (_check_vat_uniqueness,
          _("Error ! Partner's VAT must be a unique value or empty"), []),
         # (_check_partner_invoice_addr,
