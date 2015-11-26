@@ -95,9 +95,7 @@ class AccountInvoiceRefund(osv.osv_memory):
                         context=None, toolbar=False, submenu=False):
         """ Depending on context, options are displayed in the selection field
         """
-        if context is None:
-            context = {}
-
+        context = dict(context or {})
         journal_obj = self.pool.get('account.journal')
         res = super(AccountInvoiceRefund, self).fields_view_get(
             cr, uid, view_id=view_id, view_type=view_type, context=context,

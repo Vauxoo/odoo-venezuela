@@ -131,8 +131,7 @@ class AccountInvoice(osv.osv):
             minimun rate.'''),
     }
 
-# BEGIN OF REWRITING ISLR
-
+    # BEGIN OF REWRITING ISLR
     def check_invoice_type(self, cr, uid, ids, context=None):
         """ This method check if the given invoice record is from a supplier
         """
@@ -168,7 +167,7 @@ class AccountInvoice(osv.osv):
     def _create_islr_wh_doc(self, cr, uid, ids, context=None):
         """ Function to create in the model islr_wh_doc
         """
-        context = context or {}
+        context = dict(context or {})
         ids = isinstance(ids, (int, long)) and [ids] or ids
 
         wh_doc_obj = self.pool.get('islr.wh.doc')
@@ -199,7 +198,8 @@ class AccountInvoice(osv.osv):
                 'period_id': row.period_id.id,
                 'account_id': row.account_id.id,
                 'type': row.type,
-                'journal_id': journal
+                'journal_id': journal,
+                'date_uid': row.date_invoice,
             }
             if row.company_id.propagate_invoice_date_to_income_withholding:
                 values['date_uid'] = row.date_invoice
@@ -242,15 +242,15 @@ class AccountInvoice(osv.osv):
         data = super(AccountInvoice, self)._refund_cleanup_lines(
             cr, uid, lines, context=context)
         res = []
-        for xres, yres, res in data:
-            if 'concept_id' in res:
-                res['concept_id'] = res.get(
-                    'concept_id', False) and res['concept_id']
-            if 'apply_wh' in res:
-                res['apply_wh'] = False
-            if 'wh_xml_id' in res:
-                res['wh_xml_id'] = 0
-            res.append((xres, yres, res))
+        for xres, yres, zres in data:
+            if 'concept_id' in zres:
+                zres['concept_id'] = zres.get(
+                    'concept_id', False) and zres['concept_id']
+            if 'apply_wh' in zres:
+                zres['apply_wh'] = False
+            if 'wh_xml_id' in zres:
+                zres['wh_xml_id'] = 0
+            res.append((xres, yres, zres))
         return res
 
     def validate_wh_income_done(self, cr, uid, ids, context=None):

@@ -1110,6 +1110,7 @@ class IslrWhDocInvoices(osv.osv):
         ids = isinstance(ids, (int, long)) and [ids] or ids
         ixwl_obj = self.pool.get('islr.xml.wh.line')
         iwdl_obj = self.pool.get('islr.wh.doc.line')
+        ail_obj = self.pool.get('account.invoice.line')
         ret_line = self.browse(cr, uid, ids[0], context=context)
         lines = []
         xmls = {}
@@ -1143,7 +1144,8 @@ class IslrWhDocInvoices(osv.osv):
                 # Vuelve a crear las lineas
                 xml_id = ixwl_obj.create(cr, uid, values, context=context)
                 # Write back the new xml_id into the account_invoice_line
-                i.write({'wh_xml_id': xml_id}, context=context)
+                ail_vals = {'wh_xml_id': xml_id}
+                ail_obj.write(cr, uid, i.id, ail_vals, context=context)
                 lines.append(xml_id)
                 # Keeps a log of the rate & percentage for a concept
                 if xmls.get(i.concept_id.id):
