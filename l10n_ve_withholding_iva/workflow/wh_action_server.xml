@@ -16,8 +16,10 @@ object.check_withholdable() and \
 object.action_wh_iva_supervisor() and \
 object.action_wh_iva_create()</field>
         </record>
+        <!--
         <record id="l10n_ve_withholding.multiact_wh_srv_act" model="ir.actions.server">
             <field name="child_ids" eval="[(4,ref(&quot;wh_iva_srv_act&quot;))]"/>
         </record>
+        -->
     </data>
 </openerp>
