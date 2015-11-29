@@ -35,7 +35,7 @@
         'security/ir.model.access.csv',
         'data/l10n_ve_withholding_data.xml',
         'view/l10n_ve_withholding_view.xml',
-        'workflow/wh_action_server.xml',
+        # 'workflow/wh_action_server.xml', # Discontinued in v8 migration
     ],
     'test': [
         'test/account_supplier_invoice.yml',
