@@ -495,8 +495,7 @@ class IslrWhDoc(osv.osv):
         # if self.browse(cr,uid,ids)[0].type=='in_invoice':
         # return True
         self.pool.get('islr.wh.doc').write(
-            cr, uid, ids, {'automatic_income_wh': False})
-
+            cr, uid, ids, {'state': 'cancel', 'automatic_income_wh': False})
         self.cancel_move(cr, uid, ids)
         self.action_cancel_process(cr, uid, ids, context=context)
         return True
@@ -520,7 +519,12 @@ class IslrWhDoc(osv.osv):
     def action_cancel_draft(self, cr, uid, ids, *args):
         """ Back to draft status
         """
+        ids = isinstance(ids, (int, long)) and [ids] or ids
         self.write(cr, uid, ids, {'state': 'draft'})
+        for iwd_id in ids:
+            # Deleting the existing instance of workflow for islr withholding
+            self.delete_workflow(cr, uid, [iwd_id])
+            self.create_workflow(cr, uid, [iwd_id])
         return True
 
     def action_move_create(self, cr, uid, ids, context=None):
