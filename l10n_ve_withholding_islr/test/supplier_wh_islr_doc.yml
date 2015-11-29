@@ -347,13 +347,10 @@
   I confirm the withholding document.
 -
     !python {model: islr.wh.doc}: | 
-        inv_id = ref( 'islr_acctg_parnter_supplier_invoice' )
-        iwd_id = self.pool.get( 'account.invoice' ).browse(
-            cr, uid, inv_id).islr_wh_doc_id.id
-        from openerp import workflow
-        from openerp.osv import osv
-        wf_service = workflow
-        wf_service.trg_validate(uid, 'islr.wh.doc', iwd_id, 'act_confirm', cr)
+        invoice_id = ref( 'islr_acctg_parnter_supplier_invoice' )
+        islr_wh_doc = self.pool.get( 'account.invoice' ).browse(
+            cr, uid, invoice_id).islr_wh_doc_id
+        islr_wh_doc.signal_workflow('act_confirm')
 -
   I check that the withholding document was confirmed and have no moves.
 -
@@ -487,13 +484,14 @@
 -
   I set company to process the withholding automaticly.
 -
-    !record {model: res.company, id: base.main_company}:
-       automatic_income_wh: True
+    !python {model: res.company}: |
+        company_id = ref( 'base.main_company' )
+        self.write(cr, uid, company_id, {'automatic_income_wh': True})
 -
   I check that the company is correctly update.
 -
-    !assert {model: res.partner, id: base.main_partner, string: The company is not correctly set.}:
-       - company_id.automatic_income_wh
+    !assert {model: res.company, id: base.main_company, string: The company is not correctly set.}:
+       - automatic_income_wh
 -
   I create an supplier invoice.
 -
@@ -521,20 +519,22 @@
 -
   I revert the changes in the company.
 -
-    !record {model: res.company, id: base.main_company}:
-       automatic_income_wh: False
+    !python {model: res.company}: |
+        company_id = ref( 'base.main_company' )
+        self.write(cr, uid, company_id, {'automatic_income_wh': False})
 -
-  i check that the company is correctly update.
+  I check that the company is correctly update.
 -
-    !assert {model: res.partner, id: base.main_partner, string: the company is not correctly set.}:
-       - not company_id.automatic_income_wh
+    !assert {model: res.company, id: base.main_company, string: The company is not correctly set.}:
+       - not automatic_income_wh
 -
   2.12 I check that when a not natural supplier is a society of natural persons it will be treat as a natural person.
 -
   I set the supplier as a society of natural persons.
 -
-    !record {model: res.partner, id: l10n_ve_fiscal_requirements.f_req_partner_1}:
-        spn: True
+    !python {model: res.partner}: |
+        partner_id = ref( 'l10n_ve_fiscal_requirements.f_req_partner_1' )
+        self.write(cr, uid, partner_id, {'spn': True})
 -
   I check that the supplier was correctly updated.
 -
@@ -575,8 +575,9 @@
 -
   I revert the changes on the supplier.
 -
-    !record {model: res.partner, id: l10n_ve_fiscal_requirements.f_req_partner_1}:
-        spn: false
+    !python {model: res.partner}: |
+        partner_id = ref( 'l10n_ve_fiscal_requirements.f_req_partner_1' )
+        self.write(cr, uid, partner_id, {'spn': False})
 -
   I check that the supplier was correctly updated.
 -
@@ -587,8 +588,9 @@
 -
   I set the supplier as an income exempt.
 -
-    !record {model: res.partner, id: l10n_ve_fiscal_requirements.f_req_partner_1}:
-        islr_exempt: True
+    !python {model: res.partner}: |
+        partner_id = ref( 'l10n_ve_fiscal_requirements.f_req_partner_1' )
+        self.write(cr, uid, partner_id, {'islr_exempt': True})
 -
   I check that the supplier was correctly updated.
 -
@@ -622,8 +624,9 @@
 -
   I revert the changes on the supplier.
 -
-    !record {model: res.partner, id: l10n_ve_fiscal_requirements.f_req_partner_1}:
-        islr_exempt: False
+    !python {model: res.partner}: |
+        partner_id = ref( 'l10n_ve_fiscal_requirements.f_req_partner_1' )
+        self.write(cr, uid, partner_id, {'islr_exempt': False})
 -
   I check that the supplier was correctly updated.
 -
@@ -634,8 +637,9 @@
 -
   I set the supplier as an income exempt.
 -
-    !record {model: res.partner, id: l10n_ve_fiscal_requirements.f_req_partner_1}:
-        islr_exempt: True
+    !python {model: res.partner}: |
+        partner_id = ref( 'l10n_ve_fiscal_requirements.f_req_partner_1' )
+        self.write(cr, uid, partner_id, {'islr_exempt': True})
 -
   I check that the supplier was correctly updated.
 -
@@ -688,8 +692,9 @@
 -
   I revert the changes on the supplier.
 -
-    !record {model: res.partner, id: l10n_ve_fiscal_requirements.f_req_partner_1}:
-        islr_exempt: False
+    !python {model: res.partner}: |
+        partner_id = ref( 'l10n_ve_fiscal_requirements.f_req_partner_1' )
+        self.write(cr, uid, partner_id, {'islr_exempt': False})
 -
   I check that the supplier was correctly updated.
 -
@@ -797,7 +802,7 @@
   I check that the withholding document is withhout invoices.
 -
     !assert {model: islr.wh.doc, id: islr_open_state_supplier_wh_doc, string: The withholding document should be without invoices.}:
-        - invoice_ids == []
+        - len(invoice_ids) == 0
 -
   I create a supplier invoice.
 -
@@ -832,7 +837,7 @@
   I check that the invoice was not added.
 -
     !assert {model: islr.wh.doc, id: islr_open_state_supplier_wh_doc, string: The draft invoice was added and it should not.}:
-        - invoice_ids == []
+        - len(invoice_ids) == 0
 -
   I confirm the invoice.
 -
@@ -875,7 +880,7 @@
   I check that the withholding document is withhout invoices.
 -
     !assert {model: islr.wh.doc, id: islr_no_lines_supplier_wh_doc, string: The withholding document should be without invoices}:
-        - invoice_ids == []
+        - len(invoice_ids) == 0
 -
   I try to confirm the withholding document. It won't be confirm.
 -
@@ -947,7 +952,7 @@
   I check that the withholding document is withhout invoices.
 -
     !assert {model: islr.wh.doc, id: islr_manual_supplier_wh_doc, string: The withholding document should be without invoices}:
-        - invoice_ids == []
+        - len(invoice_ids) == 0
 -
   I add the invoice to the withholding document.
 -

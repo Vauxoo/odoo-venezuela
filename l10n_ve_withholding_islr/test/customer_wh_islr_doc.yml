@@ -59,7 +59,7 @@
   I check that the product that will be use have a concept.
 -
     !assert {model: product.product, id: product.product_product_4, string: The product not have a concept}:
-        - concept_id.id == islr_wh_concept_hprof_no_mercantiles
+        - concept_id.id == ref( 'islr_wh_concept_hprof_no_mercantiles' )
 -
   I check that the customer that will be use is an income withholding agent and is at Venezuela.
 -
@@ -187,7 +187,7 @@
   I check that the withholding document is withhout invoices.
 -
     !assert {model: islr.wh.doc, id: islr_no_lines_customer_wh_doc, string: The withholding document should be without invoices}:
-        - invoice_ids == []
+        - len(invoice_ids) == 0
 -
   I try to confirm the withholding document. It won't be confirm.
 -
@@ -221,7 +221,7 @@
   I check that the withholding document is withhout invoices.
 -
     !assert {model: islr.wh.doc, id: islr_open_state_customer_wh_doc, string: The withholding document should be without invoices}:
-        - invoice_ids == []
+        - len(invoice_ids) == 0
 -
   I create a customer invoice.
 -
@@ -255,7 +255,7 @@
   I check that the invoice was not added.
 -
     !assert {model: islr.wh.doc, id: islr_open_state_customer_wh_doc, string: The draft invoice was added and it should not.}:
-        - invoice_ids == []
+        - len(invoice_ids) == 0
 -
   I confirm the invoice.
 -

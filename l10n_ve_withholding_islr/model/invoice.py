@@ -307,9 +307,9 @@ class AccountInvoice(osv.osv):
         direction = types[inv_brw.type]
 
         for iwdl_brw in to_wh:
+            rec = iwdl_brw.concept_id.property_retencion_islr_receivable
+            pay = iwdl_brw.concept_id.property_retencion_islr_payable
             if inv_brw.type in ('out_invoice', 'out_refund'):
-                rec = iwdl_brw.concept_id.property_retencion_islr_receivable
-                pay = iwdl_brw.concept_id.property_retencion_islr_payable
                 acc = rec and rec.id or False
             else:
                 acc = pay and pay.id or False
