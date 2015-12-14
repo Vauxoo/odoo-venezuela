@@ -406,8 +406,9 @@ class AccountInvoice(osv.osv):
         if inv_brw.type == 'in_refund' and inv_brw.parent_id:
             dt_refund = inv_brw.date_invoice or time.strftime('%Y-%m-%d')
             dt_invoice = inv_brw.parent_id.date_invoice
-            return per_obj.find_fortnight(cr, uid, dt=dt_refund, context=context) == \
-                per_obj.find_fortnight(cr, uid, dt=dt_invoice, context=context)
+            find_fortnight = per_obj.find_fortnight
+            return find_fortnight(cr, uid, date=dt_refund, context=context) \
+                == find_fortnight(cr, uid, date=dt_invoice, context=context)
         return False
 
     def check_wh_apply(self, cr, uid, ids, context=None):
