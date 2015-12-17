@@ -31,6 +31,10 @@
     "category": 'Generic Modules/Accounting',
     'init_xml': [],
     "depends": ["l10n_ve_withholding"],
+    'test': [
+        'test/awm_customer.yml',
+        'test/awm_supplier.yml',
+    ],
     'data': [
         'security/wh_muni_security.xml',
         'security/ir.model.access.csv',
@@ -42,9 +46,10 @@
         'report/wh_muni_report.xml',
         'workflow/l10n_ve_wh_muni_wf.xml',
     ],
-    'test': [
-        'test/awm_supplier.yml',
-        'test/awm_customer.yml'
+    'demo': [
+        'demo/demo_accounts.xml',
+        'demo/demo_journal.xml',
+        'demo/demo_partners.xml',
     ],
     'installable': True,
 }

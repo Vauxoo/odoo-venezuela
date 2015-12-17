@@ -22,34 +22,100 @@
        assert len(iwc_ids) == 1, ( 'Only can be defined one non-withhodeable'
            ' concepts, but %s are defined.' % (len(iwc_ids), ))
 -
-  I check that all the withholdable concepts have accounts type 'other'
-  associtated and also have mandatory income rates.
+  I set accounts for concept 'Honorarios Profesionales No Mercantiles'
 -
     !python {model: islr.wh.concept}: |
-       iwc_ids = self.search(cr, uid, [( 'withholdable', '=', True )])
-       for iwc_brw in self.browse(cr, uid, iwc_ids):
-            assert iwc_brw.rate_ids, 'All the withholdable concepts need to have rates associated'
-            assert iwc_brw.property_retencion_islr_payable, 'All the withholdable concepts need to have an income withholding purchase acc set.'
-            assert iwc_brw.property_retencion_islr_payable.type == 'other', 'All the withholdable concepts need to have an income withholding purchase acc of type other.'
-            assert iwc_brw.property_retencion_islr_receivable, 'All the withholdable concepts need to have an income withholding sale acc set.'
-            assert iwc_brw.property_retencion_islr_receivable.type == 'other', 'All the withholdable concepts need to have an income withholding sale acc of type other.'
+        concept_id = ref( 'islr_wh_concept_hprof_no_mercantiles'  )
+        islr_pay_id = ref( 'islr_pay'  )
+        islr_rec_id = ref( 'islr_rec'  )
+        self.write(cr, uid, concept_id, {
+            'property_retencion_islr_payable': islr_pay_id,
+            'property_retencion_islr_receivable': islr_rec_id,
+        })
+-
+  I set accounts for concept 'Pagos a Empresas Contratistas o Subcontratistas...'
+-
+    !python {model: islr.wh.concept}: |
+        concept_id = ref( 'islr_wh_concept_pago_contratistas'  )
+        islr_pay_id = ref( 'islr_pay'  )
+        islr_rec_id = ref( 'islr_rec'  )
+        self.write(cr, uid, concept_id, {
+            'property_retencion_islr_payable': islr_pay_id,
+            'property_retencion_islr_receivable': islr_rec_id,
+        })
+-
+  I set accounts for concept 'NO APLICA RETENCION'
+-
+    !python {model: islr.wh.concept}: |
+        concept_id = ref( 'islr_wh_concept_no_apply_withholding'  )
+        islr_pay_id = ref( 'islr_pay'  )
+        islr_rec_id = ref( 'islr_rec'  )
+        self.write(cr, uid, concept_id, {
+            'property_retencion_islr_payable': islr_pay_id,
+            'property_retencion_islr_receivable': islr_rec_id,
+        })
+-
+  I set accounts for concept 'Cualquier otra Comision distintas a ...'
+-
+    !python {model: islr.wh.concept}: |
+        concept_id = ref( 'islr_wh_concept_cualquie_cosa_menos_sueldos'  )
+        islr_pay_id = ref( 'islr_pay'  )
+        islr_rec_id = ref( 'islr_rec'  )
+        self.write(cr, uid, concept_id, {
+            'property_retencion_islr_payable': islr_pay_id,
+            'property_retencion_islr_receivable': islr_rec_id,
+        })
+-
+  I check that the concept 'Honorarios Profesionales No Mercantiles' is properly configured.
+-
+    !assert {model: islr.wh.concept, id: islr_wh_concept_hprof_no_mercantiles, string: The income concept is not properly configured}:
+        - withholdable
+        - rate_ids
+        - property_retencion_islr_payable
+        - property_retencion_islr_payable.type == 'other'
+        - property_retencion_islr_receivable
+        - property_retencion_islr_receivable.type == 'other'
+-
+  I check that the concept 'Pagos a Empresas Contratistas o Subcontratistas...' is properly configured.
+-
+    !assert {model: islr.wh.concept, id: islr_wh_concept_pago_contratistas, string: The income concept is not properly configured}:
+        - property_retencion_islr_payable
+        - property_retencion_islr_payable.type == 'other'
+        - property_retencion_islr_receivable
+        - property_retencion_islr_receivable.type == 'other'
+        - withholdable
+        - rate_ids
+-
+  I check that the concept 'NO APLICA RETENCION' is properly configured.
+-
+    !assert {model: islr.wh.concept, id: islr_wh_concept_no_apply_withholding, string: The income concept is not properly configured}:
+        - property_retencion_islr_payable
+        - property_retencion_islr_payable.type == 'other'
+        - property_retencion_islr_receivable
+        - property_retencion_islr_receivable.type == 'other'
+        - withholdable == False
+-
+  I check that the concept 'Cualquier otra Comision distintas a...' is properly configured.
+-
+    !assert {model: islr.wh.concept, id: islr_wh_concept_cualquie_cosa_menos_sueldos, string: The income concept is not properly configured}:
+        - property_retencion_islr_payable
+        - property_retencion_islr_payable.type == 'other'
+        - property_retencion_islr_receivable
+        - property_retencion_islr_receivable.type == 'other'
+        - withholdable
+        - rate_ids
 -
   I check that the supplier that will be use is income withholdable.
 -
     !assert {model: res.partner, id: l10n_ve_fiscal_requirements.f_req_partner_1, string: The supplier is not correctly set for this test.}:
-       - islr_withholding_agent
-       - country_id.code == 'VE'
-       - vat
--
-  I check that the concept that will be use is withhodable.
--
-    !assert {model: islr.wh.concept, id: islr_wh_concept_hprof_no_mercantiles, string: The income concept is not withholdable}:
-        - withholdable
+        - islr_withholding_agent
+        - country_id.code == 'VE'
+        - vat
 -
   I check that the product that will be use have a concept.
 -
-    !assert {model: product.product, id: product.product_product_4, string: Have not a concept.}:
-        - concept_id
+    !assert {model: product.product, id: product.product_product_4, string: The product not have a concept}:
+        - concept_id.id == ref( 'islr_wh_concept_hprof_no_mercantiles' )
 -
   2.2 I check that one invoice only creates a single one withholding line.
 -
@@ -69,7 +135,7 @@
             uos_id: product.product_uom_unit
             price_unit: 3000
             account_id: account.a_pay
-            #concept_id: already in product.
+#            concept_id: islr_wh_concept_hprof_no_mercantiles # (already in product)
 - 
   I check that the invoice was correctly created.
 -
@@ -281,13 +347,10 @@
   I confirm the withholding document.
 -
     !python {model: islr.wh.doc}: | 
-        inv_id = ref( 'islr_acctg_parnter_supplier_invoice' )
-        iwd_id = self.pool.get( 'account.invoice' ).browse(
-            cr, uid, inv_id).islr_wh_doc_id.id
-        from openerp import workflow
-        from openerp.osv import osv
-        wf_service = workflow
-        wf_service.trg_validate(uid, 'islr.wh.doc', iwd_id, 'act_confirm', cr)
+        invoice_id = ref( 'islr_acctg_parnter_supplier_invoice' )
+        islr_wh_doc = self.pool.get( 'account.invoice' ).browse(
+            cr, uid, invoice_id).islr_wh_doc_id
+        islr_wh_doc.signal_workflow('act_confirm')
 -
   I check that the withholding document was confirmed and have no moves.
 -
@@ -421,13 +484,14 @@
 -
   I set company to process the withholding automaticly.
 -
-    !record {model: res.company, id: base.main_company}:
-       automatic_income_wh: True
+    !python {model: res.company}: |
+        company_id = ref( 'base.main_company' )
+        self.write(cr, uid, company_id, {'automatic_income_wh': True})
 -
   I check that the company is correctly update.
 -
-    !assert {model: res.partner, id: base.main_partner, string: The company is not correctly set.}:
-       - company_id.automatic_income_wh
+    !assert {model: res.company, id: base.main_company, string: The company is not correctly set.}:
+       - automatic_income_wh
 -
   I create an supplier invoice.
 -
@@ -455,20 +519,22 @@
 -
   I revert the changes in the company.
 -
-    !record {model: res.company, id: base.main_company}:
-       automatic_income_wh: False
+    !python {model: res.company}: |
+        company_id = ref( 'base.main_company' )
+        self.write(cr, uid, company_id, {'automatic_income_wh': False})
 -
-  i check that the company is correctly update.
+  I check that the company is correctly update.
 -
-    !assert {model: res.partner, id: base.main_partner, string: the company is not correctly set.}:
-       - not company_id.automatic_income_wh
+    !assert {model: res.company, id: base.main_company, string: The company is not correctly set.}:
+       - not automatic_income_wh
 -
   2.12 I check that when a not natural supplier is a society of natural persons it will be treat as a natural person.
 -
   I set the supplier as a society of natural persons.
 -
-    !record {model: res.partner, id: l10n_ve_fiscal_requirements.f_req_partner_1}:
-        spn: True
+    !python {model: res.partner}: |
+        partner_id = ref( 'l10n_ve_fiscal_requirements.f_req_partner_1' )
+        self.write(cr, uid, partner_id, {'spn': True})
 -
   I check that the supplier was correctly updated.
 -
@@ -509,8 +575,9 @@
 -
   I revert the changes on the supplier.
 -
-    !record {model: res.partner, id: l10n_ve_fiscal_requirements.f_req_partner_1}:
-        spn: false
+    !python {model: res.partner}: |
+        partner_id = ref( 'l10n_ve_fiscal_requirements.f_req_partner_1' )
+        self.write(cr, uid, partner_id, {'spn': False})
 -
   I check that the supplier was correctly updated.
 -
@@ -521,8 +588,9 @@
 -
   I set the supplier as an income exempt.
 -
-    !record {model: res.partner, id: l10n_ve_fiscal_requirements.f_req_partner_1}:
-        islr_exempt: True
+    !python {model: res.partner}: |
+        partner_id = ref( 'l10n_ve_fiscal_requirements.f_req_partner_1' )
+        self.write(cr, uid, partner_id, {'islr_exempt': True})
 -
   I check that the supplier was correctly updated.
 -
@@ -556,8 +624,9 @@
 -
   I revert the changes on the supplier.
 -
-    !record {model: res.partner, id: l10n_ve_fiscal_requirements.f_req_partner_1}:
-        islr_exempt: False
+    !python {model: res.partner}: |
+        partner_id = ref( 'l10n_ve_fiscal_requirements.f_req_partner_1' )
+        self.write(cr, uid, partner_id, {'islr_exempt': False})
 -
   I check that the supplier was correctly updated.
 -
@@ -568,8 +637,9 @@
 -
   I set the supplier as an income exempt.
 -
-    !record {model: res.partner, id: l10n_ve_fiscal_requirements.f_req_partner_1}:
-        islr_exempt: True
+    !python {model: res.partner}: |
+        partner_id = ref( 'l10n_ve_fiscal_requirements.f_req_partner_1' )
+        self.write(cr, uid, partner_id, {'islr_exempt': True})
 -
   I check that the supplier was correctly updated.
 -
@@ -622,8 +692,9 @@
 -
   I revert the changes on the supplier.
 -
-    !record {model: res.partner, id: l10n_ve_fiscal_requirements.f_req_partner_1}:
-        islr_exempt: False
+    !python {model: res.partner}: |
+        partner_id = ref( 'l10n_ve_fiscal_requirements.f_req_partner_1' )
+        self.write(cr, uid, partner_id, {'islr_exempt': False})
 -
   I check that the supplier was correctly updated.
 -
@@ -731,7 +802,7 @@
   I check that the withholding document is withhout invoices.
 -
     !assert {model: islr.wh.doc, id: islr_open_state_supplier_wh_doc, string: The withholding document should be without invoices.}:
-        - invoice_ids == []
+        - len(invoice_ids) == 0
 -
   I create a supplier invoice.
 -
@@ -766,7 +837,7 @@
   I check that the invoice was not added.
 -
     !assert {model: islr.wh.doc, id: islr_open_state_supplier_wh_doc, string: The draft invoice was added and it should not.}:
-        - invoice_ids == []
+        - len(invoice_ids) == 0
 -
   I confirm the invoice.
 -
@@ -809,7 +880,7 @@
   I check that the withholding document is withhout invoices.
 -
     !assert {model: islr.wh.doc, id: islr_no_lines_supplier_wh_doc, string: The withholding document should be without invoices}:
-        - invoice_ids == []
+        - len(invoice_ids) == 0
 -
   I try to confirm the withholding document. It won't be confirm.
 -
@@ -881,7 +952,7 @@
   I check that the withholding document is withhout invoices.
 -
     !assert {model: islr.wh.doc, id: islr_manual_supplier_wh_doc, string: The withholding document should be without invoices}:
-        - invoice_ids == []
+        - len(invoice_ids) == 0
 -
   I add the invoice to the withholding document.
 -

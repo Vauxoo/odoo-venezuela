@@ -1,8 +1,8 @@
 <?xml version='1.0' encoding='UTF-8'?>
 <openerp>
     <data>
-        <!-- Due to the need of country in main_partner to validate the WithHolding. We change the 
-             Country of its invoice address and VAT due to the mandatory VAT number for partners 
+        <!-- Due to the need of country in main_partner to validate the WithHolding. We change the
+             Country of its invoice address and VAT due to the mandatory VAT number for partners
              in VE.
         -->
         <record id="base.main_partner" model="res.partner">
@@ -119,13 +119,13 @@
             <field name="parent_id" ref="f_req_partner_2"/>
             <field name="zip">1090</field>
         </record>
-        <!-- I will add contacts to Vauxoo, due to they are from Venezuela, the vat is mandatory. 
+        <!-- I will add contacts to Vauxoo, due to they are from Venezuela, the vat is mandatory.
              -->
         <record id="base.res_partner_23" model="res.partner">
             <field name="vat">VEJ317520882</field>
         </record>
-        <!-- Test a contact in a country with one invoice address different to the main company 
-             Forced to have a vat just to pass TODO: remove vat when the contraint s fixed.     
+        <!-- Test a contact in a country with one invoice address different to the main company
+             Forced to have a vat just to pass TODO: remove vat when the contraint s fixed.
         -->
         <record id="f_req_partner_10" model="res.partner">
             <field name="name">Jose Morales Ponce</field>
@@ -140,7 +140,7 @@
             <field name="zip">1132</field>
         </record>
         <!-- Test a contact in a country with one contact address different to the main company -->
-        <record id="f_req_partner_10" model="res.partner">
+        <record id="f_req_partner_10_duplicated" model="res.partner">
             <field name="name">Humberto Jose Arocha</field>
             <field name="vat">VEV149253153</field>
             <field name="supplier">False</field>

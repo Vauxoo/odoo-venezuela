@@ -24,6 +24,7 @@
     "version": "4.0",
     "depends": [
         # Level Zero of Modules
+        "base_action_rule",
         "account",
         "document",
         # First Level of Modules
@@ -60,4 +61,4 @@
     "auto_install": False,
     "application": True,
     "installable": True,
- }
+}

@@ -32,7 +32,7 @@ class RepComprobanteIslr(report_sxw.rml_parse):
 
     def __init__(self, cr, uid, name, context):
         super(RepComprobanteIslr, self).__init__(cr, uid, name,
-                                                   context=context)
+                                                 context=context)
         self.localcontext.update({
             'get_partner_addr': self._get_partner_addr,
         })
@@ -52,10 +52,11 @@ class RepComprobanteIslr(report_sxw.rml_parse):
                 (addr.street and ('%s, ' % addr.street.title()) or '') +
                 (addr.zip and ('Codigo Postal: %s, ' % addr.zip) or '') +
                 (addr.city and ('%s, ' % addr.city.title()) or '') +
-                (addr.state_id and ('%s, ' % addr.state_id.name.title()) or '')
-                + (addr.country_id and ('%s ' % addr.country_id.name.title())
-                   or '') or _('NO INVOICE ADDRESS DEFINED'))
-            # addr_inv = (addr.street or '')+' '+(addr.street2 or '')+'
+                (addr.state_id and ('%s, ' % addr.state_id.name.title()) or
+                 '') + (addr.country_id and
+                        ('%s ' % addr.country_id.name.title()) or
+                        '') or _('NO INVOICE ADDRESS DEFINED'))
+            # addr_inv = (addr.street or '')+' '+(addr.street2 or`` '')+'
             # '+(addr.zip or '')+ ' '+(addr.city or '')+ ' '+ (addr.country_id
             # and addr.country_id.name or '')+ ', TELF.:'+(addr.phone or '')
         return addr_inv

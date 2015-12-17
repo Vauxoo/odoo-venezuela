@@ -23,6 +23,7 @@
 #    You should have received a copy of the GNU Affero General Public License
 #    along with this program.  If not, see <http://www.gnu.org/licenses/>.
 ##############################################################################
+from openerp import api
 from openerp.osv import fields, osv
 from openerp.tools.translate import _
 
@@ -34,7 +35,7 @@ class AccountInvoiceLine(osv.osv):
     _inherit = "account.invoice.line"
     _columns = {
         'apply_wh': fields.boolean(
-            'Withheld',
+            string='Withheld', default=False,
             help="Indicates whether a line has been retained or not, to"
                  " accumulate the amount to withhold next month, according"
                  " to the lines that have not been retained."),
@@ -45,9 +46,6 @@ class AccountInvoiceLine(osv.osv):
             required=False),
         'state': fields.related('invoice_id', 'state', string='Current Status',
                                 type='char', required=True, readonly=True),
-    }
-    _defaults = {
-        'apply_wh': lambda *a: False,
     }
 
     def islr_wh_change_concept(self, cr, uid, ids, context=None):
@@ -78,11 +76,11 @@ class AccountInvoiceLine(osv.osv):
             'target': 'new',
         }
 
-    def product_id_change(self, cr, uid, ids, product, uom, qty=0, name='',
-                          type='out_invoice',  # pylint: disable=W0622
-                          partner_id=False, fposition_id=False,
-                          price_unit=False, currency_id=False, context=None,
-                          company_id=None):
+    @api.multi
+    def product_id_change(
+            self, product, uom, qty=0, name='', type='out_invoice',
+            partner_id=False, fposition_id=False, price_unit=False,
+            currency_id=False, company_id=None):
         """ Onchange information of the product invoice line
         at once in the line of the bill
         @param product: new product for the invoice line
@@ -95,20 +93,11 @@ class AccountInvoiceLine(osv.osv):
         @param price_unit: new Unit Price for the invoice line
         @param currency_id:
         """
-        context = context or {}
-        data = super(
-            AccountInvoiceLine, self).product_id_change(cr, uid, ids,
-                                                          product, uom,
-                                                          qty, name,
-                                                          type, partner_id,
-                                                          fposition_id,
-                                                          price_unit,
-                                                          currency_id,
-                                                          context,
-                                                          company_id)
+        data = super(AccountInvoiceLine, self).product_id_change(
+            product, uom, qty, name, type, partner_id, fposition_id,
+            price_unit, currency_id, company_id)
         if product:
-            pro = self.pool.get('product.product').browse(
-                cr, uid, product, context=context)
+            pro = self.env['product.product'].browse(product)
             data[data.keys()[1]]['concept_id'] = pro.concept_id.id
         return data
 
@@ -122,7 +111,7 @@ class AccountInvoiceLine(osv.osv):
                          'apply_wh': False,
                          })
         return super(AccountInvoiceLine, self).create(cr, uid, vals,
-                                                        context=context)
+                                                      context=context)
 
 
 class AccountInvoice(osv.osv):
@@ -132,7 +121,7 @@ class AccountInvoice(osv.osv):
             ('pro', 'Processed withholding, xml Line generated'),
             ('no_pro', 'Withholding no processed'),
             ('tasa', 'Not exceed the rate,xml Line generated'),
-        ], 'Status', readonly=True,
+            ], string='Status', readonly=True, default='no_pro',
             help=''' * The \'Processed withholding, xml Line generated\' state
             is used when a user is a withhold income is processed.
             * The 'Withholding no processed\' state is when user create a
@@ -141,11 +130,8 @@ class AccountInvoice(osv.osv):
             used when user create invoice,a invoice no exceed the
             minimun rate.'''),
     }
-    _defaults = {
-        'status': lambda *a: "no_pro",
-    }
-# BEGIN OF REWRITING ISLR
 
+    # BEGIN OF REWRITING ISLR
     def check_invoice_type(self, cr, uid, ids, context=None):
         """ This method check if the given invoice record is from a supplier
         """
@@ -181,7 +167,7 @@ class AccountInvoice(osv.osv):
     def _create_islr_wh_doc(self, cr, uid, ids, context=None):
         """ Function to create in the model islr_wh_doc
         """
-        context = context or {}
+        context = dict(context or {})
         ids = isinstance(ids, (int, long)) and [ids] or ids
 
         wh_doc_obj = self.pool.get('islr.wh.doc')
@@ -212,7 +198,8 @@ class AccountInvoice(osv.osv):
                 'period_id': row.period_id.id,
                 'account_id': row.account_id.id,
                 'type': row.type,
-                'journal_id': journal
+                'journal_id': journal,
+                'date_uid': row.date_invoice,
             }
             if row.company_id.propagate_invoice_date_to_income_withholding:
                 values['date_uid'] = row.date_invoice
@@ -234,21 +221,20 @@ class AccountInvoice(osv.osv):
 
         return islr_wh_doc_id
 
-    def copy(self, cr, uid, ids, default=None, context=None):
+    @api.multi
+    def copy(self, default=None):
         """ Inicializes the fields islr_wh_doc and status
         when the line is duplicated
         """
         # NOTE: use ids argument instead of id for fix the pylint error W0622.
         # Redefining built-in 'id'
         default = default or {}
-        context = context or {}
         default = default.copy()
         default.update({'islr_wh_doc': 0,
                         'status': 'no_pro',
                         })
-        context.update({'new_key': True})
-        return super(AccountInvoice, self).copy(cr, uid, ids, default,
-                                                 context)
+        self = self.with_context(new_key=True)
+        return super(AccountInvoice, self).copy(default)
 
     def _refund_cleanup_lines(self, cr, uid, lines, context=None):
         """ Initializes the fields of the lines of a refund invoice
@@ -256,15 +242,15 @@ class AccountInvoice(osv.osv):
         data = super(AccountInvoice, self)._refund_cleanup_lines(
             cr, uid, lines, context=context)
         res = []
-        for xres, yres, res in data:
-            if 'concept_id' in res:
-                res['concept_id'] = res.get(
-                    'concept_id', False) and res['concept_id']
-            if 'apply_wh' in res:
-                res['apply_wh'] = False
-            if 'wh_xml_id' in res:
-                res['wh_xml_id'] = 0
-            res.append((xres, yres, res))
+        for xres, yres, zres in data:
+            if 'concept_id' in zres:
+                zres['concept_id'] = zres.get(
+                    'concept_id', False) and zres['concept_id']
+            if 'apply_wh' in zres:
+                zres['apply_wh'] = False
+            if 'wh_xml_id' in zres:
+                zres['wh_xml_id'] = 0
+            res.append((xres, yres, zres))
         return res
 
     def validate_wh_income_done(self, cr, uid, ids, context=None):
@@ -321,15 +307,12 @@ class AccountInvoice(osv.osv):
         direction = types[inv_brw.type]
 
         for iwdl_brw in to_wh:
+            rec = iwdl_brw.concept_id.property_retencion_islr_receivable
+            pay = iwdl_brw.concept_id.property_retencion_islr_payable
             if inv_brw.type in ('out_invoice', 'out_refund'):
-                acc = (
-                    iwdl_brw.concept_id.property_retencion_islr_receivable and
-                    iwdl_brw.concept_id.property_retencion_islr_receivable.id
-                    or False)
+                acc = rec and rec.id or False
             else:
-                acc = (iwdl_brw.concept_id.property_retencion_islr_payable and
-                       iwdl_brw.concept_id.property_retencion_islr_payable.id
-                       or False)
+                acc = pay and pay.id or False
             if not acc:
                 raise osv.except_osv(_('Missing Account in Tax!'),
                                      _("Tax [%s] has missing account. "

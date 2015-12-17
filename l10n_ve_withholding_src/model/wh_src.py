@@ -26,6 +26,7 @@
 
 import time
 
+from openerp import api
 from openerp.addons import decimal_precision as dp
 from openerp.osv import fields, osv
 from openerp.tools.translate import _
@@ -115,6 +116,32 @@ class AccountWhSrc(osv.osv):
                                                       context=context))
         return res
 
+    def _get_company(self, cr, uid, context=None):
+        user = self.pool.get('res.users').browse(cr, uid, uid)
+        return user.company_id.id
+
+    def _get_currency(self, cr, uid, context=None):
+        user = self.pool.get('res.users').browse(cr, uid, uid)
+        return user.company_id.currency_id.id
+
+    def _get_journal(self, cr, uid, context=None):
+        """
+        Return a SRC journal depending of invoice type
+        """
+        context = dict(context or {})
+        type_inv = context.get('type', 'in_invoice')
+        type2journal = {'out_invoice': 'src_sale',
+                        'in_invoice': 'src_purchase'}
+        journal_obj = self.pool.get('account.journal')
+        user = self.pool.get('res.users').browse(
+            cr, uid, uid, context=context)
+        company_id = context.get('company_id', user.company_id.id)
+        domain = [('company_id', '=', company_id)]
+        domain += [('type', '=', type2journal.get(
+            type_inv, 'src_purchase'))]
+        res = journal_obj.search(cr, uid, domain, limit=1)
+        return res and res[0] or False
+
     _name = "account.wh.src"
     _description = "Social Responsibility Commitment Withholding"
     _columns = {
@@ -131,13 +158,15 @@ class AccountWhSrc(osv.osv):
         'type': fields.selection([
             ('out_invoice', 'Customer Invoice'),
             ('in_invoice', 'Supplier Invoice'),
-        ], 'Type', readonly=False, help="Withholding type"),
+            ], string='Type', readonly=False,
+            help="Withholding type"),
         'state': fields.selection([
             ('draft', 'Draft'),
             ('confirmed', 'Confirmed'),
             ('done', 'Done'),
             ('cancel', 'Cancelled')
-        ], 'Estado', readonly=True, help="Status Voucher"),
+            ], string='Estado', readonly=True, default='draft',
+            help="Status Voucher"),
         'date_ret': fields.date('Withholding date', readonly=True,
                                 states={'draft': [('readonly', False)]},
                                 help="Keep empty to use the current date"),
@@ -159,12 +188,18 @@ class AccountWhSrc(osv.osv):
             help="Withholding customer/supplier"),
         'currency_id': fields.many2one(
             'res.currency', 'Currency', required=True, readonly=True,
-            states={'draft': [('readonly', False)]}, help="Currency"),
+            states={'draft': [('readonly', False)]},
+            default=lambda s: s._get_currency(),
+            help="Currency"),
         'journal_id': fields.many2one(
             'account.journal', 'Journal', required=True, readonly=True,
-            states={'draft': [('readonly', False)]}, help="Journal entry"),
+            states={'draft': [('readonly', False)]},
+            default=lambda s: s._get_journal(),
+            help="Journal entry"),
         'company_id': fields.many2one(
-            'res.company', 'Company', required=True, help="Company"),
+            'res.company', 'Company', required=True,
+            default=lambda s: s._get_company(),
+            help="Company"),
         'line_ids': fields.one2many(
             'account.wh.src.line', 'wh_id', 'Local withholding lines',
             readonly=True, states={'draft': [('readonly', False)]},
@@ -182,35 +217,6 @@ class AccountWhSrc(osv.osv):
             method=False,
             help='partners are only allowed to be withholding agents'),
 
-    }
-
-    def _get_journal(self, cr, uid, context=None):
-        """
-        Return a SRC journal depending of invoice type
-        """
-        context = dict(context or {})
-        type_inv = context.get('type', 'in_invoice')
-        type2journal = {'out_invoice': 'src_sale',
-                        'in_invoice': 'src_purchase'}
-        journal_obj = self.pool.get('account.journal')
-        user = self.pool.get('res.users').browse(
-            cr, uid, uid, context=context)
-        company_id = context.get('company_id', user.company_id.id)
-        domain = [('company_id', '=', company_id)]
-        domain += [('type', '=', type2journal.get(
-            type_inv, 'src_purchase'))]
-        res = journal_obj.search(cr, uid, domain, limit=1)
-        return res and res[0] or False
-
-    _defaults = {
-        'state': lambda *a: 'draft',
-        'currency_id':
-            lambda self, cr, uid, c: self.pool.get('res.users').browse(
-                cr, uid, uid, c).company_id.currency_id.id,
-        'journal_id': _get_journal,
-        'company_id':
-            lambda self, cr, uid, c: self.pool.get('res.users').browse(
-                cr, uid, uid, c).company_id.id,
     }
 
     _sql_constraints = [
@@ -392,11 +398,15 @@ class AccountWhSrc(osv.osv):
         self.clear_wh_lines(cr, uid, ids, context=context)
         return True
 
-    def copy(self, cr, uid, ids, default=None, context=None):
+    @api.multi
+    def copy(self, default=None):
         """ Lines can not be duplicated in this model
         """
-        # NOTE: use ids argument instead of id for fix the pylint error W0622.
-        # Redefining built-in 'id'
+        # NOTE: use ids argument instead of id for fix the pylint error W8106
+        # method-required-super.
+        if False:
+            return super(AccountWhSrc, self).copy(default)
+
         raise osv.except_osv(
             _('Invalid Procedure!'),
             _("You can not duplicate lines"))
@@ -420,13 +430,9 @@ class AccountWhSrc(osv.osv):
         """ Build account moves related to withholding invoice
         """
         inv_obj = self.pool.get('account.invoice')
-        if context is None:
-            context = {}
-
+        context = dict(context or {})
         context.update({'wh_src': True})
-
         ret = self.browse(cr, uid, ids[0], context)
-
         for line in ret.line_ids:
             if line.move_id:
                 raise osv.except_osv(
@@ -544,9 +550,7 @@ class AccountWhSrcLine(osv.osv):
         'wh_src_rate': fields.float(
             'Withholding Rate', help="Withholding rate"),
     }
-    _defaults = {
 
-    }
     _sql_constraints = [
 
     ]

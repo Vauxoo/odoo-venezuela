@@ -23,30 +23,24 @@
 #    along with this program.  If not, see <http://www.gnu.org/licenses/>.
 ###############################################################################
 
-from openerp.osv import fields, osv
+from openerp import models, fields
 
 
-class AccountTax(osv.osv):
+class AccountTax(models.Model):
     _inherit = 'account.tax'
-    _columns = {
-        'ret': fields.boolean('Withholdable',
-                              help="Indicate if the tax must be withheld"),
-        'wh_vat_collected_account_id': fields.many2one(
-            'account.account',
-            type='many2one',
-            relation='account.account',
-            string="Invoice VAT Withholding Account",
-            method=True,
-            domain="[('type', '=', 'other')]",
-            help="This account will be used when applying a withhold to an"
-                 " Invoice"),
-        'wh_vat_paid_account_id': fields.many2one(
-            'account.account',
-            type='many2one',
-            relation='account.account',
-            string="Refund VAT Withholding Account",
-            method=True,
-            domain="[('type', '=', 'other')]",
-            help="This account will be used when applying a withhold to a"
-                 " Refund"),
-    }
+
+    ret = fields.Boolean(
+        string='Withholdable',
+        help="Indicate if the tax must be withheld")
+    wh_vat_collected_account_id = fields.Many2one(
+        'account.account',
+        string="Invoice VAT Withholding Account",
+        domain="[('type', '=', 'other')]",
+        help="This account will be used when applying a withhold to an"
+        " Invoice")
+    wh_vat_paid_account_id = fields.Many2one(
+        'account.account',
+        string="Refund VAT Withholding Account",
+        domain="[('type', '=', 'other')]",
+        help="This account will be used when applying a withhold to a"
+        " Refund")

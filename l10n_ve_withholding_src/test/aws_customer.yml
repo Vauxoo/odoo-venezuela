@@ -52,7 +52,7 @@
     company_id: base.main_company
     currency_id: base.EUR
     journal_id: withholding_src_sale_journal
-    partner_id: l10n_ve_fiscal_requirements.f_req_partner_6 
+    partner_id: l10n_ve_fiscal_requirements.f_req_partner_6
     type: 'out_invoice'
     number: '0908070605'
 -

@@ -23,6 +23,7 @@
 #    along with this program.  If not, see <http://www.gnu.org/licenses/>.
 ###############################################################################
 
+from openerp import api
 from openerp.addons import decimal_precision as dp
 from openerp.osv import fields, osv
 from openerp.tools.translate import _
@@ -31,7 +32,8 @@ from openerp.tools.translate import _
 class AccountInvoice(osv.osv):
     _inherit = 'account.invoice'
 
-    def onchange_partner_id(self, cr, uid, ids, inv_type, partner_id,
+    @api.multi
+    def onchange_partner_id(self, inv_type, partner_id,
                             date_invoice=False, payment_term=False,
                             partner_bank_id=False, company_id=False):
         """ Change invoice information depending of the partner
@@ -42,22 +44,20 @@ class AccountInvoice(osv.osv):
         @param partner_bank_id: Partner bank id of the invoice
         @param company_id: Company id
         """
-        rp_obj = self.pool.get('res.partner')
+        partner = self.env['res.partner']
         res = super(AccountInvoice, self).onchange_partner_id(
-            cr, uid, ids, inv_type, partner_id, date_invoice, payment_term,
+            inv_type, partner_id, date_invoice, payment_term,
             partner_bank_id, company_id)
-
-        if inv_type in ('out_invoice',):
-            rp_brw = rp_obj._find_accounting_partner(
-                rp_obj.browse(cr, uid, partner_id))
-            res['value']['wh_src_rate'] = rp_brw.wh_src_agent and \
-                rp_brw.wh_src_rate or 0
+        if inv_type in ('out_invoice'):
+            acc_partner = partner._find_accounting_partner(
+                partner.browse(partner_id))
+            res['value']['wh_src_rate'] = acc_partner.wh_src_agent and \
+                acc_partner.wh_src_rate or 0
         else:
-            ru_brw = self.pool.get('res.users').browse(cr, uid, uid)
-            rp_brw = rp_obj._find_accounting_partner(
-                ru_brw.company_id.partner_id)
-            res['value']['wh_src_rate'] = rp_brw.wh_src_agent and \
-                rp_brw.wh_src_rate or 0
+            acc_partner = partner._find_accounting_partner(
+                self.env.user.company_id.partner_id)
+            res['value']['wh_src_rate'] = acc_partner.wh_src_agent and \
+                acc_partner.wh_src_rate or 0
         return res
 
     def _check_retention(self, cr, uid, ids, context=None):
@@ -77,7 +77,7 @@ class AccountInvoice(osv.osv):
 
     _columns = {
         'wh_src': fields.boolean(
-            'Social Responsibility Commitment Withheld',
+            'Social Responsibility Commitment Withheld', default=True,
             help='if the commitment to social responsibility has been'
                  ' retained'),
         'wh_src_rate': fields.float(
@@ -87,9 +87,6 @@ class AccountInvoice(osv.osv):
         'wh_src_id': fields.many2one(
             'account.wh.src', 'Wh. SRC Doc.', readonly=True,
             help="Social Responsibility Commitment Withholding Document"),
-    }
-    _defaults = {
-        'wh_src': False,
     }
 
     _constraints = [
@@ -124,18 +121,14 @@ class AccountInvoice(osv.osv):
                 'in_invoice': 1,
                 'out_refund': 1, 'in_refund': -1}
             direction = types[invoice.type]
-
             for tax_brw in to_wh:
+                acc = False
+                coll = tax_brw.wh_id.company_id.wh_src_collected_account_id
+                paid = tax_brw.wh_id.company_id.wh_src_paid_account_id
                 if types[invoice.type] == 1:
-                    acc = (
-                        tax_brw.wh_id.company_id.wh_src_collected_account_id
-                        and
-                        tax_brw.wh_id.company_id.wh_src_collected_account_id.id
-                        or False)
+                    acc = coll and coll.id or False
                 else:
-                    acc = (tax_brw.wh_id.company_id.wh_src_paid_account_id and
-                           tax_brw.wh_id.company_id.wh_src_paid_account_id.id
-                           or False)
+                    acc = paid and paid.id or False
                 if not acc:
                     raise osv.except_osv(
                         _('Missing Account in Company!'),
@@ -145,7 +138,7 @@ class AccountInvoice(osv.osv):
                 res.append((0, 0, {
                     'debit':
                     direction * tax_brw.wh_amount < 0 and
-                    - direction * tax_brw.wh_amount,
+                    (-direction * tax_brw.wh_amount),
                     'credit':
                     direction * tax_brw.wh_amount > 0 and
                     direction * tax_brw.wh_amount,
@@ -165,7 +158,7 @@ class AccountInvoice(osv.osv):
         for inv_brw in self.browse(cr, uid, ids, context=context):
             if not inv_brw.wh_src_id:
                 super(AccountInvoice, self).action_cancel(cr, uid, ids,
-                                                           context=context)
+                                                          context=context)
             else:
                 raise osv.except_osv(
                     _("Error!"),

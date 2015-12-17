@@ -29,7 +29,6 @@ import base64
 
 import openerp.addons as addons
 from openerp.osv import fields, osv
-from openerp.tools.translate import _
 
 
 class WhIslrConfig(osv.osv_memory):
@@ -97,11 +96,13 @@ class WhIslrConfig(osv.osv_memory):
 
     _columns = {
         'journal_purchase': fields.char(
-            "Journal Wh Income Purchase", 64,
+            string="Journal Wh Income Purchase", size=64,
+            default="Journal Income Withholding Purchase",
             help="Journal for purchase operations involving Income"
                  " Withholding"),
         'journal_sale': fields.char(
-            "Journal Wh Income Sale", 64,
+            string="Journal Wh Income Sale", size=64,
+            default="Journal Income Withholding Sale",
             help="Journal for sale operations involving Income Withholding"),
         'account_purchase': fields.many2one(
             "account.account",
@@ -116,11 +117,6 @@ class WhIslrConfig(osv.osv_memory):
         'wh_agent': fields.boolean(
             "Income Withholding Agent",
             help="Check if this company is a income withholding agent"),
-    }
-
-    _defaults = {
-        'journal_purchase': _("Journal Income Withholding Purchase"),
-        'journal_sale': _("Journal Income Withholding Sale"),
     }
 
 WhIslrConfig()

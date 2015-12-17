@@ -22,7 +22,3 @@
 #    along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #############################################################################
 from . import test_import_employee_income_wh
-
-fast_suite = [
-    test_import_employee_income_wh,
-]

@@ -116,9 +116,6 @@ class AccountInvoiceTax(osv.osv):
             string='Invoice ref', size=64, store=False, readonly=True),
     }
 
-    _defaults = {
-    }
-
     # _sql_constraints = [
     # ('base_gt_zero', 'CHECK (base>0)',
     # 'The base amount must be > 0!'),

@@ -35,12 +35,11 @@ class ChangeInvoiceSinCredwizard(osv.TransientModel):
     _name = 'change.invoice.sin.cred'
     _description = 'Change Invoice Tax Exempt'
     _columns = {
-        'sin_cred': fields.boolean('Tax Exempt', help='Tax Exempt'),
+        'sin_cred': fields.boolean(
+            'Tax Exempt',
+            default=lambda s: s._context.get('invoice_sin_cred'),
+            help='Tax Exempt'),
         'sure': fields.boolean('Are you sure?'),
-    }
-
-    _defaults = {
-        'sin_cred': lambda s, cr, u, ctx: ctx.get('invoice_sin_cred', False),
     }
 
     def set_sin_cred(self, cr, uid, ids, context=None):

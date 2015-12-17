@@ -39,17 +39,18 @@ class CustomsFormConfig(osv.osv):
     _description = ''
     _rec_name = "company_id"
 
-    _columns = {
-        'company_id': fields.many2one('res.company', 'Company', required=True,
-                                      readonly=True, ondelete='restrict'),
-        'journal_id': fields.many2one('account.journal', 'Journal',
-                                      required=True, ondelete='restrict'),
-    }
+    def _get_company(self, cr, uid, context=None):
+        company_obj = self.pool.get('res.company')
+        return company_obj._company_default_get(
+            cr, uid, 'customs.form.config', context=context)
 
-    _defaults = {
-        'company_id': lambda self, cr, uid, c:
-        self.pool.get('res.company')._company_default_get(
-            cr, uid, 'customs.form.config', context=c),
+    _columns = {
+        'company_id': fields.many2one(
+            'res.company', string='Company', required=True, readonly=True,
+            default=lambda s: s._get_company(), ondelete='restrict'),
+        'journal_id': fields.many2one(
+            'account.journal', 'Journal', required=True,
+            ondelete='restrict'),
     }
 
     _sql_constraints = [
@@ -93,9 +94,6 @@ class CustomsFacility(osv.osv):
         'name': fields.char('Name', size=64, required=True, readonly=False),
     }
 
-    _defaults = {
-    }
-
     _sql_constraints = [
         ('code_uniq', 'UNIQUE(code)', 'The code must be unique!'),
     ]
@@ -122,30 +120,30 @@ class CustomsDuty(osv.osv):
                 item.code, item.ref, item.name)))
         return res
 
+    def _get_company(self, cr, uid, context=None):
+        company_obj = self.pool.get('res.company')
+        return company_obj._company_default_get(
+            cr, uid, 'customs.form.config', context=context)
+
     _columns = {
         'code': fields.char('Code', size=16, required=True, readonly=False),
         'name': fields.char('Name', size=64, required=True, readonly=False),
         'ref': fields.char('Ref', size=16, required=False, readonly=False),
         'sequence': fields.integer('Sequence'),
-        'partner_id': fields.many2one('res.partner', 'Partner',
-                                      change_default=True,
-                                      ondelete='restrict'),
-        'account_id': fields.many2one('account.account', 'Account to pay',
-                                      domain="[('type','!=','view')]",
-                                      ondelete='restrict',
-                                      help="This account will be used for \
-                                      expenses related to taxes"),
-        'vat_detail': fields.boolean('Tax detail', help="Set true if this is \
-        vat related tax"),
-        'company_id': fields.many2one('res.company', 'Company', required=True,
-                                      readonly=True, ondelete='restrict'),
-    }
-
-    _defaults = {
-        'company_id': lambda self, cr, uid, c:
-        self.pool.get('res.company')._company_default_get(
-            cr, uid, 'customs.form.config', context=c),
-        'vat_detail': False,
+        'partner_id': fields.many2one(
+            'res.partner', string='Partner', change_default=True,
+            ondelete='restrict'),
+        'account_id': fields.many2one(
+            'account.account', string='Account to pay',
+            domain="[('type','!=','view')]", ondelete='restrict',
+            help="This account will be used for expenses related to taxes"),
+        'vat_detail': fields.boolean(
+            'Tax detail', default=False,
+            help="Set true if this is vat related tax"),
+        'company_id': fields.many2one(
+            'res.company', string='Company', required=True, readonly=True,
+            ondelete='restrict',
+            default=lambda s: s._get_company()),
     }
 
     _sql_constraints = [

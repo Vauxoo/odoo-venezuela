@@ -1,6 +1,15 @@
 <?xml version='1.0' encoding='UTF-8'?>
 <openerp>
     <data>
+
+        <record id="filter_invoice_state_open_islr" model="ir.filters">
+            <field name="name">Invoice Open</field>
+            <field name="model_id">account.invoice</field>
+            <field name="domain" eval="[('islr_wh_doc_id', '=', False), ('state', '=', 'open')]"/>
+            <field name="context">{}</field>
+            <field name="user_id"></field>
+        </record>
+
         <!-- Server Actions  -->
         <record id="wh_islr_srv_act" model="ir.actions.server">
             <field name="name">ISLR Withholding Server Action</field>
@@ -14,8 +23,20 @@ object.check_withholdable_concept() and \
 object._create_islr_wh_doc()
             </field>
         </record>
+
+        <record id="wh_islr_act_rule" model="base.action.rule">
+            <field name="name">ISRL Withholding Action Rule</field>
+            <field name="model_id" model="ir.model" search="[('model', '=', 'account.invoice')]"/>
+            <field name="active" eval="True"/>
+            <field name="sequence">1</field>
+            <field name="kind">on_write</field>
+            <field name="filter_id" ref="filter_invoice_state_open_islr"/>
+            <field name="server_action_ids"
+                eval="[(4, ref('wh_islr_srv_act')),]" />
+        </record>
+        <!--
         <record id="l10n_ve_withholding.multiact_wh_srv_act" model="ir.actions.server">
             <field name="child_ids" eval="[(4,ref(&quot;wh_islr_srv_act&quot;))]"/>
-        </record>
+        </record> -->
     </data>
 </openerp>

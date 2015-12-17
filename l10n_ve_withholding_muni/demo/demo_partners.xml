@@ -1,84 +1,84 @@
 <?xml version='1.0' encoding='UTF-8'?>
 <openerp>
     <data>
-        <!-- Due to the need of country in main_partner to validate the WithHolding. We change the 
-             Country of its invoice address and VAT due to the mandatory VAT number for partners 
+        <!-- Due to the need of country in main_partner to validate the WithHolding. We change the
+             Country of its invoice address and VAT due to the mandatory VAT number for partners
              in VE.
         -->
         <record id="base.main_partner" model="res.partner">
             <field name="property_wh_munici_receivable" ref="muni_rec"/>
             <field name="property_wh_munici_payable" ref="muni_pay"/>
         </record>
-        
+
         <!--BEGIN PARTNERS -->
         <record id="l10n_ve_fiscal_requirements.f_req_partner_1" model="res.partner">
             <field name="property_wh_munici_receivable" ref="muni_rec"/>
             <field name="property_wh_munici_payable" ref="muni_pay"/>
         </record>
-        
+
         <record id="l10n_ve_fiscal_requirements.f_req_partner_2" model="res.partner">
             <field name="property_wh_munici_receivable" ref="muni_rec"/>
             <field name="property_wh_munici_payable" ref="muni_pay"/>
         </record>
-        
+
         <record id="l10n_ve_fiscal_requirements.f_req_partner_3" model="res.partner">
             <field name="property_wh_munici_receivable" ref="muni_rec"/>
             <field name="property_wh_munici_payable" ref="muni_pay"/>
         </record>
-        
+
         <record id="l10n_ve_fiscal_requirements.f_req_partner_4" model="res.partner">
             <field name="property_wh_munici_receivable" ref="muni_rec"/>
             <field name="property_wh_munici_payable" ref="muni_pay"/>
         </record>
-        
+
         <record id="l10n_ve_fiscal_requirements.f_req_partner_5" model="res.partner">
             <field name="property_wh_munici_receivable" ref="muni_rec"/>
             <field name="property_wh_munici_payable" ref="muni_pay"/>
         </record>
-        
+
         <record id="l10n_ve_fiscal_requirements.f_req_partner_6" model="res.partner">
             <field name="property_wh_munici_receivable" ref="muni_rec"/>
             <field name="property_wh_munici_payable" ref="muni_pay"/>
         </record>
-        
+
         <!-- An orphan contact without parent_id this record shoudl be used to test this case
              fiscally-->
         <record id="l10n_ve_fiscal_requirements.f_req_partner_7" model="res.partner">
             <field name="property_wh_munici_receivable" ref="muni_rec"/>
             <field name="property_wh_munici_payable" ref="muni_pay"/>
         </record>
-        
+
         <record id="l10n_ve_fiscal_requirements.f_req_partner_8" model="res.partner">
             <field name="property_wh_munici_receivable" ref="muni_rec"/>
             <field name="property_wh_munici_payable" ref="muni_pay"/>
         </record>
-        
+
         <record id="l10n_ve_fiscal_requirements.f_req_partner_9" model="res.partner">
             <field name="property_wh_munici_receivable" ref="muni_rec"/>
             <field name="property_wh_munici_payable" ref="muni_pay"/>
         </record>
-        
-        <!-- I will add contacts to Vauxoo, due to they are from Venezuela, the vat is mandatory. 
+
+        <!-- I will add contacts to Vauxoo, due to they are from Venezuela, the vat is mandatory.
              -->
         <record id="base.res_partner_23" model="res.partner">
             <field name="property_wh_munici_receivable" ref="muni_rec"/>
             <field name="property_wh_munici_payable" ref="muni_pay"/>
         </record>
-        
-        <!-- Test a contact in a country with one invoice address different to the main company 
-             Forced to have a vat just to pass TODO: remove vat when the contraint s fixed.     
+
+        <!-- Test a contact in a country with one invoice address different to the main company
+             Forced to have a vat just to pass TODO: remove vat when the contraint s fixed.
         -->
         <record id="l10n_ve_fiscal_requirements.f_req_partner_10" model="res.partner">
             <field name="property_wh_munici_receivable" ref="muni_rec"/>
             <field name="property_wh_munici_payable" ref="muni_pay"/>
         </record>
-        
+
         <!-- Test a contact in a country with one contact address different to the main company -->
         <record id="l10n_ve_fiscal_requirements.f_req_partner_10" model="res.partner">
             <field name="property_wh_munici_receivable" ref="muni_rec"/>
             <field name="property_wh_munici_payable" ref="muni_pay"/>
         </record>
-        
+
         <!--END PARTNERS -->
     </data>
 </openerp>

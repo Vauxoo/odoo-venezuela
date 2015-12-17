@@ -25,8 +25,11 @@
 
 import time
 
+from openerp import api
 from openerp.osv import fields, osv
 from openerp.tools.translate import _
+
+from openerp.tools import float_compare
 
 
 class AccountInvoice(osv.osv):
@@ -49,8 +52,8 @@ class AccountInvoice(osv.osv):
                    'from account_move_line l '
                    'inner join account_journal j on (j.id=l.journal_id)'
                    ' where l.id in (' + ','.join(
-                       [str(item) for item in res]) + ') and j.type=' + '\''
-                   + type_journal + '\'')
+                       [str(item) for item in res]) + ') and j.type=' +
+                   '\'' + type_journal + '\'')
         ok = ok and bool(cr.fetchone())
         return ok
 
@@ -104,6 +107,8 @@ class AccountInvoice(osv.osv):
             writeoff_period_id, writeoff_journal_id, date,
             name, context=context)
 
+        # TODO: check the method _get_move_lines that is forced to return []
+        # and that makes that aws_customer.yml test cause a error
         if not l2:
             raise osv.except_osv(
                 _('Warning !'),
@@ -125,8 +130,8 @@ class AccountInvoice(osv.osv):
         cr.execute(
             'select id'
             ' from account_move_line'
-            ' where move_id in (' + str(move_id) + ','
-            + str(invoice.move_id.id) + ')')
+            ' where move_id in (' + str(move_id) + ',' +
+            str(invoice.move_id.id) + ')')
         lines = line.browse(cr, uid, [item[0] for item in cr.fetchall()])
         for aml_brw in lines + invoice.payment_ids:
             if aml_brw.account_id.id == src_account_id:
@@ -174,38 +179,49 @@ class AccountInvoice(osv.osv):
             lines += [item for item in lines if item not in src]
         return lines
 
-    def check_tax_lines(self, cr, uid, inv, compute_taxes, ait_obj):
+    @api.multi
+    def check_tax_lines(self, compute_taxes):
         """ Check if no tax lines are created. If
         existing tax lines, there are checks on the invoice
         and match the tax base.
         """
-        if not inv.tax_line:
+        assert len(self) == 1, "Can only check one invoice at a time."
+        account_invoice_tax = self.env['account.invoice.tax']
+        company_currency = self.company_id.currency_id
+        if not self.tax_line:
             for tax in compute_taxes.values():
-                ait_obj.create(cr, uid, tax)
+                account_invoice_tax.create(tax)
         else:
             tax_key = []
-            for tax in inv.tax_line:
+            precision = self.env['decimal.precision'].precision_get('Account')
+            for tax in self.tax_line:
                 if tax.manual:
                     continue
-#                key = (tax.tax_code_id.id, tax.base_code_id.id,
-#                       tax.account_id.id)
-                # group by tax id #
+                # Comment the following line from original method
+                # key = (tax.tax_code_id.id, tax.base_code_id.id,
+                # tax.account_id.id)
+
+                # Group by tax id (now use this key)
                 key = (tax.tax_id.id)
                 tax_key.append(key)
                 if key not in compute_taxes:
                     raise osv.except_osv(
-                        _('Warning !'),
-                        _('Global taxes defined, but are not in invoice'
+                        _('Warning!'),
+                        _('Global taxes defined, but they are not in invoice'
                           ' lines !'))
                 base = compute_taxes[key]['base']
-                if abs(base - tax.base) > inv.company_id.currency_id.rounding:
+                if float_compare(abs(base - tax.base),
+                                 company_currency.rounding,
+                                 precision_digits=precision) == 1:
                     raise osv.except_osv(
-                        _('Warning !'),
-                        _('Tax base different !\nClick on compute to update'
-                          ' tax base'))
-            for key in compute_taxes:
-                if key not in tax_key:
-                    raise osv.except_osv(_('Warning !'), _('Taxes missing !'))
+                        _('Warning!'),
+                        _('Tax base different!\nClick on compute to update'
+                          ' the tax base.'))
+                for key in compute_taxes:
+                    if key not in tax_key:
+                        raise osv.except_osv(
+                            _('Warning!'),
+                            _('Taxes are missing!\nClick on compute button.'))
 
 
 class AccountInvoiceTax(osv.osv):
@@ -217,22 +233,22 @@ class AccountInvoiceTax(osv.osv):
                  " data from invoices."),
     }
 
-    def compute(self, cr, uid, invoice_id, context=None):
+    @api.model
+    def compute(self, invoice):
         """ Calculate the amount, base, tax amount,
         base amount of the invoice
         """
 
         tax_grouped = {}
-        tax_obj = self.pool.get('account.tax')
-        cur_obj = self.pool.get('res.currency')
-        inv = self.pool.get('account.invoice').browse(
-            cr, uid, invoice_id, context=context)
-        cur = inv.currency_id
-        company_currency = inv.company_id.currency_id.id
-
+        if isinstance(invoice, (int, long)):
+            inv = self.env['account.invoice'].browse(invoice)
+        else:
+            inv = invoice
+        currency = inv.currency_id.with_context(
+            date=inv.date_invoice or time.strftime('%Y-%m-%d'))
+        company_currency = inv.company_id.currency_id
         for line in inv.invoice_line:
-            for tax in tax_obj.compute_all(
-                    cr, uid, line.invoice_line_tax_id,
+            for tax in line.invoice_line_tax_id.compute_all(
                     (line.price_unit * (1 - (line.discount or 0.0) / 100.0)),
                     line.quantity, line.product_id, inv.partner_id)['taxes']:
                 val = {}
@@ -248,38 +264,22 @@ class AccountInvoiceTax(osv.osv):
                 if inv.type in ('out_invoice', 'in_invoice'):
                     val['base_code_id'] = tax['base_code_id']
                     val['tax_code_id'] = tax['tax_code_id']
-                    val['base_amount'] = cur_obj.compute(
-                        cr, uid, inv.currency_id.id, company_currency,
-                        val['base'] * tax['base_sign'],
-                        context={'date':
-                                 inv.date_invoice or
-                                 time.strftime('%Y-%m-%d')},
+                    val['base_amount'] = currency.compute(
+                        val['base'] * tax['base_sign'], company_currency,
                         round=False)
-                    val['tax_amount'] = cur_obj.compute(
-                        cr, uid, inv.currency_id.id, company_currency,
-                        val['amount'] * tax['tax_sign'],
-                        context={'date':
-                                 inv.date_invoice or
-                                 time.strftime('%Y-%m-%d')},
+                    val['tax_amount'] = currency.compute(
+                        val['amount'] * tax['tax_sign'], company_currency,
                         round=False)
                     val['account_id'] = tax['account_collected_id'] or \
                         line.account_id.id
                 else:
                     val['base_code_id'] = tax['ref_base_code_id']
                     val['tax_code_id'] = tax['ref_tax_code_id']
-                    val['base_amount'] = cur_obj.compute(
-                        cr, uid, inv.currency_id.id, company_currency,
-                        val['base'] * tax['ref_base_sign'],
-                        context={'date':
-                                 inv.date_invoice or
-                                 time.strftime('%Y-%m-%d')},
+                    val['base_amount'] = currency.compute(
+                        val['base'] * tax['ref_base_sign'], company_currency,
                         round=False)
-                    val['tax_amount'] = cur_obj.compute(
-                        cr, uid, inv.currency_id.id, company_currency,
-                        val['amount'] * tax['ref_tax_sign'],
-                        context={'date':
-                                 inv.date_invoice
-                                 or time.strftime('%Y-%m-%d')},
+                    val['tax_amount'] = currency.compute(
+                        val['amount'] * tax['ref_tax_sign'], company_currency,
                         round=False)
                     val['account_id'] = tax['account_paid_id'] or \
                         line.account_id.id
@@ -297,9 +297,8 @@ class AccountInvoiceTax(osv.osv):
                     tax_grouped[key]['tax_amount'] += val['tax_amount']
 
         for tax in tax_grouped.values():
-            tax['base'] = cur_obj.round(cr, uid, cur, tax['base'])
-            tax['amount'] = cur_obj.round(cr, uid, cur, tax['amount'])
-            tax['base_amount'] = cur_obj.round(
-                cr, uid, cur, tax['base_amount'])
-            tax['tax_amount'] = cur_obj.round(cr, uid, cur, tax['tax_amount'])
+            tax['base'] = currency.round(tax['base'])
+            tax['amount'] = currency.round(tax['amount'])
+            tax['base_amount'] = currency.round(tax['base_amount'])
+            tax['tax_amount'] = currency.round(tax['tax_amount'])
         return tax_grouped

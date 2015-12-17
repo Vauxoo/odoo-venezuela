@@ -51,5 +51,11 @@
         'report/wh_src_report.xml',
 
     ],
+    'demo': [
+        "demo/demo_accounts.xml",
+        "demo/demo_company.xml",
+        "demo/demo_journals.xml",
+    ],
+
     "installable": True,
 }

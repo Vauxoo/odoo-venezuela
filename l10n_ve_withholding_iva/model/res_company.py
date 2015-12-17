@@ -22,27 +22,21 @@
 #    You should have received a copy of the GNU Affero General Public License
 #    along with this program.  If not, see <http://www.gnu.org/licenses/>.
 ###############################################################################
-from openerp.osv import fields, osv
+from openerp import models, fields
 
 
-class ResCompany(osv.osv):
+class ResCompany(models.Model):
     _inherit = "res.company"
-    _columns = {
-        "consolidate_vat_wh": fields.boolean(
-            "Fortnight Consolidate Wh. VAT",
-            help="If it set then the withholdings vat generate in a same"
-            " fornight will be grouped in one withholding receipt."),
-        "allow_vat_wh_outdated": fields.boolean(
-            "Allow outdated vat withholding",
-            help="Enables confirm withholding vouchers for previous or future"
-            " dates."),
-        'propagate_invoice_date_to_vat_withholding': fields.boolean(
-            'Propagate Invoice Date to Vat Withholding',
-            help='Propagate Invoice Date to Vat Withholding. By default is in'
-            ' False.'),
-    }
 
-    _defaults = {
-        'consolidate_vat_wh': False,
-        'propagate_invoice_date_to_vat_withholding': False,
-    }
+    consolidate_vat_wh = fields.Boolean(
+        string="Fortnight Consolidate Wh. VAT", default=False,
+        help="If it set then the withholdings vat generate in a same"
+        " fornight will be grouped in one withholding receipt.")
+    allow_vat_wh_outdated = fields.Boolean(
+        string="Allow outdated vat withholding",
+        help="Enables confirm withholding vouchers for previous or future"
+        " dates.")
+    propagate_invoice_date_to_vat_withholding = fields.Boolean(
+        string='Propagate Invoice Date to Vat Withholding', default=False,
+        help='Propagate Invoice Date to Vat Withholding. By default is in'
+        ' False.')

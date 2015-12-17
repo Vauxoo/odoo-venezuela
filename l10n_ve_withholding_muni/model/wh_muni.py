@@ -68,6 +68,10 @@ class AccountWhMunici(osv.osv):
             return self.pool.get('res.currency').search(
                 cr, uid, [('rate', '=', 1.0)])[0]
 
+    def _get_company(self, cr, uid, context=None):
+        user = self.pool.get('res.users').browse(cr, uid, uid)
+        return user.company_id.id
+
     _name = "account.wh.munici"
     _description = "Local Withholding"
     _columns = {
@@ -85,13 +89,16 @@ class AccountWhMunici(osv.osv):
         'type': fields.selection([
             ('out_invoice', 'Customer Invoice'),
             ('in_invoice', 'Supplier Invoice'),
-        ], 'Type', readonly=True, help="Withholding type"),
+            ], string='Type', readonly=True,
+            default=lambda s: s._get_type(),
+            help="Withholding type"),
         'state': fields.selection([
             ('draft', 'Draft'),
             ('confirmed', 'Confirmed'),
             ('done', 'Done'),
             ('cancel', 'Cancelled')
-        ], 'State', readonly=True, help="Estado del Comprobante"),
+            ], string='State', readonly=True, default='draft',
+            help="Estado del Comprobante"),
         'date_ret': fields.date('Withholding date', readonly=True,
                                 states={'draft': [('readonly', False)]},
                                 help="Keep empty to use the current date"),
@@ -109,16 +116,22 @@ class AccountWhMunici(osv.osv):
                  " date) date."),
         'currency_id': fields.many2one(
             'res.currency', 'Currency', required=True, readonly=True,
-            states={'draft': [('readonly', False)]}, help="Currency"),
+            states={'draft': [('readonly', False)]},
+            default=lambda s: s._get_currency(),
+            help="Currency"),
         'partner_id': fields.many2one(
             'res.partner', 'Partner', readonly=True, required=True,
             states={'draft': [('readonly', False)]},
             help="Withholding customer/supplier"),
         'company_id': fields.many2one(
-            'res.company', 'Company', required=True, help="Company"),
+            'res.company', 'Company', required=True,
+            default=lambda s: s._get_company(),
+            help="Company"),
         'journal_id': fields.many2one(
             'account.journal', 'Journal', required=True, readonly=True,
-            states={'draft': [('readonly', False)]}, help="Journal entry"),
+            states={'draft': [('readonly', False)]},
+            default=lambda s: s._get_journal(),
+            help="Journal entry"),
         'munici_line_ids': fields.one2many(
             'account.wh.munici.line', 'retention_id',
             'Local withholding lines', readonly=True,
@@ -131,16 +144,6 @@ class AccountWhMunici(osv.osv):
         'move_id': fields.many2one(
             'account.move', 'Account Entry',
             help='account entry for the invoice'),
-    }
-
-    _defaults = {
-        'type': _get_type,
-        'state': lambda *a: 'draft',
-        'journal_id': _get_journal,
-        'currency_id': _get_currency,
-        'company_id': lambda self, cr, uid, context:
-        self.pool.get('res.users').browse(cr, uid, uid,
-                                          context=context).company_id.id,
     }
 
     _sql_constraints = [
@@ -236,9 +239,8 @@ class AccountWhMunici(osv.osv):
     def action_move_create(self, cr, uid, ids, context=None):
         """ Create movements associated with retention and reconcile
         """
-        if context is None:
-            context = {}
         inv_obj = self.pool.get('account.invoice')
+        context = dict(context or {})
         context.update({'muni_wh': True})
         for ret in self.browse(cr, uid, ids):
             for line in ret.munici_line_ids:
@@ -345,7 +347,7 @@ class AccountWhMunici(osv.osv):
         context = context or {}
         ids = isinstance(ids, (int, long)) and [ids] or ids
         res = super(AccountWhMunici, self).write(cr, uid, ids, vals,
-                                                   context=context)
+                                                 context=context)
         self._update_check(cr, uid, ids, context=context)
         return res
 
@@ -354,7 +356,7 @@ class AccountWhMunici(osv.osv):
         """
         context = context or {}
         new_id = super(AccountWhMunici, self).create(cr, uid, vals,
-                                                       context=context)
+                                                     context=context)
         self._update_check(cr, uid, new_id, context=context)
         return new_id
 
@@ -370,7 +372,7 @@ class AccountWhMunici(osv.osv):
                       " to be deleted."))
             else:
                 super(AccountWhMunici, self).unlink(cr, uid, ids,
-                                                      context=context)
+                                                    context=context)
         return True
 
     def confirm_check(self, cr, uid, ids, context=None):
@@ -406,8 +408,8 @@ class AccountWhMuniciLine(osv.osv):
         if context is None:
             context = {}
         data = super(AccountWhMuniciLine, self).default_get(cr, uid,
-                                                               field_list,
-                                                               context)
+                                                            field_list,
+                                                            context)
         self.munici_context = context
         return data
 
@@ -436,14 +438,10 @@ class AccountWhMuniciLine(osv.osv):
         'wh_loc_rate': fields.float(
             'Rate', help="Local withholding rate"),
         'concepto_id': fields.integer(
-            'Concept', size=3, help="Local withholding concept"),
-
-
+            'Concept', size=3, default=1,
+            help="Local withholding concept"),
     }
-    _defaults = {
-        'concepto_id': lambda *a: 1,
 
-    }
     _sql_constraints = [
         ('munici_fact_uniq', 'unique (invoice_id)',
          'The invoice has already assigned in local withholding, you'

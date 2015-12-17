@@ -188,16 +188,13 @@ class EmployeeIncomeWh(osv.osv_memory):
 
     _columns = {
         'name': fields.char('File name', size=128, readonly=True),
-        'type': fields.selection(
-            [('csv', 'CSV File'), ('xml', 'XML File')], 'File Type',
-            required=True),
+        'type': fields.selection([
+            ('csv', 'CSV File'),
+            ('xml', 'XML File')
+            ], string='File Type', required=True, default='csv'),
         'obj_file': fields.binary('XML file', required=True, filters='*.xml',
                                   help=("XML file name with employee income "
                                         "withholding data")),
-    }
-
-    _defaults = {
-        'type': lambda *a: 'csv',
     }
 
     _sql_constraints = [

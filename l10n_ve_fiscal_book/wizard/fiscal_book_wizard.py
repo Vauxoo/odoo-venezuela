@@ -162,7 +162,7 @@ class FiscalBookWizard(osv.osv_memory):
             cr, uid, [('id', '=', context['active_id'])])
         fiscal_book_o = fiscal_book_obj.browse(cr, uid, fiscal_book_o[0])
         res = super(FiscalBookWizard, self).default_get(cr, uid, field_list,
-                                                          context=context)
+                                                        context=context)
         res.update({'type': fiscal_book_o.type})
         res.update({'date_start':
                     fiscal_book_o.period_id and
@@ -203,8 +203,10 @@ class FiscalBookWizard(osv.osv_memory):
             'report_name': 'fiscal.book.purchase', 'datas': data}
 
     _columns = {
-        "date_start": fields.date("Start Date", required=True),
-        "date_end": fields.date("End Date", required=True),
+        "date_start": fields.date("Start Date", required=True,
+                                  default=time.strftime('%Y-%m-%d')),
+        "date_end": fields.date("End Date", required=True,
+                                default=time.strftime('%Y-%m-%d')),
         "control_start": fields.integer("Control Start"),
         "control_end": fields.integer("Control End"),
         "type": fields.selection([
@@ -212,12 +214,6 @@ class FiscalBookWizard(osv.osv_memory):
             ("purchase", _("Purchase")),
         ], "Type", required=True,
         ),
-    }
-
-    _defaults = {
-        'date_start': lambda *a: time.strftime('%Y-%m-%d'),
-        'date_end': lambda *a: time.strftime('%Y-%m-%d'),
-        # 'type': lambda *a: 'sale',
     }
 
 FiscalBookWizard()

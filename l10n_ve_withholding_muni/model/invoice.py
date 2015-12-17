@@ -23,6 +23,7 @@
 #    along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #############################################################################
 
+from openerp import api
 from openerp.osv import fields, osv
 from openerp.tools.translate import _
 
@@ -30,17 +31,16 @@ from openerp.tools.translate import _
 class AccountInvoice(osv.osv):
     _inherit = 'account.invoice'
 
-    def copy(self, cr, uid, ids, default=None, context=None):
+    @api.multi
+    def copy(self, default=None):
         """ Initialized fields to the copy a register
         """
         # NOTE: use ids argument instead of id for fix the pylint error W0622.
         # Redefining built-in 'id'
-        context = context or {}
         default = default or {}
         default = default.copy()
         default.update({'wh_local': False, 'wh_muni_id': False})
-        return super(AccountInvoice, self).copy(cr, uid, ids, default,
-                                                 context)
+        return super(AccountInvoice, self).copy(default)
 
     def _get_move_lines(self, cr, uid, ids, to_wh, period_id,
                         pay_journal_id, writeoff_acc_id,
@@ -62,11 +62,11 @@ class AccountInvoice(osv.osv):
             cr, uid, ids, to_wh, period_id, pay_journal_id, writeoff_acc_id,
             writeoff_period_id, writeoff_journal_id, date, name,
             context=context)
+        rp_obj = self.pool.get('res.partner')
         if context.get('muni_wh', False):
-            rp_obj = self.pool.get('res.partner')
+            invoice = self.browse(cr, uid, ids[0])
             acc_part_brw = rp_obj._find_accounting_partner(
                 to_wh.invoice_id.partner_id)
-            invoice = self.browse(cr, uid, ids[0])
             types = {
                 'out_invoice': -1,
                 'in_invoice': 1,
@@ -87,7 +87,7 @@ class AccountInvoice(osv.osv):
                       " the missing field") % (acc_part_brw.name,))
             res.append((0, 0, {
                 'debit': direction * to_wh.amount < 0 and
-                - direction * to_wh.amount,
+                (-direction * to_wh.amount),
                 'credit': direction * to_wh.amount > 0 and
                 direction * to_wh.amount,
                 'partner_id': acc_part_brw.id,
@@ -175,7 +175,7 @@ class AccountInvoice(osv.osv):
         for inv_brw in self.browse(cr, uid, ids, context=context):
             if not inv_brw.wh_muni_id:
                 super(AccountInvoice, self).action_cancel(cr, uid, ids,
-                                                           context=context)
+                                                          context=context)
             else:
                 raise osv.except_osv(
                     _("Error!"),
