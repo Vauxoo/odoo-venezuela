@@ -625,7 +625,7 @@ class AccountWhIva(models.Model):
         """
         ctx = dict(self._context,
                    vat_wh=True,
-                   company_id=self.env.user.company_id.idv)
+                   company_id=self.env.user.company_id.id)
         for ret in self.with_context(ctx):
             for line in ret.wh_lines:
                 if line.move_id or line.invoice_id.wh_iva:
