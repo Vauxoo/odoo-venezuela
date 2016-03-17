@@ -203,7 +203,7 @@ class AccountInvoice(models.Model):
                 'account_id': acc_id,
                 'partner_id': acc_part_id.id,
                 'period_id': inv_brw.period_id.id,
-                'wh_lines': [(4, ret_line_id)],
+                'wh_lines': [(4, ret_line_id.id)],
                 'fortnight': per_obj.find_fortnight(inv_brw.date_invoice)[1],
             }
             if inv_brw.company_id.propagate_invoice_date_to_vat_withholding:
@@ -242,7 +242,7 @@ class AccountInvoice(models.Model):
                     # Create a New WH Doc and add line
                     ret_id = inv.create_new_wh_iva(ret_line_id)
                 if ret_id:
-                    inv.write({'wh_iva_id': ret_id})
+                    inv.write({'wh_iva_id': ret_id.id})
                     inv.wh_iva_id.compute_amount_wh()
         return True
 
