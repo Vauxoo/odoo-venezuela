@@ -397,20 +397,22 @@ class AccountWhIva(models.Model):
     def cancel_move(self):
         """ Delete move lines related with withholding vat and cancel
         """
-        moves = self.pool.get('account.move')
+        moves_obj = self.env['account.move']
+        moves = []
         for ret in self:
             if ret.state == 'done':
                 for ret_line in ret.wh_lines:
-                    moves += ret_line.move_id
+                    moves.append(ret_line.move_id)
                     # first, detach the move id
                     ret_line.write({'move_id': False})
             # second, set the withholding as cancelled
             ret.write({'state': 'cancel'})
         if moves:
-            # third, invalidate the move(s)
-            moves.button_cancel()
-            # last, delete the move(s)
-            moves.unlink()
+            for move in moves:
+                # third, invalidate the move(s)
+                move.button_cancel()
+                # last, delete the move(s)
+                move.unlink()
         return True
 
     @api.model

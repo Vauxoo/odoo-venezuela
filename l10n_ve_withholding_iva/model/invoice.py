@@ -55,6 +55,18 @@ class AccountInvoice(models.Model):
                 record.wh_iva = False
 
     @api.multi
+    def check_withholding_duplicate(self):
+        """
+        check that invoice not have a withholding vat created previously.
+        @return True or False.
+        """
+        wh_vat = self.env['account.wh.iva.line']
+        for inv_brw in self:
+            if wh_vat.search([('invoice_id', '=', inv_brw.id)]):
+                return False
+        return True
+
+    @api.multi
     def check_document_date(self):
         """
         check that the invoice in open state have the document date defined.

@@ -9,7 +9,8 @@
             <field name="condition">True</field>
             <field eval="3" name="sequence"/>
             <field name="type">ir.actions.server</field>
-            <field name="code">object.check_document_date() and \
+            <field name="code">object.check_withholding_duplicate() and \
+object.check_document_date() and \
 object.check_invoice_dates() and \
 object.check_wh_apply() and \
 object.check_withholdable() and \
