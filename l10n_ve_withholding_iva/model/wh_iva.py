@@ -415,6 +415,16 @@ class AccountWhIva(models.Model):
                 move.unlink()
         return True
 
+    @api.multi
+    def action_cancel_draft(self):
+        """Restarting the workflow withholding vat.
+        The state is placed in draft.
+        """
+        self.write({'state': 'draft'})
+        self.delete_workflow()
+        self.create_workflow()
+        return True
+
     @api.model
     def _get_valid_wh(self, amount_ret, amount, wh_iva_rate,
                       offset=0.5):
