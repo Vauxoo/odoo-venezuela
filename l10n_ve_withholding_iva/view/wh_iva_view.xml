@@ -152,7 +152,7 @@
                         <button name="wh_iva_done" states="confirmed" string="Done" icon="gtk-execute"/>
                         <button name="%(withholding_vat)d" type="action" colspan="2" states="done" string="Print VAT Withholding" icon="gtk-execute"/>
                         <button name="cancel" colspan="2" states="confirmed,draft,done" string="Cancel" icon="gtk-cancel"/>
-                        <button name="set_to_draft" colspan="2" states="cancel" string="Set to draft" icon="terp-stock_effects-object-colorize"/>
+                        <button name="action_cancel_draft" colspan="2" states="cancel" string="Set to draft" type="object" icon="terp-stock_effects-object-colorize"/>
                         <field name="state" widget="statusbar" statusbar_visible="draft,confirmed,done" statusbar_colors="{&quot;confirmed&quot;:&quot;blue&quot;}"/>
                     </header>
                     <group colspan="4" col="6">
@@ -207,7 +207,7 @@
                         <button name="wh_iva_confirmed" states="draft" string="Confirm" icon="gtk-go-forward"/>
                         <button name="wh_iva_done" states="confirmed" string="Done" icon="gtk-execute"/>
                         <button name="cancel" states="confirmed,draft,done" string="Cancel" icon="gtk-cancel"/>
-                        <button name="set_to_draft" states="cancel" string="Set to draft" icon="terp-stock_effects-object-colorize"/>
+                        <button name="action_cancel_draft" colspan="2" states="cancel" string="Set to draft" type="object" icon="terp-stock_effects-object-colorize"/>
                         <field name="state" widget="statusbar" statusbar_visible="draft,confirmed,done" statusbar_colors="{&quot;confirmed&quot;:&quot;blue&quot;}"/>
                     </header>
                     <group colspan="4" col="6">

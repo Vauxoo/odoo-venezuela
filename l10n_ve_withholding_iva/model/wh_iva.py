@@ -65,7 +65,7 @@ class AccountWhIvaLineTax(models.Model):
 
     @api.multi
     @api.depends('amount', 'wh_vat_line_id.wh_iva_rate')
-    def _get_amount_ret(self, cr, uid, ids, fieldname, args, context=None):
+    def _get_amount_ret(self):
         """ Return withholding amount
         """
         for record in self:
@@ -138,16 +138,23 @@ class AccountWhIvaLine(models.Model):
 
     @api.multi
     @api.depends('tax_line.amount_ret', 'tax_line.base')
-    def _amount_all(self, cr, uid, ids, fieldname, args, context=None):
+    def _amount_all(self):
         """ Return amount total each line
         """
         for rec in self:
-            if rec.invoice_id.type not in 'in_refund':
-                rec.amount_tax_ret = sum(l.amount_ret for l in rec.tax_line)
-                rec.base_ret = sum(l.base for l in rec.tax_line)
+            if rec.invoice_id:
+                if rec.invoice_id.type not in ('in_refund'):
+                    rec.amount_tax_ret = sum(l.amount_ret 
+                        for l in rec.tax_line)
+                    rec.base_ret = sum(l.base for l in rec.tax_line)
+                else:
+                    rec.amount_tax_ret = -sum(l.amount_ret
+                        for l in rec.tax_line)
+                    rec.base_ret = -sum(l.base for l in rec.tax_line)
             else:
-                rec.amount_tax_ret = -sum(l.amount_ret for l in rec.tax_line)
-                rec.base_ret = -sum(l.base for l in rec.tax_line)
+                rec.amount_tax_ret = 0
+                rec.base_ret = 0
+                
 
     name = fields.Char(
         string='Description', size=64, required=True,
@@ -199,20 +206,21 @@ class AccountWhIvaLine(models.Model):
         @param invoice: invoice for assign a withholding vat
         """
         result = {}
-        invoice = self.env['account.invoice'].browse(invoice_id)
-        self._cr.execute('select retention_id '
-                         'from account_wh_iva_line '
-                         'where invoice_id=%s' % (invoice_id))
-        ret_ids = self._cr.fetchone()
-        if bool(ret_ids):
-            ret = self.env['account.wh.iva'].browse(ret_ids[0])
-            raise exceptions.except_orm(
-                'Assigned Invoice !',
-                "The invoice has already assigned in withholding"
-                " vat code: '%s' !" % (ret.code))
-        result.update({
-            'name': invoice.name,
-            'supplier_invoice_number': invoice.supplier_invoice_number})
+        if invoice_id:
+            invoice = self.env['account.invoice'].browse(invoice_id)
+            self._cr.execute('select retention_id '
+                             'from account_wh_iva_line '
+                             'where invoice_id=%s' % (invoice_id))
+            ret_ids = self._cr.fetchone()
+            if bool(ret_ids):
+                ret = self.env['account.wh.iva'].browse(ret_ids[0])
+                raise exceptions.except_orm(
+                    'Assigned Invoice !',
+                    "The invoice has already assigned in withholding"
+                    " vat code: '%s' !" % (ret.code))
+            result.update({
+                'name': invoice.name,
+                'supplier_invoice_number': invoice.supplier_invoice_number})
 
         return {'value': result}
 
@@ -389,20 +397,32 @@ class AccountWhIva(models.Model):
     def cancel_move(self):
         """ Delete move lines related with withholding vat and cancel
         """
-        moves = self.pool.get('account.move')
+        moves_obj = self.env['account.move']
+        moves = []
         for ret in self:
             if ret.state == 'done':
                 for ret_line in ret.wh_lines:
-                    moves += ret_line.move_id
+                    moves.append(ret_line.move_id)
                     # first, detach the move id
                     ret_line.write({'move_id': False})
             # second, set the withholding as cancelled
             ret.write({'state': 'cancel'})
         if moves:
-            # third, invalidate the move(s)
-            moves.button_cancel()
-            # last, delete the move(s)
-            moves.unlink()
+            for move in moves:
+                # third, invalidate the move(s)
+                move.button_cancel()
+                # last, delete the move(s)
+                move.unlink()
+        return True
+
+    @api.multi
+    def action_cancel_draft(self):
+        """Restarting the workflow withholding vat.
+        The state is placed in draft.
+        """
+        self.write({'state': 'draft'})
+        self.delete_workflow()
+        self.create_workflow()
         return True
 
     @api.model
@@ -617,7 +637,7 @@ class AccountWhIva(models.Model):
         """
         ctx = dict(self._context,
                    vat_wh=True,
-                   company_id=self.env.user.company_id.idv)
+                   company_id=self.env.user.company_id.id)
         for ret in self.with_context(ctx):
             for line in ret.wh_lines:
                 if line.move_id or line.invoice_id.wh_iva:
