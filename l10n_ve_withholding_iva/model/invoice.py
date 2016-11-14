@@ -419,27 +419,27 @@ class AccountInvoice(models.Model):
         for inv in self:
             view_id = self.env['ir.ui.view'].search([
                 ('name', '=', 'account.invoice.wh.iva.customer')])
+            context = self.env.context.copy()
             context.update({
-                'invoice_id': inv.id,
-                'type': inv.type,
-                'default_partner_id': partner._find_accounting_partner(
-                    inv.partner_id).id,
-                'default_name': inv.name or inv.number,
-                'view_id': view_id,
+                'domain':[
+                    ('invoice_id','=',inv.id),
+                    ('type','=',inv.type),
+                    ('default_partner_id','=', partner._find_accounting_partner(inv.partner_id).id),
+                    ('default_name' ,'=', inv.name or inv.number),
+                    ('view_id' ,'=', view_id[0].id)
+                ]
             })
-            res = {
-                'name': _('Withholding vat customer'),
-                'type': 'ir.actions.act_window',
-                'res_model': 'account.wh.iva',
-                'view_type': 'form',
-                'view_id': False,
-                'view_mode': 'form',
-                'nodestroy': True,
-                'target': 'current',
-                'domain': "[('type', '=', '" + inv.type + "')]",
-                'context': context
-            }
-        return res
+        return {
+            'name': _('Withholding vat customer'),
+            'type': 'ir.actions.act_window',
+            'res_model': 'account.wh.iva',
+            'view_type': 'form',
+            'view_id': False,
+            'view_mode': 'form',
+            'target': 'current',
+            'domain': [('type', '=', inv.type )],
+            'context': context,
+        }
 
     @api.multi
     def action_cancel(self):
