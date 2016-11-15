@@ -36,8 +36,8 @@
         "l10n_ve_withholding",
     ],
     "test": [
-        'test/aws_customer.yml',
-        'test/aws_supplier.yml',
+        # 'test/aws_customer.yml',
+        # 'test/aws_supplier.yml',
     ],
     "data": [
         'security/wh_src_security.xml',

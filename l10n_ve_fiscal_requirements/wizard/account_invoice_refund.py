@@ -25,6 +25,7 @@ import time
 
 from openerp import workflow
 from openerp.osv import fields, osv
+from openerp.osv.orm import browse_null
 from openerp.tools.translate import _
 
 
@@ -275,10 +276,10 @@ class AccountInvoiceRefund(osv.osv_memory):
                 # Add parent invoice
                 cr.execute(
                     "update account_invoice set date_due='%s',nro_ctrl='%s',"
-                    " check_total='%s', parent_id=%s where id =%s" % (
-                        date, nroctrl, inv.check_total, inv.id, refund.id))
+                    " check_total='%s', parent_id=%s, date_document='%s'"
+                    " where id =%s" % (date, nroctrl, inv.check_total,
+                                       inv.id, date, refund.id))
                 inv_obj.button_compute(cr, uid, refund_id)
-
                 created_inv.append(refund_id[0])
                 if mode in ('cancel', 'modify'):
                     movelines = inv.move_id.line_id
@@ -287,7 +288,7 @@ class AccountInvoiceRefund(osv.osv_memory):
                         if line.account_id.id == inv.account_id.id:
                             to_reconcile_ids[line.account_id.id] = [line.id]
                         if not isinstance(line.reconcile_id,
-                                          osv.orm.browse_null):
+                                          browse_null):
                             reconcile_obj.unlink(cr, uid, line.reconcile_id.id)
                     wf_service.trg_validate(uid, 'account.invoice',
                                             refund.id, 'invoice_open', cr)

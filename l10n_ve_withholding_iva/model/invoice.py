@@ -377,7 +377,8 @@ class AccountInvoice(models.Model):
                     res.append((0, 0, {
                         'debit':
                         direction * tax_brw.amount_ret < 0 and
-                        direction * tax_brw.amount_ret,
+                        direction * -1 * tax_brw.amount_ret,
+                        # direction * tax_brw.amount_ret,
                         'credit':
                         direction * tax_brw.amount_ret > 0 and
                         direction * tax_brw.amount_ret,

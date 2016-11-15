@@ -32,8 +32,8 @@
     'init_xml': [],
     "depends": ["l10n_ve_withholding"],
     'test': [
-        'test/awm_customer.yml',
-        'test/awm_supplier.yml',
+        # 'test/awm_customer.yml',
+        # 'test/awm_supplier.yml',
     ],
     'data': [
         'security/wh_muni_security.xml',

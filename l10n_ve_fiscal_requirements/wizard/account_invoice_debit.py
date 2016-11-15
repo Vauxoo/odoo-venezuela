@@ -131,8 +131,7 @@ class AccountInvoiceDebit(osv.osv_memory):
         inv_obj = self.pool.get('account.invoice')
         mod_obj = self.pool.get('ir.model.data')
         act_obj = self.pool.get('ir.actions.act_window')
-        if context is None:
-            context = {}
+        context = dict(context or {})
 
         form = self.browse(cr, uid, ids[0], context=context)
         created_inv = []

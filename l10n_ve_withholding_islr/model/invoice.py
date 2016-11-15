@@ -230,7 +230,7 @@ class AccountInvoice(osv.osv):
         # Redefining built-in 'id'
         default = default or {}
         default = default.copy()
-        default.update({'islr_wh_doc': 0,
+        default.update({'islr_wh_doc_id': 0,
                         'status': 'no_pro',
                         })
         self = self.with_context(new_key=True)

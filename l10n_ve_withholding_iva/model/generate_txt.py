@@ -132,7 +132,7 @@ class TxtIva(models.Model):
         return True
 
     @api.multi
-    def check_txt_ids(self, cr, uid, ids, context=None):
+    def check_txt_ids(self):
         """ Check that txt_iva has lines to process."""
         for awi in self:
             if not awi.txt_ids:
@@ -157,10 +157,10 @@ class TxtIva(models.Model):
         voucher_obj = self.env['account.wh.iva']
         txt_iva_obj = self.env['txt.iva.line']
         vouchers = []
-        txt_brw = self.browse()[0]
+        txt_brw = self.browse(self._ids)[0]
         txt_ids = txt_iva_obj.search([('txt_id', '=', txt_brw.id)])
         if txt_ids:
-            txt_iva_obj.unlink(txt_ids)
+            txt_ids.unlink()
 
         if txt_brw.type:
             vouchers = voucher_obj.search([

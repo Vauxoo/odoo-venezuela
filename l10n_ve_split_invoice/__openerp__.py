@@ -37,7 +37,7 @@
         "view/company_view.xml",
     ],
     'test': [
-        'test/spl_test.yml',
+        # 'test/spl_test.yml',
     ],
     "installable": True,
 }

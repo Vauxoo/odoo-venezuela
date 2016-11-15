@@ -167,3 +167,14 @@ class AccountInvoice(osv.osv):
                       " invoice Src Withholding Document and then you can"
                       " cancel this invoice."))
         return True
+
+    @api.multi
+    def copy(self, default=None):
+        """ Initialized fields to the copy a register
+        """
+        if default is None:
+            default = {}
+        default.update({'wh_src': False,
+                        'wh_src_rate': 0.0,
+                        'wh_src_id': False})
+        return super(AccountInvoice, self).copy(default)

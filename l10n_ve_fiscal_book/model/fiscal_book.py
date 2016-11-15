@@ -210,7 +210,8 @@ class FiscalBook(orm.Model):
     _columns = {
         'name': fields.char('Description', size=256, required=True),
         'company_id': fields.many2one('res.company', 'Company',
-                                      help='Company', required=True),
+                                      help='Company', required=True,
+                                      default=lambda s: s._get_company()),
         'period_id': fields.many2one(
             'account.period',
             string='Period',
@@ -876,7 +877,7 @@ class FiscalBook(orm.Model):
 
     def get_order_criteria_adjustment(self, cr, uid, book_type, context=None):
         return book_type == 'sale' \
-            and 'accounting_date asc, nro_ctrl asc' \
+            and 'accounting_date asc, ctrl_number asc' \
             or 'emission_date asc, invoice_number asc'
 
     def get_order_criteria(self, cr, uid, book_type, context=None):
@@ -1663,10 +1664,11 @@ class FiscalBook(orm.Model):
 
     # clear book methods
 
-    def clear_book(self, cr, uid, fb_id, context=None):
+    def clear_book(self, cr, uid, ids, context=None):
         """ It delete all book data information.
         @param fb_id: fiscal book line id
         """
+        fb_id = ids
         context = context or {}
         # clear fields
         self.clear_book_taxes_amount_fields(cr, uid, fb_id, context=context)

@@ -11,7 +11,7 @@
         </record>
         <record id="iva_sale2" model="account.tax">
             <field name="name">IVA - Sale 22% - Additional</field>
-            <field name="amount">0.12</field>
+            <field name="amount">0.22</field>
             <field name="type_tax_use">sale</field>
             <field name="applicable_type">true</field>
             <field name="appl_type">adicional</field>
@@ -39,7 +39,7 @@
         </record>
         <record id="iva_purchase2" model="account.tax">
             <field name="name">IVA - purchase 22% - Additional</field>
-            <field name="amount">0.12</field>
+            <field name="amount">0.22</field>
             <field name="type_tax_use">purchase</field>
             <field name="applicable_type">true</field>
             <field name="appl_type">adicional</field>

@@ -1,4 +1,4 @@
-# coding: utf-8
+# -*- coding: utf-8 -*-
 ##############################################################################
 #
 #
@@ -323,6 +323,7 @@ class ResPartner(osv.osv):
         """
         if context is None:
             context = {}
+        context = dict(context)
         context.update({'update_fiscal_information': True})
         super(ResPartner, self).check_vat(cr, uid, ids, context=context)
         user_company = self.pool.get('res.users').browse(
