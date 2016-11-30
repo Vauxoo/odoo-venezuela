@@ -771,8 +771,8 @@ class account_wh_iva(osv.osv):
                             line.invoice_id.company_id.currency_id.id):
                         f_xc = self.pool.get('l10n.ut').sxc(
                             cr, uid,
-                            line.invoice_id.currency_id.id,
                             line.invoice_id.company_id.currency_id.id,
+                            line.invoice_id.currency_id.id,
                             line.retention_id.date)
                         move_obj = self.pool.get('account.move')
                         move_line_obj = self.pool.get('account.move.line')
