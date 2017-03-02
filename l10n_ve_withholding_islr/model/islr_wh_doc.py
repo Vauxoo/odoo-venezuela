@@ -1023,6 +1023,7 @@ class islr_wh_doc_invoices(osv.osv):
             wh = 0.0
             subtract = apply_income and rate_tuple[3] or 0.0
             subtract_write = 0.0
+            subtract_write_ut = 0.0
             sb_concept = subtract
             for line in iwdl_brw.xml_ids:
                 base_line = f_xc(line.account_invoice_line_id.price_subtotal)
