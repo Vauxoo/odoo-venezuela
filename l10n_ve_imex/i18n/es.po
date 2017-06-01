@@ -1,181 +1,23 @@
-# Spanish translation for openerp-venezuela-localization
-# Copyright (c) 2013 Rosetta Contributors and Canonical Ltd 2013
-# This file is distributed under the same license as the openerp-venezuela-localization package.
-# FIRST AUTHOR <EMAIL@ADDRESS>, 2013.
+# Translation of Odoo Server.
+# This file contains the translation of the following modules:
+#	* l10n_ve_imex
 #
 msgid ""
 msgstr ""
-"Project-Id-Version: openerp-venezuela-localization\n"
-"Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
-"POT-Creation-Date: 2013-11-12 19:17+0000\n"
-"PO-Revision-Date: 2013-11-12 20:39+0000\n"
-"Last-Translator: Francisco Lercari (Lertech) <franciscolercari@gmail.com>\n"
-"Language-Team: Spanish <es@li.org>\n"
+"Project-Id-Version: Odoo Server 8.0\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2017-06-01 04:01+0000\n"
+"PO-Revision-Date: 2017-06-01 04:01+0000\n"
+"Last-Translator: <>\n"
+"Language-Team: \n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
-"Content-Transfer-Encoding: 8bit\n"
-"X-Launchpad-Export-Date: 2014-11-16 05:35+0000\n"
-"X-Generator: Launchpad (build 17241)\n"
+"Content-Transfer-Encoding: \n"
+"Plural-Forms: \n"
 
 #. module: l10n_ve_imex
-#: view:customs.form:0
-msgid "Tax amount total"
-msgstr ""
-
-#. module: l10n_ve_imex
-#: help:account.invoice,customs_form_id:0
-msgid "The related form 86 for this import invoice (only draft)"
-msgstr ""
-
-#. module: l10n_ve_imex
-#: code:addons/l10n_ve_imex/model/customs_form.py:317
-#, python-format
-msgid ""
-"Can't cancel a import while account move state <>                     "
-"\"Draft\" (%s)"
-msgstr ""
-
-#. module: l10n_ve_imex
-#: sql_constraint:customs.duty:0
-msgid "The code must be unique! (for this comany)"
-msgstr ""
-
-#. module: l10n_ve_imex
-#: field:account.invoice.tax,partner_id:0
-msgid "Supplier"
-msgstr ""
-
-#. module: l10n_ve_imex
-#: view:customs.facility:0
-#: field:customs.form.line,customs_form_id:0
-#: model:ir.actions.act_window,name:l10n_ve_imex.action_customs_facility
-#: model:ir.ui.menu,name:l10n_ve_imex.menu_action_customs_facility
-msgid "Customs"
-msgstr ""
-
-#. module: l10n_ve_imex
-#: code:addons/l10n_ve_imex/model/invoice.py:72
-#, python-format
-msgid ""
-"Can't validate a invoice while the form 86 state's is                     "
-"cancel or draft (%s).\n"
-"Please validate the form 86 first."
-msgstr ""
-"No se puede validar una factura, mientras que el estado de forma 86 es "
-"cancelar o proyecto (%s).\n"
-"¿Por favor validar la forma 86 primero."
-
-#. module: l10n_ve_imex
-#: help:customs.form,move_id:0
-msgid "The move of this entry line."
-msgstr ""
-
-#. module: l10n_ve_imex
-#: code:addons/l10n_ve_imex/model/customs_form.py:300
-#, python-format
-msgid ""
-"Not all invoices related to the import spreadsheet                     "
-"correspond to invoices relating to VAT"
-msgstr ""
-"No todas las facturas relacionadas con la hoja de cálculo de importación "
-"corresponden a facturas relativas al IVA"
-
-#. module: l10n_ve_imex
-#: field:customs.duty,company_id:0
-#: field:customs.form,company_id:0
-#: field:customs.form.config,company_id:0
-msgid "Company"
-msgstr ""
-
-#. module: l10n_ve_imex
-#: field:customs.form,broker_id:0
-msgid "Broker"
-msgstr ""
-
-#. module: l10n_ve_imex
-#: field:account.invoice,customs_form_id:0
-msgid "Customs form"
-msgstr ""
-
-#. module: l10n_ve_imex
-#: view:customs.form:0
-#: field:customs.form,narration:0
-msgid "Notes"
-msgstr ""
-
-#. module: l10n_ve_imex
-#: view:customs.form:0
-#: field:customs.form,cfl_ids:0
-msgid "Tax lines"
-msgstr ""
-
-#. module: l10n_ve_imex
-#: code:addons/l10n_ve_imex/model/customs_form.py:174
-#: code:addons/l10n_ve_imex/model/customs_form.py:209
-#: code:addons/l10n_ve_imex/model/customs_form.py:310
-#: code:addons/l10n_ve_imex/model/customs_form.py:316
-#: code:addons/l10n_ve_imex/model/customs_form.py:323
-#: code:addons/l10n_ve_imex/model/invoice.py:72
-#, python-format
-msgid "Error!"
-msgstr ""
-
-#. module: l10n_ve_imex
-#: field:customs.form.line,amount:0
-msgid "Amount"
-msgstr ""
-
-#. module: l10n_ve_imex
-#: model:ir.ui.menu,name:l10n_ve_imex.menu_customs_form_config_group
-msgid "Import/Export - SENIAT - Form 99086"
-msgstr ""
-
-#. module: l10n_ve_imex
-#: selection:customs.form,state:0
-msgid "Cancelled"
-msgstr ""
-
-#. module: l10n_ve_imex
-#: view:customs.form.config:0
-msgid "Customs Form Config"
-msgstr ""
-
-#. module: l10n_ve_imex
-#: field:customs.form,ref:0
-msgid "Reference"
-msgstr ""
-
-#. module: l10n_ve_imex
-#: field:customs.form.line,tax_code:0
-msgid "Tax"
-msgstr ""
-
-#. module: l10n_ve_imex
-#: sql_constraint:customs.form:0
-msgid "The form # must be unique!"
-msgstr ""
-
-#. module: l10n_ve_imex
-#: code:addons/l10n_ve_imex/model/customs_form.py:277
-#: code:addons/l10n_ve_imex/model/customs_form.py:290
-#: code:addons/l10n_ve_imex/model/customs_form.py:299
-#, python-format
-msgid "Warning!"
-msgstr ""
-
-#. module: l10n_ve_imex
-#: field:customs.form,name:0
-msgid "Form #"
-msgstr ""
-
-#. module: l10n_ve_imex
-#: field:customs.duty,partner_id:0
-msgid "Partner"
-msgstr ""
-
-#. module: l10n_ve_imex
-#: model:ir.model,name:l10n_ve_imex.model_customs_form_line
-msgid "customs.form.line"
+#: field:customs.form,move_id:0
+msgid "Account move"
 msgstr ""
 
 #. module: l10n_ve_imex
@@ -184,172 +26,43 @@ msgid "Account to pay"
 msgstr ""
 
 #. module: l10n_ve_imex
-#: field:account.invoice.tax,supplier_invoice_number:0
-msgid "Invoice ref"
+#: field:customs.form.line,amount:0
+msgid "Amount"
 msgstr ""
 
 #. module: l10n_ve_imex
-#: view:customs.duty:0
-msgid "Custom Taxes"
+#: view:customs.form:l10n_ve_imex.view_customs_form_form
+#: field:customs.form,amount_total:0
+msgid "Amount total"
 msgstr ""
 
 #. module: l10n_ve_imex
-#: field:customs.form,ref_reg:0
-msgid "Reg. number"
+#: field:customs.form,broker_id:0
+msgid "Broker"
 msgstr ""
 
 #. module: l10n_ve_imex
-#: field:customs.form,state:0
-msgid "State"
-msgstr ""
-
-#. module: l10n_ve_imex
-#: view:customs.form:0
-msgid "Reset to draft"
-msgstr ""
-
-#. module: l10n_ve_imex
-#: help:account.invoice,expedient:0
-msgid ""
-"If it is true, it means this is a                                    "
-"landindg form, you will need to load this                                    "
-"format as an purchase invoice to declarate                                   "
-" on Book"
-msgstr ""
-
-#. module: l10n_ve_imex
-#: sql_constraint:customs.duty:0
-msgid "The sequence must be unique! (for this comany)"
-msgstr ""
-
-#. module: l10n_ve_imex
-#: field:customs.duty,ref:0
-msgid "Ref"
-msgstr ""
-
-#. module: l10n_ve_imex
-#: code:addons/l10n_ve_imex/model/customs_form.py:324
+#: code:addons/l10n_ve_imex/model/customs_form.py:299
 #, python-format
-msgid ""
-"Can't cancel a import while invoice state <>                         "
-"\"Draft\" ([%s] %s, %s)"
+msgid "Can't cancel a import while account move state <>                     \"Draft\" (%s)"
 msgstr ""
 
 #. module: l10n_ve_imex
-#: sql_constraint:customs.facility:0
-msgid "The code must be unique!"
-msgstr ""
-
-#. module: l10n_ve_imex
-#: view:account.invoice:0
-msgid "Imex Taxes"
-msgstr ""
-
-#. module: l10n_ve_imex
-#: view:account.invoice:0
-msgid "Imex"
-msgstr ""
-
-#. module: l10n_ve_imex
-#: help:customs.duty,account_id:0
-msgid ""
-"This account will be used for                                       expenses "
-"related to taxes"
-msgstr ""
-
-#. module: l10n_ve_imex
-#: model:ir.model,name:l10n_ve_imex.model_customs_facility
-msgid "customs.facility"
-msgstr ""
-
-#. module: l10n_ve_imex
-#: code:addons/l10n_ve_imex/model/customs_form.py:228
+#: code:addons/l10n_ve_imex/model/invoice.py:93
 #, python-format
-msgid ""
-"\n"
-"\tSupplier: %-40s Reference: %s"
-msgstr ""
+msgid "Can't validate a invoice while the form 86 state's is                     cancel or draft (%s).\n"
+"Please validate the form 86 first."
+msgstr "No se puede validar una factura, mientras que el estado de forma 86 es cancelar o proyecto (%s).\n"
+"¿Por favor validar la forma 86 primero."
 
 #. module: l10n_ve_imex
-#: model:ir.actions.act_window,name:l10n_ve_imex.action_customs_form_config
-#: model:ir.ui.menu,name:l10n_ve_imex.menu_action_customs_form_config
-msgid "Configuration"
-msgstr ""
-
-#. module: l10n_ve_imex
-#: code:addons/l10n_ve_imex/model/customs_form.py:291
-#, python-format
-msgid ""
-"The vat detail data does not correspond with                             vat "
-"amount in line: %s"
-msgstr ""
-
-#. module: l10n_ve_imex
-#: code:addons/l10n_ve_imex/model/customs_form.py:311
-#, python-format
-msgid "Multiple operations not allowed"
-msgstr ""
-
-#. module: l10n_ve_imex
-#: view:customs.form:0
-msgid "Seniat"
-msgstr ""
-
-#. module: l10n_ve_imex
-#: field:customs.form,date_reg:0
-msgid "Reg. date"
+#: view:customs.form:l10n_ve_imex.view_customs_form_form
+msgid "Cancel"
 msgstr ""
 
 #. module: l10n_ve_imex
 #: selection:customs.form,state:0
-msgid "Draft"
-msgstr ""
-
-#. module: l10n_ve_imex
-#: model:ir.actions.act_window,name:l10n_ve_imex.action_customs_duty
-#: model:ir.ui.menu,name:l10n_ve_imex.menu_action_customs_duty
-msgid "Tax codes"
-msgstr ""
-
-#. module: l10n_ve_imex
-#: field:account.invoice.tax,imex_inv_id:0
-msgid "Imex Invoice"
-msgstr ""
-
-#. module: l10n_ve_imex
-#: field:customs.form,date:0
-msgid "Date"
-msgstr ""
-
-#. module: l10n_ve_imex
-#: code:addons/l10n_ve_imex/model/customs_form.py:210
-#, python-format
-msgid ""
-"Please set a valid configuration in                                  the "
-"imex settings"
-msgstr ""
-
-#. module: l10n_ve_imex
-#: field:account.invoice,expedient:0
-msgid "Dossier"
-msgstr ""
-
-#. module: l10n_ve_imex
-#: code:addons/l10n_ve_imex/model/customs_form.py:174
-#, python-format
-msgid ""
-"No account found, please check                         customs taxes "
-"settings (%s)"
-msgstr ""
-
-#. module: l10n_ve_imex
-#: view:customs.form:0
-msgid "SENIAT"
-msgstr ""
-
-#. module: l10n_ve_imex
-#: model:ir.model,name:l10n_ve_imex.model_account_invoice_tax
-msgid "Invoice Tax"
+msgid "Cancelled"
 msgstr ""
 
 #. module: l10n_ve_imex
@@ -359,104 +72,34 @@ msgid "Code"
 msgstr ""
 
 #. module: l10n_ve_imex
-#: field:customs.form,ref_liq:0
-msgid "Liq. number"
+#: field:customs.duty,company_id:0
+#: field:customs.form,company_id:0
+#: field:customs.form.config,company_id:0
+msgid "Company"
 msgstr ""
 
 #. module: l10n_ve_imex
-#: model:ir.actions.act_window,name:l10n_ve_imex.action_customs_form
-#: model:ir.ui.menu,name:l10n_ve_imex.menu_action_customs_form
-msgid "SENIAT - Form 99086"
+#: model:ir.actions.act_window,name:l10n_ve_imex.action_customs_form_config
+#: model:ir.ui.menu,name:l10n_ve_imex.menu_action_customs_form_config
+msgid "Configuration"
 msgstr ""
 
 #. module: l10n_ve_imex
-#: field:customs.duty,sequence:0
-msgid "Sequence"
+#: field:customs.duty,create_uid:0
+#: field:customs.facility,create_uid:0
+#: field:customs.form,create_uid:0
+#: field:customs.form.config,create_uid:0
+#: field:customs.form.line,create_uid:0
+msgid "Created by"
 msgstr ""
 
 #. module: l10n_ve_imex
-#: model:ir.model,name:l10n_ve_imex.model_customs_form
-msgid "customs.form"
-msgstr ""
-
-#. module: l10n_ve_imex
-#: view:customs.form:0
-#: selection:customs.form,state:0
-msgid "Done"
-msgstr ""
-
-#. module: l10n_ve_imex
-#: model:ir.model,name:l10n_ve_imex.model_account_invoice
-msgid "Invoice"
-msgstr ""
-
-#. module: l10n_ve_imex
-#: view:customs.form:0
-msgid "Cancel"
-msgstr ""
-
-#. module: l10n_ve_imex
-#: view:customs.form:0
-msgid "Vat tax detail"
-msgstr ""
-
-#. module: l10n_ve_imex
-#: view:customs.form:0
-#: selection:customs.form,state:0
-msgid "Open"
-msgstr ""
-
-#. module: l10n_ve_imex
-#: code:addons/l10n_ve_imex/model/customs_form.py:223
-#, python-format
-msgid ""
-"Form 86 # %s\n"
-"\tReference: %s\n"
-"\tBroker:                 %s\n"
-"\n"
-"Related invoices:"
-msgstr ""
-
-#. module: l10n_ve_imex
-#: sql_constraint:customs.form.config:0
-msgid "The company must be unique!"
-msgstr ""
-
-#. module: l10n_ve_imex
-#: field:account.invoice.tax,cfl_id:0
-msgid "Vat line"
-msgstr ""
-
-#. module: l10n_ve_imex
-#: field:customs.form,date_liq:0
-msgid "liq. date"
-msgstr ""
-
-#. module: l10n_ve_imex
-#: view:customs.form:0
-msgid "Other"
-msgstr ""
-
-#. module: l10n_ve_imex
-#: field:account.invoice,imex_tax_line:0
-#: field:customs.form.line,imex_tax_line:0
-msgid "Vat lines"
-msgstr ""
-
-#. module: l10n_ve_imex
-#: view:customs.form:0
-#: field:customs.form,amount_total:0
-msgid "Amount total"
-msgstr ""
-
-#. module: l10n_ve_imex
-#: sql_constraint:customs.form.line:0
-msgid "The code must be unique! (for this form)"
-msgstr ""
-
-#. module: l10n_ve_imex
-#: field:customs.form.config,journal_id:0
-msgid "Journal"
+#: field:customs.duty,create_date:0
+#: field:customs.facility,create_date:0
+#: field:customs.form,create_date:0
+#: field:customs.form.config,create_date:0
+#: field:customs.form.line,create_date:0
+msgid "Created on"
 msgstr ""
 
 #. module: l10n_ve_imex
@@ -465,8 +108,184 @@ msgid "Custom Tax Form"
 msgstr ""
 
 #. module: l10n_ve_imex
-#: model:ir.model,name:l10n_ve_imex.model_customs_duty
-msgid "customs.duty"
+#: view:customs.duty:l10n_ve_imex.view_customs_duty_form
+#: view:customs.duty:l10n_ve_imex.view_customs_duty_tree
+msgid "Custom Taxes"
+msgstr ""
+
+#. module: l10n_ve_imex
+#: view:customs.facility:l10n_ve_imex.view_customs_facility_form
+#: view:customs.facility:l10n_ve_imex.view_customs_facility_tree
+#: field:customs.form.line,customs_form_id:0
+#: model:ir.actions.act_window,name:l10n_ve_imex.action_customs_facility
+#: model:ir.ui.menu,name:l10n_ve_imex.menu_action_customs_facility
+msgid "Customs"
+msgstr ""
+
+#. module: l10n_ve_imex
+#: field:customs.form,customs_facility_id:0
+msgid "Customs Facility"
+msgstr ""
+
+#. module: l10n_ve_imex
+#: view:customs.form.config:l10n_ve_imex.view_customs_form_config_form
+#: view:customs.form.config:l10n_ve_imex.view_customs_form_config_tree
+msgid "Customs Form Config"
+msgstr ""
+
+#. module: l10n_ve_imex
+#: field:account.invoice,customs_form_id:0
+msgid "Customs form"
+msgstr ""
+
+#. module: l10n_ve_imex
+#: field:customs.form,date:0
+msgid "Date"
+msgstr ""
+
+#. module: l10n_ve_imex
+#: field:customs.duty,display_name:0
+#: field:customs.facility,display_name:0
+#: field:customs.form,display_name:0
+#: field:customs.form.config,display_name:0
+#: field:customs.form.line,display_name:0
+msgid "Display Name"
+msgstr ""
+
+#. module: l10n_ve_imex
+#: view:customs.form:l10n_ve_imex.view_customs_form_form
+#: selection:customs.form,state:0
+msgid "Done"
+msgstr ""
+
+#. module: l10n_ve_imex
+#: field:account.invoice,expedient:0
+msgid "Dossier"
+msgstr ""
+
+#. module: l10n_ve_imex
+#: selection:customs.form,state:0
+msgid "Draft"
+msgstr ""
+
+#. module: l10n_ve_imex
+#: code:addons/l10n_ve_imex/model/customs_form.py:175
+#: code:addons/l10n_ve_imex/model/customs_form.py:208
+#: code:addons/l10n_ve_imex/model/customs_form.py:292
+#: code:addons/l10n_ve_imex/model/customs_form.py:298
+#: code:addons/l10n_ve_imex/model/invoice.py:93
+#, python-format
+msgid "Error!"
+msgstr ""
+
+#. module: l10n_ve_imex
+#: field:customs.form,name:0
+msgid "Form #"
+msgstr ""
+
+#. module: l10n_ve_imex
+#: code:addons/l10n_ve_imex/model/customs_form.py:221
+#, python-format
+msgid "Form 86 # %s\n"
+"	Reference: %s\n"
+"	Broker: %s"
+msgstr ""
+
+#. module: l10n_ve_imex
+#: view:customs.form:l10n_ve_imex.view_customs_form_form
+msgid "General info"
+msgstr ""
+
+#. module: l10n_ve_imex
+#: field:customs.duty,id:0
+#: field:customs.facility,id:0
+#: field:customs.form,id:0
+#: field:customs.form.config,id:0
+#: field:customs.form.line,id:0
+msgid "ID"
+msgstr ""
+
+#. module: l10n_ve_imex
+#: help:account.invoice,expedient:0
+msgid "If it is true, it means this is a landindg form, you will need to load this format as an purchase invoice to declarate on Book"
+msgstr ""
+
+#. module: l10n_ve_imex
+#: view:account.invoice:l10n_ve_imex.inh_account_invoice_imex
+msgid "Imex"
+msgstr ""
+
+#. module: l10n_ve_imex
+#: field:account.invoice.tax,imex_inv_id:0
+msgid "Imex Invoice"
+msgstr ""
+
+#. module: l10n_ve_imex
+#: view:account.invoice:l10n_ve_imex.inh_account_invoice_imex
+msgid "Imex Taxes"
+msgstr ""
+
+#. module: l10n_ve_imex
+#: model:ir.ui.menu,name:l10n_ve_imex.menu_customs_form_config_group
+msgid "Import/Export - SENIAT - Form 99086"
+msgstr ""
+
+#. module: l10n_ve_imex
+#: model:ir.model,name:l10n_ve_imex.model_account_invoice
+msgid "Invoice"
+msgstr ""
+
+#. module: l10n_ve_imex
+#: model:ir.model,name:l10n_ve_imex.model_account_invoice_tax
+msgid "Invoice Tax"
+msgstr ""
+
+#. module: l10n_ve_imex
+#: field:account.invoice.tax,supplier_invoice_number:0
+msgid "Invoice ref"
+msgstr ""
+
+#. module: l10n_ve_imex
+#: field:customs.form.config,journal_id:0
+msgid "Journal"
+msgstr ""
+
+#. module: l10n_ve_imex
+#: field:customs.duty,__last_update:0
+#: field:customs.facility,__last_update:0
+#: field:customs.form,__last_update:0
+#: field:customs.form.config,__last_update:0
+#: field:customs.form.line,__last_update:0
+msgid "Last Modified on"
+msgstr ""
+
+#. module: l10n_ve_imex
+#: field:customs.duty,write_uid:0
+#: field:customs.facility,write_uid:0
+#: field:customs.form,write_uid:0
+#: field:customs.form.config,write_uid:0
+#: field:customs.form.line,write_uid:0
+msgid "Last Updated by"
+msgstr ""
+
+#. module: l10n_ve_imex
+#: field:customs.duty,write_date:0
+#: field:customs.facility,write_date:0
+#: field:customs.form,write_date:0
+#: field:customs.form.config,write_date:0
+#: field:customs.form.line,write_date:0
+msgid "Last Updated on"
+msgstr ""
+
+#. module: l10n_ve_imex
+#: field:customs.form,ref_liq:0
+msgid "Liq. number"
+msgstr ""
+
+#. module: l10n_ve_imex
+#: code:addons/l10n_ve_imex/model/customs_form.py:293
+#, python-format
+msgid "Multiple operations not allowed"
 msgstr ""
 
 #. module: l10n_ve_imex
@@ -476,29 +295,114 @@ msgid "Name"
 msgstr ""
 
 #. module: l10n_ve_imex
-#: code:addons/l10n_ve_imex/model/customs_form.py:278
+#: code:addons/l10n_ve_imex/model/customs_form.py:175
 #, python-format
-msgid "You must indicate a amount"
+msgid "No account found, please check                         customs taxes settings (%s)"
 msgstr ""
 
 #. module: l10n_ve_imex
-#: field:customs.form,customs_facility_id:0
-msgid "Customs Facility"
+#: view:customs.form:l10n_ve_imex.view_customs_form_form
+#: field:customs.form,narration:0
+msgid "Notes"
+msgstr ""
+
+#. module: l10n_ve_imex
+#: view:customs.form:l10n_ve_imex.view_customs_form_form
+#: selection:customs.form,state:0
+msgid "Open"
+msgstr ""
+
+#. module: l10n_ve_imex
+#: view:customs.form:l10n_ve_imex.view_customs_form_form
+msgid "Other"
+msgstr ""
+
+#. module: l10n_ve_imex
+#: field:customs.duty,partner_id:0
+msgid "Partner"
+msgstr ""
+
+#. module: l10n_ve_imex
+#: code:addons/l10n_ve_imex/model/customs_form.py:209
+#, python-format
+msgid "Please set a valid configuration in                                  the imex settings"
+msgstr ""
+
+#. module: l10n_ve_imex
+#: field:customs.duty,ref:0
+msgid "Ref"
+msgstr ""
+
+#. module: l10n_ve_imex
+#: field:customs.form,ref:0
+msgid "Reference"
+msgstr ""
+
+#. module: l10n_ve_imex
+#: field:customs.form,date_reg:0
+msgid "Reg. date"
+msgstr ""
+
+#. module: l10n_ve_imex
+#: field:customs.form,ref_reg:0
+msgid "Reg. number"
+msgstr ""
+
+#. module: l10n_ve_imex
+#: view:customs.form:l10n_ve_imex.view_customs_form_form
+msgid "Reset to draft"
+msgstr ""
+
+#. module: l10n_ve_imex
+#: view:customs.form:l10n_ve_imex.view_customs_form_tree
+msgid "SENIAT"
+msgstr ""
+
+#. module: l10n_ve_imex
+#: model:ir.actions.act_window,name:l10n_ve_imex.action_customs_form
+#: model:ir.ui.menu,name:l10n_ve_imex.menu_action_customs_form
+msgid "SENIAT - Form 99086"
+msgstr ""
+
+#. module: l10n_ve_imex
+#: view:customs.form:l10n_ve_imex.view_customs_form_form
+msgid "Seniat"
+msgstr ""
+
+#. module: l10n_ve_imex
+#: field:customs.duty,sequence:0
+msgid "Sequence"
 msgstr ""
 
 #. module: l10n_ve_imex
 #: help:customs.duty,vat_detail:0
-msgid "Set true if this is         vat related tax"
+msgid "Set true if this is vat related tax"
 msgstr ""
 
 #. module: l10n_ve_imex
-#: view:customs.form:0
-msgid "General info"
+#: field:customs.form,state:0
+msgid "State"
 msgstr ""
 
 #. module: l10n_ve_imex
-#: field:customs.form,invoice_ids:0
-msgid "Related invoices"
+#: field:account.invoice.tax,partner_id:0
+msgid "Supplier"
+msgstr ""
+
+#. module: l10n_ve_imex
+#: field:customs.form.line,tax_code:0
+msgid "Tax"
+msgstr ""
+
+#. module: l10n_ve_imex
+#: view:customs.form:l10n_ve_imex.view_customs_form_form
+msgid "Tax amount total"
+msgstr ""
+
+#. module: l10n_ve_imex
+#: model:ir.actions.act_window,name:l10n_ve_imex.action_customs_duty
+#: model:ir.ui.menu,name:l10n_ve_imex.menu_action_customs_duty
+msgid "Tax codes"
 msgstr ""
 
 #. module: l10n_ve_imex
@@ -508,11 +412,93 @@ msgid "Tax detail"
 msgstr ""
 
 #. module: l10n_ve_imex
-#: field:customs.form,move_id:0
-msgid "Account move"
+#: view:customs.form:l10n_ve_imex.view_customs_form_form
+#: field:customs.form,cfl_ids:0
+msgid "Tax lines"
 msgstr ""
 
 #. module: l10n_ve_imex
-#: model:ir.model,name:l10n_ve_imex.model_customs_form_config
-msgid "customs.form.config"
+#: sql_constraint:customs.facility:0
+msgid "The code must be unique!"
 msgstr ""
+
+#. module: l10n_ve_imex
+#: sql_constraint:customs.duty:0
+msgid "The code must be unique! (for this comany)"
+msgstr ""
+
+#. module: l10n_ve_imex
+#: sql_constraint:customs.form.line:0
+msgid "The code must be unique! (for this form)"
+msgstr ""
+
+#. module: l10n_ve_imex
+#: sql_constraint:customs.form.config:0
+msgid "The company must be unique!"
+msgstr ""
+
+#. module: l10n_ve_imex
+#: sql_constraint:customs.form:0
+msgid "The form # must be unique!"
+msgstr ""
+
+#. module: l10n_ve_imex
+#: help:customs.form,move_id:0
+msgid "The move of this entry line."
+msgstr ""
+
+#. module: l10n_ve_imex
+#: sql_constraint:customs.duty:0
+msgid "The sequence must be unique! (for this comany)"
+msgstr ""
+
+#. module: l10n_ve_imex
+#: code:addons/l10n_ve_imex/model/customs_form.py:282
+#, python-format
+msgid "The vat detail data does not correspond with vat amount in line: %s"
+msgstr ""
+
+#. module: l10n_ve_imex
+#: help:customs.duty,account_id:0
+msgid "This account will be used for expenses related to taxes"
+msgstr ""
+
+#. module: l10n_ve_imex
+#: help:account.invoice,customs_form_id:0
+msgid "This is the VAT Withholding Document where this invoice is being withheld"
+msgstr ""
+
+#. module: l10n_ve_imex
+#: field:account.invoice.tax,cfl_id:0
+msgid "Vat line"
+msgstr ""
+
+#. module: l10n_ve_imex
+#: field:account.invoice,imex_tax_line:0
+#: field:customs.form.line,imex_tax_line:0
+msgid "Vat lines"
+msgstr ""
+
+#. module: l10n_ve_imex
+#: view:customs.form:l10n_ve_imex.view_customs_form_form
+msgid "Vat tax detail"
+msgstr ""
+
+#. module: l10n_ve_imex
+#: code:addons/l10n_ve_imex/model/customs_form.py:269
+#: code:addons/l10n_ve_imex/model/customs_form.py:281
+#, python-format
+msgid "Warning!"
+msgstr ""
+
+#. module: l10n_ve_imex
+#: code:addons/l10n_ve_imex/model/customs_form.py:270
+#, python-format
+msgid "You must indicate a amount"
+msgstr ""
+
+#. module: l10n_ve_imex
+#: field:customs.form,date_liq:0
+msgid "liq. date"
+msgstr ""
+

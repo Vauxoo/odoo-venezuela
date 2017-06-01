@@ -1,289 +1,68 @@
-# Spanish translation for openerp-venezuela-localization
-# Copyright (c) 2013 Rosetta Contributors and Canonical Ltd 2013
-# This file is distributed under the same license as the openerp-venezuela-localization package.
-# FIRST AUTHOR <EMAIL@ADDRESS>, 2013.
+# Translation of Odoo Server.
+# This file contains the translation of the following modules:
+#	* l10n_ve_withholding_iva
 #
 msgid ""
 msgstr ""
-"Project-Id-Version: openerp-venezuela-localization\n"
-"Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
-"POT-Creation-Date: 2014-10-07 20:46+0000\n"
-"PO-Revision-Date: 2014-10-07 23:01+0000\n"
-"Last-Translator: Gabriela Quilarque (Vauxoo) <Unknown>\n"
-"Language-Team: Spanish <es@li.org>\n"
+"Project-Id-Version: Odoo Server 8.0\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2017-06-01 04:03+0000\n"
+"PO-Revision-Date: 2017-06-01 04:03+0000\n"
+"Last-Translator: <>\n"
+"Language-Team: \n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
-"Content-Transfer-Encoding: 8bit\n"
-"X-Launchpad-Export-Date: 2014-11-16 05:35+0000\n"
-"X-Generator: Launchpad (build 17241)\n"
+"Content-Transfer-Encoding: \n"
+"Plural-Forms: \n"
 
 #. module: l10n_ve_withholding_iva
-#: help:res.company,allow_vat_wh_outdated:0
-msgid "Enables confirm withholding vouchers for previous or future dates."
-msgstr ""
-"Habilita la confirmación de comprobantes de retención de fechas previas o "
-"futuras."
-
-#. module: l10n_ve_withholding_iva
-#: help:account.wh.iva.line,move_id:0
-msgid "Account entry"
-msgstr "Asiento Contable"
-
-#. module: l10n_ve_withholding_iva
-#: code:addons/l10n_ve_withholding_iva/model/invoice.py:243
+#: code:addons/l10n_ve_withholding_iva/model/wh_iva.py:456
 #, python-format
-msgid ""
-"Youe have already a withholding doc associate to your  invoice,  but this "
-"withholding doc is not in cancel state."
+msgid "	Invoice: %s, %s, %s\n"
+""
 msgstr ""
-"Usted ya tiene un documento de retención asociado a su factura, pero este "
-"documento de retención no está en está en estado cancelado."
 
 #. module: l10n_ve_withholding_iva
-#: code:addons/l10n_ve_withholding_iva/model/wh_iva.py:709
+#: code:addons/l10n_ve_withholding_iva/model/wh_iva.py:499
 #, python-format
-msgid "The following invoices are not from the selected partner: %s "
+msgid "\n"
+"Please, Load the Taxes to be withheld and Try Again"
+msgstr "\n"
+"Por favor, cargue los impuestos a retener e intente de nuevo"
+
+#. module: l10n_ve_withholding_iva
+#: code:addons/l10n_ve_withholding_iva/model/wh_iva.py:523
+#, python-format
+msgid "\n"
+"Please, Write the control number and Try Again"
+msgstr "\n"
+"Por favor, Escriba el Número de Control e Intente de Nuevo"
+
+#. module: l10n_ve_withholding_iva
+#: help:account.wh.iva.line.tax,name:0
+msgid " Tax Name"
+msgstr " Nombre del Impuesto"
+
+#. module: l10n_ve_withholding_iva
+#: model:ir.model,name:l10n_ve_withholding_iva.model_l10n_ve_withholding_iva_installer
+msgid " wh_vat_installer\n"
+"    "
 msgstr ""
 
 #. module: l10n_ve_withholding_iva
-#: view:txt.iva:0
-msgid "Withholding lines"
-msgstr "Líneas de Retención"
+#: report:account.wh.iva:0
+msgid "% Alícuota"
+msgstr ""
 
 #. module: l10n_ve_withholding_iva
 #: report:list_report_wh_vat2:0
 msgid "01=Factura; 02=Nota de Debito; 03=Notas de Créditos"
-msgstr "01=Factura; 02=Nota de Debito; 03=Notas de Créditos"
-
-#. module: l10n_ve_withholding_iva
-#: code:addons/l10n_ve_withholding_iva/report/withholding_vat.py:82
-#, python-format
-msgid "NO INVOICE ADDRESS DEFINED"
-msgstr "Dirección Fiscal no definida"
-
-#. module: l10n_ve_withholding_iva
-#: view:account.wh.iva:0
-msgid "Set to draft"
-msgstr "Cambiar a borrador"
-
-#. module: l10n_ve_withholding_iva
-#: code:addons/l10n_ve_withholding_iva/model/wh_iva.py:832
-#, python-format
-msgid ""
-"Some withholding lines being withheld dont match with the withholding "
-"document period and fortnight.\n"
-"\n"
-" * Withholding VAT document correspond to (.\n"
-"\n"
-msgstr ""
-"Algunas líneas de retención que se van retener no cuadran con el período y "
-"quincena del documento de retención.\n"
-"\n"
-" * El documento de retención de IVA corresponde a (\n"
-"\n"
-
-#. module: l10n_ve_withholding_iva
-#: report:account.wh.iva:0
-msgid "No. de Factura"
-msgstr "No. de Factura"
-
-#. module: l10n_ve_withholding_iva
-#: view:account.wh.iva:0
-#: view:txt.iva:0
-msgid "Group By..."
-msgstr "Agrupar por ..."
-
-#. module: l10n_ve_withholding_iva
-#: view:account.invoice:0
-#: field:account.wh.iva.line,retention_id:0
-#: help:account.wh.iva.line,retention_id:0
-msgid "Vat Withholding"
-msgstr "Retención de IVA"
-
-#. module: l10n_ve_withholding_iva
-#: help:txt.iva,date_end:0
-msgid "End date of period"
-msgstr "Fecha final del período"
-
-#. module: l10n_ve_withholding_iva
-#: view:account.wh.iva.line:0
-msgid "Please, if there are not taxes loaded, Click on Load Taxes"
-msgstr ""
-"Por favor, si no hay impuestos cargados, haga clic en Cargar Impuestos"
-
-#. module: l10n_ve_withholding_iva
-#: view:account.tax:0
-#: help:account.tax,wh_vat_paid_account_id:0
-msgid "This account will be used when applying a withhold to a Refund"
-msgstr ""
-"Esta cuenta se usará cuando se aplique una retención a una Nota de Crédito"
-
-#. module: l10n_ve_withholding_iva
-#: field:txt.iva,amount_total_ret:0
-msgid "Withholding total amount"
-msgstr "Monto total de Retención"
-
-#. module: l10n_ve_withholding_iva
-#: report:list_report_wh_vat2:0
-msgid "Nombre"
-msgstr "Nombre"
-
-#. module: l10n_ve_withholding_iva
-#: field:wh_iva.config,wh:0
-msgid "Are You Withholding Agent?"
-msgstr "¿Es usted un agente de Retención del IVA?"
-
-#. module: l10n_ve_withholding_iva
-#: help:account.wh.iva.line,name:0
-msgid "Withholding line Description"
-msgstr "Descripción de la línea de retención"
-
-#. module: l10n_ve_withholding_iva
-#: report:account.wh.iva:0
-msgid ""
-"LEY IVA – ART. 11: “SERAN RESPONSABLES DEL PAGO DE IMPUESTO EN CALIDAD DE "
-"AGENTES DE RETENCION, LOS COMPRADORES O ADQUIRIENTES DE DETERMINADOS BIENES "
-"MUEBLES Y LOS RECEPTORES DE CIERTOS SERVICIOS A QUIENES LA ADMINISTRACION "
-"TRIBUTARIA DESIGNE COMO TAL”"
-msgstr ""
-"LEY IVA – ART. 11: “SERAN RESPONSABLES DEL PAGO DE IMPUESTO EN CALIDAD DE "
-"AGENTES DE RETENCION, LOS COMPRADORES O ADQUIRIENTES DE DETERMINADOS BIENES "
-"MUEBLES Y LOS RECEPTORES DE CIERTOS SERVICIOS A QUIENES LA ADMINISTRACION "
-"TRIBUTARIA DESIGNE COMO TAL”"
-
-#. module: l10n_ve_withholding_iva
-#: model:ir.ui.menu,name:l10n_ve_withholding_iva.menu_action_account_wh_iva_supplier
-msgid "Supplier VAT Withholding "
-msgstr "Retención de IVA al Proveedor "
-
-#. module: l10n_ve_withholding_iva
-#: field:txt.iva.line,amount_withheld:0
-msgid "Amount Withheld"
-msgstr "Monto a Retener"
-
-#. module: l10n_ve_withholding_iva
-#: field:account.invoice.tax,amount_ret:0
-msgid "Withholding amount"
-msgstr "Monto a Retener"
-
-#. module: l10n_ve_withholding_iva
-#: field:txt.iva,date_start:0
-msgid "Begin Date"
-msgstr "Fecha de inicio"
-
-#. module: l10n_ve_withholding_iva
-#: constraint:account.wh.iva:0
-msgid "Error ! The partner must be withholding vat agent ."
-msgstr "¡Error! El partner debe ser un agente de retención del IVA."
-
-#. module: l10n_ve_withholding_iva
-#: sql_constraint:account.wh.iva:0
-msgid "number must be unique by partner and document type!"
-msgstr ""
-
-#. module: l10n_ve_withholding_iva
-#: help:account.invoice.tax,amount_ret:0
-#: help:account.wh.iva.line.tax,amount_ret:0
-msgid "Vat Withholding amount"
-msgstr "Monto de retención del IVA"
-
-#. module: l10n_ve_withholding_iva
-#: report:list_report_wh_vat2:0
-msgid "Num Doc."
-msgstr "Num Doc."
-
-#. module: l10n_ve_withholding_iva
-#: code:addons/l10n_ve_withholding_iva/model/invoice.py:258
-#, python-format
-msgid "Can't find withholding doc"
-msgstr ""
-
-#. module: l10n_ve_withholding_iva
-#: field:account.wh.iva,company_id:0
-#: help:account.wh.iva,company_id:0
-#: field:account.wh.iva.line.tax,company_id:0
-#: help:account.wh.iva.line.tax,company_id:0
-#: view:txt.iva:0
-#: field:txt.iva,company_id:0
-#: help:txt.iva,company_id:0
-msgid "Company"
-msgstr "Compañía"
-
-#. module: l10n_ve_withholding_iva
-#: view:account.wh.iva:0
-msgid "Done Withholding Vat"
-msgstr "Retención de IVA realizada"
-
-#. module: l10n_ve_withholding_iva
-#: help:wh_iva.config,journal_sale_vat:0
-msgid "Journal for sale operations involving VAT Withholding"
-msgstr "Diario para operaciones de venta relacionadas con retenciones de IVA"
-
-#. module: l10n_ve_withholding_iva
-#: help:account.wh.iva,period_id:0
-msgid ""
-"Keep empty to use the period of the validation(Withholding date) date."
-msgstr ""
-"Déjelo vacío para usar el período de la fecha de validación (Fecha de "
-"Retención)"
-
-#. module: l10n_ve_withholding_iva
-#: field:txt.iva.line,voucher_id:0
-msgid "Tax Withholding"
-msgstr "Impuesto a Retener"
-
-#. module: l10n_ve_withholding_iva
-#: help:account.wh.iva.line,date_ret:0
-msgid "Accouting date. Date Withholding"
 msgstr ""
 
 #. module: l10n_ve_withholding_iva
 #: report:account.wh.iva:0
-msgid "Compras sin Derecho a IVA"
-msgstr "Compras sin Derecho a IVA"
-
-#. module: l10n_ve_withholding_iva
-#: code:addons/l10n_ve_withholding_iva/model/wh_iva.py:381
-#, python-format
-msgid "Must indicate: Accounting date and (or) Voucher Date"
+msgid "AGENTE DE RETENCION"
 msgstr ""
-
-#. module: l10n_ve_withholding_iva
-#: report:list_report_wh_vat2:0
-msgid "Num Control"
-msgstr "Num Control"
-
-#. module: l10n_ve_withholding_iva
-#: report:list_report_wh_vat2:0
-msgid "RIF"
-msgstr "RIF"
-
-#. module: l10n_ve_withholding_iva
-#: code:addons/l10n_ve_withholding_iva/model/wh_iva.py:709
-#, python-format
-msgid "Incorrect Invoices !"
-msgstr ""
-
-#. module: l10n_ve_withholding_iva
-#: field:txt.iva.line,tax_wh_iva_id:0
-msgid "Tax Wh Iva Line"
-msgstr ""
-
-#. module: l10n_ve_withholding_iva
-#: report:list_report_wh_vat2:0
-msgid "Fecha"
-msgstr "Fecha"
-
-#. module: l10n_ve_withholding_iva
-#: code:addons/l10n_ve_withholding_iva/model/generate_txt.py:348
-#, python-format
-msgid "File Created"
-msgstr ""
-
-#. module: l10n_ve_withholding_iva
-#: field:account.wh.iva.line,base_ret:0
-msgid "Wh. amount"
-msgstr "Monto de Retención"
 
 #. module: l10n_ve_withholding_iva
 #: field:account.wh.iva,account_id:0
@@ -291,356 +70,88 @@ msgid "Account"
 msgstr "Cuenta"
 
 #. module: l10n_ve_withholding_iva
-#: code:addons/l10n_ve_withholding_iva/model/wh_iva.py:364
-#, python-format
-msgid "\tInvoice: %s, %s, %s\n"
-msgstr "\tFactura: %s, %s, %s\n"
+#: field:account.wh.iva.line,move_id:0
+msgid "Account Entry"
+msgstr "Comprobante Contable"
 
 #. module: l10n_ve_withholding_iva
-#: report:account.wh.iva:0
-msgid "Base Imponible"
-msgstr "Base Imponible"
+#: help:account.wh.iva.line,move_id:0
+msgid "Account entry"
+msgstr "Asiento Contable"
 
 #. module: l10n_ve_withholding_iva
-#: code:addons/l10n_ve_withholding_iva/model/installer.py:78
-#, python-format
-msgid "Journal VAT Withholding Sale"
-msgstr "Diario de Retenciones de IVA de Venta"
+#: field:account.wh.iva.line,date_ret:0
+msgid "Accounting Date"
+msgstr "Fecha Contable"
 
 #. module: l10n_ve_withholding_iva
-#: field:account.wh.iva.line.tax,base:0
-#: help:account.wh.iva.line.tax,base:0
-msgid "Tax Base"
-msgstr "Base Impositiva"
-
-#. module: l10n_ve_withholding_iva
-#: field:account.wh.iva.line.tax,inv_tax_id:0
-#: model:ir.model,name:l10n_ve_withholding_iva.model_account_invoice_tax
-msgid "Invoice Tax"
-msgstr "Impuesto de Factura"
-
-#. module: l10n_ve_withholding_iva
-#: selection:account.wh.iva,fortnight:0
-msgid "First Fortnight"
-msgstr "Primera Quincena"
-
-#. module: l10n_ve_withholding_iva
-#: report:list_report_wh_vat2:0
-msgid "Tipo Ope."
-msgstr "Tipo Ope."
-
-#. module: l10n_ve_withholding_iva
-#: field:txt.iva,message_ids:0
-msgid "Messages"
-msgstr ""
-
-#. module: l10n_ve_withholding_iva
-#: model:ir.actions.act_window,help:l10n_ve_withholding_iva.action_account_wh_iva_supplier
-msgid ""
-"With Supplier Withholding Vat you can create and manage document withholding "
-"issued to your customers. OpenERP can also generate document withholding "
-"automatically from invoices. For retention must add the invoices, process "
-"them and then validate the document."
-msgstr ""
-"Con Retencion de IVA a Proveedores usted puede crear y administrar "
-"documentos retención expedidos a sus Proveedores. Openerp puede tambien "
-"generar documentos de retención automáticamente desde la factura. Para "
-"retener debe agregar las facturas, procesarlas y luego validar el documento."
-
-#. module: l10n_ve_withholding_iva
-#: view:account.wh.iva.line:0
-#: field:account.wh.iva.line,tax_line:0
-msgid "Taxes"
-msgstr "Impuestos"
-
-#. module: l10n_ve_withholding_iva
-#: help:account.wh.iva.line,tax_line:0
-msgid "Invoice taxes"
-msgstr "Impuestos de Factura"
-
-#. module: l10n_ve_withholding_iva
-#: view:account.wh.iva:0
-msgid "Draft Withholding Vat"
-msgstr "Retención de IVA en Borrador"
-
-#. module: l10n_ve_withholding_iva
-#: code:addons/l10n_ve_withholding_iva/model/invoice.py:258
-#: code:addons/l10n_ve_withholding_iva/model/invoice.py:512
-#: code:addons/l10n_ve_withholding_iva/model/wh_iva.py:381
-#: code:addons/l10n_ve_withholding_iva/wizard/wizard_retention.py:38
-#: code:addons/l10n_ve_withholding_iva/wizard/wizard_wh_nro.py:50
-#: code:addons/l10n_ve_withholding_iva/wizard/wizard_wh_nro.py:56
-#, python-format
-msgid "Error!"
-msgstr "¡Error!"
-
-#. module: l10n_ve_withholding_iva
-#: field:account.invoice.tax,base_ret:0
-msgid "Amount"
-msgstr "Monto"
-
-#. module: l10n_ve_withholding_iva
-#: code:addons/l10n_ve_withholding_iva/model/wh_iva.py:868
-#, python-format
-msgid "Invalid Procedure!!"
-msgstr "¡Procedimiento No Válido!"
-
-#. module: l10n_ve_withholding_iva
-#: field:account.wh.iva,date:0
-#: field:account.wh.iva.line,date:0
-msgid "Voucher Date"
-msgstr "Fecha de Comprobante"
-
-#. module: l10n_ve_withholding_iva
-#: selection:account.wh.iva,state:0
-#: selection:txt.iva,state:0
-msgid "Cancelled"
-msgstr "Cancelado"
-
-#. module: l10n_ve_withholding_iva
-#: field:account.wh.iva.line.tax,name:0
-msgid "Tax Name"
-msgstr "Nombre del Impuesto"
-
-#. module: l10n_ve_withholding_iva
-#: field:account.wh.iva.line,wh_iva_rate:0
-msgid "Withholding Vat Rate"
-msgstr "Tasa de retención del IVA"
-
-#. module: l10n_ve_withholding_iva
-#: help:account.tax,ret:0
-msgid "Indicate if the tax must be withheld"
-msgstr "Indica si el impuesto se puede retener"
-
-#. module: l10n_ve_withholding_iva
-#: help:txt.iva,message_unread:0
-msgid "If checked new messages require your attention."
-msgstr ""
-
-#. module: l10n_ve_withholding_iva
-#: help:account.wh.iva,fortnight:0
-#: help:account.wh.iva,type:0
-msgid "Withholding type"
-msgstr "Tipo de retención"
-
-#. module: l10n_ve_withholding_iva
-#: code:addons/l10n_ve_withholding_iva/model/wh_iva.py:805
-#, python-format
-msgid "Missing Withholding Lines!!!"
-msgstr ""
-
-#. module: l10n_ve_withholding_iva
-#: help:wh_iva.config,name:0
-msgid "name"
-msgstr "Nombre"
-
-#. module: l10n_ve_withholding_iva
-#: code:addons/l10n_ve_withholding_iva/model/invoice.py:320
-#, python-format
-msgid "IVA WH - ORIGIN %s"
-msgstr ""
-
-#. module: l10n_ve_withholding_iva
-#: code:addons/l10n_ve_withholding_iva/model/wh_iva.py:358
-#, python-format
-msgid ""
-"Taxes in the following invoices have been miscalculated\n"
-"\n"
-msgstr ""
-"Los impuestos en las siguientes facturas se han calculado mal\n"
-"\n"
-
-#. module: l10n_ve_withholding_iva
-#: report:list_report_wh_vat2:0
-msgid "RETENCIONES DE IVA / PAGINA:"
-msgstr "RETENCIONES DE IVA / PAGINA:"
-
-#. module: l10n_ve_withholding_iva
-#: report:account.wh.iva:0
-msgid "No. Factura Afectada"
-msgstr "No. Factura Afectada"
-
-#. module: l10n_ve_withholding_iva
-#: field:account.wh.iva,amount_base_ret:0
-msgid "Compute amount"
-msgstr "Monto calculado"
-
-#. module: l10n_ve_withholding_iva
-#: field:account.wh.iva,period_id:0
-msgid "Force Period"
-msgstr "Forzar Período"
-
-#. module: l10n_ve_withholding_iva
-#: help:txt.iva,message_summary:0
-msgid ""
-"Holds the Chatter summary (number of messages, ...). This summary is "
-"directly in html format in order to be inserted in kanban views."
-msgstr ""
-
-#. module: l10n_ve_withholding_iva
-#: code:addons/l10n_ve_withholding_iva/model/invoice.py:127
-#: code:addons/l10n_ve_withholding_iva/model/invoice.py:143
-#, python-format
-msgid "Warning"
-msgstr ""
-
-#. module: l10n_ve_withholding_iva
-#: field:txt.iva.line,invoice_id:0
-msgid "Bill/ND/NC"
-msgstr "FACT/ND/NC"
-
-#. module: l10n_ve_withholding_iva
-#: field:account.wh.iva,fortnight:0
-msgid "Fortnight"
-msgstr "Quincena"
-
-#. module: l10n_ve_withholding_iva
-#: view:account.wh.iva:0
-msgid "Customer Withholding Vat"
-msgstr "Retención de IVA del Cliente"
-
-#. module: l10n_ve_withholding_iva
-#: view:account.wh.iva:0
-#: field:account.wh.iva,partner_id:0
-#: model:ir.model,name:l10n_ve_withholding_iva.model_res_partner
-msgid "Partner"
-msgstr "Partner"
-
-#. module: l10n_ve_withholding_iva
-#: code:addons/l10n_ve_withholding_iva/wizard/wizard_wh_nro.py:56
-#, python-format
-msgid "You can't change the number when state <> \"Done\""
-msgstr ""
-
-#. module: l10n_ve_withholding_iva
-#: code:addons/l10n_ve_withholding_iva/model/wh_iva.py:408
-#, python-format
-msgid ""
-"The Following Invoices will not be withheld:\n"
-"\n"
-msgstr ""
-"Las siguientes facturas no serán retenidas:\n"
-"\n"
-
-#. module: l10n_ve_withholding_iva
-#: model:ir.model,name:l10n_ve_withholding_iva.model_account_wh_iva_line
-msgid "Vat Withholding line"
-msgstr "Linea de Retención de IVA"
-
-#. module: l10n_ve_withholding_iva
-#: help:account.wh.iva.line,invoice_id:0
-msgid "Withholding invoice"
-msgstr "Retención de factura"
-
-#. module: l10n_ve_withholding_iva
-#: field:account.wh.iva,consolidate_vat_wh:0
-#: field:res.company,consolidate_vat_wh:0
-#: field:res.partner,consolidate_vat_wh:0
-msgid "Fortnight Consolidate Wh. VAT"
-msgstr "Consolidar Ret. IVA por Quincena"
-
-#. module: l10n_ve_withholding_iva
-#: selection:account.wh.iva,state:0
-#: view:txt.iva:0
-#: selection:txt.iva,state:0
-msgid "Confirmed"
-msgstr "Confirmado"
-
-#. module: l10n_ve_withholding_iva
-#: field:account.tax,ret:0
-msgid "Withholdable"
-msgstr "Retenible (IVA)"
-
-#. module: l10n_ve_withholding_iva
-#: code:addons/l10n_ve_withholding_iva/model/wh_iva.py:390
-#, python-format
-msgid ""
-"\n"
-"Please, Load the Taxes to be withheld and Try Again"
-msgstr ""
-"\n"
-"Por favor, cargue los impuestos a retener e intente de nuevo"
-
-#. module: l10n_ve_withholding_iva
-#: view:account.wh.iva:0
-#: view:txt.iva:0
-#: view:wiz.vat.apply.wh:0
-#: view:wizard.change.number.wh.iva:0
-msgid "Confirm"
-msgstr "Confirmar"
-
-#. module: l10n_ve_withholding_iva
-#: view:wiz.vat.apply.wh:0
-msgid ""
-"By Checking this option you will exclude this document from being withheld"
-msgstr "Al marcar esta opción usted excluirá este documento de ser retenido"
-
-#. module: l10n_ve_withholding_iva
-#: field:account.wh.iva.line.tax,tax_id:0
-#: help:account.wh.iva.line.tax,tax_id:0
-#: model:ir.model,name:l10n_ve_withholding_iva.model_account_tax
-msgid "Tax"
-msgstr "Impuestos"
-
-#. module: l10n_ve_withholding_iva
-#: view:account.wh.iva:0
+#: view:account.wh.iva:l10n_ve_withholding_iva.view_wh_iva_filter
 msgid "Accounting Date of Withhold"
 msgstr "Fecha contable de la retención"
 
 #. module: l10n_ve_withholding_iva
-#: code:addons/l10n_ve_withholding_iva/model/wh_iva.py:745
+#: field:account.wh.iva,date_ret:0
+msgid "Accounting date"
+msgstr "Fecha contable"
+
+#. module: l10n_ve_withholding_iva
+#: help:account.wh.iva.line,date_ret:0
+msgid "Accouting date. Date Withholding"
+msgstr ""
+
+#. module: l10n_ve_withholding_iva
+#: view:account.invoice:l10n_ve_withholding_iva.account_invoice_wh_iva_supplier
+#: view:wiz.vat.apply.wh:l10n_ve_withholding_iva.wizard_retention_form
+msgid "Administrative Ruling No. SNAT/2005/0056, Exclusions: Art. 3"
+msgstr "Providencia Administrativa No. SNAT/2005/0056, Exclusiones: Art. 3"
+
+#. module: l10n_ve_withholding_iva
+#: code:addons/l10n_ve_withholding_iva/model/wh_iva.py:967
 #, python-format
-msgid ""
-"The Following IVA TXT DOC should be set to Draft before Cancelling this "
-"Document\n"
-"\n"
+msgid "Alert !"
+msgstr "¡Alerta!"
+
+#. module: l10n_ve_withholding_iva
+#: report:list_report_wh_vat2:0
+msgid "Alicuota"
+msgstr "Alícuota"
+
+#. module: l10n_ve_withholding_iva
+#: field:res.company,allow_vat_wh_outdated:0
+msgid "Allow outdated vat withholding"
+msgstr "Permitir retenciones de IVA fuera de fecha"
+
+#. module: l10n_ve_withholding_iva
+#: field:account.invoice.tax,base_ret:0
+#: field:account.wh.iva,amount_base_ret:0
+msgid "Amount"
+msgstr "Monto"
+
+#. module: l10n_ve_withholding_iva
+#: field:account.wh.iva,total_tax_ret:0
+msgid "Amount Wh. tax vat"
 msgstr ""
 
 #. module: l10n_ve_withholding_iva
-#: view:txt.iva:0
-#: field:txt.iva,period_id:0
-msgid "Period"
-msgstr "Período"
+#: field:txt.iva.line,amount_withheld:0
+msgid "Amount Withheld"
+msgstr "Monto a Retener"
 
 #. module: l10n_ve_withholding_iva
-#: selection:account.wh.iva,type:0
-msgid "Supplier Invoice"
-msgstr "Factura de Proveedor"
+#: help:account.invoice.tax,base_ret:0
+msgid "Amount without tax"
+msgstr "Monto sin impuesto"
 
 #. module: l10n_ve_withholding_iva
-#: view:account.wh.iva:0
-#: field:account.wh.iva,state:0
-#: view:txt.iva:0
-msgid "State"
-msgstr "Estado"
+#: field:wh_iva.config,wh:0
+msgid "Are You Withholding Agent?"
+msgstr "¿Es usted un agente de Retención del IVA?"
 
 #. module: l10n_ve_withholding_iva
-#: field:txt.iva,message_follower_ids:0
-msgid "Followers"
-msgstr ""
-
-#. module: l10n_ve_withholding_iva
-#: view:account.invoice:0
-msgid "Generate Wh doc"
-msgstr ""
-
-#. module: l10n_ve_withholding_iva
-#: code:addons/l10n_ve_withholding_iva/model/wh_iva.py:750
-#, python-format
-msgid "Invalid Procedure!"
-msgstr ""
-
-#. module: l10n_ve_withholding_iva
-#: field:account.wh.iva.line.tax,amount_ret:0
-msgid "Withheld Taxed Amount"
-msgstr "Monto Gravado Retenido"
-
-#. module: l10n_ve_withholding_iva
-#: code:addons/l10n_ve_withholding_iva/model/invoice.py:317
-#, python-format
-msgid "You need to configure the partner with withholding accounts!"
-msgstr ""
-"¡Usted necesita configurar el partner con cuentas de retención de IVA!"
+#: view:wiz.vat.apply.wh:l10n_ve_withholding_iva.wizard_retention_form
+#: view:wizard.change.number.wh.iva:l10n_ve_withholding_iva.wizard_change_number_wh_iva
+msgid "Are you sure you want to do this?"
+msgstr "¿Está seguro de que desea hacer esto?"
 
 #. module: l10n_ve_withholding_iva
 #: field:wiz.vat.apply.wh,sure:0
@@ -649,103 +160,19 @@ msgid "Are you sure?"
 msgstr "¿Está seguro?"
 
 #. module: l10n_ve_withholding_iva
-#: model:ir.actions.report.xml,name:l10n_ve_withholding_iva.list_report_wh_vat
-msgid "Retenciones IVA"
-msgstr "Retenciones IVA"
-
-#. module: l10n_ve_withholding_iva
-#: help:txt.iva.line,invoice_id:0
-msgid ""
-"Date of invoice, credit note, debit note or certificate, I mportación "
-"Statement"
-msgstr ""
-"Fecha de la Factura, Nota de Crédito, Nota de Débito o Certificado, "
-"Declaración de Importación."
-
-#. module: l10n_ve_withholding_iva
-#: field:wh_iva.config,name:0
-msgid "Name"
-msgstr "Nombre"
-
-#. module: l10n_ve_withholding_iva
-#: report:account.wh.iva:0
-msgid "RIF No."
-msgstr "RIF No."
-
-#. module: l10n_ve_withholding_iva
-#: report:account.wh.iva:0
-msgid "Firma y Sello"
-msgstr "Firma y Sello"
-
-#. module: l10n_ve_withholding_iva
-#: model:ir.actions.act_window,name:l10n_ve_withholding_iva.action_account_wh_iva_supplier
-msgid "Supplier Vat Withholding"
-msgstr "Retención de IVA a Proveedores"
-
-#. module: l10n_ve_withholding_iva
-#: code:addons/l10n_ve_withholding_iva/model/invoice.py:471
-#, python-format
-msgid "Error !"
-msgstr "¡Error!"
-
-#. module: l10n_ve_withholding_iva
-#: model:ir.ui.menu,name:l10n_ve_withholding_iva.menu_action_account_wh_iva_customer
-msgid "Customer VAT Withholding "
-msgstr "Retención de IVA del Cliente "
-
-#. module: l10n_ve_withholding_iva
-#: code:addons/l10n_ve_withholding_iva/model/invoice.py:223
-#: code:addons/l10n_ve_withholding_iva/model/invoice.py:229
-#, python-format
-msgid ""
-"The currency of the invoice does not match with the currency of the company. "
-"Check this please"
-msgstr ""
-"La moneda de la factura no cuadra con la moneda de la compañía. Verifique "
-"esto por favor."
-
-#. module: l10n_ve_withholding_iva
-#: code:addons/l10n_ve_withholding_iva/model/generate_txt.py:349
-#, python-format
-msgid "File TXT %s generated."
-msgstr "Archivo TXT %s generado"
-
-#. module: l10n_ve_withholding_iva
-#: help:account.wh.iva,journal_id:0
-msgid "Journal entry"
-msgstr "Asiento Contable"
-
-#. module: l10n_ve_withholding_iva
-#: view:account.wh.iva:0
-msgid "Print VAT Withholding"
-msgstr "Imprimir Retención de IVA"
-
-#. module: l10n_ve_withholding_iva
 #: report:list_report_wh_vat2:0
-msgid "Alicuota"
-msgstr "Alícuota"
-
-#. module: l10n_ve_withholding_iva
-#: help:account.wh.iva,state:0
-msgid "Withholding State"
-msgstr "Estado de Retención"
-
-#. module: l10n_ve_withholding_iva
-#: view:account.wh.iva.line:0
-msgid ""
-"Click on this button to ensure the invoice related compute correctly taxes "
-"for this line of withholding, it is necesary looking to allow manually force "
-"if your are not agreed with automatic computation."
+msgid "Base Impo."
 msgstr ""
-"Haga clic en este botón para asegurarse que la factura relacionada calcula "
-"los impuestos correctamente para estas líneas de retención, es necesario que "
-"vea si permite forzar manualmente el cálcuo si usted no está de acuerdo con "
-"el realizado automáticamente"
 
 #. module: l10n_ve_withholding_iva
 #: report:account.wh.iva:0
-msgid "Retención"
-msgstr "Retención"
+msgid "Base Imponible"
+msgstr ""
+
+#. module: l10n_ve_withholding_iva
+#: field:txt.iva,date_start:0
+msgid "Begin Date"
+msgstr "Fecha de inicio"
 
 #. module: l10n_ve_withholding_iva
 #: help:txt.iva,date_start:0
@@ -753,9 +180,66 @@ msgid "Begin date of period"
 msgstr "Fecha inicial del Período"
 
 #. module: l10n_ve_withholding_iva
-#: help:account.wh.iva.line,date:0
-msgid "Emission/Voucher/Document date"
+#: field:txt.iva.line,invoice_id:0
+msgid "Bill/ND/NC"
+msgstr "FACT/ND/NC"
+
+#. module: l10n_ve_withholding_iva
+#: field:txt.iva.line,partner_id:0
+msgid "Buyer/Seller"
+msgstr "Comprador / Vendedor"
+
+#. module: l10n_ve_withholding_iva
+#: view:wiz.vat.apply.wh:l10n_ve_withholding_iva.wizard_retention_form
+msgid "By Checking this option you will exclude this document from being withheld"
+msgstr "Al marcar esta opción usted excluirá este documento de ser retenido"
+
+#. module: l10n_ve_withholding_iva
+#: report:list_report_wh_vat2:0
+msgid "C=compra; V=ventas"
 msgstr ""
+
+#. module: l10n_ve_withholding_iva
+#: report:account.wh.iva:0
+msgid "COMPROBANTE DE RETENCION DEL IMPUESTO AL VALOR AGREGADO"
+msgstr ""
+
+#. module: l10n_ve_withholding_iva
+#: code:addons/l10n_ve_withholding_iva/model/invoice.py:250
+#, python-format
+msgid "Can't find withholding doc"
+msgstr "No se puede encontrar el documento de retención"
+
+#. module: l10n_ve_withholding_iva
+#: view:account.wh.iva:l10n_ve_withholding_iva.view_wh_iva_filter
+#: view:account.wh.iva:l10n_ve_withholding_iva.view_wh_iva_form
+#: view:account.wh.iva:l10n_ve_withholding_iva.view_wh_iva_form_customer
+#: view:txt.iva:l10n_ve_withholding_iva.view_generate_txt_filter
+#: view:wiz.vat.apply.wh:l10n_ve_withholding_iva.wizard_retention_form
+#: view:wizard.change.number.wh.iva:l10n_ve_withholding_iva.wizard_change_number_wh_iva
+msgid "Cancel"
+msgstr "Cancelar"
+
+#. module: l10n_ve_withholding_iva
+#: view:txt.iva:l10n_ve_withholding_iva.view_generate_txt_filter
+msgid "Cancel Document of Generate file XML"
+msgstr "Documento Cancelado de Archivo TXT generado"
+
+#. module: l10n_ve_withholding_iva
+#: view:account.wh.iva:l10n_ve_withholding_iva.view_wh_iva_filter
+msgid "Cancel Withholding Vat"
+msgstr "Retención de IVA Cancelado"
+
+#. module: l10n_ve_withholding_iva
+#: selection:account.wh.iva,state:0
+#: selection:txt.iva,state:0
+msgid "Cancelled"
+msgstr "Cancelado"
+
+#. module: l10n_ve_withholding_iva
+#: view:txt.iva:l10n_ve_withholding_iva.view_generate_txt_iva_form
+msgid "Canlce"
+msgstr "Cancelar"
 
 #. module: l10n_ve_withholding_iva
 #: model:ir.actions.act_window,name:l10n_ve_withholding_iva.action_wiz_vat_apply_wh
@@ -763,154 +247,56 @@ msgid "Change VAT Exclusion"
 msgstr "Cambiar Exclusión de Retención de IVA"
 
 #. module: l10n_ve_withholding_iva
-#: code:addons/l10n_ve_withholding_iva/model/wh_iva.py:392
-#, python-format
-msgid "Invoices with Missing Withheld Taxes!"
-msgstr "Facturas con impuesto retenibles faltantes"
+#: view:account.invoice:l10n_ve_withholding_iva.account_invoice_wh_iva_supplier
+msgid "Change Vat Wh. Exclusion"
+msgstr "Cambiar Exclusión de Ret. de IVA"
 
 #. module: l10n_ve_withholding_iva
-#: code:addons/l10n_ve_withholding_iva/model/generate_txt.py:238
-#: code:addons/l10n_ve_withholding_iva/model/wh_iva.py:373
-#: code:addons/l10n_ve_withholding_iva/model/wh_iva.py:509
-#: code:addons/l10n_ve_withholding_iva/model/wh_iva.py:521
-#: code:addons/l10n_ve_withholding_iva/model/wh_iva.py:831
-#, python-format
-msgid "Invalid action !"
-msgstr "¡Acción no válida!"
+#: model:ir.actions.act_window,name:l10n_ve_withholding_iva.action_change_number_wh_iva
+msgid "Change number"
+msgstr "Cambiar número"
 
 #. module: l10n_ve_withholding_iva
-#: view:account.wh.iva:0
-msgid "Other Information"
-msgstr "Otra Información"
+#: view:wizard.change.number.wh.iva:l10n_ve_withholding_iva.wizard_change_number_wh_iva
+msgid "Changing the withholding number"
+msgstr "Cambiando el número de retención"
 
 #. module: l10n_ve_withholding_iva
-#: field:account.wh.iva.line,supplier_invoice_number:0
-msgid "Supplier Invoice Number"
-msgstr "No. Factura Proveedor"
+#: view:account.wh.iva.line:l10n_ve_withholding_iva.view_wh_iva_line_form
+#: view:account.wh.iva.line:l10n_ve_withholding_iva.view_wh_iva_line_tree
+msgid "Click on this button to ensure the invoice related compute correctly taxes for this line of withholding, it is necesary looking to allow manually force if your are not agreed with automatic computation."
+msgstr "Haga clic en este botón para asegurarse que la factura relacionada calcula los impuestos correctamente para estas líneas de retención, es necesario que vea si permite forzar manualmente el cálcuo si usted no está de acuerdo con el realizado automáticamente"
 
 #. module: l10n_ve_withholding_iva
-#: view:txt.iva:0
-msgid "Withholding lines for TXT"
-msgstr "Líneas de Retención para TXT"
+#: model:ir.model,name:l10n_ve_withholding_iva.model_res_company
+msgid "Companies"
+msgstr "Compañías"
 
 #. module: l10n_ve_withholding_iva
-#: field:account.tax,wh_vat_collected_account_id:0
-msgid "Invoice VAT Withholding Account"
-msgstr "Cuenta de Retención de IVA de la Factura"
+#: field:account.wh.iva,company_id:0
+#: help:account.wh.iva,company_id:0
+#: field:account.wh.iva.line.tax,company_id:0
+#: help:account.wh.iva.line.tax,company_id:0
+#: view:txt.iva:l10n_ve_withholding_iva.view_generate_txt_filter
+#: field:txt.iva,company_id:0
+#: help:txt.iva,company_id:0
+msgid "Company"
+msgstr "Compañía"
 
 #. module: l10n_ve_withholding_iva
-#: view:account.wh.iva:0
-msgid "Supplier Withholding Vat"
-msgstr "Retención de IVA al Proveedor"
-
-#. module: l10n_ve_withholding_iva
-#: model:res.groups,name:l10n_ve_withholding_iva.group_account_wh_iva_manager
-msgid "Withhold VAT / Manager"
-msgstr "Retención de IVA / Administrador"
-
-#. module: l10n_ve_withholding_iva
-#: code:addons/l10n_ve_withholding_iva/model/wh_iva.py:413
-#, python-format
-msgid "Invoices with Missing Control Number!"
-msgstr "Facturas con Número de Control Faltante"
-
-#. module: l10n_ve_withholding_iva
-#: help:account.wh.iva,code:0
-msgid "Internal withholding reference"
-msgstr "Referencia de Retención Interna"
-
-#. module: l10n_ve_withholding_iva
-#: code:addons/l10n_ve_withholding_iva/model/wh_iva.py:411
-#, python-format
-msgid ""
-"\n"
-"Please, Write the control number and Try Again"
-msgstr ""
-"\n"
-"Por favor, Escriba el Número de Control e Intente de Nuevo"
-
-#. module: l10n_ve_withholding_iva
-#: help:account.wh.iva,partner_id:0
-msgid "Withholding customer/supplier"
-msgstr "Retención a Cliente / Proveedor"
-
-#. module: l10n_ve_withholding_iva
-#: help:account.invoice.tax,base_ret:0
-msgid "Amount without tax"
-msgstr "Monto sin impuesto"
-
-#. module: l10n_ve_withholding_iva
-#: view:txt.iva:0
-msgid "Make TXT"
-msgstr "Generar TXT"
-
-#. module: l10n_ve_withholding_iva
-#: report:list_report_wh_vat2:0
-msgid "C=compra; V=ventas"
-msgstr "C=compra; V=ventas"
-
-#. module: l10n_ve_withholding_iva
-#: view:account.wh.iva:0
-#: view:txt.iva:0
-#: view:wiz.vat.apply.wh:0
-#: view:wizard.change.number.wh.iva:0
-msgid "Cancel"
-msgstr "Cancelar"
-
-#. module: l10n_ve_withholding_iva
-#: view:account.invoice:0
-msgid "Have this invoice been already VAT withheld?"
-msgstr "¿Se le ha retenido a esta factura el IVA?"
-
-#. module: l10n_ve_withholding_iva
-#: report:list_report_wh_vat2:0
-msgid "DECLARACION INFORMATIVA DE RETENCIONES IVA"
-msgstr "DECLARACION INFORMATIVA DE RETENCIONES IVA"
-
-#. module: l10n_ve_withholding_iva
-#: help:txt.iva,amount_total_base:0
-msgid "Total de la Base Imponible"
-msgstr "Total de la Base Imponible"
-
-#. module: l10n_ve_withholding_iva
-#: view:txt.iva:0
-msgid "Field TXT"
-msgstr "Campo TXT"
-
-#. module: l10n_ve_withholding_iva
-#: field:wh_iva.config,journal_sale_vat:0
-msgid "Journal Wh VAT Sale"
-msgstr "Diario de Ret de IVA de Venta"
-
-#. module: l10n_ve_withholding_iva
-#: view:txt.iva:0
-msgid "Canlce"
-msgstr "Cancelar"
-
-#. module: l10n_ve_withholding_iva
-#: help:account.wh.iva,consolidate_vat_wh:0
-#: help:res.partner,consolidate_vat_wh:0
-msgid ""
-"If set then the withholdings vat generate in a same fornight will be grouped "
-"in one withholding receipt."
+#: report:account.wh.iva:0
+msgid "Compras sin Derecho a IVA"
 msgstr ""
 
 #. module: l10n_ve_withholding_iva
-#: help:txt.iva,txt_ids:0
-msgid "Txt field lines of ar required by SENIAT for VAT withholding"
-msgstr ""
-"Lineas del archivo txt requeridas por el SENIAT para la retención del "
-"Impuesto al Valor Agregado(IVA)"
+#: view:account.wh.iva:l10n_ve_withholding_iva.view_wh_iva_form
+msgid "Compute Withholding Vat"
+msgstr "Calcular Retención de IVA"
 
 #. module: l10n_ve_withholding_iva
-#: help:res.company,propagate_invoice_date_to_vat_withholding:0
-msgid "Propagate Invoice Date to Vat Withholding. By default is in False."
+#: help:account.wh.iva,total_tax_ret:0
+msgid "Compute amount withholding tax vat"
 msgstr ""
-
-#. module: l10n_ve_withholding_iva
-#: model:ir.model,name:l10n_ve_withholding_iva.model_wh_iva_config
-msgid "wh_iva.config"
-msgstr "wh_iva.config"
 
 #. module: l10n_ve_withholding_iva
 #: help:account.wh.iva,amount_base_ret:0
@@ -918,36 +304,51 @@ msgid "Compute amount without tax"
 msgstr "Calcular monto sin impuesto"
 
 #. module: l10n_ve_withholding_iva
-#: view:account.wh.iva.line:0
-msgid "Withholding Lines"
-msgstr "Líneas de Retención"
+#: view:account.wh.iva:l10n_ve_withholding_iva.view_wh_iva_form
+#: view:account.wh.iva:l10n_ve_withholding_iva.view_wh_iva_form_customer
+#: view:txt.iva:l10n_ve_withholding_iva.view_generate_txt_iva_form
+#: view:wiz.vat.apply.wh:l10n_ve_withholding_iva.wizard_retention_form
+#: view:wizard.change.number.wh.iva:l10n_ve_withholding_iva.wizard_change_number_wh_iva
+msgid "Confirm"
+msgstr "Confirmar"
 
 #. module: l10n_ve_withholding_iva
-#: help:account.wh.iva,account_id:0
-msgid "The pay account used for this withholding."
-msgstr "La cuenta usada por esta retención"
+#: selection:account.wh.iva,state:0
+#: view:txt.iva:l10n_ve_withholding_iva.view_generate_txt_filter
+#: selection:txt.iva,state:0
+msgid "Confirmed"
+msgstr "Confirmado"
 
 #. module: l10n_ve_withholding_iva
-#: help:account.invoice,vat_apply:0
-msgid ""
-"This selection indicates whether generate the invoice withholding document"
+#: view:txt.iva:l10n_ve_withholding_iva.view_generate_txt_filter
+msgid "Confirmed Document of Generate file XML"
+msgstr "Documento confirmado del archivo TXT generado"
+
+#. module: l10n_ve_withholding_iva
+#: field:account.wh.iva,create_uid:0
+#: field:account.wh.iva.line,create_uid:0
+#: field:account.wh.iva.line.tax,create_uid:0
+#: field:l10n_ve_withholding_iva.installer,create_uid:0
+#: field:txt.iva,create_uid:0
+#: field:txt.iva.line,create_uid:0
+#: field:wh_iva.config,create_uid:0
+#: field:wiz.vat.apply.wh,create_uid:0
+#: field:wizard.change.number.wh.iva,create_uid:0
+msgid "Created by"
 msgstr ""
-"Este opción indica si genera el documento de retención de la factura."
 
 #. module: l10n_ve_withholding_iva
-#: help:l10n_ve_withholding_iva.installer,description:0
-msgid "description of the installer"
-msgstr "Descripción del Instalador"
-
-#. module: l10n_ve_withholding_iva
-#: report:account.wh.iva:0
-msgid "TOTAL IMPUESTO RETENIDO"
-msgstr "TOTAL IMPUESTO RETENIDO"
-
-#. module: l10n_ve_withholding_iva
-#: help:txt.iva.line,voucher_id:0
-msgid "Withholding of Value Added Tax (VAT)"
-msgstr "Retención de Impuesto al Valor Agregado (IVA)"
+#: field:account.wh.iva,create_date:0
+#: field:account.wh.iva.line,create_date:0
+#: field:account.wh.iva.line.tax,create_date:0
+#: field:l10n_ve_withholding_iva.installer,create_date:0
+#: field:txt.iva,create_date:0
+#: field:txt.iva.line,create_date:0
+#: field:wh_iva.config,create_date:0
+#: field:wiz.vat.apply.wh,create_date:0
+#: field:wizard.change.number.wh.iva,create_date:0
+msgid "Created on"
+msgstr ""
 
 #. module: l10n_ve_withholding_iva
 #: field:account.wh.iva,currency_id:0
@@ -956,620 +357,49 @@ msgid "Currency"
 msgstr "Moneda"
 
 #. module: l10n_ve_withholding_iva
-#: code:addons/l10n_ve_withholding_iva/model/generate_txt.py:131
-#: code:addons/l10n_ve_withholding_iva/model/wh_iva.py:804
-#, python-format
-msgid "Missing Values !"
-msgstr ""
-
-#. module: l10n_ve_withholding_iva
-#: help:l10n_ve_withholding_iva.installer,gaceta:0
-msgid "Law related where we are referencing this module"
-msgstr "Ley relacionada donde estamos haciendo referencia a este módulo"
-
-#. module: l10n_ve_withholding_iva
-#: report:list_report_wh_vat2:0
-msgid "Tipo Doc."
-msgstr "Tipo Doc."
-
-#. module: l10n_ve_withholding_iva
-#: report:account.wh.iva:0
-msgid "Fecha Factura"
-msgstr "Fecha Factura"
-
-#. module: l10n_ve_withholding_iva
-#: help:txt.iva.line,txt_id:0
-msgid "withholding lines"
-msgstr "Líneas de retención"
-
-#. module: l10n_ve_withholding_iva
-#: field:res.company,propagate_invoice_date_to_vat_withholding:0
-msgid "Propagate Invoice Date to Vat Withholding"
-msgstr ""
-
-#. module: l10n_ve_withholding_iva
-#: code:addons/l10n_ve_withholding_iva/model/invoice.py:128
-#, python-format
-msgid "The document date can not be empty when the invoice is in open state."
-msgstr ""
-
-#. module: l10n_ve_withholding_iva
-#: code:addons/l10n_ve_withholding_iva/model/invoice.py:513
-#, python-format
-msgid ""
-"You can't cancel an invoice that have non cancel withholding document. Needs "
-"first cancel the invoice withholding document and then you can cancel this "
-"invoice."
-msgstr ""
-"Usted no puede cancelar una factura que tiene documentos de retención de IVA "
-"sin cancelar. Necesita primero cancelar el documento de retención de la "
-"factura y luego podrá cancelar la factura."
-
-#. module: l10n_ve_withholding_iva
-#: model:ir.actions.act_window,name:l10n_ve_withholding_iva.action_change_number_wh_iva
-msgid "Change number"
-msgstr ""
-
-#. module: l10n_ve_withholding_iva
-#: code:addons/l10n_ve_withholding_iva/model/generate_txt.py:238
-#, python-format
-msgid ""
-"Unable to make txt file, because the bill has no reference number free!"
-msgstr ""
-"No es posible generar el archivo TXT, debido a que la factura no tiene "
-"número de referencia libre"
-
-#. module: l10n_ve_withholding_iva
-#: help:account.wh.iva.line.tax,name:0
-msgid " Tax Name"
-msgstr " Nombre del Impuesto"
-
-#. module: l10n_ve_withholding_iva
-#: help:wh_iva.config,wh:0
-msgid "if is withholding agent"
-msgstr "Si es agente de retención del IVA"
-
-#. module: l10n_ve_withholding_iva
-#: code:addons/l10n_ve_withholding_iva/report/withholding_vat.py:74
-#, python-format
-msgid "NO FISCAL ADDRESS DEFINED"
-msgstr "No hay dirección fiscal definida"
-
-#. module: l10n_ve_withholding_iva
-#: view:txt.iva:0
-msgid "Confirmed Document of Generate file XML"
-msgstr "Documento confirmado del archivo TXT generado"
-
-#. module: l10n_ve_withholding_iva
-#: view:txt.iva:0
-msgid "Draft Document of Generate file XML"
-msgstr "Documento en Borrador de archivo TXT generado"
-
-#. module: l10n_ve_withholding_iva
-#: report:list_report_wh_vat2:0
-msgid "Tipo de documento"
-msgstr "Tipo de documento"
-
-#. module: l10n_ve_withholding_iva
-#: report:account.wh.iva:0
-msgid "IVA Retenido"
-msgstr "IVA Retenido"
-
-#. module: l10n_ve_withholding_iva
-#: code:addons/l10n_ve_withholding_iva/wizard/wizard_retention.py:38
-#: code:addons/l10n_ve_withholding_iva/wizard/wizard_wh_nro.py:50
-#, python-format
-msgid "Please confirm that you want to do this by checking the option"
-msgstr "Por favor confirme que desea hacerlo marcando la opción"
-
-#. module: l10n_ve_withholding_iva
-#: view:txt.iva:0
-msgid "Cancel Document of Generate file XML"
-msgstr "Documento Cancelado de Archivo TXT generado"
-
-#. module: l10n_ve_withholding_iva
-#: model:ir.actions.server,name:l10n_ve_withholding_iva.wh_iva_srv_act
-msgid "IVA Withholding Server Action"
-msgstr "Acción de Servidor de Retención de IVA"
-
-#. module: l10n_ve_withholding_iva
-#: model:ir.model,name:l10n_ve_withholding_iva.model_account_wh_iva_line_tax
-msgid "account.wh.iva.line.tax"
-msgstr "account.wh.iva.line.tax"
-
-#. module: l10n_ve_withholding_iva
-#: view:account.wh.iva:0
-#: model:ir.model,name:l10n_ve_withholding_iva.model_account_wh_iva
-msgid "Withholding Vat"
-msgstr "Retención de IVA"
-
-#. module: l10n_ve_withholding_iva
-#: code:addons/l10n_ve_withholding_iva/model/generate_txt.py:132
-#, python-format
-msgid "Missing VAT TXT Lines!!!"
-msgstr ""
-
-#. module: l10n_ve_withholding_iva
-#: view:account.wh.iva:0
-#: selection:account.wh.iva,state:0
-#: view:txt.iva:0
-#: selection:txt.iva,state:0
-msgid "Draft"
-msgstr "Borrador"
-
-#. module: l10n_ve_withholding_iva
-#: help:account.invoice,wh_iva:0
-msgid ""
-"The account moves of the invoice have been retention with account moves of "
-"the payment(s)."
-msgstr ""
-"Los asientos contables de la factura se han retenido con asientos contables "
-"de pago(s)"
-
-#. module: l10n_ve_withholding_iva
-#: help:res.company,consolidate_vat_wh:0
-msgid ""
-"If it set then the withholdings vat generate in a same fornight will be "
-"grouped in one withholding receipt."
-msgstr ""
-"Si está establecido entonces las retenciones de IVA generadas en la misma "
-"quincena se agruparán en un solo documento de retención"
-
-#. module: l10n_ve_withholding_iva
-#: code:addons/l10n_ve_withholding_iva/model/invoice.py:489
-#, python-format
-msgid "Withholding vat customer"
-msgstr ""
-
-#. module: l10n_ve_withholding_iva
-#: field:txt.iva,message_unread:0
-msgid "Unread Messages"
-msgstr ""
-
-#. module: l10n_ve_withholding_iva
-#: field:account.wh.iva,date_ret:0
-msgid "Accounting date"
-msgstr "Fecha contable"
-
-#. module: l10n_ve_withholding_iva
-#: field:account.wh.iva.line.tax,wh_vat_line_id:0
-msgid "VAT Withholding Line"
-msgstr "Línea de Retención de IVA"
-
-#. module: l10n_ve_withholding_iva
-#: view:account.invoice:0
-#: view:wiz.vat.apply.wh:0
-msgid "Administrative Ruling No. SNAT/2005/0056, Exclusions: Art. 3"
-msgstr "Providencia Administrativa No. SNAT/2005/0056, Exclusiones: Art. 3"
-
-#. module: l10n_ve_withholding_iva
-#: help:txt.iva.line,amount_withheld:0
-msgid "amount to withhold"
-msgstr "Monto a retener"
-
-#. module: l10n_ve_withholding_iva
-#: field:account.wh.iva.line,amount_tax_ret:0
-msgid "Wh. tax amount"
-msgstr "Monto de Impuesto retenido"
-
-#. module: l10n_ve_withholding_iva
-#: report:list_report_wh_vat2:0
-msgid "IVA Reten."
-msgstr "Retención de IVA"
-
-#. module: l10n_ve_withholding_iva
-#: code:addons/l10n_ve_withholding_iva/model/wh_iva.py:551
-#, python-format
-msgid "Missing Periods!"
-msgstr "Períodos Faltantes"
-
-#. module: l10n_ve_withholding_iva
-#: field:txt.iva,txt_ids:0
-msgid "unknown"
-msgstr "Desconocido"
-
-#. module: l10n_ve_withholding_iva
-#: field:txt.iva,type:0
-msgid "Retention Suppliers?"
-msgstr "¿Retención a Proveedores?"
-
-#. module: l10n_ve_withholding_iva
-#: help:account.wh.iva.line,base_ret:0
-msgid "Withholding without tax amount"
-msgstr "Retención sin monto de impuesto"
-
-#. module: l10n_ve_withholding_iva
-#: help:account.wh.iva,date_ret:0
-msgid "Keep empty to use the current date"
-msgstr "Dejarlo vacío para utilizar la fecha actual."
-
-#. module: l10n_ve_withholding_iva
-#: code:addons/l10n_ve_withholding_iva/model/wh_iva.py:849
-#, python-format
-msgid "you can not duplicate this document!!!"
-msgstr "¡¡¡Usted no puede duplicar este documento!!!"
-
-#. module: l10n_ve_withholding_iva
-#: field:txt.iva,amount_total_base:0
-msgid "Taxable total amount"
-msgstr "Monto Total Gravable"
-
-#. module: l10n_ve_withholding_iva
-#: code:addons/l10n_ve_withholding_iva/model/wh_iva.py:539
-#, python-format
-msgid "Invoice already withhold !"
-msgstr "¡La factura ya ha sido retenida!"
-
-#. module: l10n_ve_withholding_iva
-#: field:txt.iva,message_is_follower:0
-msgid "Is a Follower"
-msgstr ""
-
-#. module: l10n_ve_withholding_iva
-#: code:addons/l10n_ve_withholding_iva/model/invoice.py:444
-#, python-format
-msgid "Missing Account in Tax!"
-msgstr "Cuenta Faltante en Impuesto"
-
-#. module: l10n_ve_withholding_iva
-#: field:account.wh.iva.line.tax,amount:0
-msgid "Taxed Amount"
-msgstr "Monto Gravado"
-
-#. module: l10n_ve_withholding_iva
-#: code:addons/l10n_ve_withholding_iva/model/invoice.py:444
-#, python-format
-msgid "Tax [%s] has missing account. Please, fill the missing fields"
-msgstr ""
-"Al impuesto [%s] le faltan cuentas. Por favor, rellene los campos faltantes"
-
-#. module: l10n_ve_withholding_iva
-#: field:txt.iva,state:0
-msgid "Estado"
-msgstr "Estado"
-
-#. module: l10n_ve_withholding_iva
-#: field:account.tax,wh_vat_paid_account_id:0
-msgid "Refund VAT Withholding Account"
-msgstr "Cuenta de Retención de IVA para Notas de Créditos"
-
-#. module: l10n_ve_withholding_iva
-#: report:account.wh.iva:0
-msgid "No. Nota Crédito"
-msgstr "No. Nota Crédito"
-
-#. module: l10n_ve_withholding_iva
-#: help:txt.iva,state:0
-msgid "proof status"
-msgstr "Estado"
-
-#. module: l10n_ve_withholding_iva
-#: help:account.invoice,wh_iva_id:0
-msgid ""
-"This is the VAT Withholding Document where this invoice is being withheld"
-msgstr ""
-"Este es el Documento de Retención de IVA donde esta factura se está "
-"reteniendo"
-
-#. module: l10n_ve_withholding_iva
-#: sql_constraint:account.wh.iva.line:0
-msgid ""
-"The invoice has already assigned in withholding vat, you cannot assigned it "
-"twice!"
-msgstr ""
-"¡Esta factura ya se ha asignado a una Retención de IVA, no puede asignarla "
-"dos veces!"
-
-#. module: l10n_ve_withholding_iva
-#: field:account.wh.iva,total_tax_ret:0
-msgid "Compute amount wh. tax vat"
-msgstr "Calcular monto de Retencion de IVA"
-
-#. module: l10n_ve_withholding_iva
-#: view:account.wh.iva.line:0
-msgid "Wh total"
-msgstr ""
-
-#. module: l10n_ve_withholding_iva
-#: model:ir.model,name:l10n_ve_withholding_iva.model_res_company
-msgid "Companies"
-msgstr "Compañías"
-
-#. module: l10n_ve_withholding_iva
-#: field:txt.iva.line,partner_id:0
-msgid "Buyer/Seller"
-msgstr "Comprador / Vendedor"
-
-#. module: l10n_ve_withholding_iva
-#: field:txt.iva,message_summary:0
-msgid "Summary"
-msgstr ""
-
-#. module: l10n_ve_withholding_iva
-#: report:account.wh.iva:0
-msgid "% Alícuota"
-msgstr "% Alícuota"
-
-#. module: l10n_ve_withholding_iva
-#: view:wizard.change.number.wh.iva:0
-msgid "Changing the withholding number"
-msgstr ""
-
-#. module: l10n_ve_withholding_iva
-#: help:account.wh.iva,date:0
-msgid "Emission/Voucher/Document Date"
-msgstr ""
-
-#. module: l10n_ve_withholding_iva
-#: report:account.wh.iva:0
-msgid "COMPROBANTE DE RETENCION DEL IMPUESTO AL VALOR AGREGADO"
-msgstr "COMPROBANTE DE RETENCION DEL IMPUESTO AL VALOR AGREGADO"
-
-#. module: l10n_ve_withholding_iva
-#: code:addons/l10n_ve_withholding_iva/model/wh_iva.py:681
-#, python-format
-msgid "N/A"
-msgstr "N/A"
-
-#. module: l10n_ve_withholding_iva
-#: view:wiz.vat.apply.wh:0
-#: view:wizard.change.number.wh.iva:0
-msgid "Are you sure you want to do this?"
-msgstr "¿Está seguro de que desea hacer esto?"
-
-#. module: l10n_ve_withholding_iva
-#: report:account.wh.iva:0
-msgid "NOMBRE O RAZON SOCIAL"
-msgstr "NOMBRE O RAZON SOCIAL"
-
-#. module: l10n_ve_withholding_iva
-#: help:account.wh.iva.line.tax,inv_tax_id:0
-msgid "Tax Line"
-msgstr "Línea de Impuesto"
-
-#. module: l10n_ve_withholding_iva
-#: report:account.wh.iva:0
-msgid "DIRECCION FISCAL"
-msgstr "DIRECCION FISCAL"
-
-#. module: l10n_ve_withholding_iva
-#: field:txt.iva,date_end:0
-msgid "End date"
-msgstr "Fecha Final"
-
-#. module: l10n_ve_withholding_iva
-#: view:txt.iva:0
-msgid "Done Document of Generate file XML"
-msgstr "Documento Realizado del Archivo TXT Generado"
-
-#. module: l10n_ve_withholding_iva
-#: code:addons/l10n_ve_withholding_iva/model/wh_iva.py:488
-#, python-format
-msgid "No Sequence configured for Supplier VAT Withholding"
-msgstr ""
-
-#. module: l10n_ve_withholding_iva
-#: report:account.wh.iva:0
-msgid "No. COMPROBANTE"
-msgstr "No. COMPROBANTE"
-
-#. module: l10n_ve_withholding_iva
-#: report:list_report_wh_vat2:0
-msgid "Base Impo."
-msgstr "Base Impo."
-
-#. module: l10n_ve_withholding_iva
-#: report:account.wh.iva:0
-#: report:list_report_wh_vat2:0
-msgid "PERIODO FISCAL"
-msgstr "PERIODO FISCAL"
-
-#. module: l10n_ve_withholding_iva
-#: view:account.wh.iva:0
-msgid "Cancel Withholding Vat"
-msgstr "Retención de IVA Cancelado"
-
-#. module: l10n_ve_withholding_iva
-#: field:account.wh.iva,number:0
-msgid "Number"
-msgstr "Número"
-
-#. module: l10n_ve_withholding_iva
-#: view:account.tax:0
-#: help:account.tax,wh_vat_collected_account_id:0
-msgid "This account will be used when applying a withhold to an Invoice"
-msgstr ""
-"Esta cuenta se usará cuando se aplique una retención de IVA a una Factura"
-
-#. module: l10n_ve_withholding_iva
-#: model:res.groups,name:l10n_ve_withholding_iva.group_account_wh_iva_user
-msgid "Withhold VAT / User"
-msgstr "Retención de IVA / Usuario"
-
-#. module: l10n_ve_withholding_iva
-#: code:addons/l10n_ve_withholding_iva/model/wh_iva.py:487
-#, python-format
-msgid "Missing Configuration !"
-msgstr ""
-
-#. module: l10n_ve_withholding_iva
-#: view:account.wh.iva:0
-#: selection:account.wh.iva,state:0
-#: view:txt.iva:0
-#: selection:txt.iva,state:0
-msgid "Done"
-msgstr "Realizado"
-
-#. module: l10n_ve_withholding_iva
-#: code:addons/l10n_ve_withholding_iva/model/wh_iva.py:369
-#, python-format
-msgid "The withheld amount: %s(%s%s), must be less than tax amount %s(%s%s)."
-msgstr ""
-"El monto retenido: %s(%s%s), debe ser menor que el monto del impuesto "
-"%s(%s%s)."
-
-#. module: l10n_ve_withholding_iva
-#: field:account.wh.iva.line,invoice_id:0
-#: model:ir.model,name:l10n_ve_withholding_iva.model_account_invoice
-msgid "Invoice"
-msgstr "Factura"
-
-#. module: l10n_ve_withholding_iva
-#: view:account.invoice:0
-msgid "Change Vat Wh. Exclusion"
-msgstr "Cambiar Exclusión de Ret. de IVA"
-
-#. module: l10n_ve_withholding_iva
-#: report:list_report_wh_vat2:0
-msgid "Monto Total"
-msgstr "Monto Total"
-
-#. module: l10n_ve_withholding_iva
-#: code:addons/l10n_ve_withholding_iva/model/wh_iva.py:387
-#, python-format
-msgid ""
-"The Following Invoices Have not already been withheld:\n"
-"\n"
-msgstr ""
-"Las siguientes facturas aun no se les retiene IVA:\n"
-"\n"
-
-#. module: l10n_ve_withholding_iva
-#: view:txt.iva:0
-msgid "Other information"
-msgstr "Otra información"
-
-#. module: l10n_ve_withholding_iva
-#: code:addons/l10n_ve_withholding_iva/model/invoice.py:227
-#, python-format
-msgid "This invoice has total amount %s %s check the products price"
-msgstr ""
-"Esta factura tiene monto total %s %s revise el precio de los productos"
-
-#. module: l10n_ve_withholding_iva
-#: view:txt.iva:0
-msgid "Lines Generate TXT"
-msgstr "Generar Líneas de TXT"
-
-#. module: l10n_ve_withholding_iva
-#: help:wh_iva.config,journal_purchase_vat:0
-msgid "Journal for purchase operations involving VAT Withholding"
-msgstr ""
-"Diario para las operaciones de compra que involucran Retención de IVA"
-
-#. module: l10n_ve_withholding_iva
-#: field:account.wh.iva,code:0
-msgid "Internal Code"
-msgstr "Código Interno"
-
-#. module: l10n_ve_withholding_iva
-#: code:addons/l10n_ve_withholding_iva/model/wh_iva.py:510
-#, python-format
-msgid ""
-"You have introduced non-valid accounting date. Thedate needs to be in the "
-"same withholding period and fortnigh."
-msgstr ""
-"Usted ha introducido una fecha contable no válida. La fecha necesita estar "
-"en el mismo período y quincena de la Retención de IVA"
-
-#. module: l10n_ve_withholding_iva
-#: view:account.wh.iva.line:0
-msgid "Withheld Invoice"
-msgstr "Factura Retenida"
-
-#. module: l10n_ve_withholding_iva
-#: view:account.wh.iva:0
-msgid "Withholding"
-msgstr "Retención"
-
-#. module: l10n_ve_withholding_iva
 #: selection:account.wh.iva,type:0
 msgid "Customer Invoice"
 msgstr "Factura de Cliente"
 
 #. module: l10n_ve_withholding_iva
-#: report:account.wh.iva:0
-#: report:list_report_wh_vat2:0
-msgid "FECHA"
-msgstr "FECHA"
+#: model:ir.ui.menu,name:l10n_ve_withholding_iva.menu_action_account_wh_iva_customer
+msgid "Customer VAT Withholding "
+msgstr "Retención de IVA del Cliente "
+
+#. module: l10n_ve_withholding_iva
+#: model:ir.actions.act_window,name:l10n_ve_withholding_iva.action_account_wh_iva_customer
+msgid "Customer Vat Withholding"
+msgstr "Retención de IVA del Cliente"
+
+#. module: l10n_ve_withholding_iva
+#: view:account.wh.iva:l10n_ve_withholding_iva.view_wh_iva_form_customer
+msgid "Customer Withholding Vat"
+msgstr "Retención de IVA del Cliente"
 
 #. module: l10n_ve_withholding_iva
 #: report:account.wh.iva:0
-msgid "AGENTE DE RETENCION"
-msgstr "AGENTE DE RETENCION"
-
-#. module: l10n_ve_withholding_iva
-#: field:account.invoice,consolidate_vat_wh:0
-msgid "Group wh doc"
+msgid "DATOS DEL BENEFICIARIO"
 msgstr ""
-
-#. module: l10n_ve_withholding_iva
-#: field:l10n_ve_withholding_iva.installer,name:0
-msgid "First Data"
-msgstr "Primeros Datos"
-
-#. module: l10n_ve_withholding_iva
-#: view:account.wh.iva.line:0
-msgid "Load Taxes"
-msgstr "Cargar Impuestos"
-
-#. module: l10n_ve_withholding_iva
-#: help:txt.iva.line,partner_id:0
-msgid ""
-"Natural or juridical person that generates the Invoice, Credit Note, Debit "
-"Note or C ertification (seller)"
-msgstr ""
-"Persona Natural o Jurídica que genera la Factura, Nota de Crédito, Nota de "
-"Débito o Certificación (Vendedor)"
-
-#. module: l10n_ve_withholding_iva
-#: help:txt.iva,name:0
-msgid "Description about statement of withholding income"
-msgstr "Descripción sobre la declaración de Retención de IVA"
 
 #. module: l10n_ve_withholding_iva
 #: report:list_report_wh_vat2:0
-msgid "Tipo de Operación:"
-msgstr "Tipo de Operación:"
-
-#. module: l10n_ve_withholding_iva
-#: code:addons/l10n_ve_withholding_iva/model/wh_iva.py:550
-#, python-format
-msgid ""
-"There are not Periods availables for the pointed day, two options you must "
-"verify, 1.- The period is closed, 2.- The period is not created yet for your "
-"company"
+msgid "DECLARACION INFORMATIVA DE RETENCIONES IVA"
 msgstr ""
-"No hay períodos disponibles para la fecha apuntada, debe verificar dos "
-"opciones, 1.- si el período está cerrado, 2.- si los períodos no se han "
-"creado aún para su compañía."
 
 #. module: l10n_ve_withholding_iva
 #: report:account.wh.iva:0
-msgid "Tipo Trans"
-msgstr "Tipo Trans"
-
-#. module: l10n_ve_withholding_iva
-#: view:txt.iva:0
-msgid "Search File XML"
-msgstr "Buscar Archivo TXT"
-
-#. module: l10n_ve_withholding_iva
-#: help:account.invoice,consolidate_vat_wh:0
-msgid ""
-"This selection indicates to group this invoice in existing withholding "
-"document"
+msgid "DIRECCION FISCAL"
 msgstr ""
 
 #. module: l10n_ve_withholding_iva
-#: selection:account.wh.iva,fortnight:0
-msgid "Second Fortnight"
-msgstr "Segunda Quincena"
+#: help:txt.iva.line,invoice_id:0
+msgid "Date of invoice, credit note, debit note or certificate, Importación Statement"
+msgstr ""
 
 #. module: l10n_ve_withholding_iva
-#: view:txt.iva:0
-msgid "Field of lines TXT"
-msgstr "Campo de Líneas de TXT"
+#: help:txt.iva,message_last_post:0
+msgid "Date of the last message posted on the record."
+msgstr ""
 
 #. module: l10n_ve_withholding_iva
 #: field:account.wh.iva,name:0
@@ -1580,51 +410,9 @@ msgid "Description"
 msgstr "Descripción"
 
 #. module: l10n_ve_withholding_iva
-#: view:account.invoice:0
-msgid "VAT Withholding Document"
-msgstr "Documento de Retención de IVA"
-
-#. module: l10n_ve_withholding_iva
-#: report:list_report_wh_vat2:0
-msgid "Num. Comprobante"
-msgstr "Num. Comprobante"
-
-#. module: l10n_ve_withholding_iva
-#: field:account.wh.iva,type:0
-#: view:txt.iva:0
-msgid "Type"
-msgstr "Tipo"
-
-#. module: l10n_ve_withholding_iva
-#: view:account.wh.iva:0
-#: field:account.wh.iva,journal_id:0
-msgid "Journal"
-msgstr "Diario"
-
-#. module: l10n_ve_withholding_iva
-#: model:ir.model,name:l10n_ve_withholding_iva.model_wiz_vat_apply_wh
-msgid "Wizard that changes the retention exclusion from an invoice"
-msgstr "Asistente que cambia la Exclusión de Retención de IVA de una factura"
-
-#. module: l10n_ve_withholding_iva
-#: report:list_report_wh_vat2:0
-msgid "Num. Doc. Afec."
-msgstr "Num. Doc. Afec."
-
-#. module: l10n_ve_withholding_iva
-#: model:ir.actions.report.xml,name:l10n_ve_withholding_iva.withholding_vat
-msgid "Voucher VAT Withholding"
-msgstr "Comprobante de Retención de IVA"
-
-#. module: l10n_ve_withholding_iva
-#: report:account.wh.iva:0
-msgid "___________________________________"
-msgstr "___________________________________"
-
-#. module: l10n_ve_withholding_iva
-#: model:ir.model,name:l10n_ve_withholding_iva.model_wizard_change_number_wh_iva
-msgid "Wizard that changes the withholding number"
-msgstr ""
+#: help:txt.iva,name:0
+msgid "Description about statement of withholding income"
+msgstr "Descripción sobre la declaración de Retención de IVA"
 
 #. module: l10n_ve_withholding_iva
 #: help:account.wh.iva,name:0
@@ -1632,131 +420,110 @@ msgid "Description of withholding"
 msgstr "Descripción de la retención"
 
 #. module: l10n_ve_withholding_iva
-#: code:addons/l10n_ve_withholding_iva/model/installer.py:77
-#, python-format
-msgid "Journal VAT Withholding Purchase"
-msgstr "Diario de Retención de IVA de Compras"
-
-#. module: l10n_ve_withholding_iva
-#: code:addons/l10n_ve_withholding_iva/model/wh_iva.py:371
-#, python-format
-msgid "Miscalculated Withheld Taxes"
-msgstr "Impuestos Retenidos Mal Calculados"
-
-#. module: l10n_ve_withholding_iva
-#: field:account.wh.iva.line,date_ret:0
-msgid "Accounting Date"
-msgstr "Fecha Contable"
-
-#. module: l10n_ve_withholding_iva
-#: help:txt.iva.line,untaxed:0
-msgid "Untaxed amount"
-msgstr "Monto sin impuesto"
-
-#. module: l10n_ve_withholding_iva
-#: code:addons/l10n_ve_withholding_iva/model/wh_iva.py:849
-#, python-format
-msgid "Alert !"
-msgstr "¡Alerta!"
-
-#. module: l10n_ve_withholding_iva
-#: report:account.wh.iva:0
-msgid "No. Control"
-msgstr "No. Control"
-
-#. module: l10n_ve_withholding_iva
-#: field:txt.iva.line,untaxed:0
-msgid "Untaxed"
-msgstr "Sin impuestos"
-
-#. module: l10n_ve_withholding_iva
-#: model:ir.model,name:l10n_ve_withholding_iva.model_txt_iva_line
-msgid "txt.iva.line"
-msgstr "txt.iva.line"
-
-#. module: l10n_ve_withholding_iva
-#: help:txt.iva,period_id:0
-msgid "fiscal period"
-msgstr "Período Fiscal"
-
-#. module: l10n_ve_withholding_iva
-#: report:account.wh.iva:0
-msgid "Impuesto IVA"
-msgstr "Impuesto IVA"
-
-#. module: l10n_ve_withholding_iva
-#: code:addons/l10n_ve_withholding_iva/model/wh_iva.py:869
-#, python-format
-msgid "The withholding document needs to be in cancel state to be deleted."
+#: field:account.wh.iva,display_name:0
+#: field:account.wh.iva.line,display_name:0
+#: field:account.wh.iva.line.tax,display_name:0
+#: field:l10n_ve_withholding_iva.installer,display_name:0
+#: field:txt.iva,display_name:0
+#: field:txt.iva.line,display_name:0
+#: field:wh_iva.config,display_name:0
+#: field:wiz.vat.apply.wh,display_name:0
+#: field:wizard.change.number.wh.iva,display_name:0
+msgid "Display Name"
 msgstr ""
-"El documento de retención necesita estar en estado cancelado para ser borrado"
 
 #. module: l10n_ve_withholding_iva
-#: model:ir.model,name:l10n_ve_withholding_iva.model_account_invoice_refund
-msgid "Invoice Refund"
-msgstr "Nota de Crédito"
+#: view:account.wh.iva:l10n_ve_withholding_iva.view_wh_iva_filter
+#: view:account.wh.iva:l10n_ve_withholding_iva.view_wh_iva_form
+#: view:account.wh.iva:l10n_ve_withholding_iva.view_wh_iva_form_customer
+#: selection:account.wh.iva,state:0
+#: view:txt.iva:l10n_ve_withholding_iva.view_generate_txt_filter
+#: selection:txt.iva,state:0
+msgid "Done"
+msgstr "Realizado"
 
 #. module: l10n_ve_withholding_iva
-#: field:txt.iva.line,txt_id:0
-msgid "Generate-Document txt VAT"
-msgstr "Documento-Generado TXT IVA"
+#: view:txt.iva:l10n_ve_withholding_iva.view_generate_txt_filter
+msgid "Done Document of Generate file XML"
+msgstr "Documento Realizado del Archivo TXT Generado"
 
 #. module: l10n_ve_withholding_iva
-#: field:res.company,allow_vat_wh_outdated:0
-msgid "Allow outdated vat withholding"
-msgstr "Permitir retenciones de IVA fuera de fecha"
+#: view:account.wh.iva:l10n_ve_withholding_iva.view_wh_iva_filter
+msgid "Done Withholding Vat"
+msgstr "Retención de IVA realizada"
 
 #. module: l10n_ve_withholding_iva
-#: help:account.wh.iva.line,amount_tax_ret:0
-#: help:account.wh.iva.line.tax,amount:0
-msgid "Withholding tax amount"
-msgstr "Monto de Impuesto a retener"
+#: view:account.wh.iva:l10n_ve_withholding_iva.view_wh_iva_filter
+#: selection:account.wh.iva,state:0
+#: view:txt.iva:l10n_ve_withholding_iva.view_generate_txt_filter
+#: selection:txt.iva,state:0
+msgid "Draft"
+msgstr "Borrador"
 
 #. module: l10n_ve_withholding_iva
-#: help:account.wh.iva.line.tax,wh_vat_line_id:0
-msgid "Line withholding VAT"
-msgstr "Linea de retención de IVA"
+#: view:txt.iva:l10n_ve_withholding_iva.view_generate_txt_filter
+msgid "Draft Document of Generate file XML"
+msgstr "Documento en Borrador de archivo TXT generado"
 
 #. module: l10n_ve_withholding_iva
-#: field:wh_iva.config,journal_purchase_vat:0
-msgid "Journal Wh VAT Purchase"
-msgstr "Diario de Retención de IVA de Compra"
+#: view:account.wh.iva:l10n_ve_withholding_iva.view_wh_iva_filter
+msgid "Draft Withholding Vat"
+msgstr "Retención de IVA en Borrador"
 
 #. module: l10n_ve_withholding_iva
-#: view:account.wh.iva:0
-msgid "Search Withholding Vat"
-msgstr "Buscar Retención de IVA"
+#: model:ir.model,name:l10n_ve_withholding_iva.model_txt_iva
+msgid "Email Thread"
+msgstr "Hilo de Correo electrónico"
 
 #. module: l10n_ve_withholding_iva
-#: view:account.invoice:0
-#: view:res.partner:0
-msgid "VAT Withholding"
-msgstr "Retención de IVA"
-
-#. module: l10n_ve_withholding_iva
-#: model:ir.actions.act_window,help:l10n_ve_withholding_iva.action_generate_text_iva
-msgid ""
-"With this option you can create and manage the generation of file txt, "
-"required by the Venezuelan Laws for special agent of withhold vat"
+#: help:account.wh.iva,date:0
+msgid "Emission/Voucher/Document Date"
 msgstr ""
-"Con esta opción usted puede crear y administrar la generación del Archivo "
-"TXT, requerido por las Leyes Venezolanas para los agentes especiales de "
-"retención del IVA"
 
 #. module: l10n_ve_withholding_iva
-#: help:account.wh.iva,number:0
-#: field:wizard.change.number.wh.iva,name:0
-msgid "Withholding number"
-msgstr "Número de retención"
+#: help:account.wh.iva.line,date:0
+msgid "Emission/Voucher/Document date"
+msgstr ""
 
 #. module: l10n_ve_withholding_iva
-#: field:account.wh.iva,wh_lines:0
-#: help:account.wh.iva,wh_lines:0
-msgid "Vat Withholding lines"
-msgstr "Líneas de retención del IVA"
+#: help:res.company,allow_vat_wh_outdated:0
+msgid "Enables confirm withholding vouchers for previous or future dates."
+msgstr "Habilita la confirmación de comprobantes de retención de fechas previas o futuras."
 
 #. module: l10n_ve_withholding_iva
-#: view:account.invoice:0
+#: field:txt.iva,date_end:0
+msgid "End date"
+msgstr "Fecha Final"
+
+#. module: l10n_ve_withholding_iva
+#: help:txt.iva,date_end:0
+msgid "End date of period"
+msgstr "Fecha final del período"
+
+#. module: l10n_ve_withholding_iva
+#: code:addons/l10n_ve_withholding_iva/model/invoice.py:409
+#, python-format
+msgid "Error !"
+msgstr "¡Error!"
+
+#. module: l10n_ve_withholding_iva
+#: code:addons/l10n_ve_withholding_iva/model/invoice.py:249
+#: code:addons/l10n_ve_withholding_iva/model/invoice.py:455
+#: code:addons/l10n_ve_withholding_iva/model/wh_iva.py:486
+#: code:addons/l10n_ve_withholding_iva/wizard/wizard_retention.py:40
+#: code:addons/l10n_ve_withholding_iva/wizard/wizard_wh_nro.py:58
+#: code:addons/l10n_ve_withholding_iva/wizard/wizard_wh_nro.py:67
+#, python-format
+msgid "Error!"
+msgstr "¡Error!"
+
+#. module: l10n_ve_withholding_iva
+#: field:txt.iva,state:0
+msgid "Estado"
+msgstr ""
+
+#. module: l10n_ve_withholding_iva
+#: view:account.invoice:l10n_ve_withholding_iva.account_invoice_wh_iva_supplier
 #: field:account.invoice,vat_apply:0
 #: field:wiz.vat.apply.wh,vat_apply:0
 msgid "Exclude this document from VAT Withholding"
@@ -1764,82 +531,72 @@ msgstr "Excluir este documento de Retención de IVA"
 
 #. module: l10n_ve_withholding_iva
 #: report:account.wh.iva:0
-msgid "DATOS DEL BENEFICIARIO"
-msgstr "DATOS DEL BENEFICIARIO"
-
-#. module: l10n_ve_withholding_iva
-#: field:account.invoice,wh_iva:0
-msgid "Withhold"
-msgstr "Retener"
-
-#. module: l10n_ve_withholding_iva
-#: view:account.wh.iva:0
-msgid "Compute Withholding Vat"
-msgstr "Calcular Retención de IVA"
-
-#. module: l10n_ve_withholding_iva
-#: help:txt.iva,message_ids:0
-msgid "Messages and communication history"
+#: report:list_report_wh_vat2:0
+msgid "FECHA"
 msgstr ""
-
-#. module: l10n_ve_withholding_iva
-#: code:addons/l10n_ve_withholding_iva/model/invoice.py:144
-#, python-format
-msgid "The document date must be less or equal than the invoice date."
-msgstr ""
-
-#. module: l10n_ve_withholding_iva
-#: field:account.wh.iva.line,move_id:0
-msgid "Account Entry"
-msgstr "Comprobante Contable"
-
-#. module: l10n_ve_withholding_iva
-#: field:account.invoice,wh_iva_id:0
-msgid "VAT Wh. Document"
-msgstr "Documento Ret. del IVA"
-
-#. module: l10n_ve_withholding_iva
-#: help:account.wh.iva,total_tax_ret:0
-msgid "compute amount withholding tax vat"
-msgstr "Calcular monto de retención del IVA"
-
-#. module: l10n_ve_withholding_iva
-#: model:ir.actions.act_window,help:l10n_ve_withholding_iva.action_account_wh_iva_customer
-msgid ""
-"With Customer Withholding Vat you can create and manage document withholding "
-"issued to your customers. OpenERP can also generate document withholding "
-"automatically from invoices. For retention must add the invoices, process "
-"them and then validate the document."
-msgstr ""
-"Con la Retencion de IVA de Clientes usted puede crear y gestionar los "
-"documentos de retención expedidos por sus clientes. Openerp puede también "
-"generar el documento de retención desde las facturas. Para retener debe "
-"agregar Facturas, procesarlas y validar el documento."
 
 #. module: l10n_ve_withholding_iva
 #: report:list_report_wh_vat2:0
-msgid "Monto Exc. IVA"
-msgstr "Monto Exc. IVA"
+msgid "Fecha"
+msgstr ""
 
 #. module: l10n_ve_withholding_iva
-#: model:ir.actions.act_window,name:l10n_ve_withholding_iva.action_account_wh_iva_customer
-msgid "Customer Vat Withholding"
-msgstr "Retención de IVA del Cliente"
+#: report:account.wh.iva:0
+msgid "Fecha Factura"
+msgstr ""
 
 #. module: l10n_ve_withholding_iva
-#: help:account.wh.iva.line,wh_iva_rate:0
-msgid "Vat Withholding rate"
-msgstr "Tasa de Retención del IVA"
+#: view:txt.iva:l10n_ve_withholding_iva.view_generate_txt_iva_tree
+msgid "Field TXT"
+msgstr "Campo TXT"
 
 #. module: l10n_ve_withholding_iva
-#: help:txt.iva,type:0
-msgid "Select the type of retention to make"
-msgstr "Seleccione el tipo de Retención a practicar"
+#: view:txt.iva:l10n_ve_withholding_iva.view_generate_txt_iva_form
+msgid "Field of lines TXT"
+msgstr "Campo de Líneas de TXT"
 
 #. module: l10n_ve_withholding_iva
-#: help:txt.iva,amount_total_ret:0
-msgid "Monto Total Retenido"
-msgstr "Monto Total Retenido"
+#: code:addons/l10n_ve_withholding_iva/model/generate_txt.py:387
+#, python-format
+msgid "File TXT %s generated."
+msgstr "Archivo TXT %s generado"
+
+#. module: l10n_ve_withholding_iva
+#: report:account.wh.iva:0
+msgid "Firma y Sello"
+msgstr ""
+
+#. module: l10n_ve_withholding_iva
+#: field:l10n_ve_withholding_iva.installer,name:0
+msgid "First Data"
+msgstr "Primeros Datos"
+
+#. module: l10n_ve_withholding_iva
+#: selection:account.wh.iva,fortnight:0
+msgid "First Fortnight"
+msgstr "Primera Quincena"
+
+#. module: l10n_ve_withholding_iva
+#: field:txt.iva,message_follower_ids:0
+msgid "Followers"
+msgstr "Seguidores"
+
+#. module: l10n_ve_withholding_iva
+#: field:account.wh.iva,period_id:0
+msgid "Force Period"
+msgstr "Forzar Período"
+
+#. module: l10n_ve_withholding_iva
+#: field:account.wh.iva,fortnight:0
+msgid "Fortnight"
+msgstr "Quincena"
+
+#. module: l10n_ve_withholding_iva
+#: field:account.wh.iva,consolidate_vat_wh:0
+#: field:res.company,consolidate_vat_wh:0
+#: field:res.partner,consolidate_vat_wh:0
+msgid "Fortnight Consolidate Wh. VAT"
+msgstr "Consolidar Ret. IVA por Quincena"
 
 #. module: l10n_ve_withholding_iva
 #: model:ir.actions.act_window,name:l10n_ve_withholding_iva.action_generate_text_iva
@@ -1848,26 +605,287 @@ msgid "Generate TXT"
 msgstr "Generar TXT"
 
 #. module: l10n_ve_withholding_iva
-#: report:account.wh.iva:0
-msgid "Total Compras Incluye IVA"
-msgstr "Total Compras Incluye IVA"
-
-#. module: l10n_ve_withholding_iva
-#: model:ir.model,name:l10n_ve_withholding_iva.model_txt_iva
-msgid "Email Thread"
+#: view:account.invoice:l10n_ve_withholding_iva.account_invoice_wh_iva_customer
+msgid "Generate Wh doc"
 msgstr ""
 
 #. module: l10n_ve_withholding_iva
-#: code:addons/l10n_ve_withholding_iva/model/invoice.py:472
-#, python-format
-msgid "The withholding VAT \"%s\" is not validated!"
-msgstr "¡La retención de IVA \"%s\" no se ha validado!"
+#: field:txt.iva.line,txt_id:0
+msgid "Generate-Document txt VAT"
+msgstr "Documento-Generado TXT IVA"
 
 #. module: l10n_ve_withholding_iva
-#: code:addons/l10n_ve_withholding_iva/model/wh_iva.py:540
+#: view:account.wh.iva:l10n_ve_withholding_iva.view_wh_iva_filter
+#: view:txt.iva:l10n_ve_withholding_iva.view_generate_txt_filter
+msgid "Group By..."
+msgstr "Agrupar por ..."
+
+#. module: l10n_ve_withholding_iva
+#: field:account.invoice,consolidate_vat_wh:0
+msgid "Group wh doc"
+msgstr ""
+
+#. module: l10n_ve_withholding_iva
+#: view:account.invoice:l10n_ve_withholding_iva.account_invoice_wh_iva_supplier
+msgid "Have this invoice been already VAT withheld?"
+msgstr "¿Se le ha retenido a esta factura el IVA?"
+
+#. module: l10n_ve_withholding_iva
+#: help:txt.iva,message_summary:0
+msgid "Holds the Chatter summary (number of messages, ...). This summary is directly in html format in order to be inserted in kanban views."
+msgstr "Contiene el resumen de la Mensajería (número de mensajes, ...). Este resumen esta en formato html con el fin de ser insertado en las vistas kanban."
+
+#. module: l10n_ve_withholding_iva
+#: field:account.wh.iva,id:0
+#: field:account.wh.iva.line,id:0
+#: field:account.wh.iva.line.tax,id:0
+#: field:l10n_ve_withholding_iva.installer,id:0
+#: field:txt.iva,id:0
+#: field:txt.iva.line,id:0
+#: field:wh_iva.config,id:0
+#: field:wiz.vat.apply.wh,id:0
+#: field:wizard.change.number.wh.iva,id:0
+msgid "ID"
+msgstr ""
+
+#. module: l10n_ve_withholding_iva
+#: report:list_report_wh_vat2:0
+msgid "IVA Reten."
+msgstr "Retención de IVA"
+
+#. module: l10n_ve_withholding_iva
+#: report:account.wh.iva:0
+msgid "IVA Retenido"
+msgstr ""
+
+#. module: l10n_ve_withholding_iva
+#: code:addons/l10n_ve_withholding_iva/model/invoice.py:213
 #, python-format
-msgid "You must omit the follow invoice '%s' !"
-msgstr "Debe omitir la siguiente Factura '%s'!"
+msgid "IVA WH - ORIGIN %s"
+msgstr ""
+
+#. module: l10n_ve_withholding_iva
+#: model:ir.actions.server,name:l10n_ve_withholding_iva.wh_iva_srv_act
+msgid "IVA Withholding Server Action"
+msgstr "Acción de Servidor de Retención de IVA"
+
+#. module: l10n_ve_withholding_iva
+#: help:txt.iva,message_unread:0
+msgid "If checked new messages require your attention."
+msgstr "Si esta seleccionado hay nuevos mensajes que requieren su atención."
+
+#. module: l10n_ve_withholding_iva
+#: help:res.company,consolidate_vat_wh:0
+msgid "If it set then the withholdings vat generate in a same fornight will be grouped in one withholding receipt."
+msgstr "Si está establecido entonces las retenciones de IVA generadas en la misma quincena se agruparán en un solo documento de retención"
+
+#. module: l10n_ve_withholding_iva
+#: help:account.wh.iva,consolidate_vat_wh:0
+#: help:res.partner,consolidate_vat_wh:0
+msgid "If set then the withholdings vat generate in a same fornight will be grouped in one withholding receipt."
+msgstr ""
+
+#. module: l10n_ve_withholding_iva
+#: report:account.wh.iva:0
+msgid "Impuesto IVA"
+msgstr ""
+
+#. module: l10n_ve_withholding_iva
+#: code:addons/l10n_ve_withholding_iva/model/wh_iva.py:833
+#, python-format
+msgid "Incorrect Invoices !"
+msgstr "Facturas Incorrectas !"
+
+#. module: l10n_ve_withholding_iva
+#: help:account.tax,ret:0
+msgid "Indicate if the tax must be withheld"
+msgstr "Indica si el impuesto se puede retener"
+
+#. module: l10n_ve_withholding_iva
+#: field:account.wh.iva,code:0
+msgid "Internal Code"
+msgstr "Código Interno"
+
+#. module: l10n_ve_withholding_iva
+#: help:account.wh.iva,code:0
+msgid "Internal withholding reference"
+msgstr "Referencia de Retención Interna"
+
+#. module: l10n_ve_withholding_iva
+#: code:addons/l10n_ve_withholding_iva/model/invoice.py:159
+#: code:addons/l10n_ve_withholding_iva/model/invoice.py:209
+#, python-format
+msgid "Invalid Action !"
+msgstr ""
+
+#. module: l10n_ve_withholding_iva
+#: code:addons/l10n_ve_withholding_iva/model/wh_iva.py:907
+#, python-format
+msgid "Invalid Procedure!"
+msgstr "Procedimiento Invalido!"
+
+#. module: l10n_ve_withholding_iva
+#: code:addons/l10n_ve_withholding_iva/model/wh_iva.py:987
+#, python-format
+msgid "Invalid Procedure!!"
+msgstr "¡Procedimiento No Válido!"
+
+#. module: l10n_ve_withholding_iva
+#: code:addons/l10n_ve_withholding_iva/model/generate_txt.py:258
+#: code:addons/l10n_ve_withholding_iva/model/wh_iva.py:474
+#: code:addons/l10n_ve_withholding_iva/model/wh_iva.py:616
+#: code:addons/l10n_ve_withholding_iva/model/wh_iva.py:630
+#: code:addons/l10n_ve_withholding_iva/model/wh_iva.py:862
+#, python-format
+msgid "Invalid action !"
+msgstr "¡Acción no válida!"
+
+#. module: l10n_ve_withholding_iva
+#: field:account.wh.iva.line,invoice_id:0
+#: model:ir.model,name:l10n_ve_withholding_iva.model_account_invoice
+msgid "Invoice"
+msgstr "Factura"
+
+#. module: l10n_ve_withholding_iva
+#: model:ir.filters,name:l10n_ve_withholding_iva.filter_invoice_state_open_iva
+msgid "Invoice Open Withholding IVA"
+msgstr ""
+
+#. module: l10n_ve_withholding_iva
+#: model:ir.model,name:l10n_ve_withholding_iva.model_account_invoice_refund
+msgid "Invoice Refund"
+msgstr "Nota de Crédito"
+
+#. module: l10n_ve_withholding_iva
+#: field:account.wh.iva.line.tax,inv_tax_id:0
+#: model:ir.model,name:l10n_ve_withholding_iva.model_account_invoice_tax
+msgid "Invoice Tax"
+msgstr "Impuesto de Factura"
+
+#. module: l10n_ve_withholding_iva
+#: field:account.tax,wh_vat_collected_account_id:0
+msgid "Invoice VAT Withholding Account"
+msgstr "Cuenta de Retención de IVA de la Factura"
+
+#. module: l10n_ve_withholding_iva
+#: code:addons/l10n_ve_withholding_iva/model/wh_iva.py:645
+#, python-format
+msgid "Invoice already withhold !"
+msgstr "¡La factura ya ha sido retenida!"
+
+#. module: l10n_ve_withholding_iva
+#: help:account.wh.iva.line,tax_line:0
+msgid "Invoice taxes"
+msgstr "Impuestos de Factura"
+
+#. module: l10n_ve_withholding_iva
+#: code:addons/l10n_ve_withholding_iva/model/wh_iva.py:526
+#, python-format
+msgid "Invoices with Missing Control Number!"
+msgstr "Facturas con Número de Control Faltante"
+
+#. module: l10n_ve_withholding_iva
+#: code:addons/l10n_ve_withholding_iva/model/wh_iva.py:502
+#, python-format
+msgid "Invoices with Missing Withheld Taxes!"
+msgstr "Facturas con impuesto retenibles faltantes"
+
+#. module: l10n_ve_withholding_iva
+#: field:txt.iva,message_is_follower:0
+msgid "Is a Follower"
+msgstr "Es un Seguidor"
+
+#. module: l10n_ve_withholding_iva
+#: view:account.wh.iva:l10n_ve_withholding_iva.view_wh_iva_filter
+#: field:account.wh.iva,journal_id:0
+msgid "Journal"
+msgstr "Diario"
+
+#. module: l10n_ve_withholding_iva
+#: field:wh_iva.config,journal_purchase_vat:0
+msgid "Journal Wh VAT Purchase"
+msgstr "Diario de Retención de IVA de Compra"
+
+#. module: l10n_ve_withholding_iva
+#: field:wh_iva.config,journal_sale_vat:0
+msgid "Journal Wh VAT Sale"
+msgstr "Diario de Ret de IVA de Venta"
+
+#. module: l10n_ve_withholding_iva
+#: help:account.wh.iva,journal_id:0
+msgid "Journal entry"
+msgstr "Asiento Contable"
+
+#. module: l10n_ve_withholding_iva
+#: help:wh_iva.config,journal_purchase_vat:0
+msgid "Journal for purchase operations involving VAT Withholding"
+msgstr "Diario para las operaciones de compra que involucran Retención de IVA"
+
+#. module: l10n_ve_withholding_iva
+#: help:wh_iva.config,journal_sale_vat:0
+msgid "Journal for sale operations involving VAT Withholding"
+msgstr "Diario para operaciones de venta relacionadas con retenciones de IVA"
+
+#. module: l10n_ve_withholding_iva
+#: help:account.wh.iva,date_ret:0
+msgid "Keep empty to use the current date"
+msgstr "Dejarlo vacío para utilizar la fecha actual."
+
+#. module: l10n_ve_withholding_iva
+#: help:account.wh.iva,period_id:0
+msgid "Keep empty to use the period of the validation(Withholding date) date."
+msgstr "Déjelo vacío para usar el período de la fecha de validación (Fecha de Retención)"
+
+#. module: l10n_ve_withholding_iva
+#: report:account.wh.iva:0
+msgid "LEY IVA – ART. 11: “SERAN RESPONSABLES DEL PAGO DE IMPUESTO EN CALIDAD DE AGENTES DE RETENCION, LOS COMPRADORES O ADQUIRIENTES DE DETERMINADOS BIENES MUEBLES Y LOS RECEPTORES DE CIERTOS SERVICIOS A QUIENES LA ADMINISTRACION TRIBUTARIA DESIGNE COMO TAL”"
+msgstr ""
+
+#. module: l10n_ve_withholding_iva
+#: field:txt.iva,message_last_post:0
+msgid "Last Message Date"
+msgstr ""
+
+#. module: l10n_ve_withholding_iva
+#: field:account.wh.iva,__last_update:0
+#: field:account.wh.iva.line,__last_update:0
+#: field:account.wh.iva.line.tax,__last_update:0
+#: field:l10n_ve_withholding_iva.installer,__last_update:0
+#: field:txt.iva,__last_update:0
+#: field:txt.iva.line,__last_update:0
+#: field:wh_iva.config,__last_update:0
+#: field:wiz.vat.apply.wh,__last_update:0
+#: field:wizard.change.number.wh.iva,__last_update:0
+msgid "Last Modified on"
+msgstr ""
+
+#. module: l10n_ve_withholding_iva
+#: field:account.wh.iva,write_uid:0
+#: field:account.wh.iva.line,write_uid:0
+#: field:account.wh.iva.line.tax,write_uid:0
+#: field:l10n_ve_withholding_iva.installer,write_uid:0
+#: field:txt.iva,write_uid:0
+#: field:txt.iva.line,write_uid:0
+#: field:wh_iva.config,write_uid:0
+#: field:wiz.vat.apply.wh,write_uid:0
+#: field:wizard.change.number.wh.iva,write_uid:0
+msgid "Last Updated by"
+msgstr ""
+
+#. module: l10n_ve_withholding_iva
+#: field:account.wh.iva,write_date:0
+#: field:account.wh.iva.line,write_date:0
+#: field:account.wh.iva.line.tax,write_date:0
+#: field:l10n_ve_withholding_iva.installer,write_date:0
+#: field:txt.iva,write_date:0
+#: field:txt.iva.line,write_date:0
+#: field:wh_iva.config,write_date:0
+#: field:wiz.vat.apply.wh,write_date:0
+#: field:wizard.change.number.wh.iva,write_date:0
+msgid "Last Updated on"
+msgstr ""
+"Propagar la Fecha de Factura a la Retención de IVA. De forma predeterminada "
+"es Falso."
 
 #. module: l10n_ve_withholding_iva
 #: field:l10n_ve_withholding_iva.installer,gaceta:0
@@ -1875,18 +893,542 @@ msgid "Law related"
 msgstr "Relacionado a la Ley"
 
 #. module: l10n_ve_withholding_iva
-#: report:list_report_wh_vat2:0
-msgid "Total"
-msgstr "Total"
+#: help:l10n_ve_withholding_iva.installer,gaceta:0
+msgid "Law related where we are referencing this module"
+msgstr "Ley relacionada donde estamos haciendo referencia a este módulo"
 
 #. module: l10n_ve_withholding_iva
-#: model:ir.model,name:l10n_ve_withholding_iva.model_l10n_ve_withholding_iva_installer
-msgid ""
-" wh_vat_installer\n"
-"    "
+#: help:account.wh.iva.line.tax,wh_vat_line_id:0
+msgid "Line withholding VAT"
+msgstr "Linea de retención de IVA"
+
+#. module: l10n_ve_withholding_iva
+#: view:txt.iva:l10n_ve_withholding_iva.view_generate_txt_iva_form
+msgid "Lines Generate TXT"
+msgstr "Generar Líneas de TXT"
+
+#. module: l10n_ve_withholding_iva
+#: view:account.wh.iva.line:l10n_ve_withholding_iva.view_wh_iva_line_form
+#: view:account.wh.iva.line:l10n_ve_withholding_iva.view_wh_iva_line_tree
+msgid "Load Taxes"
+msgstr "Cargar Impuestos"
+
+#. module: l10n_ve_withholding_iva
+#: view:txt.iva:l10n_ve_withholding_iva.view_generate_txt_iva_form
+msgid "Make TXT"
+msgstr "Generar TXT"
+
+#. module: l10n_ve_withholding_iva
+#: field:txt.iva,message_ids:0
+msgid "Messages"
+msgstr "Mensajes"
+
+#. module: l10n_ve_withholding_iva
+#: help:txt.iva,message_ids:0
+msgid "Messages and communication history"
+msgstr "Historial de mensajes y comunicación"
+
+#. module: l10n_ve_withholding_iva
+#: code:addons/l10n_ve_withholding_iva/model/wh_iva.py:472
+#, python-format
+msgid "Miscalculated Withheld Taxes"
+msgstr "Impuestos Retenidos Mal Calculados"
+
+#. module: l10n_ve_withholding_iva
+#: code:addons/l10n_ve_withholding_iva/model/invoice.py:374
+#, python-format
+msgid "Missing Account in Tax!"
+msgstr "Cuenta Faltante en Impuesto"
+
+#. module: l10n_ve_withholding_iva
+#: code:addons/l10n_ve_withholding_iva/model/wh_iva.py:594
+#, python-format
+msgid "Missing Configuration !"
+msgstr "Falta Configuración !"
+
+#. module: l10n_ve_withholding_iva
+#: code:addons/l10n_ve_withholding_iva/model/wh_iva.py:662
+#, python-format
+msgid "Missing Periods!"
+msgstr "Períodos Faltantes"
+
+#. module: l10n_ve_withholding_iva
+#: code:addons/l10n_ve_withholding_iva/model/generate_txt.py:141
+#, python-format
+msgid "Missing VAT TXT Lines!!!"
 msgstr ""
-" wh_vat_installer\n"
-"    "
+
+#. module: l10n_ve_withholding_iva
+#: code:addons/l10n_ve_withholding_iva/model/generate_txt.py:140
+#: code:addons/l10n_ve_withholding_iva/model/wh_iva.py:952
+#, python-format
+msgid "Missing Values !"
+msgstr "Faltan Valores !"
+
+#. module: l10n_ve_withholding_iva
+#: code:addons/l10n_ve_withholding_iva/model/wh_iva.py:953
+#, python-format
+msgid "Missing Withholding Lines!!!"
+msgstr "Faltan Líneas de Retención!!!"
+
+#. module: l10n_ve_withholding_iva
+#: report:list_report_wh_vat2:0
+msgid "Monto Exc. IVA"
+msgstr ""
+
+#. module: l10n_ve_withholding_iva
+#: report:list_report_wh_vat2:0
+msgid "Monto Total"
+msgstr ""
+
+#. module: l10n_ve_withholding_iva
+#: help:txt.iva,amount_total_ret:0
+msgid "Monto Total Retenido"
+msgstr ""
+
+#. module: l10n_ve_withholding_iva
+#: code:addons/l10n_ve_withholding_iva/model/wh_iva.py:487
+#, python-format
+msgid "Must indicate: Accounting date and (or) Voucher Date"
+msgstr ""
+"La fecha del documento no puede estar vacía cuando la factura esta abierta."
+
+#. module: l10n_ve_withholding_iva
+#: code:addons/l10n_ve_withholding_iva/model/wh_iva.py:805
+#, python-format
+msgid "N/A"
+msgstr ""
+
+#. module: l10n_ve_withholding_iva
+#: code:addons/l10n_ve_withholding_iva/report/withholding_vat.py:73
+#, python-format
+msgid "NO FISCAL ADDRESS DEFINED"
+msgstr "No hay dirección fiscal definida"
+
+#. module: l10n_ve_withholding_iva
+#: code:addons/l10n_ve_withholding_iva/report/withholding_vat.py:85
+#, python-format
+msgid "NO INVOICE ADDRESS DEFINED"
+msgstr "Dirección Fiscal no definida"
+
+#. module: l10n_ve_withholding_iva
+#: report:account.wh.iva:0
+msgid "NOMBRE O RAZON SOCIAL"
+msgstr ""
+
+#. module: l10n_ve_withholding_iva
+#: field:wh_iva.config,name:0
+msgid "Name"
+msgstr "Nombre"
+
+#. module: l10n_ve_withholding_iva
+#: help:txt.iva.line,partner_id:0
+msgid "Natural or juridical person that generates the Invoice, Credit Note, Debit Note or C ertification (seller)"
+msgstr "Persona Natural o Jurídica que genera la Factura, Nota de Crédito, Nota de Débito o Certificación (Vendedor)"
+
+#. module: l10n_ve_withholding_iva
+#: code:addons/l10n_ve_withholding_iva/model/wh_iva.py:595
+#, python-format
+msgid "No Sequence configured for Supplier VAT Withholding"
+msgstr "No esta configurada la Secuencia para la Retención de IVA del Proveedor"
+
+#. module: l10n_ve_withholding_iva
+#: report:account.wh.iva:0
+msgid "No. COMPROBANTE"
+msgstr ""
+
+#. module: l10n_ve_withholding_iva
+#: report:account.wh.iva:0
+msgid "No. Control"
+msgstr ""
+
+#. module: l10n_ve_withholding_iva
+#: report:account.wh.iva:0
+msgid "No. Factura Afectada"
+msgstr ""
+
+#. module: l10n_ve_withholding_iva
+#: report:account.wh.iva:0
+msgid "No. Nota Crédito"
+msgstr ""
+
+#. module: l10n_ve_withholding_iva
+#: report:account.wh.iva:0
+msgid "No. Nota Débito"
+msgstr ""
+
+#. module: l10n_ve_withholding_iva
+#: report:account.wh.iva:0
+msgid "No. de Factura"
+msgstr ""
+
+#. module: l10n_ve_withholding_iva
+#: report:list_report_wh_vat2:0
+msgid "Nombre"
+msgstr ""
+
+#. module: l10n_ve_withholding_iva
+#: report:list_report_wh_vat2:0
+msgid "Num Control"
+msgstr ""
+
+#. module: l10n_ve_withholding_iva
+#: report:list_report_wh_vat2:0
+msgid "Num Doc."
+msgstr ""
+
+#. module: l10n_ve_withholding_iva
+#: report:list_report_wh_vat2:0
+msgid "Num. Comprobante"
+msgstr ""
+
+#. module: l10n_ve_withholding_iva
+#: report:list_report_wh_vat2:0
+msgid "Num. Doc. Afec."
+msgstr ""
+
+#. module: l10n_ve_withholding_iva
+#: field:account.wh.iva,number:0
+msgid "Number"
+msgstr "Número"
+
+#. module: l10n_ve_withholding_iva
+#: view:account.wh.iva:l10n_ve_withholding_iva.view_wh_iva_form
+#: view:account.wh.iva:l10n_ve_withholding_iva.view_wh_iva_form_customer
+msgid "Other Information"
+msgstr "Otra Información"
+
+#. module: l10n_ve_withholding_iva
+#: view:txt.iva:l10n_ve_withholding_iva.view_generate_txt_iva_form
+msgid "Other information"
+msgstr "Otra información"
+
+#. module: l10n_ve_withholding_iva
+#: report:account.wh.iva:0
+#: report:list_report_wh_vat2:0
+msgid "PERIODO FISCAL"
+msgstr ""
+
+#. module: l10n_ve_withholding_iva
+#: view:account.wh.iva:l10n_ve_withholding_iva.view_wh_iva_filter
+#: field:account.wh.iva,partner_id:0
+#: model:ir.model,name:l10n_ve_withholding_iva.model_res_partner
+msgid "Partner"
+msgstr ""
+
+#. module: l10n_ve_withholding_iva
+#: view:txt.iva:l10n_ve_withholding_iva.view_generate_txt_filter
+#: field:txt.iva,period_id:0
+msgid "Period"
+msgstr "Período"
+
+#. module: l10n_ve_withholding_iva
+#: code:addons/l10n_ve_withholding_iva/wizard/wizard_retention.py:41
+#: code:addons/l10n_ve_withholding_iva/wizard/wizard_wh_nro.py:59
+#, python-format
+msgid "Please confirm that you want to do this by checking the option"
+msgstr "Por favor confirme que desea hacerlo marcando la opción"
+
+#. module: l10n_ve_withholding_iva
+#: view:account.wh.iva.line:l10n_ve_withholding_iva.view_wh_iva_line_form
+msgid "Please, if there are not taxes loaded, Click on Load Taxes"
+msgstr "Por favor, si no hay impuestos cargados, haga clic en Cargar Impuestos"
+
+#. module: l10n_ve_withholding_iva
+#: view:account.wh.iva:l10n_ve_withholding_iva.view_wh_iva_form
+msgid "Print VAT Withholding"
+msgstr "Imprimir Retención de IVA"
+
+#. module: l10n_ve_withholding_iva
+#: field:res.company,propagate_invoice_date_to_vat_withholding:0
+msgid "Propagate Invoice Date to Vat Withholding"
+msgstr "Propagar la Fecha de Factura a la Retención de IVA"
+
+#. module: l10n_ve_withholding_iva
+#: help:res.company,propagate_invoice_date_to_vat_withholding:0
+msgid "Propagate Invoice Date to Vat Withholding. By default is in False."
+msgstr ""
+
+#. module: l10n_ve_withholding_iva
+#: report:list_report_wh_vat2:0
+msgid "RETENCIONES DE IVA / PAGINA:"
+msgstr ""
+
+#. module: l10n_ve_withholding_iva
+#: report:list_report_wh_vat2:0
+msgid "RIF"
+msgstr ""
+
+#. module: l10n_ve_withholding_iva
+#: report:account.wh.iva:0
+msgid "RIF No."
+msgstr ""
+
+#. module: l10n_ve_withholding_iva
+#: field:account.tax,wh_vat_paid_account_id:0
+msgid "Refund VAT Withholding Account"
+msgstr "Cuenta de Retención de IVA para Notas de Créditos"
+
+#. module: l10n_ve_withholding_iva
+#: model:ir.actions.report.xml,name:l10n_ve_withholding_iva.list_report_wh_vat
+msgid "Retenciones IVA"
+msgstr ""
+
+#. module: l10n_ve_withholding_iva
+#: report:account.wh.iva:0
+msgid "Retención"
+msgstr ""
+
+#. module: l10n_ve_withholding_iva
+#: field:txt.iva,type:0
+msgid "Retention Suppliers?"
+msgstr "¿Retención a Proveedores?"
+
+#. module: l10n_ve_withholding_iva
+#: view:txt.iva:l10n_ve_withholding_iva.view_generate_txt_filter
+msgid "Search File XML"
+msgstr "Buscar Archivo TXT"
+
+#. module: l10n_ve_withholding_iva
+#: view:account.wh.iva:l10n_ve_withholding_iva.view_wh_iva_filter
+msgid "Search Withholding Vat"
+msgstr "Buscar Retención de IVA"
+
+#. module: l10n_ve_withholding_iva
+#: selection:account.wh.iva,fortnight:0
+msgid "Second Fortnight"
+msgstr "Segunda Quincena"
+
+#. module: l10n_ve_withholding_iva
+#: help:txt.iva,type:0
+msgid "Select the type of retention to make"
+msgstr "Seleccione el tipo de Retención a practicar"
+
+#. module: l10n_ve_withholding_iva
+#: view:account.wh.iva:l10n_ve_withholding_iva.view_wh_iva_form
+#: view:account.wh.iva:l10n_ve_withholding_iva.view_wh_iva_form_customer
+msgid "Set to draft"
+msgstr "Cambiar a borrador"
+
+#. module: l10n_ve_withholding_iva
+#: code:addons/l10n_ve_withholding_iva/model/wh_iva.py:863
+#, python-format
+msgid "Some withholding lines being withheld dont match with the withholding document period and fortnight.\n"
+"\n"
+" * Withholding VAT document correspond to (.\n"
+"\n"
+""
+msgstr "Algunas líneas de retención que se van retener no cuadran con el período y quincena del documento de retención.\n"
+"\n"
+" * El documento de retención de IVA corresponde a (\n"
+"\n"
+""
+
+#. module: l10n_ve_withholding_iva
+#: view:account.wh.iva:l10n_ve_withholding_iva.view_wh_iva_filter
+#: field:account.wh.iva,state:0
+#: view:txt.iva:l10n_ve_withholding_iva.view_generate_txt_filter
+msgid "State"
+msgstr "Estado"
+
+#. module: l10n_ve_withholding_iva
+#: field:txt.iva,message_summary:0
+msgid "Summary"
+msgstr "Resumen"
+
+#. module: l10n_ve_withholding_iva
+#: selection:account.wh.iva,type:0
+msgid "Supplier Invoice"
+msgstr "Factura de Proveedor"
+
+#. module: l10n_ve_withholding_iva
+#: field:account.wh.iva.line,supplier_invoice_number:0
+msgid "Supplier Invoice Number"
+msgstr "No. Factura Proveedor"
+
+#. module: l10n_ve_withholding_iva
+#: model:ir.ui.menu,name:l10n_ve_withholding_iva.menu_action_account_wh_iva_supplier
+msgid "Supplier VAT Withholding "
+msgstr "Retención de IVA al Proveedor "
+
+#. module: l10n_ve_withholding_iva
+#: model:ir.actions.act_window,name:l10n_ve_withholding_iva.action_account_wh_iva_supplier
+msgid "Supplier Vat Withholding"
+msgstr "Retención de IVA a Proveedores"
+
+#. module: l10n_ve_withholding_iva
+#: view:account.wh.iva:l10n_ve_withholding_iva.view_wh_iva_form
+msgid "Supplier Withholding Vat"
+msgstr "Retención de IVA al Proveedor"
+
+#. module: l10n_ve_withholding_iva
+#: report:account.wh.iva:0
+msgid "TOTAL IMPUESTO RETENIDO"
+msgstr ""
+
+#. module: l10n_ve_withholding_iva
+#: field:account.wh.iva.line.tax,tax_id:0
+#: help:account.wh.iva.line.tax,tax_id:0
+#: model:ir.model,name:l10n_ve_withholding_iva.model_account_tax
+msgid "Tax"
+msgstr "Impuestos"
+
+#. module: l10n_ve_withholding_iva
+#: field:account.wh.iva.line.tax,base:0
+#: help:account.wh.iva.line.tax,base:0
+msgid "Tax Base"
+msgstr "Base Impositiva"
+
+#. module: l10n_ve_withholding_iva
+#: help:account.wh.iva.line.tax,inv_tax_id:0
+msgid "Tax Line"
+msgstr "Línea de Impuesto"
+
+#. module: l10n_ve_withholding_iva
+#: field:account.wh.iva.line.tax,name:0
+msgid "Tax Name"
+msgstr "Nombre del Impuesto"
+
+#. module: l10n_ve_withholding_iva
+#: field:txt.iva.line,tax_wh_iva_id:0
+msgid "Tax Wh Iva Line"
+msgstr ""
+
+#. module: l10n_ve_withholding_iva
+#: field:txt.iva.line,voucher_id:0
+msgid "Tax Withholding"
+msgstr "Impuesto a Retener"
+
+#. module: l10n_ve_withholding_iva
+#: code:addons/l10n_ve_withholding_iva/model/invoice.py:375
+#, python-format
+msgid "Tax [%s] has missing account. Please, fill the missing fields"
+msgstr "Al impuesto [%s] le faltan cuentas. Por favor, rellene los campos faltantes"
+
+#. module: l10n_ve_withholding_iva
+#: field:txt.iva,amount_total_base:0
+msgid "Taxable total amount"
+msgstr "Monto Total Gravable"
+
+#. module: l10n_ve_withholding_iva
+#: field:account.wh.iva.line.tax,amount:0
+msgid "Taxed Amount"
+msgstr "Monto Gravado"
+
+#. module: l10n_ve_withholding_iva
+#: view:account.wh.iva.line:l10n_ve_withholding_iva.view_wh_iva_line_form
+#: field:account.wh.iva.line,tax_line:0
+msgid "Taxes"
+msgstr "Impuestos"
+
+#. module: l10n_ve_withholding_iva
+#: code:addons/l10n_ve_withholding_iva/model/wh_iva.py:446
+#, python-format
+msgid "Taxes in the following invoices have been miscalculated\n"
+"\n"
+""
+msgstr "Los impuestos en las siguientes facturas se han calculado mal\n"
+"\n"
+""
+
+#. module: l10n_ve_withholding_iva
+#: code:addons/l10n_ve_withholding_iva/model/wh_iva.py:902
+#, python-format
+msgid "The Following IVA TXT DOC should be set to Draft before Cancelling this Document\n"
+"\n"
+""
+msgstr "El Siguiente IVA TXT DOC tiene que ser establecido a Borrador antes de Cancelar este Documento\n"
+"\n"
+""
+
+#. module: l10n_ve_withholding_iva
+#: code:addons/l10n_ve_withholding_iva/model/wh_iva.py:495
+#, python-format
+msgid "The Following Invoices Have not already been withheld:\n"
+"\n"
+""
+msgstr "Las siguientes facturas aun no se les retiene IVA:\n"
+"\n"
+""
+
+#. module: l10n_ve_withholding_iva
+#: code:addons/l10n_ve_withholding_iva/model/wh_iva.py:520
+#, python-format
+msgid "The Following Invoices will not be withheld:\n"
+"\n"
+""
+msgstr "Las siguientes facturas no serán retenidas:\n"
+"\n"
+""
+
+#. module: l10n_ve_withholding_iva
+#: help:account.invoice,wh_iva:0
+msgid "The account moves of the invoice have been retention with account moves of the payment(s)."
+msgstr "Los asientos contables de la factura se han retenido con asientos contables de pago(s)"
+
+#. module: l10n_ve_withholding_iva
+#: code:addons/l10n_ve_withholding_iva/model/invoice.py:80
+#, python-format
+msgid "The document date can not be empty when the invoice is in open state."
+msgstr "La fecha del documento no puede estar vacía cuando la factura esta abierta."
+
+#. module: l10n_ve_withholding_iva
+#: code:addons/l10n_ve_withholding_iva/model/invoice.py:96
+#, python-format
+msgid "The document date must be less or equal than the invoice date."
+msgstr "La fecha del documento debe ser menor o igual a la fecha de la factura."
+
+#. module: l10n_ve_withholding_iva
+#: code:addons/l10n_ve_withholding_iva/model/wh_iva.py:834
+#, python-format
+msgid "The following invoices are not from the selected partner: %s "
+msgstr "Las siguientes facturas no son del proveedor seleccionado: %s "
+
+#. module: l10n_ve_withholding_iva
+#: sql_constraint:account.wh.iva.line:0
+msgid "The invoice has already assigned in withholding vat, you cannot assigned it twice!"
+msgstr "¡Esta factura ya se ha asignado a una Retención de IVA, no puede asignarla dos veces!"
+
+#. module: l10n_ve_withholding_iva
+#: code:addons/l10n_ve_withholding_iva/model/wh_iva.py:553
+#: code:addons/l10n_ve_withholding_iva/model/wh_iva.py:558
+#, python-format
+msgid "The partner must be withholding vat agent ."
+msgstr ""
+
+#. module: l10n_ve_withholding_iva
+#: help:account.wh.iva,account_id:0
+msgid "The pay account used for this withholding."
+msgstr "La cuenta usada por esta retención"
+
+#. module: l10n_ve_withholding_iva
+#: help:account.wh.iva.line,supplier_invoice_number:0
+msgid "The reference of this invoice as provided by the supplier."
+msgstr ""
+
+#. module: l10n_ve_withholding_iva
+#: code:addons/l10n_ve_withholding_iva/model/wh_iva.py:465
+#, python-format
+msgid "The withheld amount: %s(%s%s), must be less than tax amount %s(%s%s)."
+msgstr "El monto retenido: %s(%s%s), debe ser menor que el monto del impuesto %s(%s%s)."
+
+#. module: l10n_ve_withholding_iva
+#: code:addons/l10n_ve_withholding_iva/model/invoice.py:410
+#, python-format
+msgid "The withholding VAT \"%s\" is not validated!"
+msgstr "¡La retención de IVA \"%s\" no se ha validado!"
+
+#. module: l10n_ve_withholding_iva
+#: code:addons/l10n_ve_withholding_iva/model/wh_iva.py:988
+#, python-format
+msgid "The withholding document needs to be in cancel state to be deleted."
+msgstr "El documento de retención necesita estar en estado cancelado para ser borrado"
+
+#. module: l10n_ve_withholding_iva
+#: code:addons/l10n_ve_withholding_iva/model/wh_iva.py:658
+#, python-format
+msgid "There are not Periods availables for the pointed day, two options you must verify, 1.- The period is closed, 2.- The period is not created yet for your company"
+msgstr "No hay períodos disponibles para la fecha apuntada, debe verificar dos opciones, 1.- si el período está cerrado, 2.- si los períodos no se han creado aún para su compañía."
 
 #. module: l10n_ve_withholding_iva
 #: field:account.wh.iva,third_party_id:0
@@ -1895,6 +1437,446 @@ msgid "Third Party Partner"
 msgstr "Tercero"
 
 #. module: l10n_ve_withholding_iva
+#: view:account.tax:l10n_ve_withholding_iva.account_tax_wh_iva
+#: help:account.tax,wh_vat_paid_account_id:0
+msgid "This account will be used when applying a withhold to a Refund"
+msgstr "Esta cuenta se usará cuando se aplique una retención a una Nota de Crédito"
+
+#. module: l10n_ve_withholding_iva
+#: view:account.tax:l10n_ve_withholding_iva.account_tax_wh_iva
+#: help:account.tax,wh_vat_collected_account_id:0
+msgid "This account will be used when applying a withhold to an Invoice"
+msgstr "Esta cuenta se usará cuando se aplique una retención de IVA a una Factura"
+
+#. module: l10n_ve_withholding_iva
+#: code:addons/l10n_ve_withholding_iva/model/invoice.py:160
+#, python-format
+msgid "This invoice has total amount %s %s check the products price"
+msgstr "Esta factura tiene monto total %s %s revise el precio de los productos"
+
+#. module: l10n_ve_withholding_iva
+#: help:account.invoice,wh_iva_id:0
+msgid "This is the VAT Withholding Document where this invoice is being withheld"
+msgstr "Este es el Documento de Retención de IVA donde esta factura se está reteniendo"
+
+#. module: l10n_ve_withholding_iva
+#: help:account.invoice,consolidate_vat_wh:0
+msgid "This selection indicates to group this invoice in existing withholding document"
+msgstr ""
+
+#. module: l10n_ve_withholding_iva
+#: help:account.invoice,vat_apply:0
+msgid "This selection indicates whether generate the invoice withholding document"
+msgstr "Este opción indica si genera el documento de retención de la factura."
+
+#. module: l10n_ve_withholding_iva
+#: report:list_report_wh_vat2:0
+msgid "Tipo Doc."
+msgstr ""
+
+#. module: l10n_ve_withholding_iva
+#: report:list_report_wh_vat2:0
+msgid "Tipo Ope."
+msgstr ""
+
+#. module: l10n_ve_withholding_iva
 #: report:account.wh.iva:0
-msgid "No. Nota Débito"
-msgstr "No. Nota Débito"
+msgid "Tipo Trans"
+msgstr ""
+
+#. module: l10n_ve_withholding_iva
+#: report:list_report_wh_vat2:0
+msgid "Tipo de Operación:"
+msgstr ""
+
+#. module: l10n_ve_withholding_iva
+#: report:list_report_wh_vat2:0
+msgid "Tipo de documento"
+msgstr ""
+
+#. module: l10n_ve_withholding_iva
+#: report:list_report_wh_vat2:0
+msgid "Total"
+msgstr ""
+
+#. module: l10n_ve_withholding_iva
+#: report:account.wh.iva:0
+msgid "Total Compras Incluye IVA"
+msgstr ""
+
+#. module: l10n_ve_withholding_iva
+#: help:txt.iva,amount_total_base:0
+msgid "Total de la Base Imponible"
+msgstr ""
+
+#. module: l10n_ve_withholding_iva
+#: help:txt.iva,txt_ids:0
+msgid "Txt field lines of ar required by SENIAT for VAT withholding"
+msgstr "Lineas del archivo txt requeridas por el SENIAT para la retención del Impuesto al Valor Agregado(IVA)"
+
+#. module: l10n_ve_withholding_iva
+#: field:txt.iva,txt_ids:0
+msgid "Txt ids"
+msgstr ""
+
+#. module: l10n_ve_withholding_iva
+#: field:account.wh.iva,type:0
+#: view:txt.iva:l10n_ve_withholding_iva.view_generate_txt_filter
+msgid "Type"
+msgstr "Tipo"
+
+#. module: l10n_ve_withholding_iva
+#: code:addons/l10n_ve_withholding_iva/model/generate_txt.py:259
+#, python-format
+msgid "Unable to make txt file, because the bill has no reference number free!"
+msgstr "No es posible generar el archivo TXT, debido a que la factura no tiene número de referencia libre"
+
+#. module: l10n_ve_withholding_iva
+#: field:txt.iva,message_unread:0
+msgid "Unread Messages"
+msgstr "Mensajes sin Leer"
+
+#. module: l10n_ve_withholding_iva
+#: field:txt.iva.line,untaxed:0
+msgid "Untaxed"
+msgstr "Sin impuestos"
+
+#. module: l10n_ve_withholding_iva
+#: help:txt.iva.line,untaxed:0
+msgid "Untaxed amount"
+msgstr "Monto sin impuesto"
+
+#. module: l10n_ve_withholding_iva
+#: field:account.invoice,wh_iva_id:0
+msgid "VAT Wh. Document"
+msgstr "Documento Ret. del IVA"
+
+#. module: l10n_ve_withholding_iva
+#: view:account.invoice:l10n_ve_withholding_iva.account_invoice_wh_iva_supplier
+#: view:res.partner:l10n_ve_withholding_iva.res_partner_wh_iva
+msgid "VAT Withholding"
+msgstr "Retención de IVA"
+
+#. module: l10n_ve_withholding_iva
+#: view:account.invoice:l10n_ve_withholding_iva.account_invoice_wh_iva_supplier
+msgid "VAT Withholding Document"
+msgstr "Documento de Retención de IVA"
+
+#. module: l10n_ve_withholding_iva
+#: field:account.wh.iva.line.tax,wh_vat_line_id:0
+msgid "VAT Withholding Line"
+msgstr "Línea de Retención de IVA"
+
+#. module: l10n_ve_withholding_iva
+#: view:account.invoice:l10n_ve_withholding_iva.account_invoice_wh_iva_customer
+#: field:account.wh.iva.line,retention_id:0
+#: help:account.wh.iva.line,retention_id:0
+msgid "Vat Withholding"
+msgstr "Retención de IVA"
+
+#. module: l10n_ve_withholding_iva
+#: help:account.invoice.tax,amount_ret:0
+#: help:account.wh.iva.line.tax,amount_ret:0
+msgid "Vat Withholding amount"
+msgstr "Monto de retención del IVA"
+
+#. module: l10n_ve_withholding_iva
+#: model:ir.model,name:l10n_ve_withholding_iva.model_account_wh_iva_line
+msgid "Vat Withholding line"
+msgstr "Linea de Retención de IVA"
+
+#. module: l10n_ve_withholding_iva
+#: field:account.wh.iva,wh_lines:0
+#: help:account.wh.iva,wh_lines:0
+msgid "Vat Withholding lines"
+msgstr "Líneas de retención del IVA"
+
+#. module: l10n_ve_withholding_iva
+#: help:account.wh.iva.line,wh_iva_rate:0
+msgid "Vat Withholding rate"
+msgstr "Tasa de Retención del IVA"
+
+#. module: l10n_ve_withholding_iva
+#: field:account.wh.iva,date:0
+#: field:account.wh.iva.line,date:0
+msgid "Voucher Date"
+msgstr "Fecha de Comprobante"
+
+#. module: l10n_ve_withholding_iva
+#: model:ir.actions.report.xml,name:l10n_ve_withholding_iva.withholding_vat
+msgid "Voucher VAT Withholding"
+msgstr "Comprobante de Retención de IVA"
+
+#. module: l10n_ve_withholding_iva
+#: code:addons/l10n_ve_withholding_iva/model/invoice.py:79
+#: code:addons/l10n_ve_withholding_iva/model/invoice.py:95
+#, python-format
+msgid "Warning"
+msgstr "Advertencia"
+
+#. module: l10n_ve_withholding_iva
+#: code:addons/l10n_ve_withholding_iva/model/invoice.py:234
+#, python-format
+msgid "Warning !"
+msgstr ""
+
+#. module: l10n_ve_withholding_iva
+#: view:account.wh.iva.line:l10n_ve_withholding_iva.view_wh_iva_line_tree
+msgid "Wh total"
+msgstr ""
+
+#. module: l10n_ve_withholding_iva
+#: field:account.wh.iva.line,base_ret:0
+msgid "Wh. amount"
+msgstr "Monto de Retención"
+
+#. module: l10n_ve_withholding_iva
+#: field:account.wh.iva.line,amount_tax_ret:0
+msgid "Wh. tax amount"
+msgstr "Monto de Impuesto retenido"
+
+#. module: l10n_ve_withholding_iva
+#: model:ir.actions.act_window,help:l10n_ve_withholding_iva.action_account_wh_iva_customer
+msgid "With Customer Withholding Vat you can create and manage document withholding issued to your customers. OpenERP can also generate document withholding automatically from invoices. For retention must add the invoices, process them and then validate the document."
+msgstr "Con la Retencion de IVA de Clientes usted puede crear y gestionar los documentos de retención expedidos por sus clientes. Openerp puede también generar el documento de retención desde las facturas. Para retener debe agregar Facturas, procesarlas y validar el documento."
+
+#. module: l10n_ve_withholding_iva
+#: model:ir.actions.act_window,help:l10n_ve_withholding_iva.action_account_wh_iva_supplier
+msgid "With Supplier Withholding Vat you can create and manage document withholding issued to your customers. OpenERP can also generate document withholding automatically from invoices. For retention must add the invoices, process them and then validate the document."
+msgstr "Con Retencion de IVA a Proveedores usted puede crear y administrar documentos retención expedidos a sus Proveedores. Openerp puede tambien generar documentos de retención automáticamente desde la factura. Para retener debe agregar las facturas, procesarlas y luego validar el documento."
+
+#. module: l10n_ve_withholding_iva
+#: model:ir.actions.act_window,help:l10n_ve_withholding_iva.action_generate_text_iva
+msgid "With this option you can create and manage the generation of file txt, required by the Venezuelan Laws for special agent of withhold vat"
+msgstr "Con esta opción usted puede crear y administrar la generación del Archivo TXT, requerido por las Leyes Venezolanas para los agentes especiales de retención del IVA"
+
+#. module: l10n_ve_withholding_iva
+#: view:account.wh.iva.line:l10n_ve_withholding_iva.view_wh_iva_line_form
+msgid "Withheld Invoice"
+msgstr "Factura Retenida"
+
+#. module: l10n_ve_withholding_iva
+#: field:account.wh.iva.line.tax,amount_ret:0
+msgid "Withheld Taxed Amount"
+msgstr "Monto Gravado Retenido"
+
+#. module: l10n_ve_withholding_iva
+#: field:account.invoice,wh_iva:0
+msgid "Withhold"
+msgstr "Retener"
+
+#. module: l10n_ve_withholding_iva
+#: model:res.groups,name:l10n_ve_withholding_iva.group_account_wh_iva_manager
+msgid "Withhold VAT / Manager"
+msgstr "Retención de IVA / Administrador"
+
+#. module: l10n_ve_withholding_iva
+#: model:res.groups,name:l10n_ve_withholding_iva.group_account_wh_iva_user
+msgid "Withhold VAT / User"
+msgstr "Retención de IVA / Usuario"
+
+#. module: l10n_ve_withholding_iva
+#: field:account.tax,ret:0
+msgid "Withholdable"
+msgstr "Retenible (IVA)"
+
+#. module: l10n_ve_withholding_iva
+#: view:account.wh.iva:l10n_ve_withholding_iva.view_wh_iva_form
+#: view:account.wh.iva:l10n_ve_withholding_iva.view_wh_iva_form_customer
+msgid "Withholding"
+msgstr "Retención"
+
+#. module: l10n_ve_withholding_iva
+#: view:account.wh.iva.line:l10n_ve_withholding_iva.view_wh_iva_line_form
+#: view:account.wh.iva.line:l10n_ve_withholding_iva.view_wh_iva_line_tree
+msgid "Withholding Lines"
+msgstr "Líneas de Retención"
+
+#. module: l10n_ve_withholding_iva
+#: help:account.wh.iva,state:0
+msgid "Withholding State"
+msgstr "Estado de Retención"
+
+#. module: l10n_ve_withholding_iva
+#: view:account.wh.iva:l10n_ve_withholding_iva.view_wh_iva_tree
+#: model:ir.model,name:l10n_ve_withholding_iva.model_account_wh_iva
+msgid "Withholding Vat"
+msgstr "Retención de IVA"
+
+#. module: l10n_ve_withholding_iva
+#: field:account.wh.iva.line,wh_iva_rate:0
+msgid "Withholding Vat Rate"
+msgstr "Tasa de retención del IVA"
+
+#. module: l10n_ve_withholding_iva
+#: field:account.invoice.tax,amount_ret:0
+msgid "Withholding amount"
+msgstr "Monto a Retener"
+
+#. module: l10n_ve_withholding_iva
+#: help:account.wh.iva,partner_id:0
+msgid "Withholding customer/supplier"
+msgstr "Retención a Cliente / Proveedor"
+
+#. module: l10n_ve_withholding_iva
+#: help:account.wh.iva.line,invoice_id:0
+msgid "Withholding invoice"
+msgstr "Retención de factura"
+
+#. module: l10n_ve_withholding_iva
+#: help:account.wh.iva.line,name:0
+msgid "Withholding line Description"
+msgstr "Descripción de la línea de retención"
+
+#. module: l10n_ve_withholding_iva
+#: view:txt.iva:l10n_ve_withholding_iva.view_generate_txt_iva_form
+msgid "Withholding lines"
+msgstr "Líneas de Retención"
+
+#. module: l10n_ve_withholding_iva
+#: view:txt.iva:l10n_ve_withholding_iva.view_generate_txt_iva_form
+msgid "Withholding lines for TXT"
+msgstr "Líneas de Retención para TXT"
+
+#. module: l10n_ve_withholding_iva
+#: help:account.wh.iva,number:0
+#: field:wizard.change.number.wh.iva,name:0
+msgid "Withholding number"
+msgstr "Número de retención"
+
+#. module: l10n_ve_withholding_iva
+#: help:txt.iva.line,voucher_id:0
+msgid "Withholding of Value Added Tax (VAT)"
+msgstr "Retención de Impuesto al Valor Agregado (IVA)"
+
+#. module: l10n_ve_withholding_iva
+#: help:account.wh.iva.line,amount_tax_ret:0
+#: help:account.wh.iva.line.tax,amount:0
+msgid "Withholding tax amount"
+msgstr "Monto de Impuesto a retener"
+
+#. module: l10n_ve_withholding_iva
+#: field:txt.iva,amount_total_ret:0
+msgid "Withholding total amount"
+msgstr "Monto total de Retención"
+
+#. module: l10n_ve_withholding_iva
+#: help:account.wh.iva,fortnight:0
+#: help:account.wh.iva,type:0
+msgid "Withholding type"
+msgstr "Tipo de retención"
+
+#. module: l10n_ve_withholding_iva
+#: code:addons/l10n_ve_withholding_iva/model/invoice.py:433
+#, python-format
+msgid "Withholding vat customer"
+msgstr "Retención de iva del cliente"
+
+#. module: l10n_ve_withholding_iva
+#: help:account.wh.iva.line,base_ret:0
+msgid "Withholding without tax amount"
+msgstr "Retención sin monto de impuesto"
+
+#. module: l10n_ve_withholding_iva
+#: model:ir.model,name:l10n_ve_withholding_iva.model_wiz_vat_apply_wh
+msgid "Wizard that changes the retention exclusion from an invoice"
+msgstr "Asistente que cambia la Exclusión de Retención de IVA de una factura"
+
+#. module: l10n_ve_withholding_iva
+#: model:ir.model,name:l10n_ve_withholding_iva.model_wizard_change_number_wh_iva
+msgid "Wizard that changes the withholding number"
+msgstr "Ayudante que cambia el número de retención"
+
+#. module: l10n_ve_withholding_iva
+#: code:addons/l10n_ve_withholding_iva/model/invoice.py:456
+#, python-format
+msgid "You can't cancel an invoice that have non cancel withholding document. Needs first cancel the invoice withholding document and then you can cancel this invoice."
+msgstr "Usted no puede cancelar una factura que tiene documentos de retención de IVA sin cancelar. Necesita primero cancelar el documento de retención de la factura y luego podrá cancelar la factura."
+
+#. module: l10n_ve_withholding_iva
+#: code:addons/l10n_ve_withholding_iva/wizard/wizard_wh_nro.py:68
+#, python-format
+msgid "You can't change the number when state <> \"Done\""
+msgstr "No se puede cambiar el número cuando el estado <> \"Hecho\""
+
+#. module: l10n_ve_withholding_iva
+#: code:addons/l10n_ve_withholding_iva/model/invoice.py:235
+#, python-format
+msgid "You have already a withholding doc associate to your invoice, but this withholding doc is not in cancel state."
+msgstr ""
+
+#. module: l10n_ve_withholding_iva
+#: code:addons/l10n_ve_withholding_iva/model/wh_iva.py:625
+#, python-format
+msgid "You have introduced a non valid withholding date (a date                     in the future). The withholding date needs to be at least                     today or a previous date."
+msgstr ""
+
+#. module: l10n_ve_withholding_iva
+#: code:addons/l10n_ve_withholding_iva/model/wh_iva.py:617
+#, python-format
+msgid "You have introduced non-valid accounting date. Thedate needs to be in the same withholding period and fortnigh."
+msgstr "Usted ha introducido una fecha contable no válida. La fecha necesita estar en el mismo período y quincena de la Retención de IVA"
+
+#. module: l10n_ve_withholding_iva
+#: code:addons/l10n_ve_withholding_iva/model/wh_iva.py:646
+#, python-format
+msgid "You must omit the follow invoice '%s' !"
+msgstr "Debe omitir la siguiente Factura '%s'!"
+
+#. module: l10n_ve_withholding_iva
+#: code:addons/l10n_ve_withholding_iva/model/invoice.py:210
+#, python-format
+msgid "You need to configure the partner with withholding accounts!"
+msgstr "¡Usted necesita configurar el partner con cuentas de retención de IVA!"
+
+#. module: l10n_ve_withholding_iva
+#: report:account.wh.iva:0
+msgid "___________________________________"
+msgstr ""
+
+#. module: l10n_ve_withholding_iva
+#: help:txt.iva.line,amount_withheld:0
+msgid "amount to withhold"
+msgstr "Monto a retener"
+
+#. module: l10n_ve_withholding_iva
+#: help:l10n_ve_withholding_iva.installer,description:0
+msgid "description of the installer"
+msgstr "Descripción del Instalador"
+
+#. module: l10n_ve_withholding_iva
+#: help:txt.iva,period_id:0
+msgid "fiscal period"
+msgstr "Período Fiscal"
+
+#. module: l10n_ve_withholding_iva
+#: help:wh_iva.config,wh:0
+msgid "if is withholding agent"
+msgstr "Si es agente de retención del IVA"
+
+#. module: l10n_ve_withholding_iva
+#: help:wh_iva.config,name:0
+msgid "name"
+msgstr "Nombre"
+
+#. module: l10n_ve_withholding_iva
+#: sql_constraint:account.wh.iva:0
+msgid "number must be unique by partner and document type!"
+msgstr "el número debe ser único por proveedor y tipo de documento!"
+
+#. module: l10n_ve_withholding_iva
+#: help:txt.iva,state:0
+msgid "proof status"
+msgstr "Estado"
+
+#. module: l10n_ve_withholding_iva
+#: help:txt.iva.line,txt_id:0
+msgid "withholding lines"
+msgstr "Líneas de retención"
+
+#. module: l10n_ve_withholding_iva
+#: code:addons/l10n_ve_withholding_iva/model/wh_iva.py:968
+#, python-format
+msgid "you can not duplicate this document!!!"
+msgstr "¡¡¡Usted no puede duplicar este documento!!!"
+
